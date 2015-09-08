@@ -1,0 +1,4 @@
+Alter table `release_details` ADD COLUMN `Locked`  tinyint(1) default 0 AFTER `ID`;
+CREATE TABLE IF NOT EXISTS `upload` (`AID` INT(11) UNSIGNED NOT NULL, `Name` BINARY(16) NOT NULL, `Desc` VARCHAR(128) NOT NULL, `Type` VARCHAR(32) NOT NULL, `Size` int(11) UNSIGNED NOT NULL,PRIMARY KEY(`Name`),UNIQUE KEY `Name` (`Name`));
+INSERT INTO `queries` (`ID`, `Qseq`,`Desc`, `QSQL`, `External`) VALUES (103, 50, 'Project Progress', 'SELECT story.Type, story.Status, count(story.Type) as ''# Stories'', sum(story.Size) as ''# Points'' FROM story where story.Project_ID={Project} and ( 0 = (select count(*) from story as child where child.Parent_Story_ID=story.AID)) group by story.Type, story.Status', 2);
+update dbver set CurrVer = 1.10 where dbver.ID=1;

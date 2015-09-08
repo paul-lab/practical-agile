@@ -1,0 +1,5 @@
+Alter table `queries` ADD COLUMN `Qseq` int unsigned default 0 AFTER `ID`;
+delete from  `queries` where ID=0;
+update `queries` set Qseq=ID;
+Alter table `queries` MODIFY COLUMN ID INT(11) UNSIGNED auto_increment;
+update dbver set CurrVer = 1.8 where dbver.ID=1;

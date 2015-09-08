@@ -1,0 +1,93 @@
+
+.dummy {display: None;}
+
+.hidden { display: none; }
+
+@media print {
+.noPrint {
+    display:none;
+  }
+}
+
+body, textarea, input, select {
+	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-size: 12px;
+	/* Text color */
+	color: #111;
+	background-color: #fff;
+} 
+
+body {padding-top:50px; padding-bottom:10px; margin: 2px; } 
+img {  	border-style: none;}
+
+input, select  { border: 1px solid Gray;}
+
+.w100 {width:100%;}
+.w80 {width:80%;}
+.w75 {width:75%;}
+.w50 {width:50%;}
+.h50 {height:50px;}
+.h75 {height:75px;}
+.h100 {height:100px;}
+
+.sizediv { border-style: none; vertical-align:middle;}
+
+A:link {text-decoration: none}
+A:visited {text-decoration: none}
+A:active {text-decoration: none}
+
+.alternate0 {background-color: #FFFFFF;}
+.alternate1 {background-color: whiteSmoke;}
+.alternate2 {background-color: #FFFACD;}
+
+.evenlarger {font-size: 135%;}
+.larger {font-size: 120%;}
+.smaller { font-size: 85%; color:#000}
+.evensmaller { font-size: 65%;}
+.nopadding {padding: 0px 0px 0px 0px; }
+
+.inline {display: inline;}
+.noshow {display: none;}
+
+.header {
+	font-size: 120%;
+	z-index:999;
+	top:0px;
+	position:fixed;
+	height:50px;
+	background: whiteSmoke;
+	border:1px solid #ddd;
+	width:100%;
+	margin:0px auto;
+}
+
+table.center {
+	margin-left:auto; 
+	margin-right:auto;
+}
+
+
+.showSummary { display: none;}
+.SummaryGraph {width:80%;}
+.graphtd {width:68%;}
+.summarytd {width:28%;}
+
+.storyeditdelete { display: inline; float:right;}
+
+#breadcrumbs {font-size: 85%;}
+#navicons { float:left;	bottom:0px;	left:5px; }
+#msg_div {font-weight:bold; color:red;}
+
+.search { float:left; margin-left:1em;  margin-top:5px; }
+.suserlist { float:left; margin-left:1em;}
+
+.footer {
+	z-index:999;
+	bottom:0px;
+	position:fixed;
+	width:100%;
+	height: 15px;
+	background-color: whiteSmoke;
+	border-top: 1px solid #ddd;
+}
+.hint { float:right;}

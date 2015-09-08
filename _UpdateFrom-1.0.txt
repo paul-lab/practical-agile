@@ -1,0 +1,2 @@
+Alter table `comment`  MODIFY COLUMN Story_AID int(11) UNSIGNED, ADD COLUMN `Comment_Object_ID` INT(11) UNSIGNED Default 0 NOT NULL AFTER `User_Name`;
+update dbver set CurrVer = 1.1 where dbver.ID=1

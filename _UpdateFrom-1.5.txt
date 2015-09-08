@@ -1,0 +1,8 @@
+update `queries` set queries.Desc='Epic Stories' where queries.Desc="Has Children";
+Alter table `project`  ADD COLUMN `Average_Size` int(11) unsigned default 0 AFTER `Velocity`;
+Alter table `user`  ADD COLUMN `Disabled_User` tinyint(1) default 0 AFTER `Admin_User`;
+update table `user` set `Password`= md5(password);
+CREATE TABLE IF NOT EXISTS `hint` (  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,  `Hint_Text` text NOT NULL,   PRIMARY KEY (`ID`) ) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+update dbver set CurrVer = 1.6 where dbver.ID=1;
+TRUNCATE TABLE hint;
+INSERT INTO `hint` (Hint_Text) VALUES ('Get your Administrator to Import hints and tips (Check the release notes).');

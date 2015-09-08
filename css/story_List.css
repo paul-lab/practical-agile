@@ -1,0 +1,50 @@
+#sortable { list-style-type: none; padding: 0; }
+#sortable li { 	margin: 3px 3px 8px 3px; //padding-left: 1.5em; }
+
+.fancytree-title {width:98%;}
+
+.storybox-div { z-index: 900; display:block; position:relative; padding: 0px 2px 2px 2px; min-height:18px; border: 1px solid lightgrey; }
+.thisiteration {border:1px solid #0066FF;}
+.blocked  {background-color: #FDD; border:1px solid #FF0000;}
+.blockedthisiteration  {background-color: #FDD; border:1px solid #0066FF;}
+
+.right-box { float:right;}
+.left-box { position:absolute; left:0.8em;}
+
+.storystatus { display: inline-block; height:100%; width: 0.8em; position:absolute;  top:0px; left:0px;} 
+.parentstorystatus { display: inline-block; height:100%; width: 0.8em; position:absolute;  top:0px; left:0px; border: 1px solid black; } 
+
+.storybody{ margin-left: 0.8em; padding: 0px 3px 2px 3px; }
+.line-1-div	{ font-size:1.2em; min-height: 18px; overflow: hidden; left:0;}
+.line-2-div	{ min-height: 1em;  max-height: 28px; margin: 0px; overflow:hidden;}
+.line-3-div	{ display: inline; min-height: 1em; }
+.size-div	{ display: inline; vertical-align:top; margin: 2px; border: 1px solid grey; font-size: 1.5em; background: #feffd5; }
+.predicted-div	{ display: inline; vertical-align:top; font-size: 0.8em;  }
+.type-div	{ display: inline; vertical-align:top; margin-right: 5px; padding: 2px; }
+.childrenstatus-div	{ display: inline; vertical-align:top; margin-right: 3px; padding: 0px;}
+.minimenu-div	{ display: inline; vertical-align:top; margin-top:2px; margin-right: 5px; visibility: hidden; }
+.status-div	{ display: inline; width: 90px; overflow: hidden; white-space:nowrap; padding: 0px 4px 0px 4px; margin-right: 4px; border: 1px solid grey; }
+.iteration-div { display: inline; padding: 2px;	margin-right: 4px; //border: 1px solid grey; }
+.micromenu-div { display: inline; width: 65px; padding: 0px; margin-right: 4px;}
+.owner-div { display: inline; width: 75px; padding: 2px; margin-right: 4px;}
+.parents-div { display: inline; padding: 2px; margin-right: 4px;}
+.tags-div { display: inline; padding: 2px; //border: 1px solid grey; }
+.tags-each {border: 1px solid grey; padding: 0px 4px 0px 4px; margin-right: 8px; background: #ddd; }
+.inline {display: inline;}
+
+.hiderelated {display: none;}
+
+.taskdiv-input {padding-left:55px};
+.taskdialog {margin-top: 0.5em;}
+.taskpopup {z-index: 9999;}
+
+.ui-button  { margin: 5px; }
+
+#status1, #status2, #status3, #status4, #status5, #status6, #status7, #status8, #status9, #status10
+	{ padding-left: 0; list-style: none; margin: 0; float: left; margin-right: 1px;}
+#status1 li, #status2 li, #status3 li, #status4 li, #status5 li, #status6 li, #status7 li, #status8 li, #status9 li, #status10 li
+	{  border: 1px solid black; margin-top: 1px; padding: 1px;}
+
+.scrumtitle {color:black; font-weight:bold; text-align:center;}
+
+

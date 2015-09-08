@@ -1,0 +1,6 @@
+ALTER TABLE `project` CHANGE `I_Need` `Col_2` tinyint(1);
+ALTER TABLE `story` CHANGE `So_That` `Col_1` longtext CHARACTER SET utf8;
+ALTER TABLE `story` CHANGE `I_Need` `Col_2` longtext CHARACTER SET utf8;
+Alter table `project` ADD COLUMN `Desc_1` char(12) Default 'So That ' AFTER `Col_2`;
+Alter table `project` ADD COLUMN `Desc_2` char(12) Default 'I Need ' AFTER `Desc_1`;
+update dbver set CurrVer = 1.3 where dbver.ID=1

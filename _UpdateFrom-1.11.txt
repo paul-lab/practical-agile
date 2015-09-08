@@ -1,0 +1,13 @@
+Alter table `audit` ADD COLUMN `PID` INT(11) default NULL AFTER `ID`;
+Alter table `audit` ADD COLUMN `User` varchar(64) NOT NULL AFTER `PID`;
+Alter table `audit` ADD COLUMN `AID` INT(11) default 0 AFTER `ID`;
+Alter table `audit` ADD COLUMN `Action` varchar(64) default '' AFTER `User`;
+ALTER TABLE `audit` ADD INDEX `AID` (`AID`);
+ALTER TABLE `audit` ADD INDEX `PID` (`PID`);
+Alter table `audit` DROP COLUMN User_ID;
+Alter table `audit` DROP COLUMN ID;
+ALTER TABLE `audit` ADD ID BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT FIRST
+INSERT INTO `queries` (`ID`, `Qseq`,`Desc`, `QSQL`, `External`) VALUES (200, 500, 'Audit (recent 200)', 'SELECT * from audit order by ID desc limit 200', 2);
+INSERT INTO `queries` (`ID`, `Qseq`,`Desc`, `QSQL`, `External`) VALUES (210, 510, 'Project Audit', 'SELECT * from audit where PID={Project} order by ID desc', 2);
+INSERT INTO `queries` (`ID`, `Qseq`,`Desc`, `QSQL`, `External`) VALUES (220, 520, 'Non Project Audit', 'SELECT * from audit where PID=0 order by ID desc', 2);
+update dbver set CurrVer = 1.12 where dbver.ID=1;

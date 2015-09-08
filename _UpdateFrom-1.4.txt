@@ -1,0 +1,4 @@
+Alter table `dbver`  ADD COLUMN `appver` text(11) AFTER `CurrVer`;
+update dbver set appver = 1.61 where dbver.ID=1;
+Alter table `project`  ADD COLUMN `Enable_Tasks` tinyint(1) Default 0 AFTER `Acceptance`;
+update dbver set CurrVer = 1.5 where dbver.ID=1;

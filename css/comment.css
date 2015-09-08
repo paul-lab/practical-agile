@@ -1,0 +1,34 @@
+.commentsdialog {
+ display: none; 
+ margin:0px 20px;
+}
+
+.comment {
+ padding:2px;
+ border-top:1px solid #aaf;
+ list-style:none;
+}
+
+.aut {
+display: inline;
+padding-right:20px;
+font-size:85%;
+}
+
+.timestamp {
+display: inline;
+ font-size:85%;
+
+}
+.reply {
+display: inline;
+ float:right;
+}
+#comment_form {
+ margin-top:10px;
+}
+
+.deletecomment {float: right; margin-right:2em;}
+.commenth { height:150px;}
+
+

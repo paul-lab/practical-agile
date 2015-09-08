@@ -1,0 +1,2 @@
+Alter table `iteration` ADD COLUMN `Locked`  tinyint(1) default 0 AFTER `ID`;
+update dbver set CurrVer = 1.9 where dbver.ID=1;

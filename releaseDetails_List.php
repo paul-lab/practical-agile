@@ -1,0 +1,69 @@
+<?php
+	include 'include/header.inc.php';
+echo '<div class="hidden" id="phpbread">';
+echo 'Releases';
+echo '</div>';
+?>
+<script>
+$(function() {
+	document.title = 'Practical Agile: '+$("#phpbread").text();
+	$("#breadcrumbs").html($("#phpbread").html());
+	if ($("#phpnavicons")){
+		$("#navicons").html($("#phpnavicons").html());
+	}
+});
+</script>
+
+<?php
+	
+	echo
+		'<div align="center">'.
+			'<a href="releaseDetails_Edit.php">add a new Release</a>'.
+		'</div>'.
+		'<table align="center" cellpadding="6" cellspacing="0">'.
+			'<tr>'.
+				'<td>&nbsp;</td>'.
+				'<td>Start Date</td>'.
+				'<td>End/Delivery Date</td>'.
+				'<td>Name</td>'.
+				'<td>&nbsp;</td>'.
+				'<td>&nbsp;</td>'.
+			'</tr>';
+
+	$releaseDetails_Res = mysqli_query($DBConn,'SELECT * FROM release_details order by End');
+	if ($releaseDetails_Row = mysqli_fetch_assoc($releaseDetails_Res))
+	{
+		do
+		{
+			$Toggle = ($Toggle + 1) % 2;
+			echo
+				'<tr valign="top" class="alternate'.$Toggle.'">'.
+					'<td><a title="Edit Release details" href="releaseDetails_Edit.php?id='.$releaseDetails_Row['ID'].'"><img src="images/edit.png"></a></td>'.
+					'<td>'.$releaseDetails_Row['Start'].'</td>'.
+					'<td>'.$releaseDetails_Row['End'].'</td>'.
+					'<td>'.$releaseDetails_Row['Name'];
+			if ($releaseDetails_Row['Locked']==1)
+			{
+				echo '<br><b>Locked</b>';
+			}
+			echo '</td>';
+			echo	'<td><a title="View and Edit release contents." href="story_List.php?RID='.$releaseDetails_Row['ID'].'&Type=tree&Root=release"><img src="images/eye-edit.png"></a>'.'</td>';					
+					// count the # of stories in this release
+					$tsql = 'SELECT count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$releaseDetails_Row['ID'];
+					$tres=mysqli_query($DBConn, $tsql);
+					$t_row = mysqli_fetch_assoc($tres);
+					if ($t_row['relcount'] == 0){
+						echo	'<td><a title="Delete release" href="releaseDetails_Delete.php?id='.$releaseDetails_Row['ID'].'"><img src="images/delete.png"></a>'.'</td>';
+					}else{ 
+						echo	'<td>'.$t_row['relcount'].' cards and '.$t_row['relsize'].' points</td>';
+					}
+
+			echo	'</tr>';
+		}
+		while ($releaseDetails_Row = mysqli_fetch_assoc($releaseDetails_Res));
+	}
+	echo '</table>';
+
+	include 'include/footer.inc.php';
+
+?>

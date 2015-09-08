@@ -1,0 +1,193 @@
+Note: I do not use a linux/unix environment!
+      If you pick up problems it may have to do with the 'case' of a file, table or column name, 
+      please let me know and I will fix things.
+
+
+Version 2.2
+ * Delete Audit log when deleting Project
+ * Prevented intermittent duplicate Audit record when deleting story comments
+ * Some code Tidying in Story Edit & better Blocked/Unblocked Auditing.
+ * Include 'Technical Backlog' (No dates Iterations) in the 'Move to iteration' Popup.
+
+Version 2.1
+ * Changes in rank & blocked status now audited
+ * More concise story Audit being printed against the cards 
+ * Update help file
+
+version 2.0
+ * More comprehensive audit logging around story cards
+ * More url spoofing handling (Permissions are checked in all instances now.)
+
+version 1.9
+ * Initial Audit Logging of key events as well as audit log truncation and deletion
+ * view of audit log for a project as well as top 200 (Report)
+ * view details changes against a story card.
+ * Updated FAQ
+ * Updated Help file
+ * some tidying of the code to reduce spurious errors being logged by apache
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.11.txt'
+
+version 1.8
+ * Made it easier to restrict/extend the filetypes that can be uploaded (edit /include/validfiletypes/php)
+ * A bit of a code tidy
+ * Show where a card has been duplicated from 
+ * Fix for circumstances where read-only users could add/delete comments, tasks & uploaded files.
+
+version 1.7
+ * Indicate when database has been updated
+ * 'Policy' text now inluded on Story Status popup (for new Scrum users. When to change status/what the status means..)
+
+version 1.75
+ * Can now add files to stories/cards
+   $validfiletypes='xml,txt,pdf,xls,xlsx,doc,rtf,docx,ppt,pptx,pps,ppsx,pub,png,jpg,jpeg,odt,ods,odp,';
+ * Enable locking releases 
+ * List of Releases available as a sub-Menu
+ * Releases only show those projects you have access to. (This means a release may contain more work than you can see.)
+ * include status of children in the story List view. (great for checking Epic progress using the epic report)
+ * Updated FAQ
+ * Updated Hints
+
+version 1.74
+ * bugfix to locked iteration allowing story delete in some circumstances (You can still add a new story to a locked iteration)
+ * Now not displaying archived projects when editing user access
+ * Updated FAQ
+ * List of accessable projects now available from the User dropdown menu (If the rest of the menu is obscured, press Ctrl-F5 and all will be revealed.)
+ * Iteration List now looks neater
+ * Some url spoofing handling
+ * Predicted iteration on the backlog now display correctly in Chrome
+
+version 1.73
+ * Accidently blatted a file, so if you downloaded 1.72 please update to this one to fix the task reports.
+ * If an iteration is flagged as locked you will not be able to add/delete stories.
+
+version 1.72
+ * Enable add/edit & delete of reports/queries via UI (Admin users only)
+
+version 1.71
+ * Viewing release contents and including release name on card/Story list
+ * fixed odd occasion when incorrect graph was displayed
+ * Add/remove entire 'project', 'epic', 'all done/not done' cards to a release 
+ * Made it easier get out of a login loop when navigating to a URL you do not have permissions for any more.
+ * Ensure consistent card status when moving it from epic > story > epic
+ * You can now Double click on a story to edit it.
+
+Version 1.7
+ * Replaced google graphs with jqplot. This means is can be run totally self contained without an external internet connection.
+ * tidied a few included folders to reduce size.
+ * Cards/stories must now at least have a summary.
+ * When adding stories, we now remember whether to add to the top or bottom of the backlog.
+ * If adding or editing stories the focus is now set to the Summary
+ * bugfix points update when changing story status via the scrum board
+
+Version 1.63
+ * After editing a story you are taken back to where you came from rather than always displaying a list of stories
+ * When adding stories, they can be added to either the top or bottom of the iteration
+ * Access parent epic tree from the story edit page
+ * Now have a search by story type:
+ * Re-instated the mass story delete via the import
+ * Now can't delete iteration that has stories in it
+ * Implemented a read only user (Project admin over rides)
+ * Now unable to set an empty password
+ * Radiator/Scrum board a little tidier (html)
+ * Re-ordered a number of menus
+ * Show worst & best case predicted iteration on backlog
+ * showing average story size on project summary
+ * showing all iterations on project summary
+ * Updated Icons
+ * added a number of tooltips to help new users
+ * Bugfix iteration popup for really old projects and iterations
+ * Allow User Enable/Disable, to prevent old users from being able to login while retaining them for story, task & comment history
+ * An improved user password scheme, but still not suitable for external facing sites. 
+ * Addressed a number of layout and usability items
+ * Included more validation where it made sense
+ * No more deleting anything that is used by something else via the UI.
+ * Added hints that appear to the right on the footer on each page. You can add/edit/delete your own hints by creating 
+   and then importing them via <Org.Admin> <Import Hints>
+   YOU NEED TO Log in as an Admin and import the hints from hints.txt in the root of the site and then delete the file
+ * Changed iteration fetch for dropdown menu to fetch 3 months in the future and a total of 10 iterations 
+   The full list is still available in the 'project summary', and 'iteration edit'.
+
+Version 1.62
+ * Application version now stored in database
+ * Include project summary on menu
+ * Fix a few NaN's in comment and task counts
+ * Bugfix to application & database updates
+ * Database changes to support tasks on the scrum board
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.4.txt'
+
+Version 1.61 
+ * Update to use updated version of jhtmlarea for better overall behaviour in newer browsers
+
+Version 1.6 
+ * Update to use fancytree rather than Dynatree
+
+Version 1.56 
+ * task count for (Done / Total) storys in kept up to date on both the Story list and story edit pages
+ * enabled the edit of tasks from both the story list as well as the story edit pages.
+ * comment count for storys is kept up to date on both the Story list and story edit pages
+ * enabled the edit of comments from both the story list as well as the story edit pages.
+ * Tags now return a list of stories with the same tag in the project when clicked on the list and edit views
+ * Comments are now html and not simply plain text so can now be used to record retrospectives etc.
+
+ * known problems
+   - when deleting child comments the parent delete is not enabled. Toggle the comment display to rectify this
+   - Sometimes the cursor does nor appear when editing comments in the jhtml control. Click a toolbar button to show it.
+
+Version 1.55 
+ * Story Tasks are now Tri state 'Not Started', 'Doing' & 'Done'. 
+ * Fixed Bug where initial text column (Col1) was not displayed whe 'As A' was not enabled
+ * if the database is not updated automatically, then run the sql in '_UpdateFrom-1.3.txt'
+
+Version 1.54
+ * Corrected a number of table and Filenames to satisfy unix/linux needs
+ * included _setupdatabase.sh script again for unix/linux systems
+ * Corrected _data.sql to load correctly first time
+   (thanks to Alex Klinkhammer for pointing these out)
+ * Fixed a bug in points calculation for parent stories where the old parent and child are not both in the backlog
+ * Made the graph  behave better so there is no need to now disable compatability mode in ie 8 and above on an intranet
+ (it still is though)
+
+version 1.53
+ * Included the ability to print story cards for any iteration (similar format to the story preview)
+ * Updated 'PA-PrintCards.xls' to strip out HTML for better story formatting
+ * replaced ckeditor with jhtml because of speed problems in ie10
+
+version 1.52
+ * A little better error handling
+ * Alerting when creating a NEW parent story (Saves having to fix the Size if it was an error)
+ * Bugfix prevent delete of story with children
+ * Now including a burn-up and burn-down workbook (Burn Up+Down.xls)
+ * Can now change field names for story text fields (so you do not have to use the 'So that , As a, I need)
+ * if the database is not updated automatically, the run the sql in '_UpdateFrom-1.2.txt'
+
+Version 1.51
+ * Add the ability to have 1/2 a point as a story Size.
+ * if the database is not updated automatically, the run the sql in '_UpdateFrom-1.1.txt'
+
+Version 1.5
+ * Add the ability to add comments at iteration level (great for retrospectives etc)
+ * if the database is not updated automatically, the run the sql in '_UpdateFrom-1.0.txt'
+
+Version 1.4.1
+ * now disable compatability mode in ie 8 and above on an intranet to make sure google graphs display correctly
+ * Some small updates to the 'PA-PrintCards.xls' workbook
+ * some changes to reports to allow you to report on almost anything
+
+Version 1.4
+ * Added db changes to create, edit and delete basic release details
+
+Version 1.3 
+ * Added 'duplicate story including all tasks' on edit story page (Owner, Status and Actual hours are reset)
+
+Version 1.2
+ * Moved to using MySqli from MySql PHP library
+ * Iteration/Project export speed improved
+
+Version 1.1
+ * A few bugfixes (epic points, new users)
+ * Epic Status in Tree view
+ * A print preview for a single card (Click summary to include tasks and comments to use for truth review)
+ * Multiple administrators (Org Level)
+
+Version 1.0
+ * Initial Release to practical agile

@@ -1,0 +1,834 @@
+<?php
+	include 'include/header.inc.php';
+	if (empty($_REQUEST['PID']) && empty($_REQUEST['RID'])) header("Location:project_List.php");
+
+echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
+echo '<a href="project_Summary.php?PID='.$_REQUEST['PID'].'">';
+echo Get_Project_Name($_REQUEST['PID']);
+echo '</a>-><b>';
+echo Get_Iteration_Name($_REQUEST['IID']);
+echo '</b></div>';
+?>
+<script>
+$(function() {
+	document.title = 'Practical Agile: '+$("#phpbread").text().substring(13);
+	$("#breadcrumbs").html($("#phpbread").html());
+	if ($("#phpnavicons")){
+		$("#navicons").html($("#phpnavicons").html());
+	}
+});
+</script>
+
+	<script type="text/javascript" src="scripts/comment_Edit.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/comment.css" />
+
+	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
+	<script type="text/javascript" src="scripts/story_List.js"></script>
+
+	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
+	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
+	<script src="fancytree/jquery.fancytree.dnd.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8.js"></script>
+    	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8.js"></script>
+	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
+
+	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
+	<script type="text/javascript" src="scripts/task_Edit.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
+	<script type="text/javascript" src="scripts/upload_Edit.js"></script>
+
+	<script type="text/javascript" src="scripts/audit_List.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
+
+	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="jqplot/excanvas.js"></script><![endif]-->
+	<script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="jqplot/plugins/jqplot.highlighter.min.js"></script>
+	<script type="text/javascript" src="jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script type="text/javascript" src="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+	<script type="text/javascript" src="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+	<link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
+
+<?php
+	Global $statuscolour;
+	Global $Iterationcount;
+	Global $OIterationcount;
+	Global $Sizecount;
+	Global $OSizecount;
+	Global $Toggle;
+	Global $LockedIteration;
+
+	$LockedIteration=0;
+
+// QUICK adding/removing  things to/from  a release
+	if (isset($_POST['AddToRelease']))
+	{
+		// Project
+		if ($_REQUEST['PARID']=='P')
+		{
+			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID=0 ';
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added entire Project',Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		// all Done Work
+		}elseif ($_REQUEST['PARID']=='D')
+		{
+			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Status="Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		// Not Done work
+		}elseif ($_REQUEST['PARID']=='N')
+		{
+			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all NOT DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		}else{
+			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID=0 ';
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['PARID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		}
+		mysqli_query($DBConn, $sql);
+	}
+	if (isset($_POST['DeleteFromRelease']))
+	{
+		if ($_REQUEST['PARID']=='P')
+		{
+			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID='.$_REQUEST['RID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed entire Project',Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}elseif ($_REQUEST['PARID']=='D')
+		{
+			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Status="Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all Done work','for Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}elseif ($_REQUEST['PARID']=='N')
+		{
+			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all NOT DONE work',' in Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}else{
+			$sql= 'UPDATE story SET story.Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['PARID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['PARID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}
+		mysqli_query($DBConn, $sql);
+	}
+
+
+
+function GetTreeRoot ($sql,$flag='')
+{
+	Global $DBConn;
+	$tree_Res = mysqli_query($DBConn, $sql);
+	echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
+	echo '&nbsp;&nbsp;<a href="#" class="btnCollapseAll" id="">Collapse</a>/';
+	echo '<a href="#" class="btnExpandAll" id="">Expand</a>';
+
+	echo '<div class="tree" id="tree">';
+		echo '<ul>';
+			GetTree ($tree_Res,$flag);
+		echo '</ul>';
+	echo '</div>';
+}
+
+function GetTree ($tree_Res,$flag='')
+{
+	Global $DBConn;
+	if ($tree_Row = mysqli_fetch_assoc($tree_Res))
+	{
+		do
+		{
+			if (empty($_REQUEST['RID']) || ($tree_Row['Release_ID']==$_REQUEST['RID'] || Num_Children($tree_Row['AID'])!=0)){
+				echo	'<li id="'.$tree_Row['AID'].'" data-nodndflag="'.$flag.'" data-iteration="'.Get_Iteration_Name($tree_Row['Iteration_ID'],False).'" data-iid="'.$tree_Row['Iteration_ID'].'" data-pid="'.$tree_Row['Project_ID'].'" >';
+					echo '<div class="treebox">';
+						PrintStory ($tree_Row);
+					echo '</div>';
+					// if i have children, then go and fetch them
+					$sql='SELECT * FROM story WHERE story.Parent_Story_ID='.$tree_Row['AID'].' order by story.Epic_Rank';
+					$Child_Res = mysqli_query($DBConn, $sql);
+					if ($Child_Res)
+					{
+						echo '<ul>';
+						GetTree($Child_Res,$flag);
+						echo '</ul>';
+					}
+				echo '</li>';
+		}
+		}while ($tree_Row = mysqli_fetch_assoc($tree_Res));
+	}
+}
+
+
+function getRelease($relid)
+{
+	Global $DBConn;
+	$sql = 'select Name from release_details where ID='.$relid;
+	$res = mysqli_query($DBConn, $sql);
+	if ($res)
+	{
+		$rec = mysqli_fetch_assoc($res );
+		return $rec['Name'] ;
+	}else{
+		return '';
+	}
+}
+
+function PrintStory ($story_Row)
+{
+	Global $statuscolour;
+	Global $Project;
+	Global $Sizecount;
+	Global $OSizecount;
+	Global $Toggle;
+	Global $Iterationcount;
+	Global $OIterationcount;
+	Global $DBConn;
+	Global $LockedIteration;
+
+// only for the backlog
+	if ($Project['Backlog_ID']==$story_Row['Iteration_ID'])
+	{
+	// update predictions
+	// use average card size or current velocity is ave > velocity for unsized cards.
+		if ($story_Row[Size]=="?")
+		{
+			if ($Project['Velocity'] > $Project['Average_Size'])
+			{
+				 $Add_This = $Project['Average_Size'];
+			}else{
+				 $Add_This = $Project['Velocity'];
+			}
+		}else{
+			$Add_This = $story_Row[Size];
+		}
+
+		// add the next story even if it overflows (Best Case)
+		$OSizecount += $Add_This;
+		if ($OSizecount  >= $Project['Velocity'])
+		{
+			$OSizecount = 0 ;
+			$OIterationcount +=1;
+		}
+
+		// only use complete stories that fit (Worst Case)
+		if ($Sizecount + $Add_This  > $Project['Velocity'])
+		{
+			$Iterationcount +=1;
+			$Sizecount = $Add_This ;
+			// toggle the colour bands in the iteration for current velocity
+			$Toggle = ($Toggle + 1) % 3;
+		} else{
+			$Sizecount += $Add_This;
+		}
+	}
+
+	$Num_Children = Num_Children($story_Row['AID']);
+
+	$class= 'storybox-div ';
+
+	if ($_REQUEST['Type']!='tree'){
+		$class.=' alternate'.$Toggle.' ';
+	}else{
+		$class.=' smaller ';
+	}
+
+	if ($story_Row['Blocked'] != 0){
+		$class.=' blocked';
+	}
+
+// special handling for releases as they cover multiple projects
+	if ($_REQUEST['Root']=='iteration' || $_REQUEST['Root']=='release')
+	{
+		if (!empty($_REQUEST['IID']))
+		{
+			if ($story_Row['Iteration_ID']==$_REQUEST['IID']){
+				$class.='thisiteration';
+			}
+		}
+	}
+
+	echo	'<div class="'.$class.'" id="storybox'.$story_Row['AID'].'">';
+
+	echo '<div class="right-box">';
+		if ($_REQUEST['Type']!='tree'){
+			echo '<div class="minimenu-div" id="menu_div_'.$story_Row['AID'].'">'.
+					'<a href="story_Preview.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" target="_blank" title="Print preview a story (Opens in new tab)"><img src="images/preview.png"></a> &nbsp;'.
+					'<a class="quickview" id="quickview'.$story_Row['ID'].'" href="" onclick="javascript: return false;" title="Show more/less detail"><img src="images/more.png"></a> &nbsp;'.
+					'<a class="statuspopup" href="" onclick="javascript: return false;" title="Change Story Status"><img src="images/status.png"></a> &nbsp;'.
+
+				 	'<a class="iterationpopup" href="" onclick="javascript: return false;" title="Move to different Iteration"><img src="images/move.png"></a> &nbsp;';
+			if($LockedIteration==0)
+			{
+				echo		'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story"><img src="images/edit.png"></a> &nbsp;'.
+						'<a href="story_Delete.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" title="Delete Story"><img src="images/delete.png"></a>';
+			}
+			echo '</div>';
+		}
+
+		echo '<div class="type-div">'.$story_Row['Type'].'</div>';
+		echo '<div class="size-div" title="Story Size">&nbsp;';
+		echo $story_Row['Size'].'&nbsp;';
+
+// print probable iteration based on current velocity if on backlog
+		if (empty($_REQUEST['Type'])){
+			if ($Project['Backlog_ID']==$story_Row['Iteration_ID'])
+			{
+				echo '<div class="predicted-div" title="Predicted last/first iteration after last \'loaded\' iteration">(+'.$Iterationcount.'/'.$OIterationcount.')&nbsp;</div>';
+			}
+		}
+		echo '</div>';	// size-div
+
+	echo '</div>';	//right-box
+
+// set background of drag and drop handle to that of the status (for stories that can be worked on.)
+	if($Num_Children == 0)
+	{
+		echo '<div title="'.$statuspolicy[$story_Row['Status']].'" class="storystatus" style="background: #'.$statuscolour[$story_Row['Status']].'" id="span_div'.$story_Row['AID'].'"></div>';
+	}else{
+		echo '<div class="parentstorystatus" id="span_div'.$story_Row['AID'].'"></div>';
+	}
+
+	echo '<div class="storybody">';
+
+		echo '<div class="line-1-div">';
+
+//display status of any child stories along with the sum of points for that status
+		echo '<div class="childrenstatus-div"> ';
+		if($Num_Children != 0)
+		{
+			$astatus=explode(",", $story_Row['Children_Status']);
+			for ($i = 0; $i <count($astatus); $i++) {
+				$SSize= Get_Status_Points($story_Row['AID'],$astatus[$i],0);
+				if ($SSize!=0)
+				{
+					if ($statuscolour[$astatus[$i]]=='')
+					{
+						echo '<img title="'.$SSize.' '.$astatus[$i].' points" src="storystatusimage.php?RGB=bfbfbf&ST='.$SSize.'" >';
+					}else{
+						echo '<img title="'.$SSize.' '.$astatus[$i].' points" src="storystatusimage.php?RGB='.$statuscolour[$astatus[$i]].'&ST='.$SSize.'" >';
+					}
+				}
+			}
+
+	// let me get to a small tree
+			echo '<a  title="Show my children (#'.$story_Row['ID'].') as the root of the tree)"';
+			echo ' href="story_List.php?Type=tree&Root='.$story_Row['ID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'">';
+			echo '<img src="images/tree-small.png"></a>';
+		}
+		echo '</div>';
+
+		echo '<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a> &nbsp;'.
+		' - '.substr($story_Row['Summary'], 0, 150);
+		echo '</div>'; // line 1 div
+
+		echo '<div class="line-2-div" id="line-2-div'.$story_Row['ID'].'">';
+			echo '<b>'.$Project['Desc_1'].'</b>&nbsp;'.html_entity_decode($story_Row['Col_1'],ENT_QUOTES);
+			if ($Project['As_A']){ echo '<div><b>As A: </b>'.html_entity_decode($story_Row['As_A'],ENT_QUOTES).'</div>';}
+			if ($Project['Col_2']){ echo '<div><b>'.$Project['Desc_2'].'</b>&nbsp;'.html_entity_decode($story_Row['Col_2'],ENT_QUOTES).'</div>';}
+			if ($Project['Acceptance']){ echo '<div><b>Acceptance: </b>'.html_entity_decode($story_Row['Acceptance'],ENT_QUOTES).'</div>';}
+		echo '</div>';		// line-2-div
+
+		echo '<div class="line-3-div" id="line-3-div'.$story_Row['ID'].'">';
+
+		if($Num_Children == 0){
+	 		echo '<div class="status-div statuspopup" title="Change Story Status" style="background: #'.$statuscolour[$story_Row['Status']].'" id="status_div'.$story_Row['AID'].'">'.$story_Row['Status'].'</div>';
+		}
+	 		echo '<div class="iteration-div" id="status_div'.$story_Row['AID'].'"> ';
+				echo '<a href="story_List.php?&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'#'.$story_Row['AID'].'" title="Goto Iteration">';
+			echo Get_Iteration_Name($story_Row['Iteration_ID'],False).'</a></div>';
+// print the micromenu
+			printMicromenu($story_Row['AID']);
+
+			echo '<div class="owner-div">| '.Get_User($story_Row['Owner_ID'],0).'</div>';
+
+// If I am a child show all my parents
+	 		echo '<div class="parents-div"> | ';
+			if($story_Row['Parent_Story_ID'] != 0) {
+				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+				$parents_Res = mysqli_query($DBConn, $parentssql);
+				if ($parents_row = mysqli_fetch_assoc($parents_Res))
+				{
+					do
+					{
+				  		if($parents_row['parent']!=NULL)
+						{
+							$parentsql='select ID, AID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
+							$parent_Res = mysqli_query($DBConn, $parentsql);
+							if ($parent_row = mysqli_fetch_assoc($parent_Res))
+							{
+								echo '<a  title="'.$parent_row ['Summary'].'"';
+								echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
+								echo ' #'.$parent_row ['ID'].' ('.$parent_row ['Size'].' pts)</a>&nbsp;';
+							}
+						}
+					}
+					while ($parents_row = mysqli_fetch_assoc($parents_Res));
+				}
+			}
+			echo '</div>';	//Parents
+
+	 		echo '|<div class="tags-div">';
+			if(strlen($story_Row['Tags'])!=0){
+				$aTags=explode(",",$story_Row['Tags']);
+				foreach($aTags as $Tag) {
+					echo '<a class="tags-each" title="Search for tag:'.$Tag.'" href="story_List.php?PID='.$_REQUEST['PID'].'&searchstring=tag:'.$Tag.'&Type=search">'.$Tag.'</a>';
+				}
+			}
+			echo '</div>';	//tags-div
+			echo '<div class="inline right-box" >';
+			echo getRelease($story_Row['Release_ID']);
+			echo '</div>';
+			echo '<div class="taskdialog" id="alltasks_'.$story_Row['AID'].'"></div>';
+			echo '<div class="commentsdialog" id="commentspops_'.$story_Row['AID'].'"></div> ';
+			echo '<div class="uploaddialog" id="allupload_'.$story_Row['AID'].'"></div> ';
+			echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
+
+		echo '</div>'; //line-3-div
+	echo '</div>';   // storybody divline-3-div
+	echo '</div>';	// storybox-div
+
+
+}	// Printstory
+
+
+
+
+// Make sure that we have an iteration to display if this is not a release
+if (empty($_REQUEST['IID']) && empty($_REQUEST['RID']) ){
+	$_REQUEST['IID']=$Project['Backlog_ID'];
+}
+
+// this is not a release so lets get the project iterations
+if (empty($_REQUEST['RID'])){
+	//===
+// Create the iteration popup
+		$thisdate =  date_create(Date("Y-m-d"));
+		$thisdate = date_format($thisdate , 'Y-m-d');
+
+// Fetch  future Iterations
+		$sql = 'SELECT * from iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and Start_Date>"'.$thisdate.'"'.
+		' and ID<>'.$_REQUEST['IID'].' order by iteration.Start_Date desc LIMIT 6';
+
+		if($iteration_Res = mysqli_query($DBConn, $sql))
+		{
+			$IterationList=buildpopup($iteration_Res,$thisdate );
+		}
+
+// Fetch the backlog and 4 previous Iterations (if not on the backlog)
+		$sql = 'SELECT * from iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and Start_Date<>"0000-00-00" and (Start_Date<="'.$thisdate.'"';
+		if ($_REQUEST['IID']==$Project['Backlog_ID']){
+			$sql .='and ID<>'.$Project['Backlog_ID'].')';
+		}else{
+			$sql .='or ID='.$Project['Backlog_ID'].')';
+		}
+		$sql .=' and ID<>'.$_REQUEST['IID'].' order by iteration.End_Date desc LIMIT 6';
+
+		if($iteration_Res = mysqli_query($DBConn, $sql))
+		{
+			$IterationList.=buildpopup($iteration_Res,$thisdate );
+		}
+
+// Fetch  No date Iterations
+		$sql = 'SELECT * from iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and ID<>'.$_REQUEST['IID'].' and Start_Date="0000-00-00"';
+
+		if($iteration_Res = mysqli_query($DBConn, $sql))
+		{
+			$IterationList.=buildpopup($iteration_Res,$thisdate );
+		}
+
+	echo '<div style="display: none" class="iterationdialog" id="iter_'.$_REQUEST['IID'].'" title="Choose Iteration">';
+	echo $IterationList ;
+	echo '</div>';
+}
+
+function buildpopup($iteration_Res,$thisdate ){
+
+	Global $LockedIteration;
+	$IterationList='';
+
+	if(iteration_Res)
+	{
+		if ($iteration_Row = mysqli_fetch_assoc($iteration_Res))
+		{
+			do
+			{
+				if ($iteration_Row['Locked']==0)
+				{
+					$IterationList.='<button id="'.$iteration_Row['ID'].'"';
+					//highlight the current iteration
+					if( ($iteration_Row['Start_Date']<=$thisdate) && ($iteration_Row['End_Date'] >= $thisdate) && ($iteration_Row['Name'] != 'Backlog')) {
+						$IterationList.=' style="background:#66CCFF" ';
+					}
+					$IterationList.=' class="ui-button ui-state-default ui-corner-all">';
+					$IterationList.=substr($iteration_Row['Name'], 0, 14);
+					$IterationList.='</button>&nbsp;&nbsp;';
+					$LockedIteration = 0;
+				}else{
+					if ($iteration_Row['ID']==$_REQUEST['IID'])
+					{
+						$LockedIteration = 1;
+						return 'This iteration is locked';
+					}
+				}
+			}while ($iteration_Row = mysqli_fetch_assoc($iteration_Res));
+		}
+	}
+	return $IterationList;
+
+}
+
+function buildstatus($proj){
+	global $statuscolour;
+	Global $DBConn;
+// Fetch the status and create the status popup.
+	$sql = 'SELECT story_status.RGB, story_status.Desc, story_status.Policy FROM story_status where story_status.Project_ID='.$proj.' and LENGTH(story_status.Desc)>0 order by story_status.Order';
+	$status_Res = mysqli_query($DBConn, $sql);
+	if ($status_Row = mysqli_fetch_assoc($status_Res))
+	{
+		$statusList='';
+		do
+		{
+			$statuscolour[$status_Row['Desc']] = $status_Row['RGB'];
+			$statusList.='&nbsp;&nbsp;<button title="'.$status_Row['Policy'].'" id="'.$status_Row['Desc'];
+			$statusList.='" style="background:#'.$status_Row['RGB'].'" class="ui-button ui-state-default ui-corner-all">&nbsp;';
+			$statusList.=$status_Row['Desc'];
+			$statusList.='&nbsp;</button>';
+		}while ($status_Row = mysqli_fetch_assoc($status_Res));
+	}
+return ($statusList);
+}
+
+
+echo '<div style="display: none" class="statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
+echo buildstatus($_REQUEST['PID']);
+echo '</div>';
+
+//===========================
+	echo '<div class="hidden" id="phpnavicons" align="Left">'.'<a title="Add new story" href="story_Edit.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/storyadd-large.png"></a>&nbsp; &nbsp;';
+	if (isset($_REQUEST['PID'])&&isset($_REQUEST['IID']))
+	{
+		echo '&nbsp; &nbsp;<a  title="Project Epic tree" href="story_List.php?Type=tree&Root=0&PID='.$_REQUEST['PID'].'&IID='.$Project['Backlog_ID'].'"><img src="images/tree-large.png"></a>';
+		echo '&nbsp; &nbsp;<a  title="Scrum Board" href="story_List.php?Type=board&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/board-large.png"></a>';
+		echo '&nbsp; &nbsp;<a  title="Story List" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/list-large.png"></a>';
+	}
+	echo '</div>';
+
+echo '<div id="msg_div">';
+echo '&nbsp;</div>';
+
+if ($_REQUEST['Type']=="search"){
+
+	echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
+	$cond="";
+	$sel = "SELECT * FROM story where story.Project_ID=".$_REQUEST['PID']." and (";
+	$psel = "SELECT sum(Size) as points FROM story where story.Project_ID=".$_REQUEST['PID']." and (";
+
+	// an Empty QID this is a search, otherwise a qry has been passed in
+	if (empty($_REQUEST['QID'])){
+		if (substr($_REQUEST['searchstring'],0,1)=='#') {
+			$cond='story.ID='.substr($_REQUEST['searchstring'],1);
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,7))=='status:'){
+			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],7).'%"';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,6))=='owner:'){
+			$cond='story.Owner_ID=(select ID from user where user.Initials="'.substr($_REQUEST['searchstring'],6).'")';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,4))=='tag:'){
+			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],4).'%"';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='size:'){
+			$cond='story.Size='.substr($_REQUEST['searchstring'],5).'';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='type:'){
+			$cond='story.Type="'.substr($_REQUEST['searchstring'],5).'"';
+		} else{
+			$cond=' story.Col_1 like "%'.$_REQUEST['searchstring'].'%" '.
+			' or story.Col_2 like "%'.$_REQUEST['searchstring'].'%" '.
+			' or story.Acceptance like "%'.$_REQUEST['searchstring'].'%" '.
+			' or story.Summary like "%'.$_REQUEST['searchstring'].'%" '.
+			' or (0<(select count(ID) from comment where comment.Story_AID = story.AID and Comment_Text like"%'.$_REQUEST['searchstring'].'%")) '.
+			' or (0<(select count(ID) from task where task.Story_AID = story.AID and task.Desc like"%'.$_REQUEST['searchstring'].'%")) ';
+		}
+		$sql ="{$sel}{$cond})";
+		$psql ="{$psel}{$cond})";
+		echo '<br>Search "'.$_REQUEST['searchstring'].'"';
+	}else{
+		$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
+		$QRes = mysqli_query($DBConn, $qsql);
+		$QRow = mysqli_fetch_assoc($QRes);
+		$cond=" ".$QRow['QSQL'];
+		$cond= str_replace('{User}', $_SESSION['ID'], $cond);
+		$cond= str_replace('{Iteration}', $_REQUEST['IID'], $cond);
+		$cond= str_replace('{Project}', $_REQUEST['PID'], $cond);
+		$cond= str_replace('{Backlog}', $Project['Backlog_ID'], $cond);
+		$sql =$sel.$cond.') '.$QRow['Qorder'];
+		$psql =$psel.$cond.') '.$QRow['Qorder'];
+		echo '<br>"'.$QRow['Desc'].'"';
+	}
+
+	$pres=mysqli_query($DBConn, $psql);
+	$pts=mysqli_fetch_assoc($pres);
+	if ($story_Res = mysqli_query($DBConn, $sql))
+	{
+		echo ' returns <b>'.mysqli_num_rows($story_Res).'</b> Stories and <b>'.$pts['points'].'</b> points';
+		echo '<ul id="sortable">';
+		if ($story_Row = mysqli_fetch_assoc($story_Res))
+		{
+			do
+			{
+				echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+				PrintStory ($story_Row);
+				echo	'</li>';
+			}
+			while ($story_Row = mysqli_fetch_assoc($story_Res));
+		}
+		echo '</ul>';
+	}
+}
+
+if (empty($_REQUEST['Type'])){
+// a Standard story list for the iteraton or backlog.
+	echo '<table align="center" width=90%><tr><td align="center">';
+	print_summary($Iteration['Points_Object_ID'],True); // with velocity
+	echo '</td></tr><tr><td align="center">';
+	print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+	echo '</td></tr></table>';
+	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+	$story_Res = mysqli_query($DBConn, $sql);
+
+	echo '<div class="left-box">';
+	echo '&nbsp;<a title = "Iteration Tree" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'&Type=tree&Root=iteration"><img src="images/tree.png"></a>';
+	echo '&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
+	echo '</div>';
+
+	echo '<div class="inline right-box">';
+	echo '<div class="inline" id="comment_count_i_'.$Iteration['Comment_Object_ID'].'">';
+	$tsql = 'SELECT count(*) as count FROM comment where comment.Comment_Object_ID='.$Iteration['Comment_Object_ID'].' and Comment_Object_ID<>0';
+						$tres=mysqli_query($DBConn, $tsql);
+						$t_row = mysqli_fetch_assoc($tres);
+						if ($t_row['count'] >0){
+							echo ' ('.$t_row['count'].')';
+						}
+	echo'</div>';
+	echo '<a class="commentpopup" id="commenti_'.$Iteration['Comment_Object_ID'].'" href="" onclick="javascript: return false;" title="Show Comments"><img src="images/comment-small.png"></a> &nbsp;';
+
+	echo '</div><br>';
+	echo '<div class="commentsdialog" id="commentspopi_'.$Iteration['Comment_Object_ID'].'"></div>';
+
+	$Toggle=0;
+	$Sizecount=0;
+	$OSizecount=0;
+	$Iterationcount=1;
+	$OIterationcount=1;
+
+	echo '<ul id="sortable">';
+	if ($story_Row = mysqli_fetch_assoc($story_Res))
+	{
+		do
+		{
+			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+			PrintStory ($story_Row);
+			echo	'</li>';
+		}
+		while ($story_Row = mysqli_fetch_assoc($story_Res));
+	}
+	echo '</ul>';
+}
+
+if ($_REQUEST['Type']=='tree'){
+
+	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and ID='.$_REQUEST['Root'].' order by story.Epic_Rank';
+
+//Iteration Tree
+	if ($_REQUEST['Root']=='iteration') {
+		echo '<table align="center" width=90%><tr><td align="center">';
+		print_summary($Iteration['Points_Object_ID'],True); // with velocity
+		echo '</td></tr><tr><td align="center">';
+		print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+		echo '</td></tr></table>';
+		$sqlp = 'SELECT AID FROM story where story.Iteration_ID='.$_REQUEST['IID'];
+		$Res = mysqli_query($DBConn, $sqlp);
+		if ($Res)
+		{
+			while  ($Row = mysqli_fetch_assoc($Res))
+			{
+				$instr.=Top_Parent($Row['AID']).',';
+			}
+		}
+		$instr = rtrim($instr, ",");
+		$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and AID IN('.$instr.') order by story.Epic_Rank';
+		GetTreeRoot ($sql,'nodnd');
+
+	}elseif ($_REQUEST['Root']=='release')
+	{
+//Release Tree
+		// release info start, end etc
+		$sqlp='select * from release_details where id ='.$_REQUEST['RID'];
+		$Res = mysqli_query($DBConn, $sqlp);
+		if ($Res)
+		{
+			$RelRow = mysqli_fetch_assoc($Res);
+			echo '&nbsp;<div class="inline larger"><b>'.$RelRow['Name'].' ('.$RelRow['Start'].' -> '.$RelRow['End'].')</b></div>';
+		}
+
+		// release statistics stories & points)
+		$tsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
+
+		print_releasesummary("Release",$tsql);
+
+		echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
+
+		//only show projects that this user is a project admin forprojects
+		if ($Usr['Admin_User']==1)
+		{
+			$tsql = 'SELECT distinct(Project_ID) as relproj  FROM story where story.Release_ID='.$_REQUEST['RID'];
+		}else{
+			$tsql = 'SELECT distinct(story.Project_ID) as relproj FROM story left join user_project on story.Project_ID = user_project.Project_ID  where story.Release_ID='.$_REQUEST['RID'].' and user_project.User_ID='.$_SESSION['ID'].' and user_project.Project_Admin=1';
+		}
+
+		$Resp=mysqli_query($DBConn, $tsql);
+		while  ($Rowp = mysqli_fetch_assoc($Resp))
+		{
+		$dummy = buildstatus($Rowp['relproj']);
+		$instr='';
+		// stories in release
+			$sqlp = 'SELECT AID FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Project_ID='.$Rowp['relproj'];
+			$Res = mysqli_query($DBConn, $sqlp);
+			if ($Res)
+			{
+				while  ($Row = mysqli_fetch_assoc($Res))
+				{
+					$instr.=Top_Parent($Row['AID']).',';
+				}
+			}
+			// print project stats for release
+			$ptsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Project_Id ='.$Rowp['relproj'].' and story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
+
+			print_releasesummary($Rowp['relproj'],$ptsql);
+
+			if ($RelRow['Locked']==0)
+			{
+				echo '<form method="post" action="?">';
+				echo '&nbsp; &nbsp; <input type="submit" name="AddToRelease" value="Add" title="Add stories in this epic, to this release. (No child Epics)">';
+				echo '&nbsp; &nbsp; <input type="submit" name="DeleteFromRelease" value="Remove" title="Remove stories in this epic, from this release. (Not Chid Epics)">';
+
+				$menu = '&nbsp; <select name="PARID">';
+				$menu .= '<option value="0"></option>';
+				$menu .= '<option value="P"> ** ENTIRE PROJECT **</option>';
+				$menu .= '<option value="D"> ** All "Done" work **</option>';
+				$menu .= '<option value="N"> ** All work NOT "Done" **</option>';
+				$menu .= '<option value="0"></option>';
+				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
+				$queried = mysqli_query($DBConn, $sql);
+				while ($result = mysqli_fetch_array($queried)) {
+					$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
+				}
+				$menu .= '</select> to / from this release (Only work NOT already in a release will be added)';
+				echo $menu;
+
+				echo '	<input type="hidden" name="Type" value="tree">';
+				echo '	<input type="hidden" name="Root" value="release">';
+				echo '	<input type="hidden" name="RID" value="'.$_REQUEST['RID'].'">';
+				echo '	<input type="hidden" name="PID" value="'.$Rowp['relproj'].'">';
+				echo '</form>';
+			}
+
+			// print the tree
+			$instr = rtrim($instr, ",");
+
+			$sql = 'SELECT * FROM story where project_ID='.$Rowp['relproj'].' and AID IN('.$instr.') order by story.project_ID, story.Epic_Rank';
+			$tree_Res = mysqli_query($DBConn, $sql);
+			echo '&nbsp; &nbsp;<a href="#" class="btnCollapseAll" id="'.$Rowp['relproj'].'">Collapse</a>/';
+			echo '<a href="#" class="btnExpandAll" id="'.$Rowp['relproj'].'">Expand</a>';
+			echo '<div class="tree" id="tree'.$Rowp['relproj'].'"><ul><li class="larger">'.Get_Project_Name($Rowp['relproj']).'<ul>';
+				GetTree ($tree_Res,'nodnd');
+				echo '</li></ul></ul>';
+			echo '</div>';
+		}
+
+	}elseif ($_REQUEST['Root']==0)
+	{
+// Project Tree
+		echo '<table align="center" width=90%><tr><td align="center">';
+		print_summary($Project['Points_Object_ID'],True); // with velocity
+		echo '</td></tr><tr><td align="center">';
+		print_Graphx($Project['Points_Object_ID'], False); // Not Small
+		echo '</td></tr></table>';
+		$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and Parent_Story_ID=0 order by story.Epic_Rank';
+		GetTreeRoot ($sql);
+	}else{
+
+		GetTreeRoot ($sql);
+	}
+}
+
+
+// start Scrum Board
+if ($_REQUEST['Type']=='board'){
+	$colcount==0;
+	echo '<br>';
+	echo '<span id="'.$_REQUEST['PID'].'">';
+	$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' and LENGTH(story_status.Desc)>0 order by story_status.Order';
+	$status_Res = mysqli_query($DBConn, $sql);
+	if ($status_Row = mysqli_fetch_assoc($status_Res))
+	{
+		do
+		{
+			$colcount=$colcount+1;
+			echo '<ul name= "'.$_REQUEST['IID'].'" id="status'.$status_Row['Order'].'" class="connectedSortable">';
+			echo '<li class="scrumtitle" style="background: #'.$status_Row['RGB'].';">'.$status_Row['Desc'].'</li>';
+			$sqls = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.
+				$_REQUEST['IID'].' and  0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID)'.
+				' and story.Status="'.$status_Row['Desc'].'" order by story.Iteration_Rank';
+			$story_Res = mysqli_query($DBConn, $sqls);
+			if ($story_Row = mysqli_fetch_assoc($story_Res))
+			{
+				do
+				{
+					echo '<li class="scrumdetail" id="'.$story_Row['AID'].'">'.
+		 				'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a>'.
+						' - '.substr($story_Row['Summary'], 0, 120).
+						'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;'.
+						'<br>'.$story_Row['Type'].'&nbsp;'.
+						'&nbsp;['.$story_Row['Size'].']&nbsp;'.
+						'&nbsp;'.Get_User($story_Row['Owner_ID'],1).'&nbsp;'.
+						'&nbsp;';
+						if($story_Row['Parent_Story_ID'] != 0) {
+						$parentssql='SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+						$parents_Res = mysqli_query($DBConn, $parentssql);
+						if ($parents_row = mysqli_fetch_assoc($parents_Res))
+						{
+							do
+							{
+						  		if($parents_row['parent']!=NULL)
+								{
+									$parentsql='select ID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
+									$parent_Res = mysqli_query($DBConn, $parentsql);
+									if ($parent_row = mysqli_fetch_assoc($parent_Res))
+									{
+										echo '<a  title="'.$parent_row ['Summary'].'"';
+ 										echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
+										echo ' #'.$parent_row ['ID'].'('.$parent_row ['Size'].')</a>, &nbsp;';									}
+								}
+							}
+							while ($parents_row = mysqli_fetch_assoc($parents_Res));
+						}
+					}
+					echo 	'</li>';
+				}
+				while ($story_Row = mysqli_fetch_assoc($story_Res));
+			}
+			echo '</ul>';
+		}while ($status_Row = mysqli_fetch_assoc($status_Res));
+	}
+	echo '</span>';
+?>
+
+<script>
+// column width for the scrum board
+	var cwi= ((100/<?=$colcount;?>)-(<?=$colcount;?>/20))+'%';
+	$('.connectedSortable').css("width", cwi);
+</script>
+
+<?php
+
+}
+
+// End Scrum Board
+
+	include 'include/footer.inc.php';
+
+
+?>

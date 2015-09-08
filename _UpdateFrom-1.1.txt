@@ -1,0 +1,2 @@
+Alter table `points_log`  MODIFY COLUMN Points_Claimed decimal (11,1);
+update dbver set CurrVer = 1.2 where dbver.ID=1

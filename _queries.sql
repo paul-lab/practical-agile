@@ -1,0 +1,15 @@
+INSERT INTO `queries` (`ID`, `Desc`, `QSQL`, `Qorder`, `External`) VALUES
+(0, 'Replaceable Params', '{User} {Project} {Iteration} {Backlog} ', '', 0),
+(1, 'My Current Stories', 'story.Owner_ID={User}  and story.Status<>''Done''', 'order by Iteration_Rank', 1),
+(2, 'My ''Done'' Stories', 'story.Owner_ID={User}  and story.Status=''Done'' ', 'Order by Epic_Rank', 1),
+(3, 'All Work', ' 0 = (select count(story.AID) from story as child where child.Parent_Story_ID=story.AID) ', 'order by story.Epic_Rank', 1),
+(4, 'All ''Done'' Work', ' story.Status=''Done'' and 0 = (select count(*) from story as child where child.Parent_Story_ID=story.AID) ', 'order by story.Epic_Rank', 1),
+(5, 'All Outstanding Work', ' story.Status<>''Done'' and 0 = (select count(*) from story as child where child.Parent_Story_ID=story.AID) ', 'order by story.Epic_Rank', 1),
+(6, 'Unsized Stories', 'story.Size=''?'' or story.Size is NULL or story.Size=''''', 'order by Iteration_Rank', 1),
+(7, 'Blocked Work', ' story.Blocked<>0 ', 'Order by Iteration_Rank', 1),
+(8, 'Has Children', ' 0 < (select count(*) from story as child where child.Parent_Story_ID=story.AID) ', 'order by story.Epic_Rank', 1),
+(9, 'Has Parent', 'Parent_Story_ID>0', 'order by story.Epic_Rank', 1),
+(10, 'NO Parent', 'Parent_Story_ID<1', 'order by story.Epic_Rank', 1),
+(100, 'Iteration Hrs', 'select  concat( initials," - " ,Friendly_Name) as User ,IF(Done=1,''Yes'',''No'') as Done , sum( Expected_Hours) as ''Est. hrs'', sum(Actual_Hours) as ''Act. hrs'' from Story left join iteration on story.Iteration_ID = Iteration.ID, Task  left JOIN user on task.User_ID = User.ID  where Story.Iteration_ID = {Iteration} and task.Story_AID = story.AID group by  User_ID, Done, Iteration_ID', 2),
+(101, 'My Tasks', 'select concat( initials," - " ,Friendly_Name) as User, story.ID as ''Story #'' ,task.Desc  as Task,IF(Done=1,''Yes'',''No'') as Done,  Expected_Hours as ''Est. hrs'', Actual_Hours as ''Act. hrs'' from Story left join iteration on story.Iteration_ID = Iteration.ID, Task  left JOIN user on task.User_ID = User.ID  where Story.Iteration_ID = {Iteration} and User_ID = {User} and task.Story_AID = story.AID order by story.Iteration_Rank, story.ID, Done', 2),
+(102, 'Iteration Tasks', 'select concat( initials," - " ,Friendly_Name) as User, story.ID as ''Story #'' ,task.Desc  as Task,IF(Done=1,''Yes'',''No'') as Done,  Expected_Hours as ''Est. hrs'', Actual_Hours as ''Act. hrs'' from Story left join iteration on story.Iteration_ID = Iteration.ID, Task  left JOIN user on task.User_ID = User.ID  where Story.Iteration_ID = {Iteration} and task.Story_AID = story.AID order by story.Iteration_Rank, story.ID, User_ID,  Done', 2);

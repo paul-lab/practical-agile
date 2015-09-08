@@ -1,0 +1,78 @@
+#sidemenucontainer {
+	margin-top:0; 
+	right:5px; 
+	top:0; 
+	position:fixed;
+}
+
+
+ul#nav img:hover {  
+	border:none;
+}
+
+ul#nav {
+	margin: 0 0 0 0px; 
+	font-size:80%;
+}
+
+ul.drop a { 
+	color: #000; 
+	font-family: Verdana;  
+	text-decoration: none; 
+}
+
+
+ul.drop, ul.drop li, ul.drop ul {
+	list-style: none; 
+	margin: 0; padding: 0; 
+	border: 1px solid #fff; 
+	background: #ddd; 
+}
+
+
+ul.drop { 
+	position: relative; 
+	z-index: 597;  
+}
+
+ul.drop li { 
+	float: left; 
+	line-height: 1.3em; 
+	vertical-align: middle; 
+	zoom: 1; 
+	padding: 2px 2px;
+}
+
+ul.drop li.hover, ul.drop li:hover { 
+	position: relative; 
+	z-index: 599; 
+	cursor: default; 
+	background: #ccc;
+}
+
+ul.drop ul { 
+	visibility: hidden; 
+	position: absolute; 
+	top: 100%; right: 0; 
+	z-index: 598; 
+	border: 1px solid #fff; 
+	width:140px;
+}
+
+ul.drop ul li { 
+	float: none; 
+}
+
+ul.drop li:hover > ul { 
+	visibility: visible;
+}
+
+
+ul.l2{
+	left:30px;
+ 
+}
+
+ul.l2 li{
+	border: 1px solid #000;
+}

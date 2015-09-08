@@ -1,0 +1,61 @@
+FAQ.
+
+Q. How do I view Project progress?
+A. View the project summary page, or use the project progress report.
+
+Q. How do I view epic progress?
+A. Select the Project/Epic Tree from the header or any story list view. the status for all stories in each epic is presented to you.
+
+Q. How do I create an Epic or convert a story to an Epic?
+A. View the project/Iteration backlog using the epic tree and drag the child under the appropriate parent.
+A. When editing a story, select the parent from the list of existing parents in project from the dropdown
+A. When editing a story, type the Parent story number in the 'manual' parent edit box.
+
+   Remember that  the prospective parent must be in 'Todo' Status (No work against it) and must be in the 'Backlog' (No work Scheduled)
+
+Q. I can’t make a story a child using the Epic tree.
+A. You will find that the parent you are trying to use is already in an iteration (ie work scheduled) or not in a Todo Status. Remember, work can only be performed at the lowest level. 
+
+Q. I can't move a story in or out of an specific iteration. Why?
+A. The iteration has been locked. 
+
+Q. I can't move work in or out of an specific release. Why?
+A. The release has been locked. or
+A. Add at least 1 story into the release using the 'Story edit' form.
+
+Q. I can't see releases, why not?
+A. you need to be a project admin to view releases. 
+
+Q. Why can't I delete a comment?
+A. You can only delete comments you have added and then only if there is no reply.
+
+Q. Why can't I delete a story?
+A. You only have read-only access to that project.
+
+Q. How do I move a story from one project to another?
+A. At the moment, you have to  open each project in a different browser tab and copy and paste between them.
+A. If you have a large number of stories, it is faster to Export them from the old and import into the new project. Remember toclear the story # and delete them from the original project.
+
+Q. How can I delete a large number of stories from a project.
+A. Export the stories you want to delete, change the iteration to "** Delete **" without the Quotes, and re-import them.
+
+Q. Why am I directed to the login page when trying to edit a story?
+A. The user you are logged in as does not have access rights to the project containing that story.
+
+Q. I can’t get past the login page or I receive an error message 
+A. You account may be disabled
+A. You may be trying to use a shortcut to a project, iteration or story that does not exist anymore, check the URL you are using and change it to login.php.
+A. Get your administrator to Check the username, password
+
+Q. I can’t import anything, what is wrong.
+Q. I Can't attach files to a card, what is wrong
+A. Check your php.ini and make sure that file uploads are allowed and that the upload tmp directory exists, is available and writable, or use the full install that includes the following settings in php.ini.
+	file_uploads = On
+	upload_tmp_dir = /usr/local/mysql/tmp
+	upload_max_filesize = 2M
+
+Q. When importing a csv file exported from a report I receive an error along the lines of  "Excel has detected that the 'MyOutput.csv' is a SYLK file, .....”
+A. This is a known issue with Excel, If the first column heading / value of the CSV file begins with uppercase ID, Excel will interpret the file as being in the SYLK format rather than CSV, as described here: http://support.microsoft.com/kb/323626. change the first column name to rectify this.
+
+Q. I am having trouble with my graphs, What can I do?
+A. The way to solve most of the graph issues is to update the app to ver 1.7 or greater as this uses jqplot & not google graphs

@@ -1,0 +1,345 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.2.2
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 19, 2013 at 08:04 PM
+-- Server version: 5.5.27-log
+-- PHP Version: 5.4.7
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `practicalagile`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audit`
+--
+
+CREATE TABLE IF NOT EXISTS `audit` (
+  `ID` int(11) UNSIGNED NOT NULL,
+  `User_ID` int(11) UNSIGNED NOT NULL,
+  `From` longtext NOT NULL,
+  `To` longtext NOT NULL,
+  `When` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Parent_ID` int(11) UNSIGNED NOT NULL,
+  `User_Name` varchar(30) DEFAULT NULL,
+  `Comment_Object_ID` INT(11) UNSIGNED Default 0,
+  `Story_AID` int(11) Default 0,
+  `Comment_Text` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `Comment_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `Object_ID` (`Story_AID`),
+  KEY `User_ID` (`User_Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iteration`
+--
+
+CREATE TABLE IF NOT EXISTS `iteration` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Project_ID` int(11) unsigned DEFAULT NULL,
+  `Name` text CHARACTER SET latin1 NOT NULL,
+  `Points_Object_ID` bigint(20) unsigned DEFAULT NULL,
+  `Comment_Object_ID` int(11) unsigned DEFAULT NULL,
+  `Objective` text,
+  `Start_Date` date NOT NULL,
+  `End_Date` date NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Project_ID` (`Project_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `points_log`
+--
+
+CREATE TABLE IF NOT EXISTS `points_log` (
+  `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `Project_ID` int(11) UNSIGNED NOT NULL,
+  `Points_Date` datetime NOT NULL,
+  `Object_ID` int(11) unsigned NOT NULL,
+  `Status` char(16) NOT NULL,
+  `Story_Count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `Points_Claimed` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Object_ID` (`Object_ID`),
+  KEY `Project_ID` (`Project_ID`),
+  KEY `Points_Date` (`Points_Date`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project`
+--
+
+CREATE TABLE IF NOT EXISTS `project` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Points_Object_ID` bigint(20) unsigned DEFAULT NULL,
+  `Comment_Object_ID` int(11) unsigned DEFAULT NULL,
+  `Project_Size_ID` int(11) UNSIGNED NOT NULL,
+  `Name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `Desc` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `As_A` tinyint(1) NOT NULL DEFAULT '0',
+  `I_Need` tinyint(1) NOT NULL DEFAULT '0',
+  `Acceptance` tinyint(1) DEFAULT '0',
+  `Backlog_ID` int(11) UNSIGNED NOT NULL,
+  `Velocity` int(11) NOT NULL DEFAULT '0',
+  `Category` varchar(20) DEFAULT NULL,
+  `Archived` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `Points_Object_ID` (`Points_Object_ID`),
+  UNIQUE KEY `Comment_Object_ID` (`Comment_Object_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `queries`
+--
+
+CREATE TABLE IF NOT EXISTS `queries` (
+  `ID` int(11) UNSIGNED NOT NULL,
+  `Desc` text NOT NULL,
+  `QSQL` text NOT NULL,
+  `Qorder` text NOT NULL,
+  `External` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `release_details`
+--
+
+CREATE TABLE IF NOT EXISTS `release_details` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Start` date DEFAULT NULL,
+  `End` date DEFAULT NULL,
+  `Name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `Points_Object_ID` int(11) unsigned DEFAULT NULL,
+  `Comment_Object_ID` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Release_Points_Log_Object_ID` (`Points_Object_ID`),
+  KEY `Release_Comment_Object_ID` (`Comment_Object_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `sessionid` int(11) NOT NULL AUTO_INCREMENT,
+  `sessiondata` text CHARACTER SET latin1,
+  PRIMARY KEY (`sessionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `size`
+--
+
+CREATE TABLE IF NOT EXISTS `size` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Type` int(11) unsigned NOT NULL,
+  `Order` int(11) UNSIGNED DEFAULT NULL,
+  `Value` char(4) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Type` (`Type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `size_type`
+--
+
+CREATE TABLE IF NOT EXISTS `size_type` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Desc` text NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `story`
+--
+
+CREATE TABLE IF NOT EXISTS `story` (
+  `AID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ID` int(11) UNSIGNED NOT NULL,
+  `Project_ID` int(11) unsigned NOT NULL,
+  `Release_ID` int(11) unsigned DEFAULT NULL,
+  `Iteration_ID` int(11) unsigned NOT NULL,
+  `Parent_Story_ID` int(11) unsigned NOT NULL DEFAULT '0',
+  `Type` text CHARACTER SET utf8,
+  `Created_By_ID` int(11) unsigned DEFAULT NULL,
+  `Owner_ID` int(11) UNSIGNED DEFAULT NULL,
+  `Created_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Status` char(16) CHARACTER SET utf8 DEFAULT NULL,
+  `Children_Status` varchar(200) DEFAULT NULL,
+  `Epic_Rank` int(11) UNSIGNED DEFAULT NULL,
+  `Iteration_Rank` int(11) UNSIGNED DEFAULT NULL,
+  `Size` char(4) DEFAULT NULL,
+  `Blocked` tinyint(1) DEFAULT NULL,
+  `Summary` text CHARACTER SET utf8,
+  `So_That` longtext CHARACTER SET utf8,
+  `As_A` text CHARACTER SET utf8,
+  `I_Need` longtext CHARACTER SET utf8,
+  `Acceptance` longtext CHARACTER SET utf8,
+  `Tags` text CHARACTER SET utf8,
+  PRIMARY KEY (`AID`),
+  KEY `ID` (`ID`),
+  KEY `Project_ID` (`Project_ID`),
+  KEY `Release_ID` (`Release_ID`),
+  KEY `Parent_Story_ID` (`Parent_Story_ID`),
+  KEY `Iteration_ID` (`Iteration_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `story_status`
+--
+
+CREATE TABLE IF NOT EXISTS `story_status` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Project_ID` int(11) UNSIGNED NOT NULL,
+  `Desc` char(16) CHARACTER SET utf8 DEFAULT NULL,
+  `Order` int(11) UNSIGNED DEFAULT NULL,
+  `RGB` char(6) CHARACTER SET utf8 NOT NULL DEFAULT 'FFFFFF',
+  PRIMARY KEY (`ID`),
+  KEY `Project_ID` (`Project_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `story_type`
+--
+
+CREATE TABLE IF NOT EXISTS `story_type` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Project_ID` int(11) UNSIGNED NOT NULL,
+  `Desc` char(10) CHARACTER SET utf8 DEFAULT NULL,
+  `Order` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Project_ID` (`Project_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tags`
+--
+
+CREATE TABLE IF NOT EXISTS `tags` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Project_ID` int(11) unsigned DEFAULT NULL,
+  `Desc` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `Colour` char(6) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task`
+--
+
+CREATE TABLE IF NOT EXISTS `task` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Story_AID` int(11) unsigned DEFAULT NULL,
+  `User_ID` int(11) unsigned DEFAULT NULL,
+  `Rank` int(11) DEFAULT NULL,
+  `Desc` text CHARACTER SET utf8,
+  `Done` tinyint(1) DEFAULT NULL,
+  `Expected_Hours` int(11) DEFAULT '0',
+  `Actual_Hours` int(11) DEFAULT '0',
+  `Task_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `Task_Story_ID` (`Story_AID`),
+  KEY `Task_User_ID` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Initials` char(4) CHARACTER SET utf8 DEFAULT NULL,
+  `Password` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
+  `Friendly_Name` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
+  `EMail` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
+  `Admin_User`tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_project`
+--
+
+CREATE TABLE IF NOT EXISTS `user_project` (
+  `Project_ID` int(11) UNSIGNED DEFAULT NULL,
+  `User_ID` int(11) UNSIGNED DEFAULT NULL,
+  `Readonly` tinyint(1) NOT NULL,
+  `Project_Admin` tinyint(1) NOT NULL DEFAULT '0',
+  KEY `Project_ID` (`Project_ID`),
+  KEY `User_ID` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `size`
+--
+ALTER TABLE `size`
+  ADD CONSTRAINT `size_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `size_type` (`ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `story`
+--
+ALTER TABLE `story`
+  ADD CONSTRAINT `story_ibfk_1` FOREIGN KEY (`Iteration_ID`) REFERENCES `iteration` (`ID`),
+  ADD CONSTRAINT `story_ibfk_3` FOREIGN KEY (`Project_ID`) REFERENCES `project` (`ID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

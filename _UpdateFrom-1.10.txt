@@ -1,0 +1,8 @@
+Alter table `story_status` ADD COLUMN `Policy`  VARCHAR(128) default NULL AFTER `Desc`;
+update `story_status` set Policy='Card created, No work started (possibly Sized)' where ID=1
+update `story_status` set Policy='Sized, Understood and contains acceptance criteria' where ID=2
+update `story_status` set Policy='Tasked out, Development and unit test work in progress' where ID=4
+update `story_status` set Policy='All unit and system tests passing, ready for review by PO/Truth' where ID=8
+update `story_status` set Policy='Work rejected. Review, revise & go back to in progress' where ID=9
+update `story_status` set Policy='Accepted as per the current Definition of Done' where ID=10
+update dbver set CurrVer = 1.11 where dbver.ID=1;

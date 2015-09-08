@@ -1,0 +1,62 @@
+
+body {
+	font:15px calibri,sans-serif;
+	vertical-align:text-top;
+}
+
+#container {
+	float:left;
+	margin-top:20px;
+	width:495px;
+	max-height:325px;
+	border:1px solid black;
+	overflow:hidden;
+}
+
+#containerr {
+	float:right;
+	margin-top:20px;
+	width:495px;
+	max-height:325px;
+	border:1px solid black;
+	overflow:hidden;
+}
+
+.left {
+	float:left;
+	width:49%;
+	height:18px;
+	font-weight:bold;
+	padding: 1px;
+}
+
+.right {
+	float:left;
+	width:49%;
+	height:18px;
+	font-weight:bold;
+	text-align:right;
+	padding: 1px;
+}
+
+#summary {
+	clear:both;
+	font-size:150%;
+	height:54px;
+	overflow:hidden;
+	border-top:1px solid black;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#detail {
+	clear:both;
+	height:228px;
+	overflow:hidden;
+	border-top:1px solid black;
+	padding: 2px;
+}
+
+.taskCell{ display:inline;}
+#extra { display:none;
+}
