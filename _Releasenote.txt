@@ -2,10 +2,15 @@ Note: I do not use a linux/unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+Version 2.3
+ * bugfix: now auditing added/deleted comments against an iteration
+ * project Summary tidied
+ * optional show most recent history (200 records) against project on summary page.
+
 
 Version 2.2
  * Delete Audit log when deleting Project
- * Prevented intermittent duplicate Audit record when deleting story comments
+ * bugfix: Prevented intermittent duplicate Audit record when deleting story comments
  * Some code Tidying in Story Edit & better Blocked/Unblocked Auditing.
  * Include 'Technical Backlog' (No dates Iterations) in the 'Move to iteration' Popup.
 

@@ -7,7 +7,7 @@
 		exit();
 	}
 
-
+	$comt=fetchusingID('Comment_Text',$_GET['id'],'comment');
 
 	$sql= 'DELETE FROM comment WHERE ID='.$_GET['id'];
 	mysqli_query($DBConn, $sql);
@@ -18,9 +18,9 @@
 	{
 		if($_GET['type']=='s')
 		{
-			auditit($_GET['PID'], $_GET['AID'],$_SESSION['Email'],'Deleted story Comment',fetchusingID('Comment_Text',$_GET['id'],'comment'));
+			auditit($_GET['PID'], $_GET['AID'],$_SESSION['Email'],'Deleted story Comment',$comt);
 		}else {
-			auditit($_GET['PID'], $_GET['AID'],$_SESSION['Email'],'Deleted iteration Comment',fetchusingID('Comment_Text',$_GET['id'],'comment'));
+			auditit($_GET['PID'], $_GET['AID'],$_SESSION['Email'],'Deleted iteration Comment',$comt);
 		}
 	}
 

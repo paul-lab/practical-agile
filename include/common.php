@@ -158,7 +158,7 @@ Global $DBConn;
 		echo '</div>';
 		echo '<a class="uploadpopup" id="up'.$AID.'" href="" onclick="javascript: return false;" title="Show Uploads"><img src="images/upload-small.png"></a> &nbsp;';
 
-		echo '<a class="auditpopup" id="audit'.$AID.'" href="" onclick="javascript: return false;" title="Show Audit Records"><img src="images/history-small.png"></a> &nbsp;';
+		echo '<a class="auditpopup" id="audits'.$AID.'" href="" onclick="javascript: return false;" title="Show Audit Records"><img src="images/history-small.png"></a> &nbsp;';
 
 
 	echo '</div>'; // micromenu-div

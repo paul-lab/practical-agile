@@ -10,16 +10,21 @@
 		exit();
 	}
 
-function GetAudit($ThisProject, $ThisStory)
+function GetAudit($ThisType, $ThisID)
 {
 	Global $DBConn;
 
 // The audit list must be wrapped inside a div in the host document as follows.
-//	echo '<div class="auditdialog" id="allaudits_'.$ThisStory.'">';
+//	echo '<div class="auditdialog" id="allaudits_'.$ThisID.'">';
 
-	echo	'<ul id="sortableaudit'.$ThisStory.'">';
+	echo	'<ul id="sortableaudit'.$ThisID.'">';
 
-	$audit_sql = 'SELECT * FROM audit where audit.AID='.$ThisStory.' order by ID Desc';
+	$audit_sql = 'SELECT * FROM audit where audit.'.$ThisType.'='.$ThisID.' order by ID Desc';
+	if ($ThisType=='PID')
+	{
+		$audit_sql.=' limit 200';
+	}
+
 	$audit_Res = mysqli_query($DBConn, $audit_sql);
 	if ($audit_Row = mysqli_fetch_array($audit_Res))
 	{
@@ -42,6 +47,6 @@ function GetAudit($ThisProject, $ThisStory)
 	}
 }
 
-Getaudit($_GET['pid'],$_GET['aid']);
+Getaudit($_GET['type'],$_GET['id']);
 
 ?>

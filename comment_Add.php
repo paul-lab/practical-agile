@@ -19,12 +19,11 @@
 			$icoid=NextIterationCommentObject(); // so get the next comment object id		
 			$q='Update Iteration set Comment_Object_ID='.$icoid.' where ID='.$_REQUEST['Iteration_ID']; // and set it
 			$row = mysqli_query($DBConn, $q);	
-			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration Comment','',$_REQUEST['comment_text']);
-
 		} else {
 			$icoid=$_REQUEST['Story_AID'];
 		}
 		$q = "INSERT INTO comment (Parent_ID, User_Name, Comment_Object_ID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$icoid.", '".$comment_text."' )";
+		auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration Comment','',$_REQUEST['comment_text']);
 	}
 
 	$row = mysqli_query($DBConn, $q);

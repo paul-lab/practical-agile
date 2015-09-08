@@ -7,7 +7,7 @@ Use the Blocked work report to help you identify and manage Blocked items.
 Have two browser windows open during Sprint plannng, one for the Backlog & one for the Iteration being planned.
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Change a Story status by either clicking on the status or using the icon on the Story Quickmenu.
-When calculating predicted Iterations, a (worst/best) case view is given
+When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given
 Export Stories for a single Iteration or the entire Project.
 Keep track of where you are using the breadcrumbs on the top left of the screen.
 Move Stories/Cards between Projects by exporting and then importing them

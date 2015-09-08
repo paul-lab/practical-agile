@@ -23,6 +23,9 @@ $(function() {
 <script type="text/javascript" src="jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 <script type="text/javascript" src="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+
+<script type="text/javascript" src="scripts/audit_List.js"></script>
+
 <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 
 
@@ -73,70 +76,72 @@ function print_Size_Type_Dropdown($current)
 		<td>
 			<br><?=$project_Row['Category'];?>
 		</td>
-		<td>
+		<td colspan=3>
 			<b><?=$project_Row['Name'];?></b>
 		</td>
 	</tr>
-
 	<tr>
 		<td>&nbsp;</td>
-		<td>
+		<td colspan=3>
 			<?=$project_Row['Desc'];?>
 		</td>
 	</tr>
 	<tr>
-		<td>Use As A:</td>
+		<td align="right"><b>Use As A:</td>
 		<td>
 			<?=$project_Row['As_A'] == 1 ? 'Yes' : 'No';?>
 		</td>
-	</tr>
-	<tr>
-		<td>Use I Need:</td>
+
+		<td align="right"><b>Use I Need:</td>
 		<td>
 			<?=$project_Row['Col_2'] == 1 ? 'Yes' : 'No';?>
 		</td>
 	</tr>
 	<tr>
-		<td>Use Acceptance Criteria:</td>
+		<td align="right"><b>Use Acceptance Criteria:</td>
 		<td>
 			<?=$project_Row['Acceptance'] == 1 ? 'Yes' : 'No';?>
 		</td>
-	</tr>
-	<tr>
-		<td>Enable Story Tasks (on Scrum Board):</td>
+
+		<td align="right"><b>Enable Story Tasks (on Scrum Board):</td>
 		<td>
 			<?=$project_Row['Enable_Tasks'] == 1 ? 'Yes' : 'No';?>
 		</td>
 	</tr>
-	<tr>
-		<td>Project Size Type:</td>
+	<tr>	
+
+		<td align="right"><b>Project Size Type:</td>
 		<td>
 			<?=print_Size_Type_Dropdown($project_Row['Project_Size_ID']+0);?>
 		</td>
-	</tr>
 
-	<tr>
-		<td>Archived:</td>
+		<td align="right"><b>Archived:</td>
 		<td>
 			<?=$project_Row['Archived'] == 1 ? 'Yes' : 'No';?>
 		</td>
 	</tr>
-
 	<tr>
-		<td>Average Story Size:</td>
+		<td align="right"><b>Average Story Size:</td>
 		<td>
 			<b><?=$project_Row['Average_Size'];?></b>
 		</td>
-	</tr>
-	<tr>
-		<td>Current Velocity:</td>
+	
+		<td align="right"><b>Current Velocity:</td>
 		<td>
-			<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of most recent 5 completed iterations.)
+			<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of  5 most recent<br>completed iterations.)
 		</td>
 	</tr>
 
+
+<tr><td align=right>Show recent History</td><td>
+<a class="auditpopup" id="auditp<?=$project_Row['ID'];?>" href="" onclick="javascript: return false;" title="Show Recent history (200 records)"><img src="images/history-small.png"></a> &nbsp;
+</tr>
+</table>
+<div class="auditdialog hidden" id="allaudits_<?=$project_Row['ID'];?>"></div> ';
+
+<table align="center" cellpadding="6" cellspacing="0" border="0">
 	<tr>
-		<td>Current Iteration:</td>
+		<td>&nbsp;</td>
 		<td  class="larger" ><b>
 <?php
 		$thisdate =  Date("Y-m-d");
@@ -146,26 +151,33 @@ function print_Size_Type_Dropdown($current)
 		echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Iteration" >'.
 		substr($iteration_Row['Name'], 0, 14).'</a> &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].')</b> &nbsp;';
 		print_summary($iteration_Row['Points_Object_ID'], False);
-		echo '</td></tr>';
-		echo '<tr><td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b></td></tr>';
+		echo '</td>';
 
+		echo '<td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b></td></tr>';
 
+		$left=1;
 		$sql = 'SELECT * FROM iteration  where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog"  order by iteration.End_Date desc';
 		$iteration_Res = mysqli_query($DBConn, $sql);
 		if ($iteration_Row = mysqli_fetch_assoc($iteration_Res))
 		{
+			echo '<tr>';
 			do {
-				echo '<tr><td>&nbsp;</td><td><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].
+				$left+=1;
+				echo '<td>&nbsp;</td><td><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].
 					'" title = "'.$iteration_Row['Name'].'" >'.$iteration_Row['Name'].'</a>'.
 					' &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].') ';
-if ($iteration_Row['Locked']==1)
-{
-echo '<br><b>Locked</b>';
-}
-
+				if ($iteration_Row['Locked']==1)
+				{
+					echo '<br><b>Locked</b>';
+				}
 				print_summary($iteration_Row['Points_Object_ID'], False);
-				echo '</td></tr>';
+				echo '</td>';
+				if($left % 2==1)
+				{
+					echo '</tr><tr>';
+				}
 			} while ($iteration_Row = mysqli_fetch_assoc($iteration_Res));
+			echo '</tr>';
 		}
 ?>
 		</td>
