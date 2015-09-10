@@ -10,7 +10,7 @@ If you want to download an archive (windows only) that includes this application
 Practical Agile Scrum Tool
 
 
-Create and manage Projects, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
+Create and manage Releases, Projects, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
 
 
 Probably the most useful feature, is that you can have a hierarchy of Stories. This is something that is normally only included in scrum tools at a cost. The hierarchy is easily accessible from most places and visible for each story that is part of a tree. This means Stories can have children (and obviously parents) to an almost infinite level. This helps with breaking larger pieces of work down into manageable addressable chunks making lide easier for both the team and Product owner. Work can then be addressed in a single iteration while not losing track of the ultimate business value goal or purpose of the work. 

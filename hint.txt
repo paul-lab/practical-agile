@@ -4,7 +4,7 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 The number in brackets behind the Story size in the backlog is the next Iteration it would fall in at current velocity.
 Use the Blocked work report to help you identify and manage Blocked items.
-Have two browser windows open during Sprint plannng, one for the Backlog & one for the Iteration being planned.
+Have two browser windows open during Sprint planning, one for the Backlog & one for the Iteration being planned.
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Change a Story status by either clicking on the status or using the icon on the Story Quickmenu.
 When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given
@@ -21,7 +21,7 @@ Change "Story Status" colours to suit you from the <Project Name> "Story Status"
 In any Story list click on a Story "tag" to find all Stories with the same tag.
 Use the "My Tasks" report  to identify work you should be doing.
 The text search  will find text within the Story, Tasks or Comments for a Story.
-Use the Story List and Scrum Board icons to quickly switch between view for the current Iteration.
+Use the 'Story List' and 'Scrum Board' icons to quickly switch between view for the current Iteration.
 When moving a Story out of an Iteration back into the Backlog, use the quick menu and it will retain its original rank.
 Project velocity is calculated on the 5 most recent COMPLETED Iterations.
 In any Story list, select an Epic ID against a Story to se the contents of that Epic Tree.
@@ -44,7 +44,7 @@ When viewing an Interation Epic Tree, Cards/Stories in the current Iteration hav
 Use the Unsized Story report to help you identify and manage new Stories and stay on top of things
 You can change the Project size type at any time, current Cards retain their values until edited.
 Any link can be opened in a new tab.
-Review hiStoric velocity and loading by selecting 'Iterations (and HiStory) from the <Project> menu
+Review historic velocity and loading by selecting 'Iterations (and History) from the <Project> menu
 Use "Print Preview" to create a single Story Card.
 Remember to click '+' when adding Tasks,Comments or uploading files.
 See how you Iteration fits into the big picture by using the tree view on the "Iterations" menu.
@@ -126,21 +126,25 @@ Delete a Story using the Quick menu in any Story list or while editing it
 Sometimes editing a Story and selecting a parent via the dropdown, or entering the #<Storynum> is faster than draqging it into an Epic,
 Global Admin' Users can create new Projects via the Org. Config menu,
 De-compose your Project into Epics and  sub-Epics, down to almost any level, until you identify achievable pieces of work, Stories.
-Review your hiStorical performance using the  <Project Name> "Iterations & HiStory" menu item.
+Review your historical performance using the  <Project Name> "Iterations & History" menu item.
 Change the name of the main input field using Edit Project on the <Project Name> Menu.
 When importing Stories, If the Iteration does not exist, the Story is put in the "Backlog".
 In the tree view for an Iteration current Stories have a blue border.
 Add new Story will add a Story to the Iteration currently displayed in the screen
 Enable another input field for Stories and call it what you want, using Edit Project on the <Project Name> Menu.
 Project/Iteration burn is only updated when there is a change. No update will appear if there is no movement.
-Stories are prioritised by dragging them up and down the Backlog
+Stories are prioritised by dragging them up and down the Backlog using the handle.
 Hovering over a collapsed Epic in the tree will expand it.
 Archive Projects to keep them available to Administrators but remove them from general view.
 When working with Epics, edit Cards in a new tab to maintain the correct view.
 Import your own hints via the Org. Config Menu and have them appear here.
 Give your stakeholders read only access to your Projects, that way, they can see what is happening without being able to 'break' things
-If you want to track technical debt for a Project, but keep it out of the product backlog, create an Iteration without any dates and Store it there
+If you want to track Technical debt for a Project, but keep it out of the product backlog, create an Iteration without any dates and Store it there
 The Epic or Project tree view will also include any sub-Epics it contains.
 Print Story Cards by selecting the icon to the right of the Iteration on the "Iterations" menu.
-Edit the file /include/validfiletypes.php to constrain file types that can be uploaded
+Edit the file '/include/validfiletypes.php' to constrain or extend the file types that can be uploaded
 Rename the 'So That' field for a Story using 'Edit Project' from the <Project>  dropdown menu
+Changes against a Story are available for each story.
+Recent history for a Project is presented on the Project summary
+A full project Audit can be exported from the 'Reports' Menu
+Pasting directly from MS-Word into a html edit box WILL make a mess, go via notepad

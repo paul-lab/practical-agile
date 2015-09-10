@@ -36,9 +36,9 @@ function GetAudit($ThisType, $ThisID)
 				if ($audit_Row['From'] || $audit_Row['To'])
 				{
 					echo '<table width=100% cellspacing="2" border=0><tr><td  bgcolor="#F2F2F2" width=50%>';
-					echo 'From: '.$audit_Row['From'];
+					echo 'From: '.substr($audit_Row['From'],0,100).'...';
 					echo '<td  bgcolor="#F2F2F2" width=50%>';
-					echo 'To: '.$audit_Row['To'];
+					echo 'To: '.substr($audit_Row['To'],0,100).'...';
 					echo '</table>';
 				}
 			'</li>';
