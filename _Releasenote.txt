@@ -6,7 +6,9 @@ Version 2.3
  * bugfix: now auditing added/deleted comments against an iteration
  * project Summary tidied
  * optional show most recent history (200 records) against project on summary page.
- *  more stuff
+ * Increased Comment length
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.12.txt'
+
 
 
 Version 2.2

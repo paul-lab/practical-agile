@@ -33,10 +33,16 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 						var id = $(this).attr("id").substring(15);
 						var idx = $(this).attr("id").substring(13);
 						var citer=$("#CIteration_ID").val();
+						var ctext = escape($('#comment_text_'+id).htmlarea('toHtmlString');)
+						if (ctext.length > 7000)
+						{
+							ctext=ctext.substring(0,7000);
+							alert ('Comment Truncated');
+						}
 				 		$("#Story_AID").attr("value", id);
 						var parid=$("#Parent_ID_"+idx).val();
 						$('div#replyto_'+id).text('');
-						var data='PID='+thisproject+'&Parent_ID='+parid+'&Iteration_ID='+citer+'&User_Name='+$("#User_Name_"+id).val()+'&Story_AID='+$("#Story_AID_"+id).val()+'&replyid='+idx.substring(2)+'&Type='+idx.substring(0,1)+'&comment_text='+$("#comment_text_"+id).text();
+						var data='PID='+thisproject+'&Parent_ID='+parid+'&Iteration_ID='+citer+'&User_Name='+$("#User_Name_"+id).val()+'&Story_AID='+$("#Story_AID_"+id).val()+'&replyid='+idx.substring(2)+'&Type='+idx.substring(0,1)+'&comment_text='+ctext;
 						if (JisReadonly==0)
 						{
 							$.ajax({

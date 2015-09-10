@@ -6,10 +6,7 @@
 	if(!$user_details){
 		exit();
 	}
-
 	$comment_text = mysqli_real_escape_string($DBConn, $_REQUEST['comment_text']);
-
-
 	if($_REQUEST['Type']=="s"){
 		$q = "INSERT INTO comment (Parent_ID, User_Name, Story_AID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$_REQUEST['Story_AID'].", '".$comment_text."' )";
 		auditit($_REQUEST['PID'],$_REQUEST['Story_AID'],$_SESSION['Email'],'Added Comment','',$_REQUEST['comment_text']);

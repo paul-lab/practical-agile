@@ -1,4 +1,4 @@
-Practical Agile Scrum Tool
+﻿Practical Agile Scrum Tool
 
 Create and manage Projects, Epics, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
 
@@ -20,7 +20,7 @@ Key Features.
 •	Customisable Story fields
 •	Import and Export of Stories
 •	Easy to install
-•	Free & Simple to Use
+•	Free & Simple to Use.
  
  
 

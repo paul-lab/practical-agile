@@ -1,0 +1,2 @@
+Alter table `comment` MODIFY COLUMN `Comment_Text` Text;
+update dbver set CurrVer = 1.13 where dbver.ID=1;
