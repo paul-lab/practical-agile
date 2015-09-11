@@ -200,7 +200,7 @@ function Get_manual_Parent($current=0)
 
 	$current+=0;
 	// Fetch Current Parent.
-	$sql = 'SELECT AID, ID FROM story where story.ID ='.$current.' and story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID=(select Backlog_ID from project where project.ID='.$_REQUEST['PID'].') and story.Status="Todo"';
+	$sql = 'SELECT AID, ID FROM story where story.ID ='.$current.' and story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID=(select Backlog_ID from project where project.ID='.$_REQUEST['PID'].') and (story.Status="Todo" or story.Status IS NULL)';
 	$queried = mysqli_query($DBConn, $sql);
 	if($result = mysqli_fetch_array($queried))
 	{
@@ -297,12 +297,12 @@ function iterations_Dropdown($current)
 			$sql.=	"', Size = '".$_REQUEST['Size'];
 		}
 
-// some common conversions
+// some common conversions to help with the auditing
 		$_REQUEST['Summary'] = htmlentities($_REQUEST['Summary'],ENT_QUOTES);
-		$_REQUEST['Col_1'] = htmlentities($_REQUEST['Col_1'],ENT_QUOTES).
-		$_REQUEST['As_A'] = htmlentities($_REQUEST['As_A'],ENT_QUOTES).
-		$_REQUEST['Col_2'] = htmlentities($_REQUEST['Col_2'],ENT_QUOTES).
-		$_REQUEST['Acceptance'] = htmlentities($_REQUEST['Acceptance'],ENT_QUOTES).
+		$_REQUEST['Col_1'] = htmlentities($_REQUEST['Col_1'],ENT_QUOTES);
+		$_REQUEST['As_A'] = htmlentities($_REQUEST['As_A'],ENT_QUOTES);
+		$_REQUEST['Col_2'] = htmlentities($_REQUEST['Col_2'],ENT_QUOTES);
+		$_REQUEST['Acceptance'] = htmlentities($_REQUEST['Acceptance'],ENT_QUOTES);
 
 
 		$sql.=	"', Blocked = '".$_REQUEST['Blocked'].

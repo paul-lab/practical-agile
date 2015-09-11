@@ -35,10 +35,18 @@ function GetAudit($ThisType, $ThisID)
 				// Only print if we need to
 				if ($audit_Row['From'] || $audit_Row['To'])
 				{
+					if (strlen($audit_Row['From'])> 500)
+					{
+						$audit_Row['From']=substr($audit_Row['From'],0,500).'...';
+					}
+					if (strlen($audit_Row['To'])> 500)
+					{
+						$audit_Row['To']=substr($audit_Row['To'],0,500).'...';
+					}
 					echo '<table width=100% cellspacing="2" border=0><tr><td  bgcolor="#F2F2F2" width=50%>';
-					echo 'From: '.substr($audit_Row['From'],0,100).'...';
+					echo 'From: '.$audit_Row['From'];
 					echo '<td  bgcolor="#F2F2F2" width=50%>';
-					echo 'To: '.substr($audit_Row['To'],0,100).'...';
+					echo 'To: '.$audit_Row['To'];
 					echo '</table>';
 				}
 			'</li>';

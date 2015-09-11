@@ -133,7 +133,7 @@ function print_Size_Type_Dropdown($current)
 	</tr>
 
 
-<tr><td align=right>Show recent History</td><td>
+<tr><td align=right><b>Show recent History</td><td>
 <a class="auditpopup" id="auditp<?=$project_Row['ID'];?>" href="" onclick="javascript: return false;" title="Show Recent history (200 records)"><img src="images/history-small.png"></a> &nbsp;
 </tr>
 </table>

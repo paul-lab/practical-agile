@@ -16,10 +16,10 @@
 
 .storybody{ margin-left: 0.8em; padding: 0px 3px 2px 3px; }
 .line-1-div	{ font-size:1.2em; min-height: 18px; overflow: hidden; left:0;}
-.line-2-div	{ min-height: 1em;  max-height: 28px; margin: 0px; overflow:hidden;}
+.line-2-div	{ min-height: 1em; max-height: 28px; margin: 0px; overflow:hidden;}
 .line-3-div	{ display: inline; min-height: 1em; }
-.size-div	{ display: inline; vertical-align:top; margin: 2px; border: 1px solid grey; font-size: 1.5em; background: #feffd5; }
-.predicted-div	{ display: inline; vertical-align:top; font-size: 0.8em;  }
+.size-div	{ display: inline; border: 1px solid grey; font-size: 1.5em; background: #feffd5; }
+.predicted-div	{ display: inline; font-size: 0.8em;  }
 .type-div	{ display: inline; vertical-align:top; margin-right: 5px; padding: 2px; }
 .childrenstatus-div	{ display: inline; vertical-align:top; margin-right: 3px; padding: 0px;}
 .minimenu-div	{ display: inline; vertical-align:top; margin-top:2px; margin-right: 5px; visibility: hidden; }

@@ -1,6 +1,6 @@
 ﻿Practical Agile Scrum Tool
 
-Create and manage Projects, Epics, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
+Create and manage Releases, Projects, Epics, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
 
 The most useful feature is that you can have a hierarchy of Stories, something that is normally only included in scrum tools at a cost. The hierarchy is easily accessible from most places and visible for each story that is part of a tree. This means Stories can have children (and obviously parents) to an almost infinite level. This helps with breaking larger pieces of work down into manageable addressable chunks. Work can then be addressed in a single iteration while not losing track of the ultimate business value goal, and purpose of the work. 
 

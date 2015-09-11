@@ -33,7 +33,7 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 						var id = $(this).attr("id").substring(15);
 						var idx = $(this).attr("id").substring(13);
 						var citer=$("#CIteration_ID").val();
-						var ctext = escape($('#comment_text_'+id).htmlarea('toHtmlString');)
+						var ctext = escape($('#comment_text_'+id).htmlarea('toHtmlString'));
 						if (ctext.length > 7000)
 						{
 							ctext=ctext.substring(0,7000);

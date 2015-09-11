@@ -53,7 +53,7 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 						if (JisReadonly==0)
 						{
 							var thisstory=$(this).parent().attr("id").substring(7);
-							var file_data = $('#ndesc_'+ thisstory).prop('files')[0];   
+							var file_data = $('#ndesc_'+ thisstory).prop('files')[0];     
 							var form_data =new FormData();
 							form_data.append('AID', thisstory);
 							form_data.append('PID', thisproject);
