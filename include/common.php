@@ -605,7 +605,7 @@ function print_releasesummary($proj,$tsql){
 function print_summary($object, $WithVelocity=False){
 	Global $DBConn;
 	Global $Project;
-	echo '<img class="showSummary" id="'.$object.'" src="images/add.png" title="Show Summary">';
+	echo '<img class="showSummary" id="'.$object.'" src="images/add-small.png" title="Show Summary">';
 	$sql = 'select Points_Date, Status, Story_Count, Points_Claimed as Size from points_log where points_log.Object_ID='.$object.' and Points_Date <> "2199-12-31" group by Points_Date Desc, (select min(story_status.Order) from story_status where story_status.Project_ID='.$Project['ID'].' and story_status.Desc = points_log.Status)';
 
     	$queried = mysqli_query($DBConn, $sql);
@@ -619,7 +619,7 @@ function print_summary($object, $WithVelocity=False){
 		if ($result = mysqli_fetch_assoc($queried))
 		{
 			$last_Date=$result['Points_Date'];
-			$l1='<th bgcolor="#F2F2F2"><img class="hideSummary" src="images/minus.png" title="Hide Summary"></th>';
+			$l1='<th bgcolor="#F2F2F2"><img class="hideSummary" src="images/minus-small.png" title="Hide Summary"></th>';
 			$l2='<td bgcolor="#F2F2F2" align="Right">Cards:</td>';
 			$l3='<td bgcolor="#F2F2F2" align="Right">Points:</td>';
 			$t1=0;

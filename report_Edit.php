@@ -35,7 +35,7 @@ $(function() {
 	}
 });
 </script>
-<script type="text/javascript" src="scripts/report_edit.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="scripts/report_edit-hashfc260fafb491ae49f9f46de1fe2033e8.js" type="text/javascript" charset="utf-8"></script>
 <?php
 
 	$showForm = true;

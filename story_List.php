@@ -19,11 +19,11 @@ $(function() {
 });
 </script>
 
-	<script type="text/javascript" src="scripts/comment_Edit.js"></script>
+	<script type="text/javascript" src="scripts/comment_Edit-hashde980ce44a0d25c08c2403843c7981f7.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash1b64dae9db4641990f55663d187b461e.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
@@ -35,13 +35,13 @@ $(function() {
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit.js"></script>
+	<script type="text/javascript" src="scripts/task_Edit-hash833cdce054777866e208426320edbc66.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit.js"></script>
+	<script type="text/javascript" src="scripts/upload_Edit-hashe640af5f5ce65fc3e8079302883335f2.js"></script>
 
-	<script type="text/javascript" src="scripts/audit_List.js"></script>
+	<script type="text/javascript" src="scripts/audit_List-hashcffb8e35f4f703c886ddd181171d59af.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 
@@ -252,11 +252,11 @@ function PrintStory ($story_Row)
 					'<a class="quickview" id="quickview'.$story_Row['ID'].'" href="" onclick="javascript: return false;" title="Show more/less detail"><img src="images/more.png"></a> &nbsp;'.
 					'<a class="statuspopup" href="" onclick="javascript: return false;" title="Change Story Status"><img src="images/status.png"></a> &nbsp;'.
 
-				 	'<a class="iterationpopup" href="" onclick="javascript: return false;" title="Move to different Iteration"><img src="images/move.png"></a> &nbsp;';
+				 	'<a class="iterationpopup" href="" onclick="javascript: return false;" title="Move to different Iteration"><img src="images/move.png"></a> &nbsp;'.
+					'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story"><img src="images/edit.png"></a> &nbsp;';
 			if($LockedIteration==0)
 			{
-				echo		'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story"><img src="images/edit.png"></a> &nbsp;'.
-						'<a href="story_Delete.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" title="Delete Story"><img src="images/delete.png"></a>';
+				echo	'<a href="story_Delete.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" title="Delete Story"><img src="images/delete.png"></a>';
 			}
 			echo '</div>';
 		}
@@ -340,6 +340,7 @@ function PrintStory ($story_Row)
 // If I am a child show all my parents
 	 		echo '<div class="parents-div"> | ';
 			if($story_Row['Parent_Story_ID'] != 0) {
+				echo 'child of';
 				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
 				$parents_Res = mysqli_query($DBConn, $parentssql);
 				if ($parents_row = mysqli_fetch_assoc($parents_Res))
@@ -397,6 +398,16 @@ if (empty($_REQUEST['IID']) && empty($_REQUEST['RID']) ){
 // this is not a release so lets get the project iterations
 if (empty($_REQUEST['RID'])){
 	//===
+
+	$sql = 'SELECT * from iteration where iteration.ID ='.$_REQUEST['IID'];
+	if($iteration_Res = mysqli_query($DBConn, $sql))
+	{
+		$IterationList=buildpopup($iteration_Res,$thisdate );
+	}
+
+
+	if ($LockedIteration==0)
+	{
 // Create the iteration popup
 		$thisdate =  date_create(Date("Y-m-d"));
 		$thisdate = date_format($thisdate , 'Y-m-d');
@@ -432,9 +443,11 @@ if (empty($_REQUEST['RID'])){
 			$IterationList.=buildpopup($iteration_Res,$thisdate );
 		}
 
+	}
 	echo '<div style="display: none" class="iterationdialog" id="iter_'.$_REQUEST['IID'].'" title="Choose Iteration">';
 	echo $IterationList ;
 	echo '</div>';
+
 }
 
 function buildpopup($iteration_Res,$thisdate ){
@@ -463,7 +476,7 @@ function buildpopup($iteration_Res,$thisdate ){
 					if ($iteration_Row['ID']==$_REQUEST['IID'])
 					{
 						$LockedIteration = 1;
-						return 'This iteration is locked';
+						return 'This iteration is locked!';
 					}
 				}
 			}while ($iteration_Row = mysqli_fetch_assoc($iteration_Res));

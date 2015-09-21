@@ -24,7 +24,7 @@ $(function() {
 <script type="text/javascript" src="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
 
-<script type="text/javascript" src="scripts/audit_List.js"></script>
+<script type="text/javascript" src="scripts/audit_List-hashcffb8e35f4f703c886ddd181171d59af.js"></script>
 
 <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 
@@ -133,11 +133,11 @@ function print_Size_Type_Dropdown($current)
 	</tr>
 
 
-<tr><td align=right>Show recent History</td><td>
+<tr><td align=right><b>Show recent History</td><td>
 <a class="auditpopup" id="auditp<?=$project_Row['ID'];?>" href="" onclick="javascript: return false;" title="Show Recent history (200 records)"><img src="images/history-small.png"></a> &nbsp;
 </tr>
 </table>
-<div class="auditdialog hidden" id="allaudits_<?=$project_Row['ID'];?>"></div> ';
+<div class="auditdialog hidden" id="allaudits_<?=$project_Row['ID'];?>"></div>
 
 <table align="center" cellpadding="6" cellspacing="0" border="0">
 	<tr>
