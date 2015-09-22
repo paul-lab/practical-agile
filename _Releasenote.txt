@@ -8,6 +8,7 @@ Version 2.3
  * bugfix remove story from locked iteration
  * bugfix I missed some Quote trapping in auditing story edits
  * CSS changes for better rendering in Chrome
+ * Hashing .js files to eliminate the need for a Ctrl F5 to clear cached files
  * More Audit display tidying
  * project Summary tidied
  * optional show most recent history (200 records) against project on summary page.

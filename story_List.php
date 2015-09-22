@@ -19,11 +19,11 @@ $(function() {
 });
 </script>
 
-	<script type="text/javascript" src="scripts/comment_Edit.js"></script>
+	<script type="text/javascript" src="scripts/comment_Edit-hashde980ce44a0d25c08c2403843c7981f7.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash1b64dae9db4641990f55663d187b461e.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
@@ -35,13 +35,13 @@ $(function() {
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit.js"></script>
+	<script type="text/javascript" src="scripts/task_Edit-hash833cdce054777866e208426320edbc66.js"></script>
 
 
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit.js"></script>
+	<script type="text/javascript" src="scripts/upload_Edit-hashe640af5f5ce65fc3e8079302883335f2.js"></script>
 
-	<script type="text/javascript" src="scripts/audit_List.js"></script>
+	<script type="text/javascript" src="scripts/audit_List-hashcffb8e35f4f703c886ddd181171d59af.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 

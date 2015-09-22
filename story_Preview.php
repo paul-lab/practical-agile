@@ -6,7 +6,7 @@
 ?>
 <script src="jquery/jquery.js"></script>    
 	<link rel="stylesheet" type="text/css" href="css/story_Preview.css" />
-	<script type="text/javascript" src="scripts/story_Preview.js"></script>
+	<script type="text/javascript" src="scripts/story_Preview-hashc402c838d9a3998076e9298456831c2c.js"></script>
 
 
 <?php

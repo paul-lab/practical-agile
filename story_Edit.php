@@ -2,22 +2,22 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hash9edaccbc47b9c3494e20eefaa7ecda32.js" type="text/javascript" charset="utf-8"></script>
 
-	<script type="text/javascript" src="scripts/tag-it.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/tag-it-hashaf1b4b7f2214f80bb9aa05528150c662.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
 
 
 	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit.js"></script>
+	<script type="text/javascript" src="scripts/task_Edit-hash833cdce054777866e208426320edbc66.js"></script>
 
-	<script type="text/javascript" src="scripts/comment_Edit.js"></script>
+	<script type="text/javascript" src="scripts/comment_Edit-hashde980ce44a0d25c08c2403843c7981f7.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit.js"></script>
+	<script type="text/javascript" src="scripts/upload_Edit-hashe640af5f5ce65fc3e8079302883335f2.js"></script>
 
-	<script type="text/javascript" src="scripts/audit_List.js"></script>
+	<script type="text/javascript" src="scripts/audit_List-hashcffb8e35f4f703c886ddd181171d59af.js"></script>
 
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8.js"></script>
     	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />

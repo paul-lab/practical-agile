@@ -19,7 +19,6 @@ Probably the most useful feature, is that you can have a hierarchy of Stories. T
 Key Features
  
 *  Free & Simple to Use
-*  Releases (That can be made up of multiple projects)
 *  A Story Hierarchy 
 *  Automatic calculation of epic/parent size
 *  A Story can have Tasks, Comments and Tags
