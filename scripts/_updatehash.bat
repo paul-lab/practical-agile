@@ -53,7 +53,6 @@ for %%i in (*.js) do (
 :forloop thru files tochange
 for /R ..\ %%i in (*.php) do (
 	set filename=%%i
-echo !filename!
 	IF EXIST sedin.txt (
 		sed -f sedin.txt "!filename!" > 1.txt
  		del /q "!filename!"

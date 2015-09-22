@@ -8,10 +8,12 @@ Version 2.3
  * bugfix remove story from locked iteration
  * bugfix I missed some Quote trapping in auditing story edits
  * CSS changes for better rendering in Chrome
- * Hashing .js files to eliminate the need for a Ctrl F5 to clear cached files
+ * Now Hashing scripts/*.js files to eliminate the need for a 'Ctrl+F5' to clear cached files (and spurious errors)
+   (the side effect of this is that the /scripts directory should be cleared on update rather thn simply overwritten)
+   (what the batch file does is rename each base js file to '{filename}-hash{md5sum-of-file}.js' and make sure thny php files that reference the js are up to date)
  * More Audit display tidying
- * project Summary tidied
- * optional show most recent history (200 records) against project on summary page.
+ * Project Summary tidied
+ * Added an optional show most recent history (200 records) on Project summary page.
  * Increased Comment length
  * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.12.txt'
 
