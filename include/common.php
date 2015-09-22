@@ -113,7 +113,12 @@ function auditit($pid='', $aid=0, $user='', $action='', $from='', $to='')
 function fetchusingID($col,$val,$tabl)
 {
 	Global $DBConn;
-	$sql='SELECT '.$col.' FROM '.$tabl.' WHERE ID='.$val;
+	if ($tabl=='story')
+	{
+		$sql='SELECT '.$col.' FROM '.$tabl.' WHERE ID='.$val;
+	}else{
+		$sql='SELECT '.$col.' FROM '.$tabl.' WHERE AID='.$val;
+	}
 	$qry = mysqli_query($DBConn, $sql );
 	$row = mysqli_fetch_assoc($qry);
 	return $row[$col];

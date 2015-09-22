@@ -13,6 +13,7 @@
 	Update_Parent_Points($_GET['SID']);
 	Update_oldParent_Points($_GET['OPAR']);
 
-	auditit($_GET['PID'],$_GET['SID'],$_SESSION['Email'],'Update parent',$_GET['OPAR'],$_GET['NPAR']);
+	auditit($_GET['PID'],$_GET['SID'],$_SESSION['Email'],'Update parent',fetchusingID('Summary',$_GET['OPAR'],'story'),fetchusingID('Summary',$_GET['NPAR'],'story'));
+fetchusingID($col,$val,$tabl)
 
 ?>
