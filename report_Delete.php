@@ -1,7 +1,6 @@
 <?php
 	include 'include/header.inc.php';
 
-
 	$showForm = true;
 	if ($_REQUEST['delete'])
 	{

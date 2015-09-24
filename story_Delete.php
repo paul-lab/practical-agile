@@ -1,7 +1,6 @@
 <?php
 	include 'include/header.inc.php';
 
-
 echo '<a href="project_List.php">All</a>->';
 echo '<a href="project_Edit.php?PID='.$_REQUEST['PID'].'">';
 echo Get_Project_Name($_REQUEST['PID']);

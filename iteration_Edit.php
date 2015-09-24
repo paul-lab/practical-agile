@@ -1,5 +1,6 @@
 <?php
 	include 'include/header.inc.php';
+
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
 echo '<a href="project_Summary.php?PID='.$_REQUEST['PID'].'">';
 echo Get_Project_Name($_REQUEST['PID']);
