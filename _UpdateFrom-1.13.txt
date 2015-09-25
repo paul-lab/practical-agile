@@ -1,0 +1,5 @@
+Alter table `tags` MODIFY COLUMN `Desc` Text;
+Alter table `tags` DROP COLUMN `Colour`;
+delete from tags;
+insert into tags (Project_ID, tags.Desc) select Project_ID, GROUP_CONCAT(distinct(Tags) SEPARATOR ',') as Tags from story where length(Tags)> 0 group by Project_ID;
+update dbver set CurrVer = 1.14 where dbver.ID=1;

@@ -2,7 +2,7 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit-hash9edaccbc47b9c3494e20eefaa7ecda32.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hashcea3a4f17582ad502af706eaaa54429a.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript" src="scripts/tag-it-hashaf1b4b7f2214f80bb9aa05528150c662.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
@@ -251,6 +251,23 @@ function iterations_Dropdown($current)
 }
 
 
+function  Update_Project_Tags($PID,$Tags)
+{
+	Global $DBConn;
+	$sql= 'SELECT tags.Desc from tags where tags.Project_ID='.$PID;
+	$tag_Res = mysqli_query($DBConn, $sql);
+	if ($tag_Row = mysqli_fetch_array($tag_Res))
+	{
+		$newTags = implode(",",array_unique(explode(",", $tag_Row['Desc'].",".$Tags)));
+		$sql='UPDATE tags SET tags.Desc="'.$newTags.'" where tags.Project_ID='.$PID;
+	}else{
+		$newTags = $Tags;
+		$sql='INSERT INTO tags ( Project_ID, tags.Desc) VALUES('.$PID.',"'.$newTags.'")';
+	}
+ 		mysqli_query($DBConn, $sql);	
+}
+
+
 	echo '<div id="msg_div">&nbsp;</div>';
 	$showForm = true;
 	if (isset($_POST['saveUpdate']))
@@ -356,6 +373,7 @@ function iterations_Dropdown($current)
 			$showForm = false;
 			Update_Parent_Points($_REQUEST['AID']);
 			Update_Iteration_Points($_REQUEST['Iteration_ID']);
+			Update_Project_Tags($_REQUEST['PID'],$_REQUEST['Tags']);
 
 			if (!empty($_REQUEST['gobackto']))
 			{
@@ -413,7 +431,7 @@ function iterations_Dropdown($current)
 			echo '<img src="images/tree.png"></a>&nbsp; &nbsp;';
 		}
 			echo '#'.$story_Row['ID'].'&nbsp; &nbsp;';
-			echo 'created by: '.Get_User($story_Row['Created_By_ID'],0).'&nbsp;on&nbsp'.$story_Row['Created_Date'];
+			echo 'created by: '.Get_User($story_Row['Created_By_ID'],0).'&nbsp;on&nbsp;'.$story_Row['Created_Date'];
 
 		if ($Num_Children==0)
 		{

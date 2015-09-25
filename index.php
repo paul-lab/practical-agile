@@ -2,7 +2,7 @@
 	require_once('include/dbconfig.inc.php');
         require_once('include/common.php');
 
-$APP_VER='2.3';
+$APP_VER='2.4';
 
         /*if user wants to login*/
         if(isset($_POST['username'])){
