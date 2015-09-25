@@ -340,7 +340,6 @@ function PrintStory ($story_Row)
 // If I am a child show all my parents
 	 		echo '<div class="parents-div"> | ';
 			if($story_Row['Parent_Story_ID'] != 0) {
-				echo 'child of';
 				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
 				$parents_Res = mysqli_query($DBConn, $parentssql);
 				if ($parents_row = mysqli_fetch_assoc($parents_Res))
@@ -368,7 +367,7 @@ function PrintStory ($story_Row)
 			if(strlen($story_Row['Tags'])!=0){
 				$aTags=explode(",",$story_Row['Tags']);
 				foreach($aTags as $Tag) {
-					echo '<a class="tags-each" title="Search for tag:'.$Tag.'" href="story_List.php?PID='.$_REQUEST['PID'].'&searchstring=tag:'.$Tag.'&Type=search">'.$Tag.'</a>';
+					echo '<a class="tags-each ui-corner-all" title="Search for tag:'.$Tag.'" href="story_List.php?PID='.$_REQUEST['PID'].'&searchstring=tag:'.$Tag.'&Type=search">'.$Tag.'</a>';
 				}
 			}
 			echo '</div>';	//tags-div

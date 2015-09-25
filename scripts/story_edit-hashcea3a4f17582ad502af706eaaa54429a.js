@@ -16,10 +16,10 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 	});
 
 
-// Duplicate the story
+	// Duplicate the story
 	$('.dupestory').click(function() {
 		var thisstory='SAID='+$('.dupestory').prop("id").substring(3);
-// are we duplicating thw tasks as well
+		// are we duplicating the tasks as well
 		if ($(this).prop("id").substring(0,3)=='dut')
 		{
 			thisstory=thisstory+'&TASKS=True';
@@ -33,8 +33,30 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
         		}
 		});
 	});
+	
 
-	$('#singleFieldTags').tagit({
+
+
+	$('#singleFieldTags').tagit({	
+		autocomplete: {delay: 0, minLength: 2},
+		tagSource:function( request, response ) {
+			$.ajax({
+				// get existing tags for this project
+				type: "GET",
+				url: "project_GetTags.php",
+				data: 'PID='+thisproject,
+				success: function (data) {
+					var bgr=data.substring(2).split(",");
+					arrx = $.grep(bgr, function( a ) {
+						if(a.substr(0,request.term.length).toLowerCase() == request.term.toLowerCase())
+						{
+							return a;
+						}		
+					});
+					response (arrx);
+	        		}
+			});
+		},
 		tagLimit: 20,
 		onTagClicked: function(event,ui){
 			var thisurl = 'story_List.php?searchstring=tag:'+ui.tagLabel+'&PID='+thisproject+'&Type=search';
