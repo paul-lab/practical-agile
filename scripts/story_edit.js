@@ -38,7 +38,7 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 
 
 	$('#singleFieldTags').tagit({	
-		autocomplete: {delay: 0, minLength: 2},
+		autocomplete: {delay: 0, minLength: 0},
 		tagSource:function( request, response ) {
 			$.ajax({
 				// get existing tags for this project

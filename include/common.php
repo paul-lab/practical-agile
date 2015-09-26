@@ -356,9 +356,6 @@ function Get_Hint()
 	return $result['Hint_Text'];
 }
 
-
-
-
 function Update_Parent_Points($thisstory)
 {
 	Global $DBConn;

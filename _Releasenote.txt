@@ -4,7 +4,7 @@ Note: I do not use a Linux/Unix environment!
 
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)
- * Tags autofilter after typing 2 characters (NOT case sensitive)
+ * Tags autofilter on typing (NOT case sensitive) (Backspace to see all tags)
  * All previously entered tags remain available even after deleted form a Story/Card
  * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.12.txt'
 

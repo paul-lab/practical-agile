@@ -2,7 +2,7 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit-hashcea3a4f17582ad502af706eaaa54429a.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hash503cb28119bc71c3a81d56edb1cb042d.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript" src="scripts/tag-it-hashaf1b4b7f2214f80bb9aa05528150c662.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
