@@ -53,7 +53,7 @@ var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 							return a;
 						}		
 					});
-					response (arrx);
+					response (arrx.sort());
 	        		}
 			});
 		},

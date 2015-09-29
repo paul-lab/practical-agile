@@ -23,4 +23,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 
 
 Note this software uses components that may not have the same licence terms.
-Please refer to the licenses for Jquery & jqueryui, Fancytree, Jhtml, md5 and Tagit
+Please refer to the licenses for Jquery & jqueryui, Fancytree, Jhtml, Tagit and md5

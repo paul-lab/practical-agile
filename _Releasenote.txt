@@ -5,8 +5,8 @@ Note: I do not use a Linux/Unix environment!
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)
  * Tags autofilter on typing (NOT case sensitive) (Backspace to see all tags)
- * All previously entered tags remain available even after deleted form a Story/Card
- * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.12.txt'
+ * All previously entered tags remain available even after being deleted from a Story/Card
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.13.txt'
 
 Version 2.3
  * bugfix now auditing added/deleted comments against an iteration
@@ -15,8 +15,8 @@ Version 2.3
  * bugfix I missed some Quote trapping in auditing story edits
  * CSS changes for better rendering in Chrome
  * Now Hashing scripts/*.js files to eliminate the need for a 'Ctrl+F5' to clear cached files (and spurious errors)
-   (the side effect of this is that the /scripts directory should be cleared on update rather thn simply overwritten)
-   (what the batch file does is rename each base js file to '{filename}-hash{md5sum-of-file}.js' and make sure thny php files that reference the js are up to date)
+   (the side effect of this is that the /scripts directory should be cleared on update rather than simply being overwritten)
+   (what the batch file does is rename each base js file to '{filename}-hash{md5sum-of-file}.js' and makes sure that any php files that reference the {original}.js are up to date)
  * More Audit display tidying
  * Project Summary tidied
  * Added an optional show most recent history (200 records) on Project summary page.
@@ -32,7 +32,7 @@ Version 2.2
 Version 2.1
  * Changes in rank & blocked status now audited
  * More concise story Audit being printed against the cards 
- * Update help file
+ * Updated help file
 
 version 2.0
  * More comprehensive audit logging around story cards

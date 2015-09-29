@@ -12,7 +12,7 @@ Export Stories for a single Iteration or the entire Project.
 Keep track of where you are using the breadcrumbs on the top left of the screen.
 Get a sysadmin to create new reports that do exactly what you need.
 Use the help, that is what it is there for!.
-If you want to add a number of Cards in a row, click the add Card in the header, and then click it again before adding Cards
+If you want to add a number of Cards on after the other, click the 'add Card' in the header, and then click it again before adding Cards
 Manually add a single Story to a Release to enable the enhanced  Release features for that Project
 Use Tasks to break Stories down into managable pieces of work to be addressed by a specific person.
 When presented with an Iteration list, the CURRENT Iteration is in BOLD

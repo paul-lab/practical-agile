@@ -7,7 +7,7 @@ Q. How do I view epic progress?
 A. Select the Project/Epic Tree from the header or any story list view. the status for all stories in each epic is presented to you.
 
 Q. How do I create an Epic or convert a story to an Epic?
-A. View the project/Iteration backlog using the epic tree and drag the child under the appropriate parent.
+A. View the project/Iteration backlog using the 'Epic tree' and drag the child under the appropriate parent.
 A. When editing a story, select the parent from the list of existing parents in project from the dropdown
 A. When editing a story, type the Parent story number in the 'manual' parent edit box.
 
@@ -24,13 +24,14 @@ A. The release has been locked. or
 A. Add at least 1 story into the release using the 'Story edit' form.
 
 Q. I can't see releases, why not?
-A. you need to be a project admin to view releases. 
+A. you need to be at least a project admin to view releases. 
 
 Q. Why can't I delete a comment?
 A. You can only delete comments you have added and then only if there is no reply.
 
 Q. Why can't I delete a story?
 A. You only have read-only access to that project.
+A. The story is in an iteration that has been locked.
 
 Q. How do I move a story from one project to another?
 A. At the moment, you have to  open each project in a different browser tab and copy and paste between them.
