@@ -248,15 +248,15 @@ function PrintStory ($story_Row)
 	echo '<div class="right-box">';
 		if ($_REQUEST['Type']!='tree'){
 			echo '<div class="minimenu-div" id="menu_div_'.$story_Row['AID'].'">'.
-					'<a href="story_Preview.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" target="_blank" title="Print preview a story (Opens in new tab)"><img src="images/preview.png"></a> &nbsp;'.
+					'<a href="story_Preview.php?id='.$story_Row['AID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'" target="_blank" title="Print preview a story (Opens in new tab)"><img src="images/preview.png"></a> &nbsp;'.
 					'<a class="quickview" id="quickview'.$story_Row['ID'].'" href="" onclick="javascript: return false;" title="Show more/less detail"><img src="images/more.png"></a> &nbsp;'.
 					'<a class="statuspopup" href="" onclick="javascript: return false;" title="Change Story Status"><img src="images/status.png"></a> &nbsp;'.
 
 				 	'<a class="iterationpopup" href="" onclick="javascript: return false;" title="Move to different Iteration"><img src="images/move.png"></a> &nbsp;'.
-					'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story"><img src="images/edit.png"></a> &nbsp;';
+					'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story"><img src="images/edit.png"></a> &nbsp;';
 			if($LockedIteration==0)
 			{
-				echo	'<a href="story_Delete.php?id='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'" title="Delete Story"><img src="images/delete.png"></a>';
+				echo	'<a href="story_Delete.php?id='.$story_Row['AID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'" title="Delete Story"><img src="images/delete.png"></a>';
 			}
 			echo '</div>';
 		}
@@ -353,7 +353,7 @@ function PrintStory ($story_Row)
 							if ($parent_row = mysqli_fetch_assoc($parent_Res))
 							{
 								echo '<a  title="'.$parent_row ['Summary'].'"';
-								echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
+								echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'">';
 								echo ' #'.$parent_row ['ID'].' ('.$parent_row ['Size'].' pts)</a>&nbsp;';
 							}
 						}
@@ -367,7 +367,7 @@ function PrintStory ($story_Row)
 			if(strlen($story_Row['Tags'])!=0){
 				$aTags=explode(",",$story_Row['Tags']);
 				foreach($aTags as $Tag) {
-					echo '<a class="tags-each ui-corner-all" title="Search for tag:'.$Tag.'" href="story_List.php?PID='.$_REQUEST['PID'].'&searchstring=tag:'.$Tag.'&Type=search">'.$Tag.'</a>';
+					echo '<a class="tags-each ui-corner-all" title="Search for tag:'.$Tag.'" href="story_List.php?PID='.$story_Row['Project_ID'].'&searchstring=tag:'.$Tag.'&Type=search">'.$Tag.'</a>';
 				}
 			}
 			echo '</div>';	//tags-div
