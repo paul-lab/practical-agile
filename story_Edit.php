@@ -209,47 +209,6 @@ function Get_manual_Parent($current=0)
 	return 0;
 }
 
-function iterations_Dropdown($current)
-{
-	Global $DBConn;
-	Global $IterationLocked;
-
-	$current+=0;
-	$current_date = Date("Y-m-d");
-
-	// Fetch Current Iteration.
-	$sql = 'SELECT * FROM iteration where iteration.ID ='.$current;
-	$queried = mysqli_query($DBConn, $sql);
-	$result = mysqli_fetch_array($queried);
-	$menu = '<select name="Iteration_ID"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
-
-	$IterationLocked = $result['Locked'];
-
-	if ($result['Locked']==1)
-	{
-	$menu =$result['Name'].'<select  class="hidden"  name="Iteration_ID"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
-
-	}
-
-	// Fetch other iteratons
-	$sql = 'SELECT * FROM iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and iteration.ID<>'.$current.' AND Locked=0 order by iteration.End_Date desc';
-    	$queried = mysqli_query($DBConn, $sql);
-
-	if ($queried){
-		while ($result = mysqli_fetch_array($queried)) {
-			// highlight current iteration
-			if (( $current_date >= $result['Start_Date'] ) && ( $current_date <= $result['End_Date'] ) && $result['Name'] <> "Backlog"){
-				$menu .= '<option value="' . $result['ID'] . '">* ' . $result['Name'] . ' *</option>';
-			}else{
-				$menu .= '<option value="' . $result['ID'] . '">' . $result['Name'] . '</option>';
-			}
-		}
-	}
-	$menu .= '</select>';
-	return $menu;
-
-}
-
 
 function  Update_Project_Tags($PID,$Tags)
 {
@@ -460,7 +419,7 @@ function  Update_Project_Tags($PID,$Tags)
 		{
 			echo print_Story_Size_Radio($story_Row['Size'],$Project['Project_Size_ID']);
 			echo '<br>';
-			echo iterations_Dropdown($story_Row['Iteration_ID']);
+			echo iterations_Dropdown($story_Row['Project_ID'], $story_Row['Iteration_ID']);
 			echo '&nbsp;&nbsp;&nbsp;';
 			echo print_Story_Status_Dropdown($story_Row['Status']);
 		}else{

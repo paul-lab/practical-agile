@@ -60,6 +60,16 @@ function showLines(n){
 // sortable iteration table
 
 
+	$( "#sortable-left, #sortable-right" ).sortable({
+      		connectWith: ".connectedSortable"
+	}).disableSelection();
+
+
+	$('select[name="LIID"], select[name="RIID').change(function(){
+		$('#SetIteration').submit();
+	});
+
+
 	$( "#sortable" ).sortable({
 		update: function(event, ui) {
 			// see what has happened with the rank
@@ -77,7 +87,33 @@ function showLines(n){
 			}
 		});
 
-	$( "#sortable" ).sortable( "option", "handle", ".storystatus" );
+
+
+	$( "#sortable-left, #sortable-right" ).sortable({
+		update: function(event, ui) {
+			// see what has happened with the rank
+			if (ui.position.top>ui.originalPosition.top)
+			{
+				rank='d';
+			}else{
+				rank='i';
+			}
+			if (ui.position.left>ui.originalPosition.left)
+			{
+				move='ltr';
+			}else{
+				rank='rtl';
+			}
+			$.ajax({
+				type: "GET",
+				url: "update_storyorder.php",
+				data: $("#sortable-left").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
+				});
+			}
+		});
+
+
+	$( "#sortable, #sortable-left, #sortable-right" ).sortable( "option", "handle", ".storystatus" );
 
 
 	$( "#status1, #status2, #status3, #status4,#status5, #status6,#status7, #status8,#status9, #status10" ).sortable({
@@ -93,12 +129,12 @@ function showLines(n){
 		connectWith: ".connectedSortable"
 	}).disableSelection();
 
-// double clickk edit on scum board
+// double click edit on scum board
 	$(".scrumdetail").dblclick(function() {
 		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id")+'&IID='+thisiteration;
 	});
 
-// double clickk edit on sortable list
+// double click edit on sortable list
 	$(".storybox-div").dblclick(function() {
 		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration;
 	});
@@ -342,5 +378,7 @@ function showLines(n){
 		});
 		
 	});
+
+
 
 });

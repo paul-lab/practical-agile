@@ -445,8 +445,51 @@ function buildstatuspop($proj){
 			$statusList.='&nbsp;</button>';
 		}while ($status_Row = mysqli_fetch_assoc($status_Res));
 	}
-return ($statusList);
+	return ($statusList);
 }
+
+
+function iterations_Dropdown($project, $current,$iterationname='Iteration_ID')
+{
+	Global $DBConn;
+	Global $IterationLocked;
+
+	$current+=0;
+	$current_date = Date("Y-m-d");
+
+	// Fetch Current Iteration.
+	$sql = 'SELECT * FROM iteration where iteration.ID ='.$current;
+	$queried = mysqli_query($DBConn, $sql);
+	$result = mysqli_fetch_array($queried);
+	$menu = '<select name="'.$iterationname.'"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
+
+	$IterationLocked = $result['Locked'];
+
+	if ($result['Locked']==1)
+	{
+	$menu =$result['Name'].'<select  class="hidden"  name="Iteration_ID"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
+
+	}
+
+	// Fetch other iteratons
+	$sql = 'SELECT * FROM iteration where iteration.Project_ID ='.$project.' and iteration.ID<>'.$current.' AND Locked=0 order by iteration.End_Date desc';
+    	$queried = mysqli_query($DBConn, $sql);
+
+	if ($queried){
+		while ($result = mysqli_fetch_array($queried)) {
+			// highlight current iteration
+			if (( $current_date >= $result['Start_Date'] ) && ( $current_date <= $result['End_Date'] ) && $result['Name'] <> "Backlog"){
+				$menu .= '<option value="' . $result['ID'] . '">* ' . $result['Name'] . ' *</option>';
+			}else{
+				$menu .= '<option value="' . $result['ID'] . '">' . $result['Name'] . '</option>';
+			}
+		}
+	}
+	$menu .= '</select>';
+	return $menu;
+
+}
+
 
 function getReleaseName($relid)
 {
