@@ -6,6 +6,7 @@ $(function() {
 	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 	var thisiteration=$( "div" ).find( ".thisiteration" ).prop("id");
 
+
 //default to showing 3 lines when in the list view (options are 1,2,3)
 	var nlines=3;
 	$("#"+nlines+"line").hide();
@@ -87,11 +88,13 @@ function showLines(n){
 			}
 		});
 
-
+var LIID=$( "div" ).find( ".LIID" ).prop("id");
+var RIID=$( "div" ).find( ".RLID" ).prop("id");
 
 	$( "#sortable-left, #sortable-right" ).sortable({
 		update: function(event, ui) {
-			// see what has happened with the rank
+			// see what has happened with the rank & which way things have moved.
+
 			if (ui.position.top>ui.originalPosition.top)
 			{
 				rank='d';
@@ -100,14 +103,29 @@ function showLines(n){
 			}
 			if (ui.position.left>ui.originalPosition.left)
 			{
-				move='ltr';
+				newiid=RIID;
+				oldiid=LIID;
 			}else{
-				rank='rtl';
+				newiid=LIID;
+				oldiid=RIID;
 			}
+
+
+
+			$.ajax({
+				type: "GET",
+				url: "update_storyiteration.php",
+				data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+newiid	
+			});
 			$.ajax({
 				type: "GET",
 				url: "update_storyorder.php",
 				data: $("#sortable-left").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
+			});
+			$.ajax({
+				type: "GET",
+				url: "update_storyorder.php",
+				data: $("#sortable-right").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
 				});
 			}
 		});

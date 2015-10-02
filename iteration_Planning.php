@@ -98,6 +98,8 @@ $(function() {
 	$Iterationcount=1;
 	$OIterationcount=1;
 
+
+
 echo '<br><table width=100% border=1><tr><td width=48%>';
 echo '<form id="SetIteration" method="post" action="?">';
 echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['LIID'], "LIID");
@@ -111,9 +113,12 @@ echo '<tr valign="top"><td>';
 
 if (isset($_POST['LIID']) && $_POST['LIID'] > 0)
 {
+
+echo '<div class="LIID" id='.$_POST['LIID'].'></div>';
+
+
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['LIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = mysqli_query($DBConn, $sql);
-
 	echo '<ul id="sortable-left" class="connectedSortable">';
 	if ($story_Row = mysqli_fetch_assoc($story_Res))
 	{
@@ -130,6 +135,8 @@ if (isset($_POST['LIID']) && $_POST['LIID'] > 0)
 echo '</td><td>';
 if (isset($_POST['RIID']) && $_POST['RIID'] > 0)
 {
+
+echo '<div class="RIID" id='.$_POST['RIID'].'></div>';
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['RIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = mysqli_query($DBConn, $sql);
 
