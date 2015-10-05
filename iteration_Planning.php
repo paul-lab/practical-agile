@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash3f6d8d85855c4af946a03b0bb929d932.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash19509e5bb4e05f9cca95d30a76ed6a9a.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -111,6 +111,7 @@ echo '</td><td width=48%>';
 
 echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_POST['RIID'], "RIID");
 echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
+echo '<div id="rightsize" class="evenlarger hint"></div>';
 echo '</form>';
 echo '</td></tr>';
 echo '<tr valign="top"><td>';
@@ -121,7 +122,7 @@ if (isset($_POST['LIID']) && $_POST['LIID'] > 0)
 
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['LIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = mysqli_query($DBConn, $sql);
-echo '<div class="LIID" id='.$_POST['LIID'].'>';
+	echo '<div class="LIID" id='.$_POST['LIID'].'>';
 	echo '<ul id="sortable-left" class="connectedSortable">';
 	if ($story_Row = mysqli_fetch_assoc($story_Res))
 	{
@@ -134,16 +135,16 @@ echo '<div class="LIID" id='.$_POST['LIID'].'>';
 		while ($story_Row = mysqli_fetch_assoc($story_Res));
 	}
 	echo '</ul>';
-echo '</div>';
+	echo '</div>';
 }
-echo '</td><td>';
-if (isset($_POST['RIID']) && $_POST['RIID'] > 0)
-{
+	echo '</td><td>';
+	if (isset($_POST['RIID']) && $_POST['RIID'] > 0)
+	{
 
 
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['RIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = mysqli_query($DBConn, $sql);
-echo '<div class="RIID" id='.$_POST['RIID'].'>';
+	echo '<div class="RIID" id='.$_POST['RIID'].'>';
 	echo '<ul id="sortable-right" class="connectedSortable">';
 	if ($story_Row = mysqli_fetch_assoc($story_Res))
 	{
@@ -156,7 +157,7 @@ echo '<div class="RIID" id='.$_POST['RIID'].'>';
 		while ($story_Row = mysqli_fetch_assoc($story_Res));
 	}
 	echo '</ul>';
-echo '</div>';
+	echo '</div>';
 }
 echo '</td></table>';
 

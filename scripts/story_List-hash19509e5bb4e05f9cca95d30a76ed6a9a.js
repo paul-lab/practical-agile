@@ -115,9 +115,11 @@ function showLines(n){
 			{
 				newiid=RightIID;
 				oldiid=LeftIID;
+				mov='ltr';
 			}else{
 				newiid=LeftIID;
 				oldiid=RightIID;
+				mov='rtl';
 			}
 			// if iteration change
 			if (newiid!=oldiid)	
@@ -127,7 +129,10 @@ function showLines(n){
 					$.ajax({
 						type: "GET",
 						url: "update_storyiteration.php",
-						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid	
+						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid+'&mov='+mov,
+						success: function (data) {
+							$("#rightsize").text(' '+data+' pts.');
+						}
 					});
 				}
 			}

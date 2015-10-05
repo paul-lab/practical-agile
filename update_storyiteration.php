@@ -9,8 +9,19 @@
 
 	$sql= 'UPDATE story SET story.Iteration_ID='.$_GET['IID'].' WHERE story.AID='.$_GET['AID'];
 	mysqli_query($DBConn, $sql);
-	Update_Iteration_Points($_GET['IID']);
-	Update_Iteration_Points($_GET['OIID']);
+	if ($_GET['mov']=='ltr')
+	{
+		echo Update_Iteration_Points($_GET['IID']);
+	}else{
+		Update_Iteration_Points($_GET['IID']);
+	}
+
+	if ($_GET['mov']=='rtl')
+	{
+		echo Update_Iteration_Points($_GET['OIID']);
+	}else{
+		Update_Iteration_Points($_GET['OIID']);
+	}
 
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Move story',Get_Iteration_Name($_GET['OIID'],false),Get_Iteration_Name($_GET['IID'],false));
 ?>

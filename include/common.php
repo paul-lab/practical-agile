@@ -877,7 +877,7 @@ function Update_Iteration_Points($thisiteration)
 	}
 	if ($today < $Iteration['Start_Date']){
 		$today = $Iteration['Start_Date'];
-	}
+	} 
 
 	$thisproject = $Iteration['Project_ID'];
 
@@ -888,12 +888,13 @@ function Update_Iteration_Points($thisiteration)
 
 //get the points for each status for the iteration
 	$sql='select Project_ID, count(ID) as Story_Count, story.Status, sum(story.Size) as Size from story where story.Iteration_ID='.$thisiteration.' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by story.Status';
-
+	$iSize=0;
 	$story_Res = mysqli_query($DBConn, $sql);
 	if ($story_Row = mysqli_fetch_assoc($story_Res))
 	{
 		do
 		{
+
 			$qry2='insert into points_log set '.
 			' Project_ID ='.$Iteration['Project_ID'].
 			', Points_Claimed ='.$story_Row['Size'].
@@ -902,9 +903,13 @@ function Update_Iteration_Points($thisiteration)
 			', Points_Date="'.$today.'"'.
 			', points_log.Status="'.$story_Row['Status'].'"';
 			$result2=mysqli_query($DBConn, $qry2);
+			$iSize+=$story_Row['Size'];
 		} while ($story_Row = mysqli_fetch_assoc($story_Res));
 	}
+	
 	Update_Project_Points($thisproject);
+	// Iteration total points
+	return $iSize;
 }
 
 function Update_Project_Points($thisproject)
