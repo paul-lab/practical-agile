@@ -88,13 +88,23 @@ function showLines(n){
 			}
 		});
 
-var LIID=$( "div" ).find( ".LIID" ).prop("id");
-var RIID=$( "div" ).find( ".RLID" ).prop("id");
 
 	$( "#sortable-left, #sortable-right" ).sortable({
 		update: function(event, ui) {
-			// see what has happened with the rank & which way things have moved.
 
+			var LeftIID=$( "div" ).find( ".LIID" ).prop("id")*1;
+			if (isNaN(LeftIID)) 
+			{
+				LeftIID = 0;
+			}
+
+			var RightIID=$( "div" ).find( ".RIID" ).prop("id")*1;
+			if (isNaN(RightIID)) 
+			{
+				RightIID = 0;
+			}
+
+			// see what has happened with the rank & which way things have moved.
 			if (ui.position.top>ui.originalPosition.top)
 			{
 				rank='d';
@@ -103,20 +113,24 @@ var RIID=$( "div" ).find( ".RLID" ).prop("id");
 			}
 			if (ui.position.left>ui.originalPosition.left)
 			{
-				newiid=RIID;
-				oldiid=LIID;
+				newiid=RightIID;
+				oldiid=LeftIID;
 			}else{
-				newiid=LIID;
-				oldiid=RIID;
+				newiid=LeftIID;
+				oldiid=RightIID;
 			}
-
-
-
-			$.ajax({
-				type: "GET",
-				url: "update_storyiteration.php",
-				data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+newiid	
-			});
+			// if iteration change
+			if (newiid!=oldiid)	
+			{
+				if (newiid>0)
+				{
+					$.ajax({
+						type: "GET",
+						url: "update_storyiteration.php",
+						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid	
+					});
+				}
+			}
 			$.ajax({
 				type: "GET",
 				url: "update_storyorder.php",

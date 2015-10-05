@@ -2,6 +2,9 @@ Note: I do not use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+Version 2.5
+ * First release of Drag & Drop Iteration Planning board available from <Project> Menu
+
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)
  * Tags autofilter on typing (NOT case sensitive) (Backspace to see all tags)

@@ -21,6 +21,7 @@
 	}else{
 		$act='Decreased Rank';
 	}
+
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],$act);
 
 ?>

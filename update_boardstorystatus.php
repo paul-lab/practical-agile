@@ -14,4 +14,6 @@
 
 //this updates bot the parent points as well as the parent status
 	Update_Parent_Points($_GET['AID']);
+
+	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Update Status','',$_GET['AID']);
 ?>
