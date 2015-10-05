@@ -4,7 +4,7 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
 Use the Blocked work report to help you identify and manage Blocked items.
-Have two browser windows open during Sprint planning, one for the Backlog & one for the Iteration being planned.
+Use the new iteration Planning page, available from the <Project> menu, to make your planning sessions easier
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Change a Story status by either clicking on the status or using the icon on the Story Quickmenu.
 When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given

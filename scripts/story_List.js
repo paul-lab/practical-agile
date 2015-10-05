@@ -131,7 +131,7 @@ function showLines(n){
 						url: "update_storyiteration.php",
 						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid+'&mov='+mov,
 						success: function (data) {
-							$("#rightsize").text(' '+data+' pts.');
+							$("#rightsize").text(' Total: '+data+' pts.');
 						}
 					});
 				}
