@@ -68,20 +68,13 @@ $(function() {
 	//echo GetIterationsforpop($_REQUEST['PID'],$_REQUEST['IID'],$Project['Backlog_ID']);
 	echo '</div>';
 
-
-
-
 //===========================
 	echo '<div class="hidden" id="phpnavicons" align="Left">'.'<a title="Add new story" href="story_Edit.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/storyadd-large.png"></a>&nbsp; &nbsp;';
 	if (isset($_REQUEST['PID'])&&isset($_REQUEST['IID']))
 	{
 		echo '&nbsp; &nbsp;<a  title="Project Epic tree" href="story_List.php?Type=tree&Root=0&PID='.$_REQUEST['PID'].'&IID='.$Project['Backlog_ID'].'"><img src="images/tree-large.png"></a>';
-//		echo '&nbsp; &nbsp;<a  title="Scrum Board" href="story_List.php?Type=board&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/board-large.png"></a>';
-//		echo '&nbsp; &nbsp;<a  title="Story List" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/list-large.png"></a>';
 	}
 	echo '</div>';
-
-
 
 
 	echo '<div style="display: none" class="statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
@@ -102,68 +95,74 @@ $(function() {
 	$Iterationcount=1;
 	$OIterationcount=1;
 
+	echo '<br><table width=100% border=1><tr><td width=48%>';
+	echo '<form id="SetIteration" method="post" action="?">';
+	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_POST['LIID'], "LIID");
+	echo '</td><td width=48%>';
+	
+	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_POST['RIID'], "RIID");
+	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
+	echo '<div id="rightsize" class="evenlarger hint">';
 
-
-echo '<br><table width=100% border=1><tr><td width=48%>';
-echo '<form id="SetIteration" method="post" action="?">';
-echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_POST['LIID'], "LIID");
-echo '</td><td width=48%>';
-
-echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_POST['RIID'], "RIID");
-echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
-echo '<div id="rightsize" class="evenlarger hint"></div>';
-echo '</form>';
-echo '</td></tr>';
-echo '<tr valign="top"><td>';
-
-if (isset($_POST['LIID']) && $_POST['LIID'] > 0)
-{
-
-
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['LIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$story_Res = mysqli_query($DBConn, $sql);
-	echo '<div class="LIID" id='.$_POST['LIID'].'>';
-	echo '<ul id="sortable-left" class="connectedSortable">';
-	if ($story_Row = mysqli_fetch_assoc($story_Res))
-	{
-		do
+// if we have selected an interation to display on the right then get the points forall the current
+		if (isset($_POST['RIID']) && $_POST['RIID'] > 0)
 		{
-			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-			PrintStory ($story_Row);
-			echo	'</li>';
+			$sql = 'Select sum(story.Size) as totsize from story where story.Iteration_ID ='.$_POST['RIID'];
+			$story_Res = mysqli_query($DBConn, $sql);
+			$story_Row = mysqli_fetch_assoc($story_Res);
+			echo 'Total: '.$story_Row['totsize'].' pts.';
 		}
-		while ($story_Row = mysqli_fetch_assoc($story_Res));
-	}
-	echo '</ul>';
 	echo '</div>';
-}
+	echo '</form>';
+	echo '</td></tr>';
+	echo '<tr valign="top"><td>';
+
+// if we have selected an interation to display on the left then list the stories
+	if (isset($_POST['LIID']) && $_POST['LIID'] > 0)
+	{
+		$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['LIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+		$story_Res = mysqli_query($DBConn, $sql);
+		echo '<div class="LIID" id='.$_POST['LIID'].'>';
+		echo '<ul id="sortable-left" class="connectedSortable">';
+		if ($story_Row = mysqli_fetch_assoc($story_Res))
+		{
+			do
+			{
+				echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+				PrintStory ($story_Row);
+				echo	'</li>';
+			}
+			while ($story_Row = mysqli_fetch_assoc($story_Res));
+		}
+		echo '</ul>';
+		echo '</div>';
+	}	
+
+
 	echo '</td><td>';
+
+// if we have selected an interation to display on the right then list the stories
 	if (isset($_POST['RIID']) && $_POST['RIID'] > 0)
 	{
-
-
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['RIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$story_Res = mysqli_query($DBConn, $sql);
-	echo '<div class="RIID" id='.$_POST['RIID'].'>';
-	echo '<ul id="sortable-right" class="connectedSortable">';
-	if ($story_Row = mysqli_fetch_assoc($story_Res))
-	{
-		do
+		$sql = 'SELECT * FROM story where story.Project_ID='.$_POST['PID'].' and story.Iteration_ID='.$_POST['RIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+		$story_Res = mysqli_query($DBConn, $sql);
+		echo '<div class="RIID" id='.$_POST['RIID'].'>';
+		echo '<ul id="sortable-right" class="connectedSortable">';
+		if ($story_Row = mysqli_fetch_assoc($story_Res))
 		{
-			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-			PrintStory ($story_Row);
-			echo	'</li>';
+			do
+			{
+				echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+				PrintStory ($story_Row);
+				echo	'</li>';
+				}
+			while ($story_Row = mysqli_fetch_assoc($story_Res));
 		}
-		while ($story_Row = mysqli_fetch_assoc($story_Res));
+		echo '</ul>';
+		echo '</div>';
 	}
-	echo '</ul>';
-	echo '</div>';
-}
+
 echo '</td></table>';
 
-
-
 include 'include/footer.inc.php';
-
-
 ?>

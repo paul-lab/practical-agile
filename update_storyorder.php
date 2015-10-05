@@ -1,5 +1,4 @@
 <?php
-//	include 'include/header.inc.php';
 
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');

@@ -14,6 +14,5 @@
 	Update_oldParent_Points($_GET['OPAR']);
 
 	auditit($_GET['PID'],$_GET['SID'],$_SESSION['Email'],'Update parent',fetchusingID('Summary',$_GET['OPAR'],'story'),fetchusingID('Summary',$_GET['NPAR'],'story'));
-fetchusingID($col,$val,$tabl)
 
 ?>

@@ -14,4 +14,6 @@
 		$sql= 'UPDATE story SET story.Epic_Rank='.$key.' WHERE story.AID='.$value;
     		mysqli_query($DBConn, $sql);
 	} 
+
+	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Changed Epic rank');
 ?>

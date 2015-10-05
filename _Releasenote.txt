@@ -4,7 +4,7 @@ Note: I do not use a Linux/Unix environment!
 
 Version 2.5
  * First release of Drag & Drop Iteration Planning board available from <Project> Menu
- * Points are only shown on the 'Right hand' iteration and only on change in contents'
+ * Points are only shown on the 'Right hand' iteration.
 
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)
