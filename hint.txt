@@ -4,7 +4,7 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
 Use the Blocked work report to help you identify and manage Blocked items.
-Use the new iteration Planning page, available from the <Project> menu, to make your planning sessions easier
+Use the iteration Planning page, available from the <Project> menu, to make your planning sessions easier
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Change a Story status by either clicking on the status or using the icon on the Story Quickmenu.
 When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given
@@ -39,7 +39,7 @@ You will start to see a progress graph after at least a day has passed and you h
 Toggle a 1,2 and 3 line Story view to make best use of you screen & what it is you are doing.
 View progress against a Release by selecting it from either the Organisation or Project menu.
 Clicking the User list Icon opens a list of Users in a new tab (useful when searching for Story owners)
-Move a Story into an Epic by dragging and dropping in the Epic Tree.
+Move a Story into an Epic by dragging and dropping in the Epic Tree.(Use the vertical bar on the left as a handle)
 View progress against Epics by using either the "Project Tree", "Iteration Tree" or Epic report.
 When viewing an Interation Epic Tree, Cards/Stories in the current Iteration have a Blue border
 Use the Unsized Story report to help you identify and manage new Stories and stay on top of things
@@ -67,18 +67,18 @@ Use Epics to group product themes or feature sets (You can order these independe
 To export a single Iteration, select the Iteration, and then 'Export' Iteration from the 'Iterations' menu
 The backlog only contains work that can be addressed by the team and does not show Epics. (Use the Project or Epic Tree)
 Update Stories by including a Story id in your import file.
-Drag and drop Tasks to put them in an order that makes sense (Use any image as a handle).
+Drag and drop Tasks to put them in an order that makes sense (Use the 'edit' and 'delete' images as a handle).
 click the <Project Name> breadcrumb, or 'Project Summary' on the <Project Name> menu to view a summary of the Project progress
 When viewing an Iteration Tree for the Backlog, it will NOT contain Epics that have ALL their work 'Done'. Use the Project tree.
 Evem if a User is a  Global Admin, it is still worth making them a Project Admin in case the global right is later revoked.
-Use the #num, tag:<tagtext>, owner:<initials>, status:<Status>, Size:<Size> & Type:<Type> notation to easily find Stories.
+Use the #storynum, tag:<tagtext>, owner:<initials>, status:<Status>, Size:<Size> & Type:<Type> notation to easily find Stories.
 Print physical Cards, by exporting the Iteration and using the included printCards.xls spreadsheet.
 You can format text within your Stories and Comments.
 To bulk delete Stories, import a file with the Iteration set to the value "** Delete **".
 Make sure all Stories are sized to improve predictions (use the Unsized stories report)
-To view progress against a Project select/export the Project progress repotr (Table of current status)
+To view progress against a Project select/export the Project progress report (Table of current status)
 Give your Iterations an objective to make them more meaningful to you and the team.
-Change or edit "Story Status" to suit your Project from the <Project Name> "Story Status" menu item.
+Change or edit the "Story Status" values to suit your Project from the <Project Name> "Story Status" menu item.
 Locking an Iteration prevents Users from adding or removing Stories to or from that Iteration.
 Enable the "Acceptance Criteria :" input field for Stories using Edit Project on the <Project Name> Menu.
 View progress against an Epic by viewing it in a Epic tree (select the tree icon from any Story/Story list view)
@@ -90,9 +90,10 @@ Global Admin' Users allow Users access to Projects and enable Project admin righ
 Hearing what you think of Practical Agile is very useful, so please e-mail us via the <Your Name> About menu item
 The Points completed for each Story status are shown at each root entry in the Epic tree.
 Click the "-" in an Iteration list to hide the graph and Iteration summary.
+'Todo' and 'Done' story status can not be edited.
 Current Project velocity is presented on the Project Summary page.
 When reviewing a Card with the 'Truth'/PO select print preview and Click summary to include Tasks and Comments.
-Change Story status by dragging and dropping a Card on the scrum board.
+Dragging and dropping a Card on the scrum board it will automatically change the Status.
 You can quickly duplicate a Story with or without Tasks while editing a Story.
 To change a Task status, simply check the box. There is no need to go into edit mode.
 To view progress against a Project select it from your list of available Projects (Progress Graph & table of current status)
@@ -156,7 +157,7 @@ A full project Audit can be exported from the 'Reports' Menu
 Pasting directly from MS-Word into a html edit box WILL make a mess, go via notepad
 Use the {Esc} key to quickly get rid of a Status or Iteration Pop-up
 Each Project can have it's own set of Status values or inherit from the Template project
-View the the Backlog  to see a graph showing Project Burn-down
+View the the Product Backlog  to see a graph showing Product Burn-down
 Remember that if you do not have rights to a Project, you will not see it in a Release (Even if is is part of that release)
 The project Summary will give you easy access to the most recent 200 changes (activity) for a project
-A Story or card can only have one Owner. 
+A Story or card can only have one Owner. (Use Tasks when multiple people execute work against the story)
