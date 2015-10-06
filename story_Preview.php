@@ -12,7 +12,7 @@
 ?>
 <script src="jquery/jquery.js"></script>    
 	<link rel="stylesheet" type="text/css" href="css/story_Preview.css" />
-	<script type="text/javascript" src="scripts/story_Preview-hashc402c838d9a3998076e9298456831c2c.js"></script>
+	<script type="text/javascript" src="scripts/story_Preview-hash956d1c7a2ffe478738d6d1c8fa90ebf8.js"></script>
 
 
 <?php

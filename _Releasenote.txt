@@ -3,8 +3,9 @@ Note: I do not use a Linux/Unix environment!
       please let me know and I will fix things.
 
 Version 2.5
- * First release of Drag & Drop Iteration Planning board available from <Project> Menu
+ * First release of Drag & Drop Iteration Planning board available from &lt;Project&gt; Menu
  * Points are only shown on the 'Right hand' iteration.
+ * Slightly minify the .js files (original still available)
 
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)
@@ -92,7 +93,7 @@ version 1.71
  * fixed odd occasion when incorrect graph was displayed
  * Add/remove entire 'project', 'epic', 'all done/not done' cards to a release 
  * Made it easier get out of a login loop when navigating to a URL you do not have permissions for any more.
- * Ensure consistent card status when moving it from epic > story > epic
+ * Ensure consistent card status when moving it from epic to story to epic
  * You can now Double click on a story to edit it.
 
 Version 1.7
@@ -126,7 +127,7 @@ Version 1.63
  * Included more validation where it made sense
  * No more deleting anything that is used by something else via the UI.
  * Added hints that appear to the right on the footer on each page. You can add/edit/delete your own hints by creating 
-   and then importing them via <Org.Admin> <Import Hints>
+   and then importing them via &lt;Org.Config&gt; &lt;Import Hints&gt;
    YOU NEED TO Log in as an Admin and import the hints from hints.txt in the root of the site and then delete the file
  * Changed iteration fetch for dropdown menu to fetch 3 months in the future and a total of 10 iterations 
    The full list is still available in the 'project summary', and 'iteration edit'.

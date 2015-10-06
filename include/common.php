@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2015, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 /*start the sesion to save login variables*/
 	session_name('MY_PRACTICALAGILE_LOGIN');
 	session_start();

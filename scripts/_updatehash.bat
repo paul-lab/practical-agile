@@ -1,6 +1,6 @@
 @echo off
 
-
+:reset to unhashed filenames
 call_reverthash.bat
 
 
@@ -44,7 +44,11 @@ for %%i in (*.js) do (
 		)
 		echo weneedanewone
 		set new=!filenametrunc!-hash!filehash!.js
-		copy !filename!  !new!
+		IF EXIST _jsmin.exe  (
+			_jsmin.exe < !filename!  > !new!
+		) ELSE (
+			copy !filename!  !new!
+		)
 		echo updatewhereitisused
 		echo s/!old!/!new!/ >> sedin.txt
 	)
