@@ -37,6 +37,7 @@ echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&
 	echo '<li><a href="_faq.txt" target="_blank" title="FAQ">FAQ</a></li>';
 	echo '<li><a href="help/help.html" target="_blank" title="Help">Help</a></li>';
 	echo '<li><a href="about.php" target="_blank" title="About">About</a></li>';
+	echo '<li><a href="_Licence.txt" target="_blank" title="License">License (MIT)</a></li>';
 	echo '<li><a href="logout.php" title="Logout">Logout</a></li>';
 echo '</ul></li>';
 

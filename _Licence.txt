@@ -24,3 +24,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 
 Note this software uses components that may not have the same licence terms.
 Please refer to the licenses for Jquery & jqueryui, Fancytree, Jhtml, Tagit and md5
+
+Conents of the /images folder are released under the creative commons license. Check the folder for a copy.

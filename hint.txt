@@ -20,7 +20,7 @@ Change "Story Status" colours to suit you from the <Project Name> "Story Status"
 In any Story list click on a Story "tag" to find all Stories with the same tag.
 Use the "My Tasks" report  to identify work you should be doing in the current Sprint.
 The Search  will find text within the Story, Tasks or Comments for a Story in the CURRENT project
-Use the 'Story List' and 'Scrum Board' icons to quickly switch between view for the current Iteration.
+Use the 'Story List' and 'Scrum Board' icons to quickly switch between views for the current Iteration.
 When moving a Story out of an Iteration back into the Backlog, use the quick menu and it will retain its original rank.
 Project velocity is calculated on the 5 most recent COMPLETED Iterations.
 In any Story list, select an Epic ID against a Story to se the contents of that Epic Tree.
@@ -90,7 +90,7 @@ Global Admin' Users allow Users access to Projects and enable Project admin righ
 Hearing what you think of Practical Agile is very useful, so please e-mail us via the <Your Name> About menu item
 The Points completed for each Story status are shown at each root entry in the Epic tree.
 Click the "-" in an Iteration list to hide the graph and Iteration summary.
-'Todo' and 'Done' story status can not be edited.
+'Todo' and 'Done' story status are mandaroty and can not be edited/deleted.
 Current Project velocity is presented on the Project Summary page.
 When reviewing a Card with the 'Truth'/PO select print preview and Click summary to include Tasks and Comments.
 Dragging and dropping a Card on the scrum board it will automatically change the Status.
@@ -99,7 +99,7 @@ To change a Task status, simply check the box. There is no need to go into edit 
 To view progress against a Project select it from your list of available Projects (Progress Graph & table of current status)
 In any Story list hover over an Epic ID & Size to see its summary.
 Select a Card, hold the left button down and use 'page-up/down' or the up/down keys to move Cards large distances.
-Update the "Template Project" Project to contain the defaults for new Projects for your organisation.
+Update the "Template Project" Project to set the default Size, Status & Story Types for new Projects.
 Click on the blue 'Minus' to hide the points summary and graph for a more compact view.
 Only items in the 'Backlog' count towards product work and taken into account in predictions.
 View you Iteration either on a Radiator Board, as a list or in a Tree (Blue borders).
@@ -147,7 +147,7 @@ Import your own hints via the Org. Config Menu and have them appear here.
 Give your stakeholders read only access to your Projects, that way, they can see what is happening without being able to 'break' things
 If you want to track Technical debt for a Project, but keep it out of the product backlog, create an Iteration without any dates and Store it there
 The Epic or Project tree view will also include any sub-Epics it contains.
-Projects can have their own 'Size' scales (Numeric only) or inherit from the Template Project.
+Projects can have their own 'Size' scales (Numeric only) or copy the default from the "Template Project".
 Print Story Cards by selecting the icon to the right of the Iteration on the "Iterations" menu.
 Edit the file '/include/validfiletypes.php' to constrain or extend the file types that can be uploaded
 Rename the 'So That' field for a Story using 'Edit Project' from the <Project>  dropdown menu
@@ -156,8 +156,11 @@ Recent history for a Project is presented on the Project summary
 A full project Audit can be exported from the 'Reports' Menu
 Pasting directly from MS-Word into a html edit box WILL make a mess, go via notepad
 Use the {Esc} key to quickly get rid of a Status or Iteration Pop-up
-Each Project can have it's own set of Status values or inherit from the Template project
+Each Project can have it's own set of Status values or copy the defaults from the "Template project"
 View the the Product Backlog  to see a graph showing Product Burn-down
 Remember that if you do not have rights to a Project, you will not see it in a Release (Even if is is part of that release)
 The project Summary will give you easy access to the most recent 200 changes (activity) for a project
 A Story or card can only have one Owner. (Use Tasks when multiple people execute work against the story)
+File upload sizze it limited to 2MB (But can be changed.)
+Get you administrator to adjust the php.ini if you find that the 2MB file upload size does not suit your needs.
+Pront the hint.txt file to get a quick overview of things to try or look for.
