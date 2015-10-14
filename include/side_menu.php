@@ -64,7 +64,7 @@ if ($Usr['Admin_User']==1 || $isProjectAdmin)
 if ($Usr['Admin_User']==1) 
 {
 	echo '<li><a href="#" title="Organisation Admin">&nbsp;Org. Config.&nbsp;</a><ul>';
-		echo '<li><a href="releaseDetails_List.php">Releases</a>';
+		echo '<li><a href="releaseDetails_List.php">Release Planning</a>';
 		echo $rels;
 		echo '</li>';
 		echo '<li><a href="project_Edit.php">New Project</a></li>';
@@ -84,7 +84,7 @@ if (isset($_REQUEST['PID']))
 		echo '<li><a href="#">&nbsp;'.Get_Project_Name($_REQUEST['PID']).'&nbsp;</a><ul>';
 	if ($isProjectAdmin )
 	{
-		echo '<li><a href="releaseDetails_List.php">Releases</a>';
+		echo '<li><a href="releaseDetails_List.php">Release Planning</a>';
 		echo $rels;
 		echo '</li>';
 		echo '<li><a href="project_Edit.php?PID='.$_REQUEST['PID'].'">Edit Project</a></li>';

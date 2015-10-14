@@ -23,7 +23,7 @@ The Search  will find text within the Story, Tasks or Comments for a Story in th
 Use the 'Story List' and 'Scrum Board' icons to quickly switch between views for the current Iteration.
 When moving a Story out of an Iteration back into the Backlog, use the quick menu and it will retain its original rank.
 Project velocity is calculated on the 5 most recent COMPLETED Iterations.
-In any Story list, select an Epic ID against a Story to se the contents of that Epic Tree.
+In any Story list, select an Epic ID against a Story to view the contents of that Epic Tree.
 A blocked Story/Card will have a red border on both the Story list and Epic tree view.
 To move Cards between Projects, export and re-import them (Epic Links will need to be re-created)
 Change or add new "Story Types" to suit your Project from the <Project Name> "Story Type" menu.
@@ -60,12 +60,12 @@ view an Iteration/Sprint progress by selecting it from the 'Iteration' Menu.
 Global Admin' Users can add new Users via the Org. Config menu.
 Story Order in the Epics Tree and the Backlog are independent, this allows you to independently visualise & prioritise work.
 Email us if there is a feature you believe is absolutely nescessary and would make this tool more useful.
-Move a Story into an Epic by selecting the Epic while editing a Story.
+Move a Story into an Epic by selecting the Epic from the dropdown or entering the parent Story number when editing a Story.
 The average velocity for the 5 most recently completed Iterations is presented use as Project Velocity
 Change your password via the "Edit my details" on the <your name> menu item,
 Use Epics to group product themes or feature sets (You can order these independently from the Backlog)
 To export a single Iteration, select the Iteration, and then 'Export' Iteration from the 'Iterations' menu
-The backlog only contains work that can be addressed by the team and does not show Epics. (Use the Project or Epic Tree)
+The backlog only contains work that can be addressed by the team and does NOT include Epics. (Use the Project or Epic Tree)
 Update Stories by including a Story id in your import file.
 Drag and drop Tasks to put them in an order that makes sense (Use the 'edit' and 'delete' images as a handle).
 click the <Project Name> breadcrumb, or 'Project Summary' on the <Project Name> menu to view a summary of the Project progress
@@ -109,7 +109,7 @@ A Release can contain Cards/Stories from more than one Project
 You can export the results of any report.
 When presenting future Iterations in the Backlog, already planned Iterations are excluded from work to be completed.
 Drag a Story up or down in an Iteration or the backlog to set its rank.
-See when work against an Epic was completed by selecting t 2/3 line view in he Epic tree.
+See when work against an Epic was completed by selecting the 2/3 line view in he Epic tree.
 In the Story list,to navigate to a parent click on the parent Story and you will be presented with a tree view with that Epic as the base
 To edit a Story, double click on it, or, click on either the Story number (eg #28) or using the icon on the Story Quickmenu.
 Tasks are tri-state and have a Todo  Doing and Done state. Click the checkbox to update.
@@ -119,7 +119,7 @@ Use chores to track and address with that is not a bug or a feature but is neede
 Predicted future iteratons in your backlog, help show how much work you have left in the Project.
 Change the Story sizing used from Edit Project on the <Project Name> Menu (Existing Stories remain as they are).
 Remember that the Backlog or Iteration Epic view is a subset of the Project Epic view.
-Use the Iteration Epic tree to see how Stories in the Iteration relate to Epic pieces fo work.
+Use the Iteration Epic tree to see how Stories in the Iteration relate to Epic pieces of work.
 Enable the "As A:" input field for Stories using Edit Project on the <Project Name> Menu.
 Assign Categories to Projects to group them on the 'My Projects' page.
 Include expected and actual hours against Tasks if you feel the need.
@@ -128,7 +128,7 @@ View more or less detail for any Story by clicking the icon in the Quick menu.
 Use Comments against an Iteration to keep a log of your standups and retrospectives.
 Click the Story summary in a "Print Preview" to see all Tasks and Comments against a Story.
 Delete a Story using the Quick menu in any Story list or while editing it
-Sometimes editing a Story and selecting a parent via the dropdown, or entering the #<Storynum> is faster than draqging it into an Epic,
+Sometimes editing a Story and selecting a parent via the dropdown, or entering the #<Storynum> is faster than draqging it into an Epic
 Global Admin' Users can create new Projects via the Org. Config menu,
 De-compose your Project into Epics and  sub-Epics, down to almost any level, until you identify achievable pieces of work, Stories.
 Review your historical performance using the  <Project Name> "Iterations & History" menu item.
@@ -142,7 +142,7 @@ Project/Iteration burn is only updated when there is a change. No update will ap
 Stories are prioritised by dragging them up and down the Backlog using the Status handle.
 Hovering over a collapsed Epic in the tree will expand it.
 Archive Projects to keep them available to Administrators but remove them from general view.
-When working with Epics, edit Cards in a new tab to maintain the correct view.
+When working with Epics, edit Cards in a new tab to retain your tree view
 Import your own hints via the Org. Config Menu and have them appear here.
 Give your stakeholders read only access to your Projects, that way, they can see what is happening without being able to 'break' things
 If you want to track Technical debt for a Project, but keep it out of the product backlog, create an Iteration without any dates and Store it there
@@ -152,6 +152,7 @@ Print Story Cards by selecting the icon to the right of the Iteration on the "It
 Edit the file '/include/validfiletypes.php' to constrain or extend the file types that can be uploaded
 Rename the 'So That' field for a Story using 'Edit Project' from the <Project>  dropdown menu
 Changes against a Story are available for each story.
+Use Epics or Tags to link pieces of work that across iterations or to tie 'technical work' to 'business value' stories 
 Recent history for a Project is presented on the Project summary
 A full project Audit can be exported from the 'Reports' Menu
 Pasting directly from MS-Word into a html edit box WILL make a mess, go via notepad
@@ -163,4 +164,6 @@ The project Summary will give you easy access to the most recent 200 changes (ac
 A Story or card can only have one Owner. (Use Tasks when multiple people execute work against the story)
 File upload sizze it limited to 2MB (But can be changed.)
 Get you administrator to adjust the php.ini if you find that the 2MB file upload size does not suit your needs.
-Pront the hint.txt file to get a quick overview of things to try or look for.
+Print the hint.txt file to get a quick overview of things to try or look for.
+Remember that you need to save a Story after updating the Tags!
+there is no need to save a Story after updating Tasks or Comments

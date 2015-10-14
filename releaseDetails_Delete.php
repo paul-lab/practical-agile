@@ -26,10 +26,16 @@ $(function() {
 	$showForm = true;
 	if ($_REQUEST['delete'])
 	{
-		if (mysqli_query($DBConn,'DELETE FROM release_details WHERE ID = '.($_REQUEST['id'] + 0)))
-		{
-			$showForm = false;
-			$deleted = true;
+		// count the # of stories in this release and only delete if zero
+		$tsql = 'SELECT count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$_REQUEST['id'] + 0;
+		$tres=mysqli_query($DBConn, $tsql);
+		$t_row = mysqli_fetch_assoc($tres);
+		if ($t_row['relcount'] == 0){
+			if (mysqli_query($DBConn,'DELETE FROM release_details WHERE ID = '.($_REQUEST['id'] + 0)))
+			{
+				$showForm = false;
+				$deleted = true;
+			}
 		}
 	}
 	else if ($_REQUEST['nodelete'])
