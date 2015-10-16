@@ -11,7 +11,15 @@
 *	http://practicalagile.uk
 *
 */
-$(function() {
+
+jQuery(document).ready(function () {
+    // Initialise the plugin when the DOM is ready to be acted upon
+    bloop();
+});
+
+function bloop(){
+
+	$(function() {
 
 	var gstoryid=0;
 	var tempdata='';
@@ -73,14 +81,117 @@ function showLines(n){
 
 // sortable iteration table
 
-
 	$( "#sortable-left, #sortable-right" ).sortable({
       		connectWith: ".connectedSortable"
 	}).disableSelection();
 
+	// get the list of cards for the left hand plannng page column if a selection has been made and it is not the same as the other panel
+	$('select[name="LIID"]').change(function(){
+		if($(this).val()!=$('select[name="RIID"]').val())
+		{
+			$.ajax({
+				type: "GET",
+				url: "iteration_Planning_get.php",
+				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'left',
+				success: function (data) {
+					$(".LIID").html(data);
+					bloop();
+				}
+			});
+		}
+	});
 
-	$('select[name="LIID"], select[name="RIID').change(function(){
-		$('#SetIteration').submit();
+	// get the list of cards for the right hand planning page column if a selection has been made and it is not the same as the other panel
+	$('select[name="RIID"]').change(function(){
+		if($(this).val()!=$('select[name="LIID"]').val())
+		{
+			$.ajax({
+				type: "GET",
+				url: "iteration_Planning_get.php",
+				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'right',
+				success: function (data) {
+					$(".RIID").html(data);
+	 				bloop();
+				}
+			});
+		}
+	});
+
+
+	// this only applies to the sprint planning page.
+	$( "#sortable-left, #sortable-right" ).sortable({
+		update: function(event, ui) {
+
+			// what has triggered this update.
+			var wherearewe = $(this).prop("id");
+
+			LeftIID  = $('select[name="LIID"]').val();
+			RightIID = $('select[name="RIID"]').val();
+			// see what has happened with the rank & which way things have moved.
+			if (ui.position.top>ui.originalPosition.top)
+			{
+				rank='d';
+			}else{
+				if (ui.position.top<ui.originalPosition.top)
+				{
+					rank='i';
+				}else{
+					rank='s'
+				}
+			}
+// has this moved rtl or ltr
+			if (ui.position.left>ui.originalPosition.left)
+			{
+				newiid=RightIID;
+				oldiid=LeftIID;
+				mov='ltr';
+			}else{
+				if(ui.position.left<ui.originalPosition.left){
+					newiid=LeftIID;
+					oldiid=RightIID;
+					mov='rtl';
+				}else{
+					mov='same';
+				}
+			}
+
+			// if iteration change
+			if (mov!='same')	
+			{
+				// only move & audit it once
+				if (wherearewe=='sortable-left')
+				{
+					$.ajax({
+						type: "GET",
+						url: "update_storyiteration.php",
+						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid+'&mov='+mov,
+						success: function (data) {
+							$("#rightsize").text(' Total: '+data+' pts.');
+						}
+					});
+				}
+			}
+
+			// only  update the rank and audit if we need to
+			if (wherearewe=='sortable-left' && mov=='rtl')
+			{
+				$.ajax({
+					type: "GET",
+					url: "update_storyorder.php",
+					data: $("#sortable-left").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
+				});
+			}
+
+			// only  update the rank and audit if we need to
+			if (wherearewe=='sortable-right' && mov=='ltr')
+			{
+				$.ajax({
+					type: "GET",
+					url: "update_storyorder.php",
+					data: $("#sortable-right").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
+				});
+			}
+		}	
 	});
 
 
@@ -99,73 +210,11 @@ function showLines(n){
 				data: $("#sortable").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
 				});
 			}
-		});
-
-
-	$( "#sortable-left, #sortable-right" ).sortable({
-		update: function(event, ui) {
-
-			var LeftIID=$( "div" ).find( ".LIID" ).prop("id")*1;
-			if (isNaN(LeftIID)) 
-			{
-				LeftIID = 0;
-			}
-
-			var RightIID=$( "div" ).find( ".RIID" ).prop("id")*1;
-			if (isNaN(RightIID)) 
-			{
-				RightIID = 0;
-			}
-
-			// see what has happened with the rank & which way things have moved.
-			if (ui.position.top>ui.originalPosition.top)
-			{
-				rank='d';
-			}else{
-				rank='i';
-			}
-			if (ui.position.left>ui.originalPosition.left)
-			{
-				newiid=RightIID;
-				oldiid=LeftIID;
-				mov='ltr';
-			}else{
-				newiid=LeftIID;
-				oldiid=RightIID;
-				mov='rtl';
-			}
-			// if iteration change
-			if (newiid!=oldiid)	
-			{
-				if (newiid>0)
-				{
-					$.ajax({
-						type: "GET",
-						url: "update_storyiteration.php",
-						data: 'PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&IID='+newiid+'&OIID='+oldiid+'&mov='+mov,
-						success: function (data) {
-							$("#rightsize").text(' Total: '+data+' pts.');
-						}
-					});
-				}
-			}
-			$.ajax({
-				type: "GET",
-				url: "update_storyorder.php",
-				data: $("#sortable-left").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
-			});
-			$.ajax({
-				type: "GET",
-				url: "update_storyorder.php",
-				data: $("#sortable-right").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
-				});
-			}
-		});
-
+	});
 
 	$( "#sortable, #sortable-left, #sortable-right" ).sortable( "option", "handle", ".storystatus" );
 
-
+	// this is to support the scrum board status change.
 	$( "#status1, #status2, #status3, #status4,#status5, #status6,#status7, #status8,#status9, #status10" ).sortable({
 		receive: function(event, ui) {
 			$.ajax({
@@ -431,4 +480,5 @@ function showLines(n){
 
 
 
-});
+	});
+}

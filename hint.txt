@@ -166,4 +166,5 @@ File upload sizze it limited to 2MB (But can be changed.)
 Get you administrator to adjust the php.ini if you find that the 2MB file upload size does not suit your needs.
 Print the hint.txt file to get a quick overview of things to try or look for.
 Remember that you need to save a Story after updating the Tags!
-there is no need to save a Story after updating Tasks or Comments
+There is no need to save a Story after updating Tasks or Comments
+When editinf vards from the Iteration Planning Page, open them in a new tab from the  mini menu rather that Double Clicking them
