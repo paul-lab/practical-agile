@@ -166,7 +166,6 @@ function showLines(n){
 					mov='same';
 				}
 			}
-
 			// if iteration change
 			if (mov!='same')	
 			{
@@ -254,7 +253,6 @@ function showLines(n){
 		if(LeftIID>0 || RightIID>0)
 		{
 			var gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
-//			alert(gbt);
 		}else{
 			var gbt=''
 		}

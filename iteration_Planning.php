@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hasheef0bbcd2cb5bd71aa77bb73ca61fa4a.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash001432f17d68f105396d990d20783b38.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -129,7 +129,7 @@ $(function() {
 			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['LeftIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 		
 			$story_Res = mysqli_query($DBConn, $sql);
-			echo '<ul id="sortable-right" class="connectedSortable">';
+			echo '<ul id="sortable-left" class="connectedSortable">';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
