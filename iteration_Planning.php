@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash001432f17d68f105396d990d20783b38.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash6ddc31d5e980da4e30ea91391f53768e.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -130,6 +130,7 @@ $(function() {
 		
 			$story_Res = mysqli_query($DBConn, $sql);
 			echo '<ul id="sortable-left" class="connectedSortable">';
+			echo '<li>&nbsp</li>';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
@@ -158,6 +159,7 @@ $(function() {
 		
 			$story_Res = mysqli_query($DBConn, $sql);
 			echo '<ul id="sortable-right" class="connectedSortable">';
+			echo '<li>&nbsp</li>';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do

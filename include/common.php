@@ -605,7 +605,11 @@ function Get_Iteration_Name($thisiteration,$withdate=True)
 
 		$SQL='SELECT * FROM iteration where iteration.ID ='.$thisiteration;
 		$Res = mysqli_query($DBConn, $SQL);
-		$Iteration = mysqli_fetch_assoc($Res);
+		if($Res){
+			$Iteration = mysqli_fetch_assoc($Res);
+		}else{
+			return '';
+		}
 		if ($Iteration['Locked']==1)
 		{
 			$prefix='Locked: ';
@@ -891,7 +895,7 @@ function Update_Iteration_Points($thisiteration)
 	}
 	if ($today < $Iteration['Start_Date']){
 		$today = $Iteration['Start_Date'];
-	} 
+	}
 
 	$thisproject = $Iteration['Project_ID'];
 
@@ -920,7 +924,7 @@ function Update_Iteration_Points($thisiteration)
 			$iSize+=$story_Row['Size'];
 		} while ($story_Row = mysqli_fetch_assoc($story_Res));
 	}
-	
+
 	Update_Project_Points($thisproject);
 	// Iteration total points
 	return $iSize;

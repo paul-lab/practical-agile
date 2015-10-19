@@ -86,6 +86,7 @@ function showLines(n){
 // sortable iteration table
 
 	$( "#sortable-left, #sortable-right" ).sortable({
+dropOnEmpty: true,
       		connectWith: ".connectedSortable"
 	}).disableSelection();
 
