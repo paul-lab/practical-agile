@@ -475,7 +475,7 @@ function iterations_Dropdown($project, $current,$iterationname='Iteration_ID')
 	$sql = 'SELECT * FROM iteration where iteration.ID ='.$current;
 	$queried = mysqli_query($DBConn, $sql);
 	$result = mysqli_fetch_array($queried);
-	$menu = '<select name="'.$iterationname.'"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
+	$menu = '<select name="'.$iterationname.'" id="'.$iterationname.'"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
 
 	$IterationLocked = $result['Locked'];
 

@@ -519,7 +519,17 @@ if (!empty($_REQUEST['AID']))
 	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
 	echo '	<input type="hidden" name="IID" value="'.$_REQUEST['IID'].'">';
 	echo '	<input type="hidden" name="AID" value="'.$story_Row['AID'].'">';
-	echo '	<input type="hidden" name="gobackto" value="'.substr($_SERVER["HTTP_REFERER"],strrpos($_SERVER["HTTP_REFERER"],"/")+1).'">';
+
+	if (empty($_REQUEST['gobackto']))
+	{
+		echo '	<input type="hidden" name="gobackto" value="'.substr($_SERVER["HTTP_REFERER"],strrpos($_SERVER["HTTP_REFERER"],"/")+1).'">';
+
+	}else{
+		echo '	<input type="hidden" name="gobackto" value="'.$_REQUEST['gobackto'].'">';	
+	}
+
+
+
 
 if(!$isReadonly)
 {

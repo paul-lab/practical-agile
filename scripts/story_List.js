@@ -14,8 +14,12 @@
 
 jQuery(document).ready(function () {
     // Initialise the plugin when the DOM is ready to be acted upon
-    bloop();
+	$('#LIID').val( getParameterByName('LeftIID'));
+	$('#RIID').val( getParameterByName('RightIID'));
+    	bloop();
+
 });
+
 
 function bloop(){
 
@@ -95,13 +99,16 @@ function showLines(n){
 				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'left',
 				success: function (data) {
 					$(".LIID").html(data);
+					// re-init cos we just added a whole load of stuff
 					bloop();
 				}
 			});
 		}
 	});
 
+
 	// get the list of cards for the right hand planning page column if a selection has been made and it is not the same as the other panel
+
 	$('select[name="RIID"]').change(function(){
 		if($(this).val()!=$('select[name="LIID"]').val())
 		{
@@ -111,11 +118,16 @@ function showLines(n){
 				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'right',
 				success: function (data) {
 					$(".RIID").html(data);
+					// re-init cos we just added a whole load of stuff
 	 				bloop();
 				}
 			});
 		}
 	});
+
+
+
+
 
 
 	// this only applies to the sprint planning page.
@@ -139,7 +151,7 @@ function showLines(n){
 					rank='s'
 				}
 			}
-// has this moved rtl or ltr
+	// has this moved rtl or ltr
 			if (ui.position.left>ui.originalPosition.left)
 			{
 				newiid=RightIID;
@@ -235,7 +247,19 @@ function showLines(n){
 
 // double click edit on sortable list
 	$(".storybox-div").dblclick(function() {
-		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration;
+
+// are we in iteration planning
+		var LeftIID  = $('select[name="LIID"]').val();
+		var RightIID = $('select[name="RIID"]').val();
+		if(LeftIID>0 || RightIID>0)
+		{
+			var gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
+//			alert(gbt);
+		}else{
+			var gbt=''
+		}
+
+		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration+gbt;
 	});
 
 
@@ -481,4 +505,15 @@ function showLines(n){
 
 
 	});
+}
+function  getParameterByName(key) {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars[key];
 }

@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash7552b5d817403264aa07ca499623f1be.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hasheef0bbcd2cb5bd71aa77bb73ca61fa4a.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -60,12 +60,16 @@ $(function() {
 	$LockedIteration=0;
 
 // check if we have iterations to display or initialise if not
-	if (empty($_REQUEST['LEFTIID'])){
-		$_REQUEST['LEFTIID']=0;
+
+
+
+	if (empty($_REQUEST['LeftIID'])){
+		$_REQUEST['LeftIID']=0;
 	}
 
-	if (empty($_REQUEST['RIGHTIID'])){
-		$_REQUEST['RIGHTIID']=0;
+	if (empty($_REQUEST['RightIID'])){
+		$_REQUEST['RightIID']=0;
+
 	}
 
 
@@ -118,8 +122,26 @@ $(function() {
 //  display on the left then list the stories
 
 		echo '<div class="LIID">';
-		echo '<ul id="sortable-left" class="connectedSortable">';
-		echo '</ul>';
+
+//Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
+		if ($_REQUEST['LeftIID']>0)
+		{
+			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['LeftIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+		
+			$story_Res = mysqli_query($DBConn, $sql);
+			echo '<ul id="sortable-right" class="connectedSortable">';
+			if ($story_Row = mysqli_fetch_assoc($story_Res))
+			{
+				do
+				{
+					echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+					PrintStory ($story_Row);
+					echo	'</li>';
+				}
+				while ($story_Row = mysqli_fetch_assoc($story_Res));
+			}
+			echo '</ul>';
+		}
 		echo '</div>';
 
 
@@ -129,8 +151,26 @@ $(function() {
 //  display on the right then list the stories
 
 		echo '<div class="RIID" id='.$_POST['RIID'].'>';
-		echo '<ul id="sortable-right" class="connectedSortable">';
-		echo '</ul>';
+//Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
+		if ($_REQUEST['RightIID']>0)
+		{
+			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['RightIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+		
+			$story_Res = mysqli_query($DBConn, $sql);
+			echo '<ul id="sortable-right" class="connectedSortable">';
+			if ($story_Row = mysqli_fetch_assoc($story_Res))
+			{
+				do
+				{
+					echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+					PrintStory ($story_Row);
+					echo	'</li>';
+				}
+				while ($story_Row = mysqli_fetch_assoc($story_Res));
+			}
+			echo '</ul>';
+		}
+
 		echo '</div>';
 
 

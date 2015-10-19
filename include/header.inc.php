@@ -36,7 +36,9 @@
 if (!empty($_REQUEST['PID'])){
 	// create a class with the id of the current project that we can access from anywhere via javascript
 	echo '<div class="thisproject hidden" id='.$_REQUEST['PID'].'></div>';
-	echo '<div class="thisiteration hidden" id='.$_REQUEST['IID'].'></div>';
+	if (!empty($_REQUEST['IID'])){
+		echo '<div class="thisiteration hidden" id='.$_REQUEST['IID'].'></div>';
+	}
 	echo '<div class="suserlist" >';
 	echo '&nbsp; &nbsp;<a title="User List" href="user_List.php?PID='.$_REQUEST['PID'].'" target="_blank"><img src="images/userlist-large.png"></a>';
 	echo '</div>';
