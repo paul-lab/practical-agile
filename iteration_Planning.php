@@ -130,7 +130,6 @@ $(function() {
 		
 			$story_Res = mysqli_query($DBConn, $sql);
 			echo '<ul id="sortable-left" class="connectedSortable">';
-			echo '<li>&nbsp</li>';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
@@ -140,6 +139,8 @@ $(function() {
 					echo	'</li>';
 				}
 				while ($story_Row = mysqli_fetch_assoc($story_Res));
+			}else{
+				echo '<li>&nbsp</li>';
 			}
 			echo '</ul>';
 		}
@@ -159,7 +160,6 @@ $(function() {
 		
 			$story_Res = mysqli_query($DBConn, $sql);
 			echo '<ul id="sortable-right" class="connectedSortable">';
-			echo '<li>&nbsp</li>';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
@@ -169,6 +169,8 @@ $(function() {
 					echo	'</li>';
 				}
 				while ($story_Row = mysqli_fetch_assoc($story_Res));
+			}else{
+				echo '<li>&nbsp</li>';
 			}
 			echo '</ul>';
 		}

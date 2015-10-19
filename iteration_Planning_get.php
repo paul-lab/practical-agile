@@ -23,11 +23,8 @@
 	$dummy = buildstatuspop($_GET['PID']);
 
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_GET['PID'].' and story.Iteration_ID='.$_GET['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-
 	$story_Res = mysqli_query($DBConn, $sql);
-
 	echo '<ul id="sortable-'.$_GET['LorR'].'" class="connectedSortable">';
-	echo '<li>&nbsp</li>';
 	if ($story_Row = mysqli_fetch_assoc($story_Res))
 	{
 		do
@@ -37,6 +34,8 @@
 			echo	'</li>';
 		}
 		while ($story_Row = mysqli_fetch_assoc($story_Res));
+	}else{
+		echo '<li>&nbsp</li>';
 	}
 	echo '</ul>';
 ?>
