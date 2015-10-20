@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash6ddc31d5e980da4e30ea91391f53768e.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash64d1cbafa5d6ac874c37677a341e2721.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -61,6 +61,9 @@ $(function() {
 
 // check if we have iterations to display or initialise if not
 
+	if ((empty($_REQUEST['IID']) && empty($_REQUEST['RID'])) || $_REQUEST['IID']==='undefined'){
+		$_REQUEST['IID']=$Project['Backlog_ID'];
+	}
 
 
 	if (empty($_REQUEST['LeftIID'])){
@@ -129,7 +132,7 @@ $(function() {
 			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['LeftIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 		
 			$story_Res = mysqli_query($DBConn, $sql);
-			echo '<ul id="sortable-left" class="connectedSortable">';
+			echo '<ul id="sortable-left" class="connectedSortable mh15">';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
@@ -139,9 +142,8 @@ $(function() {
 					echo	'</li>';
 				}
 				while ($story_Row = mysqli_fetch_assoc($story_Res));
-			}else{
-				echo '<li>&nbsp</li>';
 			}
+			//echo '<li>&nbsp</li>';
 			echo '</ul>';
 		}
 		echo '</div>';
@@ -159,7 +161,7 @@ $(function() {
 			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['RightIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 		
 			$story_Res = mysqli_query($DBConn, $sql);
-			echo '<ul id="sortable-right" class="connectedSortable">';
+			echo '<ul id="sortable-right" class="connectedSortable mh15">';
 			if ($story_Row = mysqli_fetch_assoc($story_Res))
 			{
 				do
@@ -169,8 +171,6 @@ $(function() {
 					echo	'</li>';
 				}
 				while ($story_Row = mysqli_fetch_assoc($story_Res));
-			}else{
-				echo '<li>&nbsp</li>';
 			}
 			echo '</ul>';
 		}

@@ -67,4 +67,4 @@ for /R ..\ %%i in (*.php) do (
 
 del /q 1.txt
 del /q sedin.txt
-pause
+

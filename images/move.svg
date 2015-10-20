@@ -16,9 +16,9 @@
    inkscape:version="0.91 r13725"
    viewBox="0 0 16 16"
    sodipodi:docname="move.svg"
-   inkscape:export-filename="C:\Users\labuschagnepa01\Documents\_Accessories\PA\udrive\www\pa\images\move16.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="C:\Users\labuschagnepa01\Documents\_Accessories\PA\udrive\www\pa\images\move32.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
   <defs
      id="defs3338" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.395604"
-     inkscape:cx="8.9278063"
-     inkscape:cy="6.1667803"
+     inkscape:zoom="15.836083"
+     inkscape:cx="-1.2350354"
+     inkscape:cy="22.333559"
      inkscape:current-layer="layer2"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -42,8 +42,18 @@
      inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
-     inkscape:snap-others="false"
-     inkscape:snap-grids="false">
+     inkscape:snap-others="true"
+     inkscape:snap-grids="false"
+     inkscape:snap-page="true"
+     inkscape:bbox-paths="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-bbox-edge-midpoints="true">
     <inkscape:grid
        type="xygrid"
        id="grid11680" />
@@ -188,17 +198,17 @@
     <path
        id="clock_hands-2"
        style="clip-rule:evenodd;display:inline;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       d="m 14.106395,5.9272925 c 0,0 -1.653428,1.407858 -2.776511,2.227835 0.499149,1.7439979 1.179931,4.7721655 1.179931,4.7721655 0,0 -3.0156861,-3.9019855 -3.3810351,-4.8740265 -0.3209793,-0.849807 1.0114681,-1.607213 1.6263911,-1.220871 1.317196,-0.400893 3.351224,-0.905103 3.351224,-0.905103 z"
+       d="m 14.422129,6.4466227 c 0,0 -1.389063,1.1827564 -2.332576,1.8716277 0.41934,1.4651511 0.991272,4.0091466 0.991272,4.0091466 0,0 -2.533509,-3.2780991 -2.840443,-4.0947211 C 9.9707241,7.5187441 11.090127,6.8824393 11.60673,7.2070093 12.71332,6.8702149 14.422129,6.4466227 14.422129,6.4466227 Z"
        inkscape:connector-curvature="0" />
     <g
        id="g3352-4"
-       transform="matrix(0.00771746,0,0,-0.00704185,-1.3720587,10.516711)"
-       style="display:inline;fill:#003399">
-      <path
-         id="path3354-3"
-         d="m 1773.5017,782.42781 -430.8492,-430.8492 0,220.75689 -686.79929,0 q -231.42148,0 -319.93753,-74.11886 -88.51605,-74.11886 -88.51605,-266.08137 l 0,-28.79438 -52.25646,0 0,212.22523 q 0,213.29168 32.52698,310.87263 32.52698,97.58094 127.44178,170.10012 124.77564,95.98125 426.58337,95.98125 l 560.9572,0 0,220.75688 z"
-         inkscape:connector-curvature="0"
-         style="fill:#003399" />
-    </g>
+       transform="matrix(0.00771746,0,0,-0.00704185,-1.3379512,11.074446)"
+       style="display:inline;fill:#003399" />
+    <path
+       style="fill:#003399;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 9,1.4418547 13.035409,5.5584313 9,9.5246565 9,7 C 3.6557935,7.1790768 1.0303762,6.3833418 1,10 L 0,10 C -0.55667532,3.208389 7.2640872,4.125077 9,4 Z"
+       id="path8096"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
   </g>
 </svg>

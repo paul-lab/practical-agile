@@ -86,11 +86,11 @@ function showLines(n){
 // sortable iteration table
 
 	$( "#sortable-left, #sortable-right" ).sortable({
-dropOnEmpty: true,
+		dropOnEmpty: true,
       		connectWith: ".connectedSortable"
 	}).disableSelection();
 
-	// get the list of cards for the left hand plannng page column if a selection has been made and it is not the same as the other panel
+	// get the list of cards for the left hand plannng page iteration if a selection has been made and it is not the same as the other panel
 	$('select[name="LIID"]').change(function(){
 		if($(this).val()!=$('select[name="RIID"]').val())
 		{
@@ -108,8 +108,7 @@ dropOnEmpty: true,
 	});
 
 
-	// get the list of cards for the right hand planning page column if a selection has been made and it is not the same as the other panel
-
+	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
 	$('select[name="RIID"]').change(function(){
 		if($(this).val()!=$('select[name="LIID"]').val())
 		{
@@ -125,9 +124,6 @@ dropOnEmpty: true,
 			});
 		}
 	});
-
-
-
 
 
 

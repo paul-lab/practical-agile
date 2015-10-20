@@ -26,6 +26,9 @@ input, select  { border: 1px solid Gray;}
 .w80 {width:80%;}
 .w75 {width:75%;}
 .w50 {width:50%;}
+
+.mh15 {min-height:15px;}
+
 .h50 {height:50px;}
 .h75 {height:75px;}
 .h100 {height:100px;}

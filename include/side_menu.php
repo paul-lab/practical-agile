@@ -90,10 +90,11 @@ if (isset($_REQUEST['PID']))
 		echo '<li><a href="project_Edit.php?PID='.$_REQUEST['PID'].'">Edit Project</a></li>';
 		echo '<li><a href="storyType_List.php?PID='.$_REQUEST['PID'].'">Story Type</a></li>';
 		echo '<li><a href="storyStatus_List.php?PID='.$_REQUEST['PID'].'">Story Status</a></li>';
+		echo '<li><a href="tags_Reset.php?PID='.$_REQUEST['PID'].'">Clear unused Tags</a></li>';
 		echo '<li></li>';
 	}
 		echo '<li><a href="project_Summary.php?PID='.$_REQUEST['PID'].'">Project Summary</a></li>';
-		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Sprint Planning</a></li>';
+		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Iteration Planning</a></li>';
 		echo '<li><a href="iteration_List.php?PID='.$_REQUEST['PID'].'">Iterations (& history)</a></li>';
 		echo '<li></li>';
 		echo '<li><a href="story_Import.php?PID='.$_REQUEST['PID'].'&etype=project">Import Stories</a></li>';
