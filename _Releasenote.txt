@@ -2,6 +2,12 @@ Note: I do not use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+Version 2.51
+ * Fixed drag and drop itreation planning to behave in Chrome
+ * Better handling when same iteration selected on both sides of Iteration planning
+ * points now shown for both selected iterations.
+ * Prevent change events firing multiple times in Iteration Planning
+
 Version 2.5
  * First release of Drag & Drop Iteration Planning board available from &lt;Project&gt; Menu
  * Points are only shown on the 'Right hand' iteration.
@@ -22,7 +28,7 @@ Version 2.3
  * CSS changes for better rendering in Chrome
  * Now Hashing scripts/*.js files to eliminate the need for a 'Ctrl+F5' to clear cached files (and spurious errors)
    (the side effect of this is that the /scripts directory should be cleared on update rather than simply being overwritten)
-   (what the batch file does is rename each base js file to '{filename}-hash{md5sum-of-file}.js' and makes sure that any php files that reference the {original}.js are up to date)
+   (what the batch file does is rename each base .js file to '{filename}-hash{md5sum-of-file}.js' and makes sure that any php files that reference the {original}.js are up to date)
  * More Audit display tidying
  * Project Summary tidied
  * Added an optional show most recent history (200 records) on Project summary page.

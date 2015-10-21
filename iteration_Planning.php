@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash64d1cbafa5d6ac874c37677a341e2721.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hashc27d28e4b39c17fca5782a8619b32a9c.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -110,21 +110,19 @@ $(function() {
 	echo '<br><table width=100% border=1><tr><td width=48%>';
 	echo '<form id="SetIteration" method="post" action="?">';
 	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['LEFTIID'], "LIID");
+	echo '<div id="leftsize" class="evenlarger hint"></div>';
 	echo '</td><td width=48%>';
 
 	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['RIGHTIID'], "RIID");
 	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
-	echo '<div id="rightsize" class="evenlarger hint">';
-
-
-	echo '</div>';
+	echo '<div id="rightsize" class="evenlarger hint"></div>';
 	echo '</form>';
 	echo '</td></tr>';
 	echo '<tr valign="top"><td>';
 
 //  display on the left then list the stories
 
-		echo '<div class="LIID">';
+		echo '<div class="LIID mh15">';
 
 //Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
 		if ($_REQUEST['LeftIID']>0)
@@ -154,7 +152,7 @@ $(function() {
 
 //  display on the right then list the stories
 
-		echo '<div class="RIID" id='.$_POST['RIID'].'>';
+		echo '<div class="RIID mh15" id='.$_POST['RIID'].'>';
 //Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
 		if ($_REQUEST['RightIID']>0)
 		{

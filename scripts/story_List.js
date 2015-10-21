@@ -13,10 +13,71 @@
 */
 
 jQuery(document).ready(function () {
-    // Initialise the plugin when the DOM is ready to be acted upon
-	$('#LIID').val( getParameterByName('LeftIID'));
-	$('#RIID').val( getParameterByName('RightIID'));
+
+	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
+	var thisiteration=$( "div" ).find( ".thisiteration" ).prop("id");
+
+
+
+	if (getParameterByName('LeftIID'))
+	{
+		$('#LIID').val( getParameterByName('LeftIID'));
+	}
+	if (getParameterByName('RightIID'))
+	{
+		$('#RIID').val( getParameterByName('RightIID'));
+	}
+	    // Initialise the plugin when the DOM is ready to be acted upon
     	bloop();
+
+// keep these here to stop repeated firing
+
+	// get the list of cards for the left hand plannng page iteration if a selection has been made and it is not the same as the other panel
+	$('#LIID').change(function(){
+		if($(this).val()!=$('#RIID').val())
+		{
+			$.ajax({
+				type: "GET",
+				url: "iteration_Planning_get.php",
+				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'left',
+				success: function (data) {
+					var outs=data.split('{6B89778E-1B36-4E75-A7F2-301656217750}');
+					$(".LIID").html(outs[0]);
+					$("#leftsize").text(' Total: '+outs[1]+' pts.');
+					// re-init cos we just added a whole load of stuff
+					bloop();
+				}
+			});
+		}else{
+			$(this).val('');
+			$(".LIID").html('');
+		}
+	});
+
+
+	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
+	$('#RIID').change(function(){
+		if($(this).val()!=$('#LIID').val())
+		{
+			$.ajax({
+				type: "GET",
+				url: "iteration_Planning_get.php",
+				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'right',
+				success: function (data) {
+					var outs=data.split('{6B89778E-1B36-4E75-A7F2-301656217750}');
+					$(".RIID").html(outs[0]);
+					$("#rightsize").text(' Total: '+outs[1]+' pts.');
+					// re-init cos we just added a whole load of stuff
+	 				bloop();
+				}
+			});
+		}else{
+			$(this).val('');
+			$(".RIID").html('');
+		}
+	});
+
+
 
 });
 
@@ -27,6 +88,8 @@ function bloop(){
 
 	var gstoryid=0;
 	var tempdata='';
+	//$('#LIID').val( getParameterByName('LeftIID'));
+	//$('#RIID').val( getParameterByName('RightIID'));
 
 	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 	var thisiteration=$( "div" ).find( ".thisiteration" ).prop("id");
@@ -90,42 +153,6 @@ function showLines(n){
       		connectWith: ".connectedSortable"
 	}).disableSelection();
 
-	// get the list of cards for the left hand plannng page iteration if a selection has been made and it is not the same as the other panel
-	$('select[name="LIID"]').change(function(){
-		if($(this).val()!=$('select[name="RIID"]').val())
-		{
-			$.ajax({
-				type: "GET",
-				url: "iteration_Planning_get.php",
-				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'left',
-				success: function (data) {
-					$(".LIID").html(data);
-					// re-init cos we just added a whole load of stuff
-					bloop();
-				}
-			});
-		}
-	});
-
-
-	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
-	$('select[name="RIID"]').change(function(){
-		if($(this).val()!=$('select[name="LIID"]').val())
-		{
-			$.ajax({
-				type: "GET",
-				url: "iteration_Planning_get.php",
-				data: 'PID='+thisproject+'&IID='+$(this).val()+'&LorR='+'right',
-				success: function (data) {
-					$(".RIID").html(data);
-					// re-init cos we just added a whole load of stuff
-	 				bloop();
-				}
-			});
-		}
-	});
-
-
 
 	// this only applies to the sprint planning page.
 	$( "#sortable-left, #sortable-right" ).sortable({
@@ -134,8 +161,8 @@ function showLines(n){
 			// what has triggered this update.
 			var wherearewe = $(this).prop("id");
 
-			LeftIID  = $('select[name="LIID"]').val();
-			RightIID = $('select[name="RIID"]').val();
+			LeftIID  = $('#LIID').val();
+			RightIID = $('#RIID').val();
 			// see what has happened with the rank & which way things have moved.
 			if (ui.position.top>ui.originalPosition.top)
 			{
@@ -501,6 +528,8 @@ function showLines(n){
 
 	});
 }
+
+
 function  getParameterByName(key) {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

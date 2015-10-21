@@ -23,7 +23,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash64d1cbafa5d6ac874c37677a341e2721.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hashc27d28e4b39c17fca5782a8619b32a9c.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>

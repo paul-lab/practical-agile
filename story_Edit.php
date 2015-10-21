@@ -409,7 +409,7 @@ function  Update_Project_Tags($PID,$Tags)
 		</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
+		<td>Size:</td>
 		<td>
 
 
