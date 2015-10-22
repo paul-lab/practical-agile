@@ -17,24 +17,11 @@ jQuery(document).ready(function () {
 	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 	var thisiteration=$( "div" ).find( ".thisiteration" ).prop("id");
 
-
-
-	if (getParameterByName('LeftIID'))
-	{
-		$('#LIID').val( getParameterByName('LeftIID'));
-	}
-	if (getParameterByName('RightIID'))
-	{
-		$('#RIID').val( getParameterByName('RightIID'));
-	}
-	    // Initialise the plugin when the DOM is ready to be acted upon
-    	bloop();
-
 // keep these here to stop repeated firing
 
 	// get the list of cards for the left hand plannng page iteration if a selection has been made and it is not the same as the other panel
 	$('#LIID').change(function(){
-		if($(this).val()!=$('#RIID').val())
+		if($(this).val()!=$('#RIID').val() && JisReadonly==0)
 		{
 			$.ajax({
 				type: "GET",
@@ -55,9 +42,12 @@ jQuery(document).ready(function () {
 	});
 
 
+
+
+
 	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
 	$('#RIID').change(function(){
-		if($(this).val()!=$('#LIID').val())
+		if($(this).val()!=$('#LIID').val() && JisReadonly==0)
 		{
 			$.ajax({
 				type: "GET",
@@ -77,6 +67,20 @@ jQuery(document).ready(function () {
 		}
 	});
 
+
+    // Initialise the plugin when the DOM is ready to be acted upon
+    	bloop();
+
+	// if we are passed backfrom a story edit page fetch the l&r iteratins again
+	if (getParameterByName('LeftIID'))
+	{
+		$('#LIID').val( getParameterByName('LeftIID')).change();
+	}
+
+	if (getParameterByName('RightIID'))
+	{
+		$('#RIID').val( getParameterByName('RightIID')).change();
+	}
 
 
 });
@@ -226,24 +230,28 @@ function showLines(n){
 					data: $("#sortable-right").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
 				});
 			}
-		}	
+		}
+	
 	});
 
 
 	$( "#sortable" ).sortable({
 		update: function(event, ui) {
-			// see what has happened with the rank
-			if (ui.position.top>ui.originalPosition.top)
+			if (JisReadonly==0)
 			{
-				rank='d';
-			}else{
-				rank='i';
-			}
-			$.ajax({
-				type: "GET",
-				url: "update_storyorder.php",
-				data: $("#sortable").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
-				});
+				// see what has happened with the rank
+				if (ui.position.top>ui.originalPosition.top)
+				{
+					rank='d';
+				}else{
+					rank='i';
+				}
+				$.ajax({
+					type: "GET",
+					url: "update_storyorder.php",
+					data: $("#sortable").sortable("serialize")+'&PID='+thisproject+'&AID='+ui.item[0].id.substring(6)+'&rank='+rank
+					});
+				}
 			}
 	});
 
@@ -252,11 +260,14 @@ function showLines(n){
 	// this is to support the scrum board status change.
 	$( "#status1, #status2, #status3, #status4,#status5, #status6,#status7, #status8,#status9, #status10" ).sortable({
 		receive: function(event, ui) {
-			$.ajax({
-				type: "GET",
-				url: "update_boardstorystatus.php",
-				data: 'PID='+thisproject+'&AID='+ui.item.attr("id")+'&STAID='+this.id.substring(6)+'&IID='+$(this).attr("name")
-			});
+		if (JisReadonly==0)
+		{
+				$.ajax({
+					type: "GET",
+					url: "update_boardstorystatus.php",
+					data: 'PID='+thisproject+'&AID='+ui.item.attr("id")+'&STAID='+this.id.substring(6)+'&IID='+$(this).attr("name")
+				});
+		}
 	    	},
 		items: "li:not(.scrumtitle)",
 		start: function( event, ui ) {},
@@ -334,14 +345,17 @@ function showLines(n){
 
 	$('.iterationdialog .ui-button').click(function () {
 		$('.iterationdialog').dialog('close');
-		$.ajax({
-			type: "GET",
-			url: "update_storyiteration.php",
-			data: 'PID='+thisproject+'&AID='+gstoryid+'&IID='+$(this).attr('id')+'&OIID='+$(this).parent().attr("id").substring(5),
-			success: function () {
-		                $('#story_'+gstoryid).hide();
-			}
-		});
+		if (JisReadonly==0)
+		{
+			$.ajax({
+				type: "GET",
+				url: "update_storyiteration.php",
+				data: 'PID='+thisproject+'&AID='+gstoryid+'&IID='+$(this).attr('id')+'&OIID='+$(this).parent().attr("id").substring(5),
+				success: function () {
+			                $('#story_'+gstoryid).hide();
+				}
+			});
+		}
 	});
 
 // Status change
@@ -365,17 +379,20 @@ function showLines(n){
 	$('.statusdialog .ui-button').click(function () {
 		var color = $(this).css("background-color");
 		$('.statusdialog').dialog('close');
+		if (JisReadonly==0)
+		{
 // SAID is Status text not an id
-		$.ajax({
-			type: "GET",
-			url: "update_storystatus.php",
-			data: 'PID='+thisproject+'&AID='+gstoryid+'&SAID='+$(this).attr('id')+'&IID='+$(this).parent().attr("id").substring(6),
-			success: function (data) {
-				$("#status_div"+gstoryid).text(data);
-				$("#span_div"+gstoryid).css("background",color );
-				$("#status_div"+gstoryid).css("background",color );
-			}
-		});
+			$.ajax({
+				type: "GET",
+				url: "update_storystatus.php",
+				data: 'PID='+thisproject+'&AID='+gstoryid+'&SAID='+$(this).attr('id')+'&IID='+$(this).parent().attr("id").substring(6),
+				success: function (data) {
+					$("#status_div"+gstoryid).text(data);
+					$("#span_div"+gstoryid).css("background",color );
+					$("#status_div"+gstoryid).css("background",color );
+				}
+			});
+		}
 	});
 
 // Quickview
@@ -476,7 +493,7 @@ function showLines(n){
 					updateit = confirm ("You are creating a new Parent Story\n Is this really what you want to do?");
 				}
 		
-				if (updateit==true)
+				if (updateit==true  && JisReadonly==0)
 				{ 
 		 			goldparent=data.otherNode.parent.key;
 					data.otherNode.moveTo(node, data.hitMode);

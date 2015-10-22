@@ -8,6 +8,7 @@
 
 		exit();
 	}
+
 	Global $statuscolour;
 	Global $Project;
 	Global $Sizecount;

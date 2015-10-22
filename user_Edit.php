@@ -121,12 +121,17 @@ if ($Usr['Admin_User'] == 1)
 				$user_Row = $_REQUEST;
 			}
 			echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.'<form method="post" action="?">';
+		
+	if ($Usr['Admin_User']==1)
+	{
+		echo '<tr><td>EMail/Username:</td>';
+		echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'"></td></tr>';
+	}else{
+		echo '<tr><td>EMail/Username:</td>';
+		echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'].'</td></tr>';
+}
+	
 ?>
-
-
-<tr><td>EMail/Username:</td>
-	<td><input type="text" name="EMail" value="<?=$user_Row['EMail'];?>"></td>
-</tr>
 <tr><td>Password:</td>
 	<td><input type="password" id="pwd" name="Password" value=""> empty Passwords wont be changed!</td>
 </tr>
@@ -143,8 +148,6 @@ if ($Usr['Admin_User'] == 1)
 
 	if ($Usr['Admin_User']==1)
 	{
-
-
 ?>
 	<input <?=$user_Row['Admin_User'] == 1 ? 'checked' : '';?> value="1" type="checkbox" name="Admin_User">
 <?php

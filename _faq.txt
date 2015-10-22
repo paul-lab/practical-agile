@@ -39,7 +39,7 @@ A. The story is in an iteration that has been locked.
 
 Q. How do I move a story from one project to another?
 A. At the moment, you have to  open each project in a different browser tab and copy and paste between them.
-A. If you have a large number of stories, it is faster to Export them from the old and import into the new project. Remember toclear the story # and delete them from the original project.
+A. If you have a large number of stories, it is faster to Export them from the old and import into the new project. Remember to clear the story # before you import them and also delete them from the original project.
 
 Q. How can I delete a large number of stories from a project.
 A. Export the stories you want to delete, change the iteration to "** Delete **" without the Quotes, and re-import them.

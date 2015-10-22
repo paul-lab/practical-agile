@@ -45,6 +45,7 @@ When viewing an Interation Epic Tree, Cards/Stories in the current Iteration hav
 Use the Unsized Story report to help you identify and manage new Stories and stay on top of things
 You can change the Project size type at any time, current Cards retain their values until edited.
 Any link can be opened in a new tab.
+The alternating colours in the Backlog indicate future sprint boundaries.
 Average story Size for a Project is presented on the Project Summary
 Review historic velocity and loading by selecting 'Iterations (and History) from the <Project> menu
 Use "Print Preview" to create a single Story Card.
@@ -167,3 +168,11 @@ Get you administrator to adjust the php.ini if you find that the 2MB file upload
 Print the hint.txt file to get a quick overview of things to try or look for.
 Remember that you need to save a Story after updating the Tags!
 There is no need to save a Story after updating Tasks or Comments
+Remember that the graph presented as a Project Summary is NOT the same as the Backlog graph.
+To see how much work is left to do, look at the backlog graph, or the todo portion of the Project Summary
+Use the Iteration Planning tool to easily move cards between ANY two iterations (incl. the Backlog)
+If an iteration is not available for selection, it has probably been 'Locked' speak to a Project admin to unlock it.
+Remember that only Storys in the backlog can be converted to Epics.
+you can only move Stories in and out of Iterations and releases if they are not locked.
+You can change your own password (and some other details) from <Your&Name> menu
+If you can't access the Iteration Planning Screen, you are a read only user.

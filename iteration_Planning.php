@@ -25,7 +25,7 @@ $(function() {
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hashc27d28e4b39c17fca5782a8619b32a9c.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash46f811748c7b271318b0f73e2fb008c5.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -123,27 +123,7 @@ $(function() {
 //  display on the left then list the stories
 
 		echo '<div class="LIID mh15">';
-
-//Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
-		if ($_REQUEST['LeftIID']>0)
-		{
-			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['LeftIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-		
-			$story_Res = mysqli_query($DBConn, $sql);
-			echo '<ul id="sortable-left" class="connectedSortable mh15">';
-			if ($story_Row = mysqli_fetch_assoc($story_Res))
-			{
-				do
-				{
-					echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-					PrintStory ($story_Row);
-					echo	'</li>';
-				}
-				while ($story_Row = mysqli_fetch_assoc($story_Res));
-			}
-			//echo '<li>&nbsp</li>';
-			echo '</ul>';
-		}
+			// this is populated by js onchange
 		echo '</div>';
 
 
@@ -153,26 +133,7 @@ $(function() {
 //  display on the right then list the stories
 
 		echo '<div class="RIID mh15" id='.$_POST['RIID'].'>';
-//Todo this is basically Iterpatino _Planning_get.php duplicated and should be cleaned up.
-		if ($_REQUEST['RightIID']>0)
-		{
-			$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['RightIID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-		
-			$story_Res = mysqli_query($DBConn, $sql);
-			echo '<ul id="sortable-right" class="connectedSortable mh15">';
-			if ($story_Row = mysqli_fetch_assoc($story_Res))
-			{
-				do
-				{
-					echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-					PrintStory ($story_Row);
-					echo	'</li>';
-				}
-				while ($story_Row = mysqli_fetch_assoc($story_Res));
-			}
-			echo '</ul>';
-		}
-
+			// this is populated by js onchange
 		echo '</div>';
 
 

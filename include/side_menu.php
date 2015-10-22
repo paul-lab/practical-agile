@@ -94,7 +94,6 @@ if (isset($_REQUEST['PID']))
 		echo '<li></li>';
 	}
 		echo '<li><a href="project_Summary.php?PID='.$_REQUEST['PID'].'">Project Summary</a></li>';
-		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Iteration Planning</a></li>';
 		echo '<li><a href="iteration_List.php?PID='.$_REQUEST['PID'].'">Iterations (& history)</a></li>';
 		echo '<li></li>';
 		echo '<li><a href="story_Import.php?PID='.$_REQUEST['PID'].'&etype=project">Import Stories</a></li>';
@@ -155,7 +154,7 @@ if (isset($_REQUEST['PID']))
 			echo	'</div>';
 		echo '</li>';
 	}
-
+		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Iteration Planning</a></li>';
 
 // fetch the iterations
 	$sql = 'SELECT ID, Name, Start_Date, End_Date, (select count(story.ID) from story where story.Iteration_ID = iteration.ID) as NumStories, (select sum(story.Size) from story where story.Iteration_ID = iteration.ID) as SumPoints FROM iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$_REQUEST['PID'].'")) order by iteration.End_Date desc LIMIT 10';

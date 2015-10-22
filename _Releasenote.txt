@@ -5,11 +5,12 @@ Note: I do not use a Linux/Unix environment!
 Version 2.51
  * Fixed drag and drop itreation planning to behave in Chrome
  * Better handling when same iteration selected on both sides of Iteration planning
- * points now shown for both selected iterations.
+ * Points now shown for both selected iterations.
  * Prevent change events firing multiple times in Iteration Planning
+ * Caught an instance where a read-only user could change Status & Iteration
 
 Version 2.5
- * First release of Drag & Drop Iteration Planning board available from &lt;Project&gt; Menu
+ * First release of Drag & Drop Iteration Planning board available from the Iterations Menu
  * Points are only shown on the 'Right hand' iteration.
  * Slightly minify the .js files (original still available but hashed,minified one used)
  * Added ability to clear unused tags from a project to make the typeahead clearer for old projects. (from &lt;Project&gt; Menu)
