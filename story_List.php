@@ -388,7 +388,7 @@ if ($_REQUEST['Type']=='tree'){
 				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
 				$queried = mysqli_query($DBConn, $sql);
 				while ($result = mysqli_fetch_array($queried)) {
-					$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
+					$menu .= '<option value="' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
 				}
 				$menu .= '</select> to / from this release (Only work NOT already in a release will be added)';
 				echo $menu;
