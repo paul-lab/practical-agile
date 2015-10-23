@@ -30,7 +30,7 @@ jQuery(document).ready(function () {
 				success: function (data) {
 					var outs=data.split('{6B89778E-1B36-4E75-A7F2-301656217750}');
 					$(".LIID").html(outs[0]);
-					$("#leftsize").text(' Total: '+outs[1]+' pts.');
+//					$("#leftsize").text(' Total: '+outs[1]+' pts.');
 					// re-init cos we just added a whole load of stuff
 					bloop();
 				}
