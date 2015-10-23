@@ -11,9 +11,10 @@
 *	http://practicalagile.uk
 *
 */
-$(function() {
-var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 
+$(function() {
+
+	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 
 	if ($('.dupestory').prop("id").substring(3)>0)
 	{

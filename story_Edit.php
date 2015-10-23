@@ -2,26 +2,14 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit-hash9423febe33952a6b20c98c5225a9ebb1.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hash2c015fa29a68b8aec44d5c1bdd729cab.js" type="text/javascript" charset="utf-8"></script>
 
-	<script type="text/javascript" src="scripts/tag-it-hashaf1b4b7f2214f80bb9aa05528150c662.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/tag-it-hashf66e5c5daffc1248e495628cd1881f21.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
 
-
-	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit-hash0345c30db9df13d7cceb8fd7f22e787f.js"></script>
-
-	<script type="text/javascript" src="scripts/comment_Edit-hash360ad24403a16925129c7a8bcdb76ddc.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
-
-	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit-hash751302ad9a9df9274ea1f132fd97e8f5.js"></script>
-
-	<script type="text/javascript" src="scripts/audit_List-hashb9af7a8b5dba1b62019406ba138e2d09.js"></script>
-
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8.js"></script>
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
     	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8.js"></script>
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8-min.js"></script>
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
 	<link href="css/story_Edit.css" rel="stylesheet" type="text/css">
@@ -555,6 +543,12 @@ if(!$isReadonly)
 
 ?>
 	</form><br>
+
+	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
+	<link rel="stylesheet" type="text/css" href="css/comment.css" />
+	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
+
+	<script type="text/javascript" src="scripts/micromenu-hashae3ec9227db9acaa8d487137f50e83b5.js"></script>
 
 
 <script>

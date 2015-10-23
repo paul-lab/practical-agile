@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
 
 // keep these here to stop repeated firing
 
-	// get the list of cards for the left hand plannng page iteration if a selection has been made and it is not the same as the other panel
+	// get the list of cards for the left hand planning page iteration if a selection has been made and it is not the same as the other panel
 	$('#LIID').change(function(){
 		if($(this).val()!=$('#RIID').val() && JisReadonly==0)
 		{
@@ -91,7 +91,7 @@ function bloop(){
 	$(function() {
 
 	var gstoryid=0;
-	var tempdata='';
+	
 	//$('#LIID').val( getParameterByName('LeftIID'));
 	//$('#RIID').val( getParameterByName('RightIID'));
 
@@ -285,11 +285,10 @@ function showLines(n){
 // are we in iteration planning
 		var LeftIID  = $('select[name="LIID"]').val();
 		var RightIID = $('select[name="RIID"]').val();
+		var gbt='';
 		if(LeftIID>0 || RightIID>0)
 		{
-			var gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
-		}else{
-			var gbt=''
+			gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
 		}
 
 		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration+gbt;

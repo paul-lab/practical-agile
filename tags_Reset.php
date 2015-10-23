@@ -20,6 +20,9 @@
 			$sql='UPDATE tags SET tags.Desc="'.$newTags.'" where tags.Project_ID='.$_REQUEST['PID'];
 			$tags_Res = mysqli_query($DBConn, $sql);
 			$showForm = false;
+
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Clear Unused Tags','','');
+
 		}
 	}
 	

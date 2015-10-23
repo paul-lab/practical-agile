@@ -11,6 +11,7 @@
 *	http://practicalagile.uk
 *
 */
+
 $(function() {
        	$('#summary').click(function() {
 		if ($('#extra').css('display') == 'none') 

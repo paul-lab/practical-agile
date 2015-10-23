@@ -176,3 +176,5 @@ Remember that only Storys in the backlog can be converted to Epics.
 you can only move Stories in and out of Iterations and releases if they are not locked.
 You can change your own password (and some other details) from <Your&Name> menu
 If you can't access the Iteration Planning Screen, you are a read only user.
+Dont forget to click the '+' when adding comments to an iteration or Story card.
+Dont forget to click the '+' when adding tasks or uploading files to a Story card.

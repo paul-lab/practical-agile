@@ -6,8 +6,11 @@ Version 2.51
  * Fixed drag and drop itreation planning to behave in Chrome
  * Better handling when same iteration selected on both sides of Iteration planning
  * Points now shown for both selected iterations.
+ 8 AddedCurrent Velocity to Planning page
  * Prevent change events firing multiple times in Iteration Planning
  * Caught an instance where a read-only user could change Status & Iteration
+ * some javascript consolidation
+ * Better minifying of .js files
 
 Version 2.5
  * First release of Drag & Drop Iteration Planning board available from the Iterations Menu

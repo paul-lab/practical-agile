@@ -19,31 +19,25 @@ $(function() {
 });
 </script>
 
-	<script type="text/javascript" src="scripts/comment_Edit-hash360ad24403a16925129c7a8bcdb76ddc.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash46f811748c7b271318b0f73e2fb008c5.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hashf2e4684a9ec6c821dddf7c7a5a4f415e.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
 	<script src="fancytree/jquery.fancytree.dnd.js" type="text/javascript"></script>
 
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8.js"></script>
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
     	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8.js"></script>
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8-min.js"></script>
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
+	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit-hash0345c30db9df13d7cceb8fd7f22e787f.js"></script>
-
-
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit-hash751302ad9a9df9274ea1f132fd97e8f5.js"></script>
-
-	<script type="text/javascript" src="scripts/audit_List-hashb9af7a8b5dba1b62019406ba138e2d09.js"></script>
-
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
+
+	<script type="text/javascript" src="scripts/micromenu-hashae3ec9227db9acaa8d487137f50e83b5.js"></script>
 
 	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="jqplot/excanvas.js"></script><![endif]-->
 	<script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
@@ -490,7 +484,7 @@ if ($_REQUEST['Type']=='board'){
 	}
 	echo '</span>';
 ?>
-
+	
 <script>
 // column width for the scrum board
 	var cwi= ((100/<?=$colcount;?>)-(<?=$colcount;?>/20))+'%';

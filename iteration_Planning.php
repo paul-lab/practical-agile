@@ -21,32 +21,27 @@ $(function() {
 });
 </script>
 
-	<script type="text/javascript" src="scripts/comment_Edit-hash360ad24403a16925129c7a8bcdb76ddc.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash46f811748c7b271318b0f73e2fb008c5.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hashf2e4684a9ec6c821dddf7c7a5a4f415e.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
 	<script src="fancytree/jquery.fancytree.dnd.js" type="text/javascript"></script>
 
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8.js"></script>
-    	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
-	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8.js"></script>
-	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<script type="text/javascript" src="scripts/task_Edit-hash0345c30db9df13d7cceb8fd7f22e787f.js"></script>
-
-
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<script type="text/javascript" src="scripts/upload_Edit-hash751302ad9a9df9274ea1f132fd97e8f5.js"></script>
-
-	<script type="text/javascript" src="scripts/audit_List-hashb9af7a8b5dba1b62019406ba138e2d09.js"></script>
-
+	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
+
+	<script type="text/javascript" src="scripts/micromenu-hashae3ec9227db9acaa8d487137f50e83b5.js"></script>
+
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
+    	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
+	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8-min.js"></script>
+	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
 <?php
 	Global $statuscolour;
@@ -100,6 +95,9 @@ $(function() {
 	echo '<div class="left-box">';
 	echo '&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
 	echo '</div><br>';
+	echo '<div class="right-box evenlarger">';
+	echo 'Current Velocity: '.$Project['Velocity'].'&nbsp;';
+	echo '</div>';
 
 	$Toggle=0;
 	$Sizecount=0;
@@ -110,12 +108,13 @@ $(function() {
 	echo '<br><table width=100% border=1><tr><td width=48%>';
 	echo '<form id="SetIteration" method="post" action="?">';
 	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['LEFTIID'], "LIID");
-	echo '<div id="leftsize" class="evenlarger hint"></div>';
+	echo '<div id="leftsize" class="evenlarger right-box"></div>';
 	echo '</td><td width=48%>';
 
 	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['RIGHTIID'], "RIID");
 	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
-	echo '<div id="rightsize" class="evenlarger hint"></div>';
+
+	echo '<div id="rightsize" class="evenlarger right-box"></div>';
 	echo '</form>';
 	echo '</td></tr>';
 	echo '<tr valign="top"><td>';
