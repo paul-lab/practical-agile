@@ -1,1 +1,0 @@
-$(function(){$("#external").on("change",function(){var a=$(this).val();if(a==1){$("#extrasql").text('SELECT * FROM story where story.Project_ID="{Project}" and (');$("#extrasqlend").text(")")}else{$("#extrasql").text("");$("#extrasqlend").text("")}})});

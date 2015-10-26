@@ -44,6 +44,7 @@ $(function() {
 			story_type.Order = '".$_REQUEST['Order']."' {$whereClause}"))
 		{
 			$showForm = false;
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'','Update Story Type',$_REQUEST['id'].'-'.$_REQUEST['Desc'].'-'.$_REQUEST['Order']);
 		}
 		else
 		{

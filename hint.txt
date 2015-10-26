@@ -11,7 +11,7 @@ When calculating predicted Iterations on the product/project backlog, a (worst/b
 Export Stories for a single Iteration or the entire Project.
 Keep track of where you are using the breadcrumbs on the top left of the screen.
 Get a sysadmin to create new reports that do exactly what you need.
-Use the help, that is what it is there for!.
+Use the help, that is what it is there for!
 If you want to add a number of Cards on after the other, click the 'add Card' in the header, and then click it again before adding Cards
 Manually add a single Story to a Release to enable the enhanced  Release features for that Project
 Use Tasks to break Stories down into managable pieces of work to be addressed by a specific person.
@@ -42,7 +42,10 @@ Clicking the User list Icon opens a list of Users in a new tab (useful when sear
 Move a Story into an Epic by dragging and dropping in the Epic Tree.(Use the vertical bar on the left as a handle)
 View progress against Epics by using either the "Project Tree", "Iteration Tree" or Epic report.
 When viewing an Interation Epic Tree, Cards/Stories in the current Iteration have a Blue border
-Use the Unsized Story report to help you identify and manage new Stories and stay on top of things
+Use the Unsized Story report to help you identify and manage new Stories and stay on top of things.
+Remember that a story with a 0 size, is NOT unsized.
+An unsized card has a size of ?
+Have your Site Admin. edit _faq.txt to answer you questions. (Don't overwrite when Updating though!)
 You can change the Project size type at any time, current Cards retain their values until edited.
 Any link can be opened in a new tab.
 The alternating colours in the Backlog indicate future sprint boundaries.
@@ -135,7 +138,7 @@ De-compose your Project into Epics and  sub-Epics, down to almost any level, unt
 Review your historical performance using the  <Project Name> "Iterations & History" menu item.
 Change the name of the main input field using Edit Project on the <Project Name> Menu.
 When importing Stories, If the Iteration does not exist, the Story is put in the "Backlog".
-In the tree view for an Iteration current Stories have a blue border.
+In the tree view for an Iteration current Stories have a blue border.d
 Add new Story will add a Story to the Iteration currently displayed in the screen
 The Current iteration is in BOLD on the 'Iterations' Menu
 Enable another input field for Stories and call it what you want, using Edit Project on the <Project Name> Menu.
@@ -178,3 +181,4 @@ You can change your own password (and some other details) from <Your&Name> menu
 If you can't access the Iteration Planning Screen, you are a read only user.
 Dont forget to click the '+' when adding comments to an iteration or Story card.
 Dont forget to click the '+' when adding tasks or uploading files to a Story card.
+If your project Tags are getting cluttered, get a Project Admin to Clear unused ones via the <Project> menu

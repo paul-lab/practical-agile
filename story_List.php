@@ -62,6 +62,8 @@ $(function() {
 // QUICK adding/removing  things to/from  a release
 	if (isset($_POST['AddToRelease']))
 	{
+		$_REQUEST['IID']=substr($_REQUEST['PARID'],1,64);
+		$_REQUEST['PARID']=substr($_REQUEST['PARID'],0,1);
 		// Project
 		if ($_REQUEST['PARID']=='P')
 		{
@@ -77,6 +79,12 @@ $(function() {
 		{
 			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all NOT DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		// Iteration
+		}elseif ($_REQUEST['PARID']=='I')
+		{
+			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration',Get_Iteration_Name($_REQUEST['IID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		// Epic Contents
 		}else{
 			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID=0 ';
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['PARID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
@@ -85,6 +93,8 @@ $(function() {
 	}
 	if (isset($_POST['DeleteFromRelease']))
 	{
+		$_REQUEST['IID']=substr($_REQUEST['PARID'],1,64);
+		$_REQUEST['PARID']=substr($_REQUEST['PARID'],0,1);
 		if ($_REQUEST['PARID']=='P')
 		{
 			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID='.$_REQUEST['RID'];
@@ -97,6 +107,10 @@ $(function() {
 		{
 			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all NOT DONE work',' in Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}elseif ($_REQUEST['PARID']=='I')
+		{
+			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Iteration',Get_Iteration_Name($_REQUEST['IID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}else{
 			$sql= 'UPDATE story SET story.Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['PARID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['PARID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
@@ -379,10 +393,26 @@ if ($_REQUEST['Type']=='tree'){
 				$menu .= '<option value="D"> ** All "Done" work **</option>';
 				$menu .= '<option value="N"> ** All work NOT "Done" **</option>';
 				$menu .= '<option value="0"></option>';
+// Epics
 				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
 				$queried = mysqli_query($DBConn, $sql);
 				while ($result = mysqli_fetch_array($queried)) {
 					$menu .= '<option value="' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
+				}
+				$menu .= '<option value="0"></option>';
+// Iterations
+				$topdate = date_create(Date("Y-m-d"));
+				date_add($topdate , date_interval_create_from_date_string('3 months'));
+				$topdate = date_format($topdate , 'Y-m-d');
+				$sql = 'SELECT ID, Name, Start_Date, End_Date FROM iteration where iteration.Project_ID ='.$Rowp['relproj'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$Rowp['relproj'].'")) order by iteration.End_Date desc LIMIT 10';
+				$iter_Res = mysqli_query( $DBConn, $sql);
+				if ($iter_Row = mysqli_fetch_assoc($iter_Res))
+				{
+					do
+					{
+						$menu .= '<option value="I'.$iter_Row['ID'].'">'.$iter_Row['Name'].'</option>';
+					}
+					while ($iter_Row = mysqli_fetch_assoc($iter_Res));
 				}
 				$menu .= '</select> to / from this release (Only work NOT already in a release will be added)';
 				echo $menu;

@@ -9,18 +9,18 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16"
-   height="16"
-   id="svg3648"
+   width="16px"
+   height="16px"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg8119"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 16 16"
    sodipodi:docname="userlist.svg"
-   inkscape:export-filename="C:\X mini_server\udrive\www\pa\images\userlist24.png"
-   inkscape:export-xdpi="135"
-   inkscape:export-ydpi="135">
+   inkscape:export-filename="C:\Users\labuschagnepa01\Documents\_Accessories\PA\udrive\www\pa\images\userlist16.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
-     id="defs3650" />
+     id="defs8121" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -28,27 +28,31 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.395604"
-     inkscape:cx="3.9667858"
-     inkscape:cy="4.8040972"
+     inkscape:zoom="31.678384"
+     inkscape:cx="9.0512757"
+     inkscape:cy="6.829027"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:grid-bbox="true"
-     inkscape:document-units="px"
-     inkscape:window-width="730"
-     inkscape:window-height="577"
-     inkscape:window-x="244"
-     inkscape:window-y="34"
-     inkscape:window-maximized="0"
+     inkscape:snap-grids="true"
+     inkscape:snap-page="true"
      inkscape:snap-bbox="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
-     inkscape:snap-intersection-paths="true">
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-nodes="false"
+     inkscape:snap-text-baseline="true">
     <inkscape:grid
        type="xygrid"
-       id="grid4715" />
+       id="grid12612" />
   </sodipodi:namedview>
   <metadata
-     id="metadata3653">
+     id="metadata8124">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -60,41 +64,79 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,-16)">
+     id="layer1">
     <g
-       id="layer1-2"
-       inkscape:label="Layer 1"
-       transform="matrix(0.00843624,0,0,0.00819185,3.1491278,18.971854)">
-      <g
-         transform="matrix(1,0,0,-1,-1118.2857,1339.7193)"
-         id="g3366">
-        <path
-           style="fill:currentColor"
-           inkscape:connector-curvature="0"
-           d="m 1138,1331 q 0,-58 -34,-104 -34,-46 -81,-46 -47,0 -81,46 -34,46 -34,104 0,57 33.5,97.5 33.5,40.5 81.5,40.5 47,0 81,-40.5 34,-40.5 34,-97.5 z m 165,-827 q 0,-69 -53,-69 -53,0 -53,69 l 0,465 -26,0 0,-1120 q 0,-69 -65,-69 -65,0 -65,69 l 0,663 -34,0 0,-663 q 0,-69 -65,-69 -65,0 -65,69 l 0,1120 -26,0 0,-465 q 0,-69 -53,-69 -53,0 -53,69 l 0,533 q 0,130 145,130 l 269,0 q 144,0 144,-130 l 0,-533 z"
-           id="path3368" />
-      </g>
-      <g
-         transform="matrix(1,0,0,-1,-452.57143,1228.2907)"
-         id="g3366-2">
-        <path
-           style="fill:currentColor"
-           inkscape:connector-curvature="0"
-           d="m 1138,1331 q 0,-58 -34,-104 -34,-46 -81,-46 -47,0 -81,46 -34,46 -34,104 0,57 33.5,97.5 33.5,40.5 81.5,40.5 47,0 81,-40.5 34,-40.5 34,-97.5 z m 165,-827 q 0,-69 -53,-69 -53,0 -53,69 l 0,465 -26,0 0,-1120 q 0,-69 -65,-69 -65,0 -65,69 l 0,663 -34,0 0,-663 q 0,-69 -65,-69 -65,0 -65,69 l 0,1120 -26,0 0,-465 q 0,-69 -53,-69 -53,0 -53,69 l 0,533 q 0,130 145,130 l 269,0 q 144,0 144,-130 l 0,-533 z"
-           id="path3368-0" />
-      </g>
-      <g
-         transform="matrix(1,0,0,-1,207.42856,1262.5765)"
-         id="g3366-2-1">
-        <path
-           style="fill:currentColor"
-           inkscape:connector-curvature="0"
-           d="m 1138,1331 q 0,-58 -34,-104 -34,-46 -81,-46 -47,0 -81,46 -34,46 -34,104 0,57 33.5,97.5 33.5,40.5 81.5,40.5 47,0 81,-40.5 34,-40.5 34,-97.5 z m 165,-827 q 0,-69 -53,-69 -53,0 -53,69 l 0,465 -26,0 0,-1120 q 0,-69 -65,-69 -65,0 -65,69 l 0,663 -34,0 0,-663 q 0,-69 -65,-69 -65,0 -65,69 l 0,1120 -26,0 0,-465 q 0,-69 -53,-69 -53,0 -53,69 l 0,533 q 0,130 145,130 l 269,0 q 144,0 144,-130 l 0,-533 z"
-           id="path3368-0-5" />
-      </g>
+       id="g12637"
+       transform="translate(-65.772639,-394.63582)">
+      <path
+         sodipodi:nodetypes="csccsc"
+         inkscape:connector-curvature="0"
+         id="path12599"
+         d="m 437.81988,986.58775 c 0,-161.80722 -116.79973,-295.97507 -263.09055,-295.97507 -146.290817,0 -263.090549,134.16962 -263.090549,295.97687 m 58.77434,0 c 0,-131.14564 92.465611,-234.46224 204.316209,-234.46224 111.85059,0 204.31641,128.68274 204.31621,234.46224"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#003399;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:68.35057068;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      <ellipse
+         ry="105.84304"
+         rx="105.84303"
+         cy="591.95374"
+         cx="174.72932"
+         id="path12601"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#003399;stroke-width:51.4044838;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g12637-2"
+       transform="translate(591.95373,-473.25958)" />
+    <g
+       id="g12637-23"
+       transform="translate(526.1811,65.772635)">
+      <path
+         sodipodi:nodetypes="csccsc"
+         inkscape:connector-curvature="0"
+         id="path12599-3"
+         d="m 437.81988,986.58775 c 0,-161.80722 -116.79973,-295.97507 -263.09055,-295.97507 -146.290817,0 -263.090549,134.16962 -263.090549,295.97687 m 58.77434,0 c 0,-131.14564 92.465611,-234.46224 204.316209,-234.46224 111.85059,0 204.31641,128.68274 204.31621,234.46224"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#003399;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:68.35057068;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      <ellipse
+         ry="105.84304"
+         rx="105.84303"
+         cy="591.95374"
+         cx="174.72932"
+         id="path12601-1"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#003399;stroke-width:51.4044838;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g12637-23-6"
+       transform="translate(460.40846,-460.40846)">
+      <path
+         sodipodi:nodetypes="csccsc"
+         inkscape:connector-curvature="0"
+         id="path12599-3-0"
+         d="m 437.81988,986.58775 c 0,-161.80722 -116.79973,-295.97507 -263.09055,-295.97507 -146.290817,0 -263.090549,134.16962 -263.090549,295.97687 m 58.77434,0 c 0,-131.14564 92.465611,-234.46224 204.316209,-234.46224 111.85059,0 204.31641,128.68274 204.31621,234.46224"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#003399;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:68.35057068;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      <ellipse
+         ry="105.84304"
+         rx="105.84303"
+         cy="591.95374"
+         cx="174.72932"
+         id="path12601-1-0"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#003399;stroke-width:51.4044838;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g12637-23-2"
+       transform="translate(-131.54528,118.69415)">
+      <path
+         sodipodi:nodetypes="csccsc"
+         inkscape:connector-curvature="0"
+         id="path12599-3-6"
+         d="m 437.81988,986.58775 c 0,-161.80722 -116.79973,-295.97507 -263.09055,-295.97507 -146.290817,0 -263.090549,134.16962 -263.090549,295.97687 m 58.77434,0 c 0,-131.14564 92.465611,-234.46224 204.316209,-234.46224 111.85059,0 204.31641,128.68274 204.31621,234.46224"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#003399;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:68.35057068;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+      <ellipse
+         ry="105.84304"
+         rx="105.84303"
+         cy="591.95374"
+         cx="174.72932"
+         id="path12601-1-5"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#003399;stroke-width:51.4044838;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>

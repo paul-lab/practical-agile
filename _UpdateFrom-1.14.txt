@@ -1,0 +1,2 @@
+INSERT INTO `queries` (`ID`, `Qseq`,`Desc`, `QSQL`, `External`) VALUES (530, 530, 'Uploaded Files', 'select concat(''<a href=story_List.php?searchstring=%23'',story.ID,''&PID='',story.Project_ID,''&Type=search>#'',story.ID,''</a>'') as ''Story'', story.Summary as ''Summary'', upload.Desc as ''File'' , CONCAT(''<a href=upload/'',HEX(upload.Name),''.'',convert(upload.Type using utf8),''>Link</a>'')as ''Link'' from story inner join `upload` on upload.AID=story.aid  where Story.project_ID=1 order by upload.Desc', 2);
+update dbver set CurrVer = 1.15 where dbver.ID=1;

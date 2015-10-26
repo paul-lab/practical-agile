@@ -2,6 +2,13 @@ Note: I do not use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+
+Version 2.52
+ * Added new query to report on Uploaded files for a project.
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.14.txt'
+ * Some 'Report Edit' tidying
+ * Included the ability to add Iterations to Releases (look 3 months ahead total 10 iterations presented)
+
 Version 2.51
  * Fixed drag and drop itreation planning to behave in Chrome
  * Better handling when same iteration selected on both sides of Iteration planning

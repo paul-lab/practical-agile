@@ -48,6 +48,7 @@ $(function() {
 			$sql='Update points_log set points_log.Status="'.$_REQUEST['Desc'].'" where points_log.Project_ID='.$_REQUEST['PID'].' and points_log.Status="'.$_REQUEST['ODesc'].'"';
 			mysqli_query($DBConn, $sql);
 			$showForm = false;
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Project Story Status','',$_REQUEST['Desc'].'-'.$_REQUEST['Policy'].'-'.$_REQUEST['RGB']);
 		}
 		else
 		{

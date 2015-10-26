@@ -35,7 +35,7 @@ $(function() {
 	}
 });
 </script>
-<script type="text/javascript" src="scripts/report_edit-hash6d3ccd8e02aef71af6973bae991f0e55.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="scripts/report_edit-hashaccdb9fc80caa485c3da9c6bba1836c1.js" type="text/javascript" charset="utf-8"></script>
 <?php
 
 	$showForm = true;
@@ -134,16 +134,11 @@ echo '</div></td></tr>';
 <textarea cols="60" rows="10" wrap="soft" name="QSQL"><?=$Qry_Row['QSQL'];?></textarea>
 		</td>
 	</tr>
-<?php
-if ($Qry_Row['External']!=2)
-{
-echo '<tr><td>&nbsp;</td><td><div id="extrasqlend">)</div></td></tr>';
-}
-?>
+	<tr><td>&nbsp;</td><td><div id="extrasqlend">)</div></td></tr>'
 	<tr>
 		<td>Order by:</td>
 		<td>
-			<input type="text" class="w100" name="Qorder" value="<?=$Qry_Row['Qorder'];?>">
+			<input type="text" id="Qorder" class="w100" name="Qorder" value="<?=$Qry_Row['Qorder'];?>">
 		</td>
 	</tr>
 	<tr>
