@@ -3,6 +3,8 @@
 -- Host: 127.0.0.1
 -- Database: practicalagile
 
+USE practicalagile
+
 /*!40030 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 
@@ -35,7 +37,7 @@ INSERT INTO `project` VALUES ('1','1',NULL,'2','Template Project','Template Proj
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `release_details` DISABLE KEYS */;
-INSERT INTO `release_details` VALUES ('2','0','2013-09-01','2013-10-04','zasdfzxczx gdfgf dfg dfg dfg ','926580713','0'),('3','0','2013-09-01','2013-10-01','aQEWRQ','1823697149','0');
+INSERT INTO `release_details` VALUES ('2','0','2013-09-01','2013-10-04','One release','926580713','0'),('3','0','2013-09-01','2013-10-01','Another release','1823697149','0');
 /*!40000 ALTER TABLE `release_details` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;

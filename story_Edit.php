@@ -364,7 +364,7 @@ function  Update_Project_Tags($PID,$Tags)
 <?php
 
 ?>
-	<table align="center" cellpadding="6" cellspacing="0" width=95% >
+	<table align="center" cellpadding="2" cellspacing="0" width=95% >
 	<tr>
 		<td width="97">Story : <img title="Duplicate this Story without tasks" class="dupestory hidden" id="dup<?=$story_Row['AID'];?>" src="images/duplicate.png">&nbsp;
 			<img title="Duplicate this Story and all its tasks (Owner, Status and Actual hours are reset )" class="dupestory hidden" id="dut<?=$story_Row['AID'];?>" src="images/duplicateandtasks.png"></td>
@@ -405,20 +405,21 @@ function  Update_Project_Tags($PID,$Tags)
 		if ($Num_Children==0)
 		{
 			echo print_Story_Size_Radio($story_Row['Size'],$Project['Project_Size_ID']);
-			echo '<br>';
+			echo '</td></tr><tr><td>&nbsp;</td><td>';
 			echo iterations_Dropdown($story_Row['Project_ID'], $story_Row['Iteration_ID']);
 			echo '&nbsp;&nbsp;&nbsp;';
 			echo print_Story_Status_Dropdown($story_Row['Status']);
 		}else{
 			echo $story_Row['Size'].' points &nbsp;&nbsp;&nbsp;';
+			echo '</td></tr><tr><td>&nbsp;</td><td>';
 			echo 'No Iteration';
 			echo '&nbsp;&nbsp;&nbsp;';
 			echo 'N/A';
 			echo '	<input type="hidden" name="Iteration_ID" value="'.$story_Row['Iteration_ID'].'">';
 			echo '	<input type="hidden" name=""Status"" value="">';
 		}
-		echo '&nbsp;&nbsp;&nbsp;';
 
+		echo '&nbsp;&nbsp;&nbsp;';
 			echo print_Story_Type_Dropdown($story_Row['Type']).'&nbsp;&nbsp;&nbsp;';
 			echo Show_Project_Users($_REQUEST['PID'], $story_Row['Owner_ID'],"Owner_ID");
 			echo '&nbsp;&nbsp;&nbsp;';
