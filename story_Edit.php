@@ -134,7 +134,6 @@ function print_Story_Size_Radio($current,$type)
 	if ($current=='') $current='?';
 	$sql = 'select * from size where size.Type=(select Project_Size_ID from Project as p where p.ID='.$_REQUEST['PID'].') order by size.Order';
 	$queried = mysqli_query($DBConn, $sql);
-	$menu = '<select name="Size">';
 	$menu = '<div id="sizediv">';
 	while ($result = mysqli_fetch_array($queried)) {
 		$menu .= '<input class="sizediv" type="radio" name="Size" value="' . $result['Value'].'"';

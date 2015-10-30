@@ -16,7 +16,7 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 			$asql='SELECT * from story where AID='.$_REQUEST['id'];
 			$aqry=mysqli_query($DBConn,$asql);
 			$aresult = mysqli_fetch_assoc($aqry);
-			// for each field 
+			// for each field auditit
 			foreach ($aresult as $key => $value)
 			{					
 				if ($aresult[$key]){auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted '.$key,$aresult[$key]);}
@@ -24,6 +24,25 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 
 			if (mysqli_query($DBConn, 'DELETE FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID']))
 			{
+				$asql='delete from task where Story_AID='.$_REQUEST['id'];
+				$aqry=mysqli_query($DBConn,$asql);
+				$asql='delete from comment where Story_AID='.$_REQUEST['id'];
+				$aqry=mysqli_query($DBConn,$asql);
+
+				$asql= "select * FROM upload WHERE upload.AID=".$_REQUEST['id'];
+				$aqry=mysqli_query($DBConn, $asql);
+				while ($aresult = mysqli_fetch_array($aqry)) {
+					if(!mysqli_error($DBConn))
+					{
+						unlink('upload/'.$aresult['Desc'].);
+					}
+
+
+			    	}
+
+				$asql= "DELETE FROM upload WHERE upload.AID=".$_REQUEST['id'];
+				$aqry=mysqli_query($DBConn, $asql);
+
 				$showForm = false;
 				$deleted = true;
 				Update_Iteration_Points($_REQUEST['IID']);

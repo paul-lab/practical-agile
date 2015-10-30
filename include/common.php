@@ -720,8 +720,8 @@ function Show_Project_Users($ThisProject=0, $current,$name,$disabled=0)
 		$queried = mysqli_query($DBConn, $sql);
 
 		while ($result = mysqli_fetch_array($queried)) {
-		$menu .= '<option value="' . $result['ID'] . '">' . $result['Friendly_Name'] .'</option>';
-	    }
+			$menu .= '<option value="' . $result['ID'] . '">' . $result['Friendly_Name'] .'</option>';
+	    	}
 	$menu .= '</select>';
 	$story_Row['Size']=$result['Value'];
 	return $menu;
