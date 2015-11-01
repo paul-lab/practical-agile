@@ -29,15 +29,14 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 				$asql='delete from comment where Story_AID='.$_REQUEST['id'];
 				$aqry=mysqli_query($DBConn,$asql);
 
-				$asql= "select * FROM upload WHERE upload.AID=".$_REQUEST['id'];
+				$asql= "select HEX(Name)as Name,Type FROM upload WHERE upload.AID=".$_REQUEST['id'];
+
 				$aqry=mysqli_query($DBConn, $asql);
 				while ($aresult = mysqli_fetch_array($aqry)) {
 					if(!mysqli_error($DBConn))
 					{
-						unlink('upload/'.$aresult['Desc'].);
+						unlink('upload/'.$aresult['Name'].'.'.$aresult['Type']);
 					}
-
-
 			    	}
 
 				$asql= "DELETE FROM upload WHERE upload.AID=".$_REQUEST['id'];
