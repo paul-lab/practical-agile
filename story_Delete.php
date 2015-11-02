@@ -29,16 +29,19 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 				$asql='delete from comment where Story_AID='.$_REQUEST['id'];
 				$aqry=mysqli_query($DBConn,$asql);
 
-				$asql= "select HEX(Name)as Name,Type FROM upload WHERE upload.AID=".$_REQUEST['id'];
+				$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type FROM upload WHERE upload.AID=".$_REQUEST['id'];
 
 				$aqry=mysqli_query($DBConn, $asql);
-				while ($aresult = mysqli_fetch_array($aqry)) {
+				while ($aresult = mysqli_fetch_array($aqry)) 
+				{
 					if(!mysqli_error($DBConn))
 					{
-						unlink('upload/'.$aresult['Name'].'.'.$aresult['Type']);
+						if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type']))
+						{
+							auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
+						}
 					}
 			    	}
-
 				$asql= "DELETE FROM upload WHERE upload.AID=".$_REQUEST['id'];
 				$aqry=mysqli_query($DBConn, $asql);
 
@@ -60,7 +63,7 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 		$Row=mysqli_fetch_assoc($Res);
 		echo '<form method="post" action="?">'.
 			'<p><b>#'.$Row['ID'].' - '.$Row['Summary'].' ('.$Row['Size'].' pts.)</b><p>'.
-			'Are you sure you want to delete this story ?<br />'.
+			'Are you sure you want to delete this story, Its tasks, comments and uploaded files?<P>'.
 			'<input type="hidden" name="id" value="'.$_REQUEST['id'].'">'.
 			'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
 			'<input type="hidden" name="IID" value="'.$_REQUEST['IID'].'">'.

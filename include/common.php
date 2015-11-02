@@ -129,9 +129,9 @@ function fetchusingID($col,$val,$tabl)
 	Global $DBConn;
 	if ($tabl=='story')
 	{
-		$sql='SELECT '.$col.' FROM '.$tabl.' WHERE ID='.$val;
-	}else{
 		$sql='SELECT '.$col.' FROM '.$tabl.' WHERE AID='.$val;
+	}else{
+		$sql='SELECT '.$col.' FROM '.$tabl.' WHERE ID='.$val;
 	}
 	$qry = mysqli_query($DBConn, $sql );
 	$row = mysqli_fetch_assoc($qry);

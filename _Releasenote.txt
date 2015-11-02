@@ -10,7 +10,12 @@ Version 2.52
  * Included the ability to add Iterations to Releases (look 3 months ahead total 10 iterations presented)
  * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.14.txt'
  * Addressed a rendering issue with Midori on the Raspberry Pi on the story edit page
- * Bugfix now not orphaning tasks & uploads  on story delete.
+ * Bugfix now not orphaning tasks & uploads on story delete.
+ * Bugfix now not orphaning uploads on Project delete.
+ * Some better error handling
+ * Added additinonal index on upload table
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.15.txt'
+Note: Edge is giving a few problems opening static pages in a new tab from the user menu (Use Right Click and open in new tab)
 
 Version 2.51
  * Fixed drag and drop itreation planning to behave in Chrome
@@ -26,6 +31,7 @@ Version 2.5
  * Points are only shown on the 'Right hand' iteration.
  * Slightly minify the .js files (original still available but hashed,minified one used)
  * Added ability to clear unused tags from a project to make the typeahead clearer for old projects. (from &lt;Project&gt; Menu)
+ * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.14.txt'
 
 Version 2.4
  * Tags now autopopulate with Tags already included in the Project (you will have repeats in the list until at least 1 Story for a Project has been updated.)

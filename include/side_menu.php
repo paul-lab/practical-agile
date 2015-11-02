@@ -33,13 +33,13 @@ echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&
 		while ($project_Row = mysqli_fetch_assoc($project_Res));
 	}
 	echo '</ul></li>';
-	echo '<li><a href="user_Edit.php?id='.$_SESSION['ID'].'" title="Edit My Details">Edit My Details</a></li>';
-	echo '<li><a href="_faq.txt" target="_blank" title="FAQ">FAQ</a></li>';
-	echo '<li><a href="help/help.html" target="_blank" title="Help">Help</a></li>';
-	echo '<li><a href="about.php" target="_blank" title="About">About</a></li>';
-	echo '<li><a href="_Licence.txt" target="_blank" title="License">License (MIT)</a></li>';
-	echo '<li><a href="logout.php" title="Logout">Logout</a></li>';
-echo '</ul></li>';
+		echo '<li><a href="user_Edit.php?id='.$_SESSION['ID'].'" title="Edit My Details">Edit My Details</a></li>';
+		echo '<li><a href="_faq.txt" target="_blank" title="FAQ">FAQ</a></li>';
+		echo '<li><a href="help/help.html" target="_blank" title="Help">Help</a></li>';
+		echo '<li><a href="about.php" target="_blank" title="About">About</a></li>';
+		echo '<li><a href="_Licence.txt" target="_blank" title="License">License (MIT)</a></li>';
+		echo '<li><a href="logout.php" title="Logout">Logout</a></li>';
+	echo '</ul></li>';
 
 
 

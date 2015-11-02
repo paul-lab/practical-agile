@@ -30,6 +30,9 @@ A. Add at least 1 story into the release using the 'Story edit' form.
 Q. I can't see releases, why not?
 A. you need to be at least a project admin to view releases. 
 
+Q. How do I delete a project?
+A. View the list of projects from the <Your Name> <My Projects> Menu and delete from there.
+
 Q. Why can't I delete a comment?
 A. You can only delete comments you have added and then only if there is no reply.
 
