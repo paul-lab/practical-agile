@@ -2,7 +2,7 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit-hash2c015fa29a68b8aec44d5c1bdd729cab.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hash98bcdb53691a1ceb6ba0feb519bddf27.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript" src="scripts/tag-it-hashf66e5c5daffc1248e495628cd1881f21.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
@@ -548,7 +548,7 @@ if(!$isReadonly)
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
 
-	<script type="text/javascript" src="scripts/micromenu-hashae3ec9227db9acaa8d487137f50e83b5.js"></script>
+	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
 
 
 <script>

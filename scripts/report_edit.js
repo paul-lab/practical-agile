@@ -23,8 +23,7 @@ $(function() {
 
 	function Flipflop(testit)
 	{
-		if(testit==1)
-		{
+		if(testit==1){
 			$('#extrasql').text('SELECT * FROM story where story.Project_ID="{Project}" and (' );
 			$('#extrasqlend').text( ')' );
 			$('#Qorder').show();

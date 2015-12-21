@@ -8,8 +8,7 @@ $(document).ready(function(){
        	$('.auditpopup').click(function() {
 		var thisstory = $(this).prop("id").substring(6);
 		var typ='';
-		if($(this).prop("id").substring(5,6)=='s')
-		{
+		if($(this).prop("id").substring(5,6)==='s'){
 			typ='AID';
 		}else{
 			typ='PID';
@@ -61,8 +60,7 @@ $(document).ready(function(){
 						var idx = $(this).attr("id").substring(13);
 						var citer=$("#CIteration_ID").val();
 						var ctext = escape($('#comment_text_'+id).htmlarea('toHtmlString'));
-						if (ctext.length > 7000)
-						{
+						if (ctext.length > 7000){
 							ctext=ctext.substring(0,7000);
 							alert ('Comment Truncated');
 						}
@@ -70,8 +68,7 @@ $(document).ready(function(){
 						var parid=$("#Parent_ID_"+idx).val();
 						$('div#replyto_'+id).text('');
 						var data='PID='+thisproject+'&Parent_ID='+parid+'&Iteration_ID='+citer+'&User_Name='+$("#User_Name_"+id).val()+'&Story_AID='+$("#Story_AID_"+id).val()+'&replyid='+idx.substring(2)+'&Type='+idx.substring(0,1)+'&comment_text='+ctext;
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							$.ajax({
 								type: "GET",
 								url: "comment_Add.php",
@@ -95,8 +92,7 @@ $(document).ready(function(){
 					$('#commentspop'+array[0]+'_'+array[1]).on('click', '.deletecomment', function() {						
 						var cid=$(this).attr("id").substring(15);
 						var idx3="#comment_count_"+array[0]+'_'+array[1];
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							$.ajax({
 								type: "GET",
 								url: "comment_Delete.php",
@@ -197,8 +193,7 @@ $(document).ready(function(){
 						$('html, body').css("cursor", "default");
 					});
 					$(".deletetask").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							var thistask =($(this).parent().attr('id').substring(5));
 							var thisstate=$("#done_"+thistask).prop('value');
 							if (thisstate==0){thisstate=1;}
@@ -216,8 +211,7 @@ $(document).ready(function(){
 					});
 				// update existing task done state
 					$(".divRow .done").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							var thistask=$(this).attr("id").substring(5);
 							toggletaskstate($(this));
 							var thisstatus=$(this).prop('value');
@@ -238,8 +232,7 @@ $(document).ready(function(){
 						$('html, body').css("cursor", "default");
 					});
 					$(".divRow .edittask").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							$(this).hide();
 					 		$(this).parent().find('.savetask').show();
 							var id=$(this).attr("id").substring(9);
@@ -290,8 +283,7 @@ $(document).ready(function(){
 					});
 
 					$(".savenew").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							var thisstory=$(this).parent().attr("id").substring(7);
 							var newtask = 'AID='+ thisstory;
 							newtask += '&PID='+thisproject;
@@ -397,8 +389,7 @@ $(document).ready(function(){
 						$('html, body').css("cursor", "default");
 					});
 					$(".deleteupload").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							var thisupload =($(this).prop('id'));
 							var fdet=$(this).parent().text();
 							$(this).parent().remove();
@@ -424,8 +415,7 @@ $(document).ready(function(){
 					});
 
 					$(".uploadnew").click(function() {
-						if (JisReadonly==0)
-						{
+						if (JisReadonly===0){
 							var thisstory=$(this).parent().attr("id").substring(7);
 							var file_data = $('#ndesc_'+ thisstory).prop('files')[0];     
 							var form_data =new FormData();

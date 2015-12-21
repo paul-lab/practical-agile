@@ -16,8 +16,7 @@ $(function() {
 
 	var thisproject=$( "div" ).find( ".thisproject" ).prop("id");
 
-	if ($('.dupestory').prop("id").substring(3)>0)
-	{
+	if ($('.dupestory').prop("id").substring(3)>0){
 		$('.dupestory').show();
 	}
 
@@ -34,8 +33,7 @@ $(function() {
 	$('.dupestory').click(function() {
 		var thisstory='SAID='+$('.dupestory').prop("id").substring(3);
 		// are we duplicating the tasks as well
-		if ($(this).prop("id").substring(0,3)=='dut')
-		{
+		if ($(this).prop("id").substring(0,3)=='dut'){
 			thisstory=thisstory+'&TASKS=True';
 		}
 		$.ajax({
@@ -62,8 +60,7 @@ $(function() {
 				success: function (data) {
 					var bgr=data.substring(2).split(",");
 					arrx = $.grep(bgr, function( a ) {
-						if(a.substr(0,request.term.length).toLowerCase() == request.term.toLowerCase())
-						{
+						if(a.substr(0,request.term.length).toLowerCase() == request.term.toLowerCase()){
 							return a;
 						}		
 					});

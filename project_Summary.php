@@ -24,7 +24,7 @@ $(function() {
 <script type="text/javascript" src="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
 
-<script type="text/javascript" src="scripts/micromenu-hashae3ec9227db9acaa8d487137f50e83b5.js"></script>
+<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
 
 <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 

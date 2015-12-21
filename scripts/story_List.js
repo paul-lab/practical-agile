@@ -21,8 +21,7 @@ jQuery(document).ready(function () {
 
 	// get the list of cards for the left hand planning page iteration if a selection has been made and it is not the same as the other panel
 	$('#LIID').change(function(){
-		if($(this).val()!=$('#RIID').val() && JisReadonly==0)
-		{
+		if($(this).val()!=$('#RIID').val() && JisReadonly==0){
 			$.ajax({
 				type: "GET",
 				url: "iteration_Planning_get.php",
@@ -47,8 +46,7 @@ jQuery(document).ready(function () {
 
 	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
 	$('#RIID').change(function(){
-		if($(this).val()!=$('#LIID').val() && JisReadonly==0)
-		{
+		if($(this).val()!=$('#LIID').val() && JisReadonly==0){
 			$.ajax({
 				type: "GET",
 				url: "iteration_Planning_get.php",
@@ -72,13 +70,11 @@ jQuery(document).ready(function () {
     	bloop();
 
 	// if we are passed backfrom a story edit page fetch the l&r iteratins again
-	if (getParameterByName('LeftIID'))
-	{
+	if (getParameterByName('LeftIID')){
 		$('#LIID').val( getParameterByName('LeftIID')).change();
 	}
 
-	if (getParameterByName('RightIID'))
-	{
+	if (getParameterByName('RightIID')){
 		$('#RIID').val( getParameterByName('RightIID')).change();
 	}
 
@@ -168,20 +164,17 @@ function showLines(n){
 			LeftIID  = $('#LIID').val();
 			RightIID = $('#RIID').val();
 			// see what has happened with the rank & which way things have moved.
-			if (ui.position.top>ui.originalPosition.top)
-			{
+			if (ui.position.top>ui.originalPosition.top){
 				rank='d';
 			}else{
-				if (ui.position.top<ui.originalPosition.top)
-				{
+				if (ui.position.top<ui.originalPosition.top){
 					rank='i';
 				}else{
 					rank='s'
 				}
 			}
 	// has this moved rtl or ltr
-			if (ui.position.left>ui.originalPosition.left)
-			{
+			if (ui.position.left>ui.originalPosition.left){
 				newiid=RightIID;
 				oldiid=LeftIID;
 				mov='ltr';
@@ -195,11 +188,9 @@ function showLines(n){
 				}
 			}
 			// if iteration change
-			if (mov!='same')	
-			{
+			if (mov!='same'){
 				// only move & audit it once
-				if (wherearewe=='sortable-left')
-				{
+				if (wherearewe=='sortable-left'){
 					$.ajax({
 						type: "GET",
 						url: "update_storyiteration.php",
@@ -212,8 +203,7 @@ function showLines(n){
 			}
 
 			// only  update the rank and audit if we need to
-			if (wherearewe=='sortable-left' && mov=='rtl')
-			{
+			if (wherearewe=='sortable-left' && mov=='rtl'){
 				$.ajax({
 					type: "GET",
 					url: "update_storyorder.php",
@@ -222,8 +212,7 @@ function showLines(n){
 			}
 
 			// only  update the rank and audit if we need to
-			if (wherearewe=='sortable-right' && mov=='ltr')
-			{
+			if (wherearewe=='sortable-right' && mov=='ltr'){
 				$.ajax({
 					type: "GET",
 					url: "update_storyorder.php",
@@ -237,11 +226,9 @@ function showLines(n){
 
 	$( "#sortable" ).sortable({
 		update: function(event, ui) {
-			if (JisReadonly==0)
-			{
+			if (JisReadonly==0){
 				// see what has happened with the rank
-				if (ui.position.top>ui.originalPosition.top)
-				{
+				if (ui.position.top>ui.originalPosition.top){
 					rank='d';
 				}else{
 					rank='i';
@@ -260,8 +247,7 @@ function showLines(n){
 	// this is to support the scrum board status change.
 	$( "#status1, #status2, #status3, #status4,#status5, #status6,#status7, #status8,#status9, #status10" ).sortable({
 		receive: function(event, ui) {
-		if (JisReadonly==0)
-		{
+		if (JisReadonly==0){
 				$.ajax({
 					type: "GET",
 					url: "update_boardstorystatus.php",
@@ -286,8 +272,7 @@ function showLines(n){
 		var LeftIID  = $('select[name="LIID"]').val();
 		var RightIID = $('select[name="RIID"]').val();
 		var gbt='';
-		if(LeftIID>0 || RightIID>0)
-		{
+		if(LeftIID>0 || RightIID>0){
 			gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
 		}
 
@@ -344,8 +329,7 @@ function showLines(n){
 
 	$('.iterationdialog .ui-button').click(function () {
 		$('.iterationdialog').dialog('close');
-		if (JisReadonly==0)
-		{
+		if (JisReadonly==0){
 			$.ajax({
 				type: "GET",
 				url: "update_storyiteration.php",
@@ -378,8 +362,7 @@ function showLines(n){
 	$('.statusdialog .ui-button').click(function () {
 		var color = $(this).css("background-color");
 		$('.statusdialog').dialog('close');
-		if (JisReadonly==0)
-		{
+		if (JisReadonly==0){
 // SAID is Status text not an id
 			$.ajax({
 				type: "GET",
@@ -396,8 +379,7 @@ function showLines(n){
 
 // Quickview
        	$('.quickview').click(function() {
-		if ($("#line-2-div"+$(this).prop("id").substring(9)).css("max-height") == "28px")
-		{
+		if ($("#line-2-div"+$(this).prop("id").substring(9)).css("max-height") == "28px"){
 			$("#line-2-div"+$(this).prop("id").substring(9)).show();
 			$("#line-3-div"+$(this).prop("id").substring(9)).show();
 			$("#line-2-div"+$(this).prop("id").substring(9)).css("max-height","999em" );
@@ -462,8 +444,7 @@ function showLines(n){
 		           */
 			  goldparent=node.parent.data.key;
 		//no dnd for release or iterationo trees.
-			if (node.data.nodndflag=='nodnd')
-			{
+			if (node.data.nodndflag=='nodnd'){
 				return false;
 			}else{
 		        	return true;
@@ -487,13 +468,11 @@ function showLines(n){
 
 // Just to prevent accidently creating parent stories
 		 		updateit=true;	
-				if (data.hitMode+ node.hasChildren() === "overfalse")
-				{
+				if (data.hitMode+ node.hasChildren() === "overfalse"){
 					updateit = confirm ("You are creating a new Parent Story\n Is this really what you want to do?");
 				}
 		
-				if (updateit==true  && JisReadonly==0)
-				{ 
+				if (updateit==true  && JisReadonly==0){ 
 		 			goldparent=data.otherNode.parent.key;
 					data.otherNode.moveTo(node, data.hitMode);
 					if( data.hitMode=='over'){
