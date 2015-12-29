@@ -1,7 +1,10 @@
-Note: I do not ormally use a Linux/Unix environment!
+Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+Version 2.53
+ * changed Iteration menu order and styling
+ * ... more to come
 
 Version 2.52
  * Added new query to report on Uploaded files for a project.
@@ -15,7 +18,7 @@ Version 2.52
  * Some better error handling
  * Added additinonal index on upload table
  * If the database is not updated automatically, then run the sql in '_UpdateFrom-1.15.txt'
-Note: Edge is giving a few problems opening static pages in a new tab from the user menu (Use Right Click and open in new tab)
+Note: Edge is giving a few problems opening static (License, About & Help) pages in a new tab from the user menu (Use Right Click and open in new tab)
 
 Version 2.51
  * Fixed drag and drop itreation planning to behave in Chrome

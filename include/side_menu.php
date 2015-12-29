@@ -126,6 +126,10 @@ if (isset($_REQUEST['PID']))
 		if (isset($_REQUEST['IID'])) {
 			echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">Export '.Get_Iteration_Name($_REQUEST['IID'],False).'</a></li>';
 		}
+// Iteration stuff
+echo '<li/>';
+	echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'"><b>Iteration Planning</b></a></li>';
+echo '<li/>';
 // fetch the backlog (no scrum board option)
 	if (isset($project_Row['Backlog_ID']))
 	{
@@ -139,8 +143,8 @@ if (isset($_REQUEST['PID']))
 	{
 		echo
 			'<li>'.
-			'<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Product Backlog"><b>'.
-			substr($iteration_Row['Name'], 0, 14).'</b></a>';
+			'<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Product Backlog">'.
+			substr($iteration_Row['Name'], 0, 14).'</a>';
 			echo '<div class="smaller">';
 			if ($iteration_Row['NumStories']>0)
 			{
@@ -154,7 +158,6 @@ if (isset($_REQUEST['PID']))
 			echo	'</div>';
 		echo '</li>';
 	}
-		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'"><b>Iteration Planning</b></a></li>';
 
 // fetch the iterations
 	$sql = 'SELECT ID, Name, Start_Date, End_Date, (select count(story.ID) from story where story.Iteration_ID = iteration.ID) as NumStories, (select sum(story.Size) from story where story.Iteration_ID = iteration.ID) as SumPoints FROM iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$_REQUEST['PID'].'")) order by iteration.End_Date desc LIMIT 10';

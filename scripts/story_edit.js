@@ -45,9 +45,6 @@ $(function() {
         		}
 		});
 	});
-	
-
-
 
 	$('#singleFieldTags').tagit({	
 		autocomplete: {delay: 0, minLength: 0},
