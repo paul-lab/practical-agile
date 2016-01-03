@@ -13,6 +13,6 @@
 	mysqli_query($DBConn, $sql);
 	if(!mysqli_error($DBConn))
 	{
-		unlink('upload/'.$_GET['Name'].'.'.$_GET['Type']);
+		unlink(getcwd().'/upload/'.$_GET['Name'].'.'.$_GET['Type']);
 	}
 ?>

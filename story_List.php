@@ -344,6 +344,9 @@ if ($_REQUEST['Type']=='tree'){
 		{
 			$RelRow = mysqli_fetch_assoc($Res);
 			echo '&nbsp;<div class="inline larger"><b>'.$RelRow['Name'].' ('.$RelRow['Start'].' -> '.$RelRow['End'].')</b></div>';
+if ($RelRow['Locked']!==0){
+echo ' Locked<br>';
+}
 		}
 
 		// release statistics stories & points)

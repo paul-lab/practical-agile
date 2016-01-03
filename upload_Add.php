@@ -46,7 +46,7 @@ if($_FILES['file']['name'])
 		//now is the time to modify the future file name and validate the file
 		$fext = explode(".", $_FILES['file']['name']);
 		$fileType = $fext[count($fext)-1];
-		$new_file_name = v4(); //rename file
+		$new_file_name = strtoupper(v4()); //rename file
 
 		// Check valid filetypes
 		$pos = strrpos($validfiletypes,$fileType.',');
@@ -65,7 +65,7 @@ if($_FILES['file']['name'])
 		if($valid_file)
 		{
 			//move it to where we want it to be
-			move_uploaded_file($_FILES['file']['tmp_name'], 'upload/'.$new_file_name.'.'.$fileType);
+			move_uploaded_file($_FILES['file']['tmp_name'], getcwd().'/upload/'.$new_file_name.'.'.$fileType);
 			$fileSize =  $_FILES['file']['size'];
 			$query = "INSERT INTO upload (upload.AID, upload.Name, upload.Desc, upload.Size, upload.Type ) ".
 			"VALUES (".$_REQUEST['AID'].", UNHEX('".$new_file_name."'),'".$_FILES['file']['name']."', ".$fileSize.", '".$fileType."')";

@@ -268,9 +268,9 @@ function PrintStory ($story_Row)
 				{
 					if ($statuscolour[$astatus[$i]]=='')
 					{
-						echo '<img title="'.$SSize.' '.$astatus[$i].' points" src="storystatusimage.php?RGB=bfbfbf&ST='.$SSize.'" >';
+						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#bfbfbf;">&nbsp;'.$SSize.'&nbsp</div>&nbsp';
 					}else{
-						echo '<img title="'.$SSize.' '.$astatus[$i].' points" src="storystatusimage.php?RGB='.$statuscolour[$astatus[$i]].'&ST='.$SSize.'" >';
+						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#'.$statuscolour[$astatus[$i]].';">&nbsp;'.$SSize.'&nbsp</div>&nbsp';
 					}
 				}
 			}

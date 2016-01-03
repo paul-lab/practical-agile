@@ -4,6 +4,8 @@ Note: I do not normally use a Linux/Unix environment!
 
 Version 2.53
  * changed Iteration menu order and styling
+ * bugfix file uploads/deletes under linux were failing
+ * removed the need for GD2
  * ... more to come
 
 Version 2.52
