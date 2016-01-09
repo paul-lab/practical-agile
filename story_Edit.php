@@ -132,7 +132,7 @@ function print_Story_Size_Radio($current,$type)
 	Global $DBConn;
 
 	if ($current=='') $current='?';
-	$sql = 'select * from size where size.Type=(select Project_Size_ID from Project as p where p.ID='.$_REQUEST['PID'].') order by size.Order';
+	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID='.$_REQUEST['PID'].') order by size.Order';
 	$queried = mysqli_query($DBConn, $sql);
 	$menu = '<div id="sizediv">';
 	while ($result = mysqli_fetch_array($queried)) {

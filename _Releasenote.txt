@@ -6,6 +6,7 @@ Version 2.53
  * changed Iteration menu order and styling
  * bugfix file uploads/deletes under linux were failing
  * removed the need for GD2
+ * Bugfix size edit on Story Edit Page under Linux
  * ... more to come
 
 Version 2.52
