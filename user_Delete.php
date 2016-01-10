@@ -1,9 +1,14 @@
 <?php
 	include 'include/header.inc.php';
 
-
-	$showForm = true;
-	if ($_REQUEST['delete'])
+	if ($Usr['Admin_User'] == 1 )
+	{
+		$showForm = true;
+	}else{
+		$showForm = true;
+	}
+ 
+	if ($_REQUEST['delete'] && $Usr['Admin_User'] == 1)
 	{
 		auditit(0,0,$_SESSION['Email'],'Deleted User',$_REQUEST['id'].'-'.$_REQUEST['desc']);
 		if (mysqli_query($DBConn, 'DELETE FROM user WHERE ID = '.($_REQUEST['id'] + 0)))
