@@ -20,6 +20,9 @@ A. You will find that the parent you are trying to use is already in an iteratio
 Q. I can't reorder stories in the Epic tree view. Why?
 A. The release Tree does not allow ordering, User either the Project(Top left) or Iteration/Backlog (Iteration Dropdown) Tree.
 
+Q. What are the borders around stories for?
+A. Blocked work is highlighted with a RED border and in the Iteration Epic/tree view, work in the current Iteration has a Blue Border.
+
 Q. I can't move a story in or out of an specific iteration. Why?
 A. The iteration has been locked. 
 
@@ -64,6 +67,3 @@ A. Check your php.ini and make sure that file uploads are allowed and that the u
 
 Q. When importing a csv file exported from a report I receive an error along the lines of  "Excel has detected that the 'MyOutput.csv' is a SYLK file, .....”
 A. This is a known issue with Excel, If the first column heading / value of the CSV file begins with uppercase ID, Excel will interpret the file as being in the SYLK format rather than CSV, as described here: http://support.microsoft.com/kb/323626. change the first column name to rectify this.
-
-Q. I am having trouble with my graphs, What can I do?
-A. The way to solve most of the graph issues is to update the app to ver 1.7 or greater as this uses jqplot & not google graphs

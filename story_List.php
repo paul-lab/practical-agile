@@ -209,7 +209,9 @@ if ($_REQUEST['Type']=="search"){
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,7))=='status:'){
 			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],7).'%"';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,6))=='owner:'){
-			$cond='story.Owner_ID=(select ID from user where user.Initials="'.substr($_REQUEST['searchstring'],6).'")';
+			$cond='story.Owner_ID=(select ID from user where user.Initials="'.trim(substr($_REQUEST['searchstring'],6)).'")';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,8))=='release:'){
+			$cond='story.Release_ID=(select ID from release_details where release_details.Name="'.trim(substr($_REQUEST['searchstring'],8)).'")';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,4))=='tag:'){
 			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],4).'%"';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='size:'){

@@ -44,7 +44,7 @@ if (!empty($_REQUEST['PID'])){
 	echo '</div>';
 	echo '<div class="search" >';	
 	echo '<form method="get" action="story_List.php">';
-		echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type: " type="text" name="searchstring" id="searchstring" > ';
+		echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type:, release: " type="text" name="searchstring" id="searchstring" > ';
 		echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
 		echo '<input type="submit" name="Type" value="search">';
 	echo '</form>';
