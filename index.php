@@ -2,7 +2,7 @@
 	require_once('include/dbconfig.inc.php');
         require_once('include/common.php');
 
-$APP_VER='2.53';
+$APP_VER='2.54';
 
         /*if user wants to login*/
         if(isset($_POST['username'])){
@@ -84,7 +84,7 @@ function hashit(){
 
 <div class="header noPrint">
 	<a href="http://www.practicalagile.co.uk"><img src="images/logo-large.png"></a>
-	<a style="float:right;padding-right:10px;" href="help/help.html" target="_blank" title="Help"><b>Help</b><br>App ver.<?php echo $APP_VER;?></a>
+	<a class="hint" href="help/help.html" target="_blank" title="Help"><b>Help</b><br>App ver.<?php echo $APP_VER;?> &nbsp; </a>
 </div>
 
 <center>

@@ -29,7 +29,6 @@ jQuery(document).ready(function () {
 				success: function (data) {
 					var outs=data.split('{6B89778E-1B36-4E75-A7F2-301656217750}');
 					$(".LIID").html(outs[0]);
-//					$("#leftsize").text(' Total: '+outs[1]+' pts.');
 					// re-init cos we just added a whole load of stuff
 					bloop();
 				}
@@ -39,10 +38,6 @@ jQuery(document).ready(function () {
 			$(".LIID").html('');
 		}
 	});
-
-
-
-
 
 	// get the list of cards for the right hand planning itration if a selection has been made and it is not the same as the other panel
 	$('#RIID').change(function(){
@@ -62,6 +57,7 @@ jQuery(document).ready(function () {
 		}else{
 			$(this).val('');
 			$(".RIID").html('');
+			$("#rightsize").text('');
 		}
 	});
 
@@ -275,7 +271,6 @@ function showLines(n){
 		if(LeftIID>0 || RightIID>0){
 			gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
 		}
-
 		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration+gbt;
 	});
 

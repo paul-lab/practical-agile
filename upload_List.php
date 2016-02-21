@@ -39,7 +39,7 @@ function Getuploads($ThisProject, $ThisStory)
 
 	echo '</ul>';
 		echo
-			'<div class="uploaddiv-input" id="newrow_'.$ThisStory.'">'.
+			'<div class="micromenudiv-input" id="newrow_'.$ThisStory.'">'.
 				'<img class="uploadnew" src="images/add-small.png"> '.
 				'<input type="file" id="ndesc_'.$ThisStory.'" title="upload this file" value="" size="50">'.
 				'<input type="hidden" name = "AID" value="'.$ThisStory.'"/>';

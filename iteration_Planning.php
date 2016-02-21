@@ -23,7 +23,7 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash33bf26c1f6c652a727dbf14d3509af1e.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hasheadc4c06ca49398160497cb55b216b8a.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -70,11 +70,6 @@ $(function() {
 
 	}
 
-
-	//echo '<div style="display: none" class="iterationdialog" id="iter_'.$iteration.'" title="Choose Iteration">';
-	//echo GetIterationsforpop($_REQUEST['PID'],$_REQUEST['IID'],$Project['Backlog_ID']);
-	///echo '</div>';
-
 //===========================
 	echo '<div class="hidden" id="phpnavicons" align="Left">'.'<a title="Add new story" href="story_Edit.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/storyadd-large.png"></a>&nbsp; &nbsp;';
 	if (isset($_REQUEST['PID'])&&isset($_REQUEST['IID']))
@@ -84,7 +79,7 @@ $(function() {
 	echo '</div>';
 
 
-	echo '<div style="display: none" class="statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
+	echo '<div class="hidden statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
 		echo buildstatuspop($_REQUEST['PID']);
 	echo '</div>';
 

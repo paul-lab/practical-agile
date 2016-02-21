@@ -21,7 +21,7 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash33bf26c1f6c652a727dbf14d3509af1e.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hasheadc4c06ca49398160497cb55b216b8a.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
@@ -32,9 +32,8 @@ $(function() {
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8-min.js"></script>
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
-	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
+	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
+
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 
 	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
@@ -172,13 +171,13 @@ if (empty($_REQUEST['IID']) && empty($_REQUEST['RID']) ){
 if (empty($_REQUEST['RID'])){
 	//===
 
-	echo '<div style="display: none" class="iterationdialog" id="iter_'.$_REQUEST['IID'].'" title="Choose Iteration">';
+	echo '<div class=" hidden iterationdialog" id="iter_'.$_REQUEST['IID'].'" title="Choose Iteration">';
 	echo GetIterationsforpop($_REQUEST['PID'],$_REQUEST['IID'],$Project['Backlog_ID']);
 	echo '</div>';
 
 }
 
-echo '<div style="display: none" class="statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
+echo '<div class="hidden statusdialog" id="siter_'.$_REQUEST['IID'].'" title="Set status">';
 echo buildstatuspop($_REQUEST['PID']);
 echo '</div>';
 
@@ -290,7 +289,7 @@ if (empty($_REQUEST['Type'])){
 	echo '<a class="commentpopup" id="commenti_'.$Iteration['Comment_Object_ID'].'" href="" onclick="javascript: return false;" title="Show Comments"><img src="images/comment-small.png"></a> &nbsp;';
 
 	echo '</div><br>';
-	echo '<div class="commentsdialog" id="commentspopi_'.$Iteration['Comment_Object_ID'].'"></div>';
+	echo '<div class="hidden" id="commentspopi_'.$Iteration['Comment_Object_ID'].'"></div>';
 
 	$Toggle=0;
 	$Sizecount=0;

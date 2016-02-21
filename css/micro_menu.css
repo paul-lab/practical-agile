@@ -1,0 +1,100 @@
+
+.micromenudiv-input
+   {  
+	width:auto; 
+	padding: 5px 5px 5px 55px;      
+	border-spacing:5px;/*cellspacing:poor IE support for  this*/
+	}
+
+.divRow
+    {
+       display:table-row;
+    }
+
+.divCell
+    {
+        float:left;/*fix for  buggy browsers*/
+        display:table-column;
+	padding-left:50px;
+	overflow: none;
+     }
+.divCell1
+    {
+        float:left;/*fix for  buggy browsers*/
+        display:table-column;
+	padding-left:10px;
+	overflow: none;
+     }
+
+#sortabletask {
+	list-style-type: none;
+	border: 1px solid #fff;
+	padding: 0;
+}
+
+#sortabletask li {
+	margin: 2px 2px 5px 2px;
+	padding-left: 1.5em;
+	border: 1px solid #000;
+}
+
+#sortabletask li span {
+	width: 12px;
+	background: #94C5EB;
+	height:90%;
+	position: absolute;
+#tableupload {
+	list-style-type: none;
+	border: 1px solid #fff;
+	padding: 0;
+}
+
+#tableupload li {
+	margin: 2px 2px 5px 2px;
+	padding-left: 1.5em;
+	border: 1px solid #000;
+}
+
+#tableupload li span {
+	width: 12px;
+	background: #94C5EB;
+	height:90%;
+	position: absolute;
+	margin-left: -1.3em;
+}
+
+	margin-left: -1.3em;
+}
+
+.commentsdialog {
+ display: none; 
+ margin:0px 20px;
+}
+
+.comment {
+ padding:2px;
+ border-top:1px solid #aaf;
+ list-style:none;
+}
+
+.aut {
+display: inline;
+padding-right:20px;
+font-size:85%;
+}
+
+.timestamp {
+display: inline;
+ font-size:85%;
+
+}
+.reply {
+display: inline;
+ float:right;
+}
+#comment_form {
+ margin-top:10px;
+}
+
+.deletecomment {float: right; margin-right:2em;}
+.commenth { height:150px;}

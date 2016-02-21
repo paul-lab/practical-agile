@@ -17,6 +17,7 @@ Use the tooltips to help when adding a new Project, Task, Story or anything else
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
 Use the iteration Planning page, available from the <Project> menu, to make your planning sessions easier
 Use the iteration Planning page to quickly move a number of Stories/Cards from one Iteration to another
+Create multiple interations, one for each team, with the same dates against a project. That way they can share the backlog without tripping over each other.
 Have your Site Admin. edit _faq.txt to answer you questions. (Don't overwrite it when Updating though!)
 When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given
 Project velocity is calculated on the 5 most recent COMPLETED Iterations.

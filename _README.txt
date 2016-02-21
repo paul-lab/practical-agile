@@ -28,8 +28,8 @@ Requirements
 
 (Included in the full install)
 •	MySQL * (using  v 5.0.67 & 5.5.?)
-•	PHP* (using  5.4.7) incl Mysqli (GD2 not needed any more)
-•	Web server* (using Apache 2.2.9 & 2.4.3)
+•	PHP* (using  5.6) incl Mysqli (GD2 not needed any more)
+•	Web server* (using Apache 2.4)
 
 (Included in both installs)
 •	JHtml+ 

@@ -380,7 +380,7 @@ function  Update_Project_Tags($PID,$Tags)
 
 		if ($Num_Children==0)
 		{
-			echo '<span style="float: right;">';
+			echo '<span class="hint">';
 			echo 'Release: ';
 			echo print_Release_Dropdown($story_Row['Release_ID']);
 			echo '</span>';
@@ -498,9 +498,9 @@ if (!empty($_REQUEST['AID']))
 {
 	printMicromenu($story_Row['AID']);
 
-	echo '<div class="taskdialog inline" id="alltasks_'.$story_Row['AID'].'"></div>';
-	echo '<div class="commentsdialog" id="commentspops_'.$story_Row['AID'].'"></div> ';
-	echo '<div class="uploaddialog" id="allupload_'.$story_Row['AID'].'"></div> ';
+	echo '<div class="hidden inline" id="alltasks_'.$story_Row['AID'].'"></div>';
+	echo '<div class="hidden" id="commentspops_'.$story_Row['AID'].'"></div> ';
+	echo '<div class="hidden" id="allupload_'.$story_Row['AID'].'"></div> ';
 	echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
 }
 	echo '<td></tr></table>';
@@ -544,9 +544,7 @@ if(!$isReadonly)
 ?>
 	</form><br>
 
-	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
-	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
+	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
 
 	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
 

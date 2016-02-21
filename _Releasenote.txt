@@ -2,6 +2,9 @@ Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
 
+Version 2.54
+ * CSS rationalisation & tidy
+
 Version 2.53
  * changed Iteration menu order and styling
  * bugfix file uploads/deletes under linux were failing

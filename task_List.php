@@ -33,9 +33,9 @@ function GetTasks($ThisProject, $ThisStory)
 						'<img src="images/tick-small.png">'.
 					'</div>'.
 					'<div class="divCell1"><input class="done indet'.$task_Row['Done'].'" id="done_'.$task_Row['ID'].'" '.( $task_Row['Done'] == 2 ? 'checked' : '').' value="'.$task_Row['Done'].'" type="checkbox" name="Done"></div>'.
-						'<div class="divCell2"><input size="80" id="desc_'.$task_Row['ID'].
+						'<div class="divCell1"><input size="80" id="desc_'.$task_Row['ID'].
 						'" type="text" disabled="disabled" value="'.$task_Row['Desc'].'"/></div>'.
-						'<div class="divCell3">'.Show_Project_Users($ThisProject, $task_Row['User_ID'],"user_".$task_Row['ID'],1).'</div>'.
+						'<div class="divCell1">'.Show_Project_Users($ThisProject, $task_Row['User_ID'],"user_".$task_Row['ID'],1).'</div>'.
 						'<div class="divCell1"><input id="expected_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Expected_Hours'].'"/></div>'.
 						'<div class="divCell1"><input id="actual_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Actual_Hours'].'"/></div>'.
 					'<div class="divCell1 deletetask"><img src="images/delete-small.png"></div>'.
@@ -46,7 +46,7 @@ function GetTasks($ThisProject, $ThisStory)
 
 	echo '</ul>';
 		echo
-			'<div class="taskdiv-input" id="newrow_'.$ThisStory.'">'.
+			'<div class="micromenudiv-input" id="newrow_'.$ThisStory.'">'.
 				'<img class="savenew" src="images/add-small.png"> '.
 				'<input id="ndesc_'.$ThisStory.'" title="Task Description" name = "Desc" value="" size="80">'.
 				Show_Project_Users($ThisProject,"0","taskuser_".$ThisStory).

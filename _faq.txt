@@ -1,5 +1,7 @@
 FAQ.
 
+Q. How can I have multiple teams working off a single product Backlog?
+A. Create multiple interations, one for each team, with the same dates against the project. That way they can share the backlog without tripping over each other.
 Q. How do I view Project progress?
 A. View the project summary page, or use the project progress report.
 

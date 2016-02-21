@@ -343,9 +343,9 @@ function PrintStory ($story_Row)
 			echo '<div class="inline right-box" >';
 			echo getReleaseName($story_Row['Release_ID']);
 			echo '</div>';
-			echo '<div class="taskdialog" id="alltasks_'.$story_Row['AID'].'"></div>';
-			echo '<div class="commentsdialog" id="commentspops_'.$story_Row['AID'].'"></div> ';
-			echo '<div class="uploaddialog" id="allupload_'.$story_Row['AID'].'"></div> ';
+			echo '<div class="hidden" id="alltasks_'.$story_Row['AID'].'"></div>';
+			echo '<div class="hidden" id="commentspops_'.$story_Row['AID'].'"></div> ';
+			echo '<div class="hidden" id="allupload_'.$story_Row['AID'].'"></div> ';
 			echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
 
 		echo '</div>'; //line-3-div
