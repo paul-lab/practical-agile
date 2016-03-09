@@ -1,7 +1,9 @@
 FAQ.
 
 Q. How can I have multiple teams working off a single product Backlog?
-A. Create multiple interations, one for each team, with the same dates against the project. That way they can share the backlog without tripping over each other.
+A. Create multiple interations or Sprints, one for each team, with the same dates against the project. 
+   That way they can share the backlog without tripping over each other.
+
 Q. How do I view Project progress?
 A. View the project summary page, or use the project progress report.
 
@@ -9,21 +11,27 @@ Q. How do I view epic progress?
 A. Select the Project/Epic Tree from the header or any story list view. the status for all stories in each epic is presented to you.
 
 Q. How do I create an Epic or convert a story to an Epic?
-   You don't convert a Story into an Epic. Giving a Story a Child/Children makes it an Epic
+   You don't convert a Story into an Epic. Giving a Story a Child/Children makes it an Epic. 
+   Remember that  the prospective parent must be in 'Todo' Status (No work against it) and must be in the 'Backlog' (No work Scheduled)
 A. View the project/Iteration backlog using the 'Epic tree' and drag the child under the appropriate parent.
 A. When editing a story, select the parent from the list of existing parents in project from the dropdown
 A. When editing a story, type the Parent story number in the 'manual' parent edit box.
 
-   Remember that  the prospective parent must be in 'Todo' Status (No work against it) and must be in the 'Backlog' (No work Scheduled)
+
+Q. Why dont the 'Iteration' reports work. 
+A. These reports run against the current iteration. Select an Iteration or the Backlog, and then select the report. 
 
 Q. I can’t make a story a child using the Epic tree.
-A. You will find that the parent you are trying to use is already in an iteration (ie work scheduled) or not in a Todo Status. Remember, work can only be performed at the lowest level. 
+A. You will find that the parent you are trying to use is already in an iteration (ie work scheduled) or not in a Todo Status. 
+   Remember, work can only be performed at the lowest level. 
 
 Q. I can't reorder stories in the Epic tree view. Why?
-A. The release Tree does not allow ordering, User either the Project(Top left) or Iteration/Backlog (Iteration Dropdown) Tree.
+A. You are probably viewing the Release Tree, this does not allow ordering/ranking. Use either the Project Tree (Top left) 
+   or Iteration/Backlog (Iteration Dropdown) Tree.
 
 Q. What are the borders around stories for?
-A. Blocked work is highlighted with a RED border and in the Iteration Epic/tree view, work in the current Iteration has a Blue Border.
+A. Blocked work is highlighted with a RED border and in the Iteration Epic/tree view, 
+   work in the current Iteration has a BLUE Border.
 
 Q. I can't move a story in or out of an specific iteration. Why?
 A. The iteration has been locked. 
@@ -47,7 +55,8 @@ A. The story is in an iteration that has been locked.
 
 Q. How do I move a story from one project to another?
 A. At the moment, you have to  open each project in a different browser tab and copy and paste between them.
-A. If you have a large number of stories, it is faster to Export them from the old and import into the new project. Remember to clear the story # before you import them and also delete them from the original project.
+A. If you have a large number of stories, it is faster to Export them from the old and import into the new project. 
+   Remember to clear the story # before you import them and also delete them from the original project.
 
 Q. How can I delete a large number of stories from a project.
 A. Export the stories you want to delete, change the iteration to "** Delete **" without the Quotes, and re-import them.
@@ -57,15 +66,19 @@ A. The user you are logged in as does not have access rights to the project cont
 
 Q. I can’t get past the login page or I receive an error message 
 A. You account may be disabled
-A. You may be trying to use a shortcut to a project, iteration or story that does not exist anymore, check the URL you are using and change it to login.php.
-A. Get your administrator to Check the username, password
+A. You may be trying to use a shortcut to a project, iteration or story that does not exist anymore, 
+   check the URL you are using and change it to login.php.
+A. Get your administrator to check your username and password or change your password
 
 Q. I can’t import anything, what is wrong.
 Q. I Can't attach files to a card, what is wrong
-A. Check your php.ini and make sure that file uploads are allowed and that the upload tmp directory exists, is available and writable, or use the full install that includes the following settings in php.ini.
+A. Check your php.ini and make sure that file uploads are allowed and that the upload tmp directory exists, is available and writable, 
+   or use the full install that includes the following settings in php.ini.
 	file_uploads = On
 	upload_tmp_dir = /usr/local/mysql/tmp
 	upload_max_filesize = 2M
 
 Q. When importing a csv file exported from a report I receive an error along the lines of  "Excel has detected that the 'MyOutput.csv' is a SYLK file, .....”
-A. This is a known issue with Excel, If the first column heading / value of the CSV file begins with uppercase ID, Excel will interpret the file as being in the SYLK format rather than CSV, as described here: http://support.microsoft.com/kb/323626. change the first column name to rectify this.
+A. This is a known issue with Excel, If the first column heading / value of the CSV file begins with uppercase ID, 
+   Excel will interpret the file as being in the SYLK format rather than CSV, as described here: http://support.microsoft.com/kb/323626. 
+   Change the first column name to rectify this.

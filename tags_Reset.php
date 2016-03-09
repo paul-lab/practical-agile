@@ -38,9 +38,9 @@
 		echo '<form method="post" action="?"><p><h2>'.
 					'Are you sure you want to Clear unused Tags for this project?<br /></h2><p>'.
 					'<p>'.
-					'<input type="submit" name="reset" value="Yes, Reset"> &nbsp; '.
+					'<input type="submit" name="reset" value="Yes, Clear"> &nbsp; '.
 					'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
-					'<input type="submit" name="noreset" value="No, Don\'t Reset">'.
+					'<input type="submit" name="noreset" value="No, Don\'t clear">'.
 					 '</form>';
 	}
 	else

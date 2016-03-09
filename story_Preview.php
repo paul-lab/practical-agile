@@ -91,7 +91,7 @@ function PreviewGetComments($row)
 
 
 			echo '<div class="left">'.
-				' Story: #'.$Row['ID'];
+				$Row['Type'].': #'.$Row['ID'];
 		
 				$istring=Get_Iteration_Name($Row['Iteration_ID'],False);
 				if ($istring!='Backlog') {

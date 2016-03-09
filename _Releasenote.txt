@@ -1,6 +1,13 @@
 Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
+                       ----------------------------------------
+Version 2.55
+ * Printing story cards now behaves a lot better with no breaks across pages.
+ * Enable small cards (8 to a page) using portrait page orientation
+ * Enable larger cards (4 to a page) by using landscape orientation
+ * Including Issue Type on printed cards
+ * Updated help
 
 Version 2.54
  * CSS rationalisation & tidy

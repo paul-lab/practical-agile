@@ -34,7 +34,7 @@
 //############################
 			echo '<div class="left">'.
 				'<a title="Edit Story" href="story_Edit.php?AID='.$Row['AID'].'&PID='.$Row['Project_ID'].'&IID='.$Row['Iteration_ID'].'">'.
-				' Story: #'.$Row['ID'].'</A>';
+				$Row['Type'].': #'.$Row['ID'].'</A>';
 				$istring=Get_Iteration_Name($Row['Iteration_ID'],False);
 				if ($istring!='Backlog') {
 					echo ' - '.$istring;

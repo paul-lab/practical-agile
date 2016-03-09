@@ -15,7 +15,7 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
-Use the iteration Planning page, available from the <Project> menu, to make your planning sessions easier
+Use the iteration Planning page, available from the <Iterations> menu, to make your planning sessions easier
 Use the iteration Planning page to quickly move a number of Stories/Cards from one Iteration to another
 Create multiple interations, one for each team, with the same dates against a project. That way they can share the backlog without tripping over each other.
 Have your Site Admin. edit _faq.txt to answer you questions. (Don't overwrite it when Updating though!)
@@ -185,3 +185,4 @@ If you can't access the Iteration Planning Screen, you are a read only user.
 Dont forget to click the '+' when adding comments to an iteration or Story card.
 Dont forget to click the '+' when adding tasks or uploading files to a Story card.
 Remember to click '+' when adding Tasks,Comments or uploading files.
+To Print story cards 4 to a page use landscape orientation, use portrait for 8 cards to a page.

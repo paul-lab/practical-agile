@@ -27,9 +27,9 @@ Key Features.
 Requirements 
 
 (Included in the full install)
-•	MySQL * (using  v 5.0.67 & 5.5.?)
-•	PHP* (using  5.6) incl Mysqli (GD2 not needed any more)
-•	Web server* (using Apache 2.4)
+•	MySQL* 5+ (using 5.5)
+•	PHP* 5+ (using  5.6) incl Mysqli
+•	Web server* 2.2 (using Apache 2.4)
 
 (Included in both installs)
 •	JHtml+ 

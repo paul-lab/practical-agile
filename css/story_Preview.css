@@ -6,20 +6,20 @@ body {
 
 #container {
 	float:left;
-	margin-top:20px;
-	width:495px;
-	max-height:325px;
+	margin-top:2px;
+	width:49%;
 	border:1px solid black;
 	overflow:hidden;
+	page-break-inside: avoid;
 }
 
 #containerr {
 	float:right;
-	margin-top:20px;
-	width:495px;
-	max-height:325px;
+	margin-top:2px;
+	width:49%;
 	border:1px solid black;
 	overflow:hidden;
+	page-break-inside: avoid;
 }
 
 .left {
@@ -55,6 +55,17 @@ body {
 	overflow:hidden;
 	border-top:1px solid black;
 	padding: 2px;
+}
+
+@media print and (orientation:landscape){
+	#detail {
+		height:210px;
+	}
+}
+@media print and (orientation:portrait){
+	#detail {
+		height:125px;
+	}
 }
 
 .taskCell{ display:inline;}

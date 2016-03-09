@@ -15,7 +15,7 @@ echo '<li><a title="Practical Agile" href="http://www.practicalagile.co.uk"><img
 	echo '</script>';
 
 // Logged on User Stuff
-echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&nbsp;</a><ul>';
+	echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&nbsp;</a><ul>';
 	echo '<li><a href="project_List.php" title="My Projects">My Projects</a>';
 	$sql = 'SELECT ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID where user_project.User_ID='.$_SESSION['ID'];
 	if ($Usr['Admin_User']==0){
@@ -38,6 +38,7 @@ echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&
 		echo '<li><a href="help/help.html" target="_blank" title="Help">Help</a></li>';
 		echo '<li><a href="about.php" target="_blank" title="About">About</a></li>';
 		echo '<li><a href="_Licence.txt" target="_blank" title="License">License (MIT)</a></li>';
+		echo '<li></li>';
 		echo '<li><a href="logout.php" title="Logout">Logout</a></li>';
 	echo '</ul></li>';
 
@@ -66,7 +67,7 @@ if ($Usr['Admin_User']==1)
 	echo '<li><a href="#" title="Organisation Admin">&nbsp;Org. Config.&nbsp;</a><ul>';
 		echo '<li><a href="releaseDetails_List.php">Release Planning</a>';
 		echo $rels;
-		echo '</li>';
+		echo '</li><li></li>';
 		echo '<li><a href="project_Edit.php">New Project</a></li>';
 		echo '<li><a href="user_List.php">User Admin</a></li>';
 		echo '<li><a href="sizeType_List.php">Story Size Type</a></li>';
@@ -81,7 +82,10 @@ if ($Usr['Admin_User']==1)
 // Project specific Stuff
 if (isset($_REQUEST['PID']))
 {
-		echo '<li><a href="#">&nbsp;'.Get_Project_Name($_REQUEST['PID']).'&nbsp;</a><ul>';
+	echo '<li><a href="#">&nbsp;'.Get_Project_Name($_REQUEST['PID']).'&nbsp;</a><ul>';
+	echo '<li><a href="project_Summary.php?PID='.$_REQUEST['PID'].'">Project Summary</a></li>';
+	echo '<li><a href="iteration_List.php?PID='.$_REQUEST['PID'].'">Iterations (& history)</a></li>';
+	echo '<li></li>';
 	if ($isProjectAdmin )
 	{
 		echo '<li><a href="releaseDetails_List.php">Release Planning</a>';
@@ -93,11 +97,8 @@ if (isset($_REQUEST['PID']))
 		echo '<li><a href="tags_Reset.php?PID='.$_REQUEST['PID'].'">Clear unused Tags</a></li>';
 		echo '<li></li>';
 	}
-		echo '<li><a href="project_Summary.php?PID='.$_REQUEST['PID'].'">Project Summary</a></li>';
-		echo '<li><a href="iteration_List.php?PID='.$_REQUEST['PID'].'">Iterations (& history)</a></li>';
-		echo '<li></li>';
-		echo '<li><a href="story_Import.php?PID='.$_REQUEST['PID'].'&etype=project">Import Stories</a></li>';
-		echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&etype=project">Export Project</a></li>';
+	echo '<li><a href="story_Import.php?PID='.$_REQUEST['PID'].'&etype=project">Import Stories</a></li>';
+	echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&etype=project">Export Project</a></li>';
 	echo '</ul></li>';
 
 // Reports
