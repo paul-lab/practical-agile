@@ -4,7 +4,7 @@
 
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');
-	
+
 	$user_details = check_user($_SESSION['user_identifier']);
 	if(!$user_details){
 		exit();
@@ -20,23 +20,16 @@ function Getuploads($ThisProject, $ThisStory)
 	echo	'<ul id="tableupload'.$ThisStory.'">';
 
 	$upload_sql = 'SELECT upload.AID, HEX(upload.Name) as Name, upload.Desc, upload.Size, upload.Type  FROM upload where upload.AID='.$ThisStory.' order by upload.Desc';
-	$upload_Res = mysqli_query($DBConn, $upload_sql);
-	if ($upload_Row = mysqli_fetch_array($upload_Res))
-	{
-		do
-		{
-			echo	'<li class="divRow" id=upload_'.$upload_Row['Type'].'>';
-
+	$upload_Res = $DBConn->directsql($upload_sql);
+	foreach ($upload_Res as $upload_Row)		{
+		echo	'<li class="divRow" id=upload_'.$upload_Row['Type'].'>';
 			echo	'<div class="divCell">';
-				echo '<a target="_blank" href="upload/'.$upload_Row['Name'].'.'.$upload_Row['Type'].'">'.$upload_Row['Desc'].'</a>';
-				echo '</div> '.
-				'<div class="divCell1">'.$upload_Row['Size'].' b</div> '.
-				'<div class="divCell1 deleteupload" id="'.$upload_Row['Name'].'"><img src="images/delete-small.png"></div>'.
-				'</li>';
-		}
-		while ($upload_Row = mysqli_fetch_array($upload_Res));
+			echo '<a target="_blank" href="upload/'.$upload_Row['Name'].'.'.$upload_Row['Type'].'">'.$upload_Row['Desc'].'</a>';
+			echo '</div> '.
+			'<div class="divCell1">'.$upload_Row['Size'].' b</div> '.
+			'<div class="divCell1 deleteupload" id="'.$upload_Row['Name'].'"><img src="images/delete-small.png"></div>'.
+			'</li>';
 	}
-
 	echo '</ul>';
 		echo
 			'<div class="micromenudiv-input" id="newrow_'.$ThisStory.'">'.

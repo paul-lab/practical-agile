@@ -36,41 +36,40 @@ $(function() {
 // Make a simple SELECT query
 
 	$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
-	$QRes = mysqli_query($DBConn, $qsql);
-	$QRow = mysqli_fetch_assoc($QRes);
-	$cond=" ".$QRow['QSQL'];	
+	$QRow = $DBConn->directsql($qsql);
+	$QRow = $QRow[0];
+	$cond=" ".$QRow['QSQL'];
 	$cond= str_replace('{User}', $_SESSION['ID'], $cond);
 	$cond= str_replace('{Iteration}', $_REQUEST['IID'], $cond);
 	$cond= str_replace('{Project}', $_REQUEST['PID'], $cond);
 	$cond= str_replace('{Backlog}', $Project['Backlog_ID'], $cond);
 
 	$q =$sel.$cond.' '.$QRow['Qorder'];
-echo $q;
-// do we have any results
-if (	$r = mysqli_query($DBConn, $q)) {  
 
-	// send to the screen
-	if ($_REQUEST['Type']=="search"){
-		// write the column headers
-		echo '<br><table class="center" cellpadding="2" cellspacing="0"><tr  class="alternate2">';
-	    	while ($finfo = mysqli_fetch_field($r)) {
-		        echo  '<td><b>'.$finfo->name.'</b></td>';
-		    }
-		echo '</tr>';
-		// and then the row details
-		$cnt = mysqli_num_fields($r);
-		$Toggle=0;
-		while($row = mysqli_fetch_row($r)){  
-			if ($row){
+	$r = $DBConn->directsql($q);
+	echo $q;
+// do we have any results
+	if (count($r) > 0) {
+		// send to the screen
+		if ($_REQUEST['Type']=="search"){
+			// write the column headers
+			echo '<br><table class="center" cellpadding="2" cellspacing="0"><tr  class="alternate2">';
+			foreach($r[0] as $key => $value){
+				echo '<td><b>'.$key.'</b></td>';
+			}
+			echo '</tr>';
+			// and then the row details
+
+			$Toggle=0;
+			foreach($r as $row){
 				$Toggle = ($Toggle + 1) % 2;
 				echo '<tr class="alternate'.$Toggle.'">';
-				for ($col = 0; $col < $cnt; $col++) {
-					echo '<td>'.$row[$col].'</td>'; 
+				foreach($row as $col){
+					echo '<td>'.$col.'</td>';
 				}
 				echo '</tr>';
 			}
-		} 
-		echo '</table><center>-- End --</center>';
+			echo '</table><center>-- End --</center>';
+		}
 	}
-}
 ?>

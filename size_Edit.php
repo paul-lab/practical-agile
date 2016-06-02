@@ -24,45 +24,45 @@ function print_Story_Size_Type_Dropdown($current)
 
 	$current=$current+0;
 	$sql = 'select * from size_type where size_type.ID='.$current;
-    	$queried = mysqli_query($DBConn, $sql);
-	$result=mysqli_fetch_array($queried);
+	$result=$DBConn->directsql($sql);
 
 	$menu = '<select name="Type">';
-	$menu .= '<option value="' . $current . '">' . $result['Desc'] . '</option>';
+	$menu .= '<option value="' . $current . '">' . $result[0]['Desc'] . '</option>';
 	$sql = 'select * from size_type where size_type.ID<>'.$current;
-    	$queried = mysqli_query($DBConn, $sql);
-		while ($result = mysqli_fetch_array($queried)) {
+	$Row=$DBConn->directsql($sql);
+	foreach ($Row as $result) {
 		$menu .= '<option value="' . $result['ID'] . '">' . $result['Desc'] .'</option>';
-	    }
+	}
 	$menu .= '</select>';
 	return $menu;
 }
 
 	$showForm = true;
-	if (isset($_POST['saveUpdate'])) 
+	if (isset($_POST['saveUpdate']))
 	{
-		
+		$data=array(
+			'Type'	=> $_REQUEST['Type'],
+			'Value' => $_REQUEST['Value'],
+			'Order' 	=> $_REQUEST['Order']
+		);
 		if (empty($_REQUEST['id']))
 		{
-			$sql_method = 'INSERT INTO';
 			$button_name = 'Add';
-			$whereClause = '';
+			$result=$DBConn->create('size',$data);
 		}
 		else
 		{
-			$sql_method = 'UPDATE';
 			$button_name = 'Save';
-			$whereClause = 'WHERE ID = '.($_REQUEST['id'] + 0);
+			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
+			$result=$DBConn->update('size',$data,$whereClause);
 		}
-		 if (mysqli_query($DBConn, "{$sql_method} size SET 			Type = '".$_REQUEST['Type']."',
-			Value = '".$_REQUEST['Value']."',
-			size.Order = '".$_REQUEST['Order']."' {$whereClause}"))
+		 if ($result>0)
 		{
 			$showForm = false;
 		}
 		else
 		{
-			$error = 'The form failed to process correctly.'.mysqli_error();
+			$error = 'The form failed to process correctly.';
 		}
 	}
 
@@ -73,8 +73,8 @@ function print_Story_Size_Type_Dropdown($current)
 	{
 		if (!empty($_REQUEST['id']))
 		{
-			$size_Res = mysqli_query($DBConn, 'SELECT * FROM size WHERE ID = '.$_REQUEST['id']);
-			$size_Row = mysqli_fetch_assoc($size_Res);
+			$size_Row = $DBConn->directsql( 'SELECT * FROM size WHERE ID = '.$_REQUEST['id']);
+			$size_Row = $size_Row[0];
 		}
 		else
 		{
@@ -88,7 +88,7 @@ function print_Story_Size_Type_Dropdown($current)
 		<td>Type:</td>
 		<td>
 <?=print_Story_Size_Type_Dropdown($size_Row['Type']);?>
-			
+
 		</td>
 	</tr>
 	<tr>

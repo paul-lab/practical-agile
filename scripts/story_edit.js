@@ -20,7 +20,6 @@ $(function() {
 		$('.dupestory').show();
 	}
 
-
 	$('.dupestory').mouseover(function() {
 		$('html, body').css("cursor", "pointer");
 	});
@@ -42,9 +41,13 @@ $(function() {
 			data: thisstory,
 			success: function (data) {
 				$('#msg_div').html(data);
+				$('#msg_div').show();
+
         		}
 		});
 	});
+
+
 
 	$('#singleFieldTags').tagit({	
 		autocomplete: {delay: 0, minLength: 0},
@@ -71,9 +74,6 @@ $(function() {
 			window.location = thisurl;
 		}
 	});
-
-
-
 
         /*
             

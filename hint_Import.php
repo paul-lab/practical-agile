@@ -7,14 +7,15 @@ if (isset($_POST['acceptImport'])) header('Location: project_List.php');
 
 if (isset($_POST['delete_existing']))
 {
-	$sql = 'TRUNCATE TABLE hint';
-	mysqli_query($DBConn, $sql);
-	if(mysqli_error($DBConn))
-		{
-			echo('<br>'.mysqli_error($DBConn)).'<br>';
-		}else{
-			echo '<P><B>All existing Hints Deleted.</B><P>';
-		}
+	if (dbdriver=='mysql'){
+		$sql = 'TRUNCATE TABLE hint';
+		$DBConn->directsql($sql);
+	}else{
+		$sql = 'delete from hint';
+		$DBConn->directsql($sql);
+		$sql2="delete from sqlite_sequence where name='hint'";
+		$DBConn->directsql($sql2);
+	}
 		auditit(0, 0,$_SESSION['Email'],'Deleted existing hints');
 }
 
@@ -23,19 +24,15 @@ if (isset($_POST['delete_existing']))
 		$hasError = false;
 		// loop through the records to be imported.
 		$handle = fopen($_FILES["file"]["tmp_name"], "r");
-		if ($handle)
-			{
-			while (($data = fgets($handle)) !== false)
-			{
-				$sql = 'INSERT INTO hint SET Hint_Text="'.htmlentities( $data,ENT_QUOTES).'"';
-				mysqli_query($DBConn, $sql);
-				if(mysqli_error($DBConn))
-				{
+		if ($handle){
+			while (($data = fgets($handle)) !== false)	{
+				$sql = 'INSERT INTO hint (Hint_Text) values("'.htmlentities( $data,ENT_QUOTES).'")';
+				$cnt= $DBConn->directsql($sql);
+				if($cnt >0){
+					echo '<br> Imported :'. $data;
+				}else{
 					$hasError = true;
 					echo('<br>Error on record '.$data);
-					echo('<br>'.mysqli_error($DBConn)).'<br>';
-				}else{
-					echo '<br> Imported :'. $data;
 				}
 			}
 		}else{

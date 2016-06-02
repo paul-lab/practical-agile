@@ -1,5 +1,6 @@
 <?php
 	include 'include/header.inc.php';
+
 	if (empty($_REQUEST['PID']) && empty($_REQUEST['RID'])) header("Location:project_List.php");
 
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
@@ -21,21 +22,17 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hasheadc4c06ca49398160497cb55b216b8a.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash55ec32a6286db98dff5cfdcbe3eb7cb7.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
 	<script src="fancytree/jquery.fancytree.dnd.js" type="text/javascript"></script>
-
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
-    	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
+	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea.ColorPickerMenu-0.8-min.js"></script>
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
-
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
-
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
-
 	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
 
 	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="jqplot/excanvas.js"></script><![endif]-->
@@ -88,7 +85,7 @@ $(function() {
 			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID=0 ';
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['PARID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
-		mysqli_query($DBConn, $sql);
+		$DBConn->directsql($sql);
 	}
 	if (isset($_POST['DeleteFromRelease']))
 	{
@@ -114,15 +111,13 @@ $(function() {
 			$sql= 'UPDATE story SET story.Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['PARID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['PARID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
-		mysqli_query($DBConn, $sql);
+		$DBConn->directsql($sql);
 	}
-
-
 
 function GetTreeRoot ($sql,$flag='')
 {
 	Global $DBConn;
-	$tree_Res = mysqli_query($DBConn, $sql);
+	$tree_Res = $DBConn->directsql($sql);
 	echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
 	echo '&nbsp;&nbsp;<a href="#" class="btnCollapseAll" id="">Collapse</a>/';
 	echo '<a href="#" class="btnExpandAll" id="">Expand</a>';
@@ -134,36 +129,31 @@ function GetTreeRoot ($sql,$flag='')
 	echo '</div>';
 }
 
-function GetTree ($tree_Res,$flag='')
-{
+function GetTree ($tree_Res,$flag=''){
 	Global $DBConn;
-	if ($tree_Row = mysqli_fetch_assoc($tree_Res))
-	{
-		do
-		{
-			if (empty($_REQUEST['RID']) || ($tree_Row['Release_ID']==$_REQUEST['RID'] || Num_Children($tree_Row['AID'])!=0)){
-				echo	'<li id="'.$tree_Row['AID'].'" data-nodndflag="'.$flag.'" data-iteration="'.Get_Iteration_Name($tree_Row['Iteration_ID'],False).'" data-iid="'.$tree_Row['Iteration_ID'].'" data-pid="'.$tree_Row['Project_ID'].'" >';
-					echo '<div class="treebox">';
-						PrintStory ($tree_Row);
-					echo '</div>';
-					// if i have children, then go and fetch them
-					$sql='SELECT * FROM story WHERE story.Parent_Story_ID='.$tree_Row['AID'].' order by story.Epic_Rank';
-					$Child_Res = mysqli_query($DBConn, $sql);
-					if ($Child_Res)
-					{
-						echo '<ul>';
-						GetTree($Child_Res,$flag);
-						echo '</ul>';
-					}
-				echo '</li>';
+	foreach ($tree_Res as $tree_Row ){
+		if (empty($_REQUEST['RID']) || ($tree_Row['Release_ID']==$_REQUEST['RID'] || Num_Children($tree_Row['AID'])!=0)){
+			echo	'<li id="'.$tree_Row['AID'].'" data-nodndflag="'.$flag.'" data-iteration="'.Get_Iteration_Name($tree_Row['Iteration_ID'],False).'" data-iid="'.$tree_Row['Iteration_ID'].'" data-pid="'.$tree_Row['Project_ID'].'" >';
+				echo '<div class="treebox">';
+					PrintStory ($tree_Row);
+				echo '</div>';
+				// if i have children, then go and fetch them
+				$sql='SELECT * FROM story WHERE story.Parent_Story_ID='.$tree_Row['AID'].' order by story.Epic_Rank';
+				$Child_Res = $DBConn->directsql($sql);
+				if (count($Child_Res) > 0)	{
+					echo '<ul>';
+					GetTree($Child_Res,$flag);
+					echo '</ul>';
+				}
+			echo '</li>';
 		}
-		}while ($tree_Row = mysqli_fetch_assoc($tree_Res));
 	}
 }
 
 
 // Make sure that we have an iteration to display if this is not a release
 if (empty($_REQUEST['IID']) && empty($_REQUEST['RID']) ){
+#if (empty($_REQUEST['IID']) ){
 	$_REQUEST['IID']=$Project['Backlog_ID'];
 }
 
@@ -191,8 +181,8 @@ echo '</div>';
 	}
 	echo '</div>';
 
-echo '<div id="msg_div">';
-echo '&nbsp;</div>';
+#echo '<div id="msg_div">';
+#echo '&nbsp;</div>';
 
 if ($_REQUEST['Type']=="search"){
 
@@ -230,8 +220,8 @@ if ($_REQUEST['Type']=="search"){
 		echo '<br>Search "'.$_REQUEST['searchstring'].'"';
 	}else{
 		$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
-		$QRes = mysqli_query($DBConn, $qsql);
-		$QRow = mysqli_fetch_assoc($QRes);
+		$QRow = $DBConn->directsql($qsql);
+		$QRow = $QRow[0];
 		$cond=" ".$QRow['QSQL'];
 		$cond= str_replace('{User}', $_SESSION['ID'], $cond);
 		$cond= str_replace('{Iteration}', $_REQUEST['IID'], $cond);
@@ -242,21 +232,16 @@ if ($_REQUEST['Type']=="search"){
 		echo '<br>"'.$QRow['Desc'].'"';
 	}
 
-	$pres=mysqli_query($DBConn, $psql);
-	$pts=mysqli_fetch_assoc($pres);
-	if ($story_Res = mysqli_query($DBConn, $sql))
-	{
-		echo ' returns <b>'.mysqli_num_rows($story_Res).'</b> Stories and <b>'.$pts['points'].'</b> points';
+	$pts=$DBConn->directsql($psql);
+	$pts=$pts[0];
+	$story_Res = $DBConn->directsql($sql);
+	if (count($story_Res) > 0)	{
+		echo ' returns <b>'.count($story_Res).'</b> Stories and <b>'.$pts['points'].'</b> points';
 		echo '<ul id="sortable">';
-		if ($story_Row = mysqli_fetch_assoc($story_Res))
-		{
-			do
-			{
-				echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-				PrintStory ($story_Row);
-				echo	'</li>';
-			}
-			while ($story_Row = mysqli_fetch_assoc($story_Res));
+		foreach ($story_Res as $story_Row){
+			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+			PrintStory ($story_Row);
+			echo	'</li>';
 		}
 		echo '</ul>';
 	}
@@ -269,8 +254,6 @@ if (empty($_REQUEST['Type'])){
 	echo '</td></tr><tr><td align="center">';
 	print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
 	echo '</td></tr></table>';
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$story_Res = mysqli_query($DBConn, $sql);
 
 	echo '<div class="left-box">';
 	echo '&nbsp;<a title = "Iteration Tree" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'&Type=tree&Root=iteration"><img src="images/tree.png"></a>';
@@ -280,11 +263,11 @@ if (empty($_REQUEST['Type'])){
 	echo '<div class="inline right-box">';
 	echo '<div class="inline" id="comment_count_i_'.$Iteration['Comment_Object_ID'].'">';
 	$tsql = 'SELECT count(*) as count FROM comment where comment.Comment_Object_ID='.$Iteration['Comment_Object_ID'].' and Comment_Object_ID<>0';
-						$tres=mysqli_query($DBConn, $tsql);
-						$t_row = mysqli_fetch_assoc($tres);
-						if ($t_row['count'] >0){
-							echo ' ('.$t_row['count'].')';
-						}
+	$t_row=$DBConn->directsql($tsql);
+	$t_row =$t_row [0];
+	if ($t_row['count'] >0){
+		echo ' ('.$t_row['count'].')';
+	}
 	echo'</div>';
 	echo '<a class="commentpopup" id="commenti_'.$Iteration['Comment_Object_ID'].'" href="" onclick="javascript: return false;" title="Show Comments"><img src="images/comment-small.png"></a> &nbsp;';
 
@@ -298,15 +281,12 @@ if (empty($_REQUEST['Type'])){
 	$OIterationcount=1;
 
 	echo '<ul id="sortable">';
-	if ($story_Row = mysqli_fetch_assoc($story_Res))
-	{
-		do
-		{
-			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-			PrintStory ($story_Row);
-			echo	'</li>';
-		}
-		while ($story_Row = mysqli_fetch_assoc($story_Res));
+	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+	$story_Res = $DBConn->directsql($sql);
+	foreach ($story_Res as $story_Row){
+		echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+		PrintStory ($story_Row);
+		echo	'</li>';
 	}
 	echo '</ul>';
 }
@@ -323,13 +303,9 @@ if ($_REQUEST['Type']=='tree'){
 		print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
 		echo '</td></tr></table>';
 		$sqlp = 'SELECT AID FROM story where story.Iteration_ID='.$_REQUEST['IID'];
-		$Res = mysqli_query($DBConn, $sqlp);
-		if ($Res)
-		{
-			while  ($Row = mysqli_fetch_assoc($Res))
-			{
-				$instr.=Top_Parent($Row['AID']).',';
-			}
+		$Res = $DBConn->directsql($sqlp);
+		foreach($Res as $Row){
+			$instr.=Top_Parent($Row['AID']).',';
 		}
 		$instr = rtrim($instr, ",");
 		$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and AID IN('.$instr.') order by story.Epic_Rank';
@@ -339,21 +315,17 @@ if ($_REQUEST['Type']=='tree'){
 	{
 //Release Tree
 		// release info start, end etc
-		$sqlp='select * from release_details where id ='.$_REQUEST['RID'];
-		$Res = mysqli_query($DBConn, $sqlp);
-		if ($Res)
-		{
-			$RelRow = mysqli_fetch_assoc($Res);
+		$RelRow = fetchusingID('*',$_REQUEST['RID'],'release_details');
+		if (count($RelRow)>0)		{
 			echo '&nbsp;<div class="inline larger"><b>'.$RelRow['Name'].' ('.$RelRow['Start'].' -> '.$RelRow['End'].')</b></div>';
-if ($RelRow['Locked']!==0){
-echo ' Locked<br>';
-}
+			if ($RelRow['Locked']!==0){
+				echo ' Locked<br>';
+			}
 		}
 
 		// release statistics stories & points)
 		$tsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
-
-		print_releasesummary("Release",$tsql);
+		print_releasesummary("",$tsql);
 
 		echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
 
@@ -365,24 +337,19 @@ echo ' Locked<br>';
 			$tsql = 'SELECT distinct(story.Project_ID) as relproj FROM story left join user_project on story.Project_ID = user_project.Project_ID  where story.Release_ID='.$_REQUEST['RID'].' and user_project.User_ID='.$_SESSION['ID'].' and user_project.Project_Admin=1';
 		}
 
-		$Resp=mysqli_query($DBConn, $tsql);
-		while  ($Rowp = mysqli_fetch_assoc($Resp))
-		{
-		$dummy = buildstatuspop($Rowp['relproj']);
-		$instr='';
+		$Resp = $DBConn->directsql($tsql);
+		foreach($Resp as $Rowp)	{
+			$dummy = buildstatuspop($Rowp['relproj']);
+			$instr='';
 		// stories in release
 			$sqlp = 'SELECT AID FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Project_ID='.$Rowp['relproj'];
-			$Res = mysqli_query($DBConn, $sqlp);
-			if ($Res)
-			{
-				while  ($Row = mysqli_fetch_assoc($Res))
-				{
-					$instr.=Top_Parent($Row['AID']).',';
-				}
+			$Res =$DBConn->directsql($sqlp);
+			foreach($Res as $Row){
+				$instr.=Top_Parent($Row['AID']).',';
 			}
+
 			// print project stats for release
 			$ptsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Project_Id ='.$Rowp['relproj'].' and story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
-
 			print_releasesummary($Rowp['relproj'],$ptsql);
 
 			if ($RelRow['Locked']==0)
@@ -399,8 +366,8 @@ echo ' Locked<br>';
 				$menu .= '<option value="0"></option>';
 // Epics
 				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
-				$queried = mysqli_query($DBConn, $sql);
-				while ($result = mysqli_fetch_array($queried)) {
+				$queried = $DBConn->directsql($sql);
+				foreach($queried as $result) {
 					$menu .= '<option value="' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
 				}
 				$menu .= '<option value="0"></option>';
@@ -409,14 +376,9 @@ echo ' Locked<br>';
 				date_add($topdate , date_interval_create_from_date_string('3 months'));
 				$topdate = date_format($topdate , 'Y-m-d');
 				$sql = 'SELECT ID, Name, Start_Date, End_Date FROM iteration where iteration.Project_ID ='.$Rowp['relproj'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$Rowp['relproj'].'")) order by iteration.End_Date desc LIMIT 10';
-				$iter_Res = mysqli_query( $DBConn, $sql);
-				if ($iter_Row = mysqli_fetch_assoc($iter_Res))
-				{
-					do
-					{
-						$menu .= '<option value="I'.$iter_Row['ID'].'">'.$iter_Row['Name'].'</option>';
-					}
-					while ($iter_Row = mysqli_fetch_assoc($iter_Res));
+				$iter_Res = $DBConn->directsql($sql);
+				foreach ($iter_Res as $iter_Row){
+					$menu .= '<option value="I'.$iter_Row['ID'].'">'.$iter_Row['Name'].'</option>';
 				}
 				$menu .= '</select> to / from this release (Only work NOT already in a release will be added)';
 				echo $menu;
@@ -432,7 +394,7 @@ echo ' Locked<br>';
 			$instr = rtrim($instr, ",");
 
 			$sql = 'SELECT * FROM story where project_ID='.$Rowp['relproj'].' and AID IN('.$instr.') order by story.project_ID, story.Epic_Rank';
-			$tree_Res = mysqli_query($DBConn, $sql);
+			$tree_Res = $DBConn->directsql($sql);
 			echo '&nbsp; &nbsp;<a href="#" class="btnCollapseAll" id="'.$Rowp['relproj'].'">Collapse</a>/';
 			echo '<a href="#" class="btnExpandAll" id="'.$Rowp['relproj'].'">Expand</a>';
 			echo '<div class="tree" id="tree'.$Rowp['relproj'].'"><ul><li class="larger">'.Get_Project_Name($Rowp['relproj']).'<ul>';
@@ -457,68 +419,58 @@ echo ' Locked<br>';
 	}
 }
 
-
 // start Scrum Board
-if ($_REQUEST['Type']=='board'){
-	$colcount==0;
-	echo '<br>';
-	echo '<span id="'.$_REQUEST['PID'].'">';
-	$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' and LENGTH(story_status.Desc)>0 order by story_status.Order';
-	$status_Res = mysqli_query($DBConn, $sql);
-	if ($status_Row = mysqli_fetch_assoc($status_Res))
-	{
-		do
-		{
-			$colcount=$colcount+1;
-			echo '<ul name= "'.$_REQUEST['IID'].'" id="status'.$status_Row['Order'].'" class="connectedSortable">';
-			echo '<li class="scrumtitle" style="background: #'.$status_Row['RGB'].';">'.$status_Row['Desc'].'</li>';
-			$sqls = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.
-				$_REQUEST['IID'].' and  0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID)'.
-				' and story.Status="'.$status_Row['Desc'].'" order by story.Iteration_Rank';
-			$story_Res = mysqli_query($DBConn, $sqls);
-			if ($story_Row = mysqli_fetch_assoc($story_Res))
-			{
-				do
-				{
-					echo '<li class="scrumdetail" id="'.$story_Row['AID'].'">'.
-		 				'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a>'.
-						' - '.substr($story_Row['Summary'], 0, 120).
-						'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;'.
-						'<br>'.$story_Row['Type'].'&nbsp;'.
-						'&nbsp;['.$story_Row['Size'].']&nbsp;'.
-						'&nbsp;'.Get_User($story_Row['Owner_ID'],1).'&nbsp;'.
-						'&nbsp;';
-						if($story_Row['Parent_Story_ID'] != 0) {
-						$parentssql='SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
-						$parents_Res = mysqli_query($DBConn, $parentssql);
-						if ($parents_row = mysqli_fetch_assoc($parents_Res))
-						{
-							do
-							{
-						  		if($parents_row['parent']!=NULL)
-								{
-									$parentsql='select ID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
-									$parent_Res = mysqli_query($DBConn, $parentsql);
-									if ($parent_row = mysqli_fetch_assoc($parent_Res))
-									{
-										echo '<a  title="'.$parent_row ['Summary'].'"';
- 										echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
-										echo ' #'.$parent_row ['ID'].'('.$parent_row ['Size'].')</a>, &nbsp;';									}
-								}
-							}
-							while ($parents_row = mysqli_fetch_assoc($parents_Res));
+	if ($_REQUEST['Type']=='board'){
+		$colcount==0;
+		echo '<br>';
+		echo '<span id="'.$_REQUEST['PID'].'">';
+		$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
+		$status_Res = $DBConn->directsql($sql);
+		foreach($status_Res as $status_Row ){
+		$colcount=$colcount+1;
+		echo '<ul name= "'.$_REQUEST['IID'].'" id="status'.$status_Row['Order'].'" class="connectedSortable">';
+		echo '<li class="scrumtitle" style="background: #'.$status_Row['RGB'].';">'.$status_Row['Desc'].'</li>';
+		$sqls = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.
+		$_REQUEST['IID'].' and  0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID)'.
+		' and story.Status="'.$status_Row['Desc'].'" order by story.Iteration_Rank';
+		$story_Res = $DBConn->directsql($sqls);
+		foreach ($story_Res as $story_Row){
+			echo '<li class="scrumdetail" id="'.$story_Row['AID'].'">'.
+ 				'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a>'.
+				' - '.substr($story_Row['Summary'], 0, 120).
+				'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;'.
+				'<br>'.$story_Row['Type'].'&nbsp;'.
+				'&nbsp;['.$story_Row['Size'].']&nbsp;'.
+				'&nbsp;'.Get_User($story_Row['Owner_ID'],1).'&nbsp;'.
+				'&nbsp;';
+				if($story_Row['Parent_Story_ID'] != 0) {
+				if (dbdriver=='mysql'){
+					$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+				}else{
+					$parentssql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$story_Row['AID'].',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story
+					JOIN xid ON story.aid=xid.aid where parent_story_id <>0 )
+					SELECT aid as parent FROM xid where level <> 0 order by level  ';
+				}
+				$parents_Res =  $DBConn->directsql($parentssql);
+				foreach($parents_Res as $parents_row){
+			  		if($parents_row['parent']!=NULL){
+						$parentsql='select ID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
+						$parent_Row = $DBConn->directsql($parentsql);
+						if (count($parent_Row) == 1)	{
+							echo '<a  title="'.$parent_Row[0]['Summary'].'"';
+								echo ' href="story_List.php?Type=tree&Root='.$parent_Row[0]['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
+							echo ' #'.$parent_row[0]['ID'].'('.$parent_Row[0]['Size'].')</a>, &nbsp;';
 						}
 					}
-					echo 	'</li>';
 				}
-				while ($story_Row = mysqli_fetch_assoc($story_Res));
-			}
-			echo '</ul>';
-		}while ($status_Row = mysqli_fetch_assoc($status_Res));
+		}
+			echo 	'</li>';
 	}
+		echo '</ul>';
+}
 	echo '</span>';
 ?>
-	
+
 <script>
 // column width for the scrum board
 	var cwi= ((100/<?=$colcount;?>)-(<?=$colcount;?>/20))+'%';

@@ -19,12 +19,10 @@ function GetTasks($ThisProject, $ThisStory)
 
 	echo	'<ul id="sortabletask'.$ThisStory.'">';
 
-	$task_sql = 'SELECT * FROM task where task.Story_AID='.$ThisStory.' order by Rank, ID';
-	$task_Res = mysqli_query($DBConn, $task_sql);
-	if ($task_Row = mysqli_fetch_array($task_Res))
-	{
-		do
-		{
+	$task_sql = 'SELECT * FROM task where Story_AID='.$ThisStory.' order by `Rank`, `ID`';
+	$task_Res =$DBConn->directsql($task_sql);
+#	if (count($task_Res)>0)	{
+		foreach($task_Res as $task_Row)	{
 			echo	'<li class="divRow" id=task_'.$task_Row['ID'].'>'.
 					'<div class="divCell1 edittask" id="edittask_'.$task_Row['ID'].'">'.
 						'<img src="images/edit-small.png">'.
@@ -41,8 +39,7 @@ function GetTasks($ThisProject, $ThisStory)
 					'<div class="divCell1 deletetask"><img src="images/delete-small.png"></div>'.
 			'</li>';
 		}
-		while ($task_Row = mysqli_fetch_array($task_Res));
-	}
+#	}
 
 	echo '</ul>';
 		echo

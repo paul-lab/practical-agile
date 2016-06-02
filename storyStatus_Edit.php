@@ -21,53 +21,43 @@ $(function() {
 </script>
 <?php
 	$showForm = true;
-	if (isset($_POST['saveUpdate']))
-	{
-
-		if (empty($_REQUEST['id']))
-		{
+	if (isset($_POST['saveUpdate'])){
+		$data=array(
+ 			'Project_ID' => $_REQUEST['PID'],
+			'Desc' 		=> $_REQUEST['Desc'],
+			'Policy' 	=> $_REQUEST['Policy'],
+			'Order' 	=> $_REQUEST['Order'],
+			'RGB' 		=> $_REQUEST['RGB']
+		);
+		if (empty($_REQUEST['id']))	{
 			$sql_method = 'INSERT INTO';
 			$button_name = 'Add';
-			$whereClause = '';
-		}
-		else
-		{
+			$result=$DBConn->create('story_status',$data);
+		}else{
 			$sql_method = 'UPDATE';
 			$button_name = 'Save';
-			$whereClause = 'WHERE ID = '.($_REQUEST['id'] + 0);
+			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
+			$result=$DBConn->update('story_status',$data,$whereClause);
 		}
-		 if (mysqli_query($DBConn, "{$sql_method} story_status SET
- 			Project_ID = '".$_REQUEST['PID']."',
-			story_status.Desc = '".$_REQUEST['Desc']."',
-			story_status.Policy = '".$_REQUEST['Policy']."',
-			story_status.Order = '".$_REQUEST['Order']."',
-			RGB = '".$_REQUEST['RGB']."' {$whereClause}"))
-		{
-			$sql='Update story set story.Status="'.$_REQUEST['Desc'].'" where story.Project_ID='.$_REQUEST['PID'].' and story.Status="'.$_REQUEST['ODesc'].'"';
-			mysqli_query($DBConn, $sql);
-			$sql='Update points_log set points_log.Status="'.$_REQUEST['Desc'].'" where points_log.Project_ID='.$_REQUEST['PID'].' and points_log.Status="'.$_REQUEST['ODesc'].'"';
-			mysqli_query($DBConn, $sql);
+		if ($result>0){
+			$sql='Update story set `Status`="'.$_REQUEST['Desc'].'" where story.Project_ID='.$_REQUEST['PID'].' and `Status`="'.$_REQUEST['ODesc'].'"';
+			$DBConn->directsql($sql);
+			$sql='Update points_log set `Status`="'.$_REQUEST['Desc'].'" where points_log.Project_ID='.$_REQUEST['PID'].' and points_log.`Status`="'.$_REQUEST['ODesc'].'"';
+			$DBConn->directsql($sql);
 			$showForm = false;
-			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Project Story Status','',$_REQUEST['Desc'].'-'.$_REQUEST['Policy'].'-'.$_REQUEST['RGB']);
-		}
-		else
-		{
-			$error = 'The form failed to process correctly.'.mysqli_error();
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Project Story Status','',$_REQUEST['Order'].' - '.$_REQUEST['Desc'].'-'.$_REQUEST['Policy'].'-'.$_REQUEST['RGB']);
+		}else{
+			$error-'Form failed to process correctly';
 		}
 	}
 
-	if (!empty($error))
-		echo '<div class="error">'.$error.'</div>';
+	if (!empty($error))	echo '<div class="error">'.$error.'</div>';
 
-	if ($showForm)
-	{
-		if (!empty($_REQUEST['id']))
-		{
-			$storyStatus_Res = mysqli_query($DBConn, 'SELECT * FROM story_status WHERE ID = '.$_REQUEST['id']);
-			$storyStatus_Row = mysqli_fetch_assoc($storyStatus_Res);
-		}
-		else
-		{
+	if ($showForm)	{
+		if (!empty($_REQUEST['id'])){
+			$storyStatus_Row = $DBConn->directsql('SELECT * FROM story_status WHERE ID = '.$_REQUEST['id']);
+			$storyStatus_Row = $storyStatus_Row[0];
+		}else{
 			$storyStatus_Row = $_REQUEST;
 		}
 		echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.

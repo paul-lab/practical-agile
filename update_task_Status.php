@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');
 
@@ -7,8 +7,8 @@
 		exit();
 	}
 
-	$sql= 'UPDATE task SET task.Done='.$_GET['DONE'].' WHERE task.ID='.$_GET['TID'];
-    	mysqli_query($DBConn, $sql);
+	$sql= 'UPDATE task SET Done='.$_GET['DONE'].' WHERE ID='.$_GET['TID'];
+    $DBConn->directsql($sql);
 
 	if($_GET['DONE']==0){$Status='Todo';};
 	if($_GET['DONE']==1){$Status='Doing';};

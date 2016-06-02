@@ -7,20 +7,16 @@
 	if(!$user_details){
 		exit();
 	}
-
+	$rank=0;
 	foreach($_GET['story'] as $key=>$value) {
-		$key = ($key+1) * 10;
-		$sql= 'UPDATE story SET story.Iteration_Rank='.$key.' WHERE story.AID='.$value;
-    		mysqli_query($DBConn, $sql);
-	} 
-	
-	if($_GET[rank]==='i')
-	{
+		$rank+=10;
+		$sql= 'UPDATE story SET Iteration_Rank='.$rank.' WHERE AID='.$value;
+    	$DBConn->directsql($sql);;
+	}
+	if($_GET[rank]==='i')	{
 		$act='Increased Rank';
 	}else{
 		$act='Decreased Rank';
 	}
-
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],$act);
-
 ?>

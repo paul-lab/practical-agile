@@ -5,15 +5,10 @@ echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</
 echo 'Report Edit';
 echo '</div>';
 
-
-
-function QryType($current)
-{
-
-    	if($current < 1 ) $current=1;
+function QryType($current){
+    if($current < 1 ) $current=1;
 	$end = '<select id="external" name="External">';
-	if($current==1)
-	{
+	if($current==1)	{
 		$end .= '<option selected value="1">Story List output</option>';
 		$end .= '<option value="2">Raw Data output</option>';
 	}else{
@@ -39,50 +34,41 @@ $(function() {
 <?php
 
 	$showForm = true;
-	if (isset($_POST['saveUpdate']))
-	{
-
-		if (empty($_REQUEST['ID']))
-		{
+	if (isset($_POST['saveUpdate'])){
+		$data=array(
+			'Desc' => $_REQUEST['Desc'],
+			'Qseq' => $_REQUEST['Qseq'],
+			'QSQL' => $_REQUEST['QSQL'],
+			'External' => $_REQUEST['External'],
+			'Qorder' => $_REQUEST['Qorder']
+		);
+		if (empty($_REQUEST['ID']))		{
 			$sql_method = 'INSERT INTO';
 			$button_name = 'Add';
 			$whereClause = '';
+			$result=$DBConn->create('queries',$data);
 		}else{
 			$sql_method = 'UPDATE';
 			$button_name = 'Save';
-			$whereClause = 'WHERE ID = '.($_REQUEST['ID'] + 0);
+			$whereClause = 'ID = '.($_REQUEST['ID'] + 0);
+			$result=$DBConn->update('queries',$data,$whereClause);
 		}
-		$_REQUEST['Desc']=str_replace('"', '""', $_REQUEST['Desc']);	// double up on Quotes
-		$_REQUEST['Desc']=str_replace("'", "''", $_REQUEST['Desc']);
-		$_REQUEST['QSQL']=str_replace('"', '""', $_REQUEST['QSQL']);	// double up on Quotes
-		$_REQUEST['QSQL']=str_replace("'", "''", $_REQUEST['QSQL']);
 
-		if (mysqli_query($DBConn, "{$sql_method} queries SET
-			queries.Desc = '".$_REQUEST['Desc']."',
-			queries.Qseq = '".$_REQUEST['Qseq']."',
-			queries.QSQL = '".$_REQUEST['QSQL']."',
-			queries.External = '".$_REQUEST['External']."',
-			queries.Qorder = '".$_REQUEST['Qorder']."' {$whereClause}"))
-		{
+		if (count($result>0)){
 			$showForm = false;
 
 		}else{
-			$error = '<br>The form failed to process correctly.'.mysqli_error($DBConn);
+			$error = '<br>The form failed to process correctly.';
 		}
 	}
 
-	if (!empty($error))
-		echo '<div class="error">'.$error.'</div>';
+	if (!empty($error))	echo '<div class="error">'.$error.'</div>';
 
-	if ($showForm)
-	{
-		if (!empty($_REQUEST['ID']))
-		{
-			$Qry_Res = mysqli_query($DBConn, 'SELECT * FROM queries WHERE ID = '.$_REQUEST['ID']);
-			$Qry_Row = mysqli_fetch_assoc($Qry_Res);
-		}
-		else
-		{
+	if ($showForm)	{
+		if (!empty($_REQUEST['ID'])){
+			$Qry_Row = $DBConn->directsql( 'SELECT * FROM queries WHERE ID = '.$_REQUEST['ID']);
+			$Qry_Row = $Qry_Row[0];
+		}else{
 			$Qry_Row = $_REQUEST;
 		}
 		echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.
@@ -118,13 +104,12 @@ $(function() {
 <?php
  echo '<tr><td>'.QryType($Qry_Row['External']).'</td><td><div id="extrasql">';
 
-if ($Qry_Row['External']!=2)
-{
-echo 'SELECT * FROM story where story.Project_ID="{Project}" and (';
-}else{
-echo '&nbsp';
-}
-echo '</div></td></tr>';
+	if ($Qry_Row['External']!=2){
+		echo 'SELECT * FROM story where story.Project_ID="{Project}" and (';
+	}else{
+		echo '&nbsp';
+	}
+	echo '</div></td></tr>';
 ?>
 	<tr>
 		<td>SQL:</td>

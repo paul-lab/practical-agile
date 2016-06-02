@@ -9,58 +9,43 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 
 
 	$showForm = true;
-	if ($_REQUEST['delete'])
-	{
-		if (readonly($_REQUEST['PID']) ==0 )
-		{
+	if ($_REQUEST['delete']){
+		if (readonly($_REQUEST['PID']) ==0 ){
 			$asql='SELECT * from story where AID='.$_REQUEST['id'];
-			$aqry=mysqli_query($DBConn,$asql);
-			$aresult = mysqli_fetch_assoc($aqry);
+			$aresult = $DBConn->directsql($asql);
 			// for each field auditit
-			foreach ($aresult as $key => $value)
-			{					
+			foreach ($aresult as $key => $value){
 				if ($aresult[$key]){auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted '.$key,$aresult[$key]);}
 			}
 
-			if (mysqli_query($DBConn, 'DELETE FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID']))
-			{
+			if ($DBConn->directsql('DELETE FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID'])==1)	{
 				$asql='delete from task where Story_AID='.$_REQUEST['id'];
-				$aqry=mysqli_query($DBConn,$asql);
+				$DBConn->directsql($asql);
 				$asql='delete from comment where Story_AID='.$_REQUEST['id'];
-				$aqry=mysqli_query($DBConn,$asql);
+				$DBConn->directsql($asql);
 
 				$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type FROM upload WHERE upload.AID=".$_REQUEST['id'];
-
-				$aqry=mysqli_query($DBConn, $asql);
-				while ($aresult = mysqli_fetch_array($aqry)) 
-				{
-					if(!mysqli_error($DBConn))
-					{
-						if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type']))
-						{
-							auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
-						}
+				$aqry=$DBConn->directsql($asql);
+				foreach ($aqry as $aresult) {
+					if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type'])){
+						auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
 					}
-			    	}
+				}
 				$asql= "DELETE FROM upload WHERE upload.AID=".$_REQUEST['id'];
-				$aqry=mysqli_query($DBConn, $asql);
-
+				$aqry=$DBConn->directsql($asql);
 				$showForm = false;
 				$deleted = true;
 				Update_Iteration_Points($_REQUEST['IID']);
 			}
 		}
-	}
-	else if ($_REQUEST['nodelete'])
-	{
+	}else if ($_REQUEST['nodelete']){
 		$showForm = false;
 		$deleted = false;
 	}
 
-	if ($showForm)
-	{
-		$Res=mysqli_query($DBConn, 'SELECT ID, Summary, Size FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID']);
-		$Row=mysqli_fetch_assoc($Res);
+	if ($showForm)	{
+		$Row=$DBConn->directsql('SELECT ID, Summary, Size FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID']);
+		$Row=$Row[0];
 		echo '<form method="post" action="?">'.
 			'<p><b>#'.$Row['ID'].' - '.$Row['Summary'].' ('.$Row['Size'].' pts.)</b><p>'.
 			'Are you sure you want to delete this story, Its tasks, comments and uploaded files?<P>'.
@@ -71,12 +56,9 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 			' &nbsp; &nbsp; '.
 			'<input type="submit" name="nodelete" value="No, Don\'t Delete">'.
 		 '</form>';
-	}
-	else
-	{
+	}else{
 		header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);
 	}
 
 	include 'include/footer.inc.php';
-
 ?>

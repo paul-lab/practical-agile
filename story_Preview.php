@@ -7,76 +7,56 @@
 		exit();
 	}
 
-
-
 ?>
-<script src="jquery/jquery.js"></script>    
+<script src="jquery/jquery.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/story_Preview.css" />
 	<script type="text/javascript" src="scripts/story_Preview-hash14788f305b7f6142fe83667910ab8ac0.js"></script>
 
-
 <?php
 
-
-
-function ViewTasks($thisproject, $ThisStory)
-{
+function ViewTasks($thisproject, $ThisStory){
 	Global $DBConn;
 
 	$task_sql = 'SELECT * FROM task where task.Story_AID='.$ThisStory.' order by task.Rank';
-
-	$task_Res = mysqli_query($DBConn, $task_sql);
-	if ($task_Row = mysqli_fetch_array($task_Res))
-	{
-		do
-		{
-			echo	'<div class="taskRow">'.
-					'<div class="taskCell"><input class="done" id="done_'.$task_Row['ID'].'" '.( $task_Row['Done'] == 1 ? 'checked' : '').' value="1" disabled="disabled" type="checkbox" name="Done"></div>'.
-						'<div class="taskCell"><input size="80" id="desc_'.$task_Row['ID'].'" type="text" disabled="disabled" value="'.$task_Row['Desc'].'"/></div>'.
-						'<div class="taskCell">'.Show_Project_Users($thisproject, $task_Row['User_ID'],"user_".$task_Row['ID'],1).'</div>'.
-						'<div class="taskCell"><input id="expected_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Expected_Hours'].'"/></div>'.
-						'<div class="taskCell"><input id="actual_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Actual_Hours'].'"/></div>'.
-				
-				'</div>';
-		}
-		while ($task_Row = mysqli_fetch_array($task_Res));
+	$task_Res =  $DBConn->directsql($task_sql);
+	foreach($task_Res as $task_Row){
+		echo '<div class="taskRow">'.
+				'<div class="taskCell"><input class="done" id="done_'.$task_Row['ID'].'" '.( $task_Row['Done'] == 1 ? 'checked' : '').' value="1" disabled="disabled" type="checkbox" name="Done"></div>'.
+				'<div class="taskCell"><input size="80" id="desc_'.$task_Row['ID'].'" type="text" disabled="disabled" value="'.$task_Row['Desc'].'"/></div>'.
+				'<div class="taskCell">'.Show_Project_Users($thisproject, $task_Row['User_ID'],"user_".$task_Row['ID'],1).'</div>'.
+				'<div class="taskCell"><input id="expected_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Expected_Hours'].'"/></div>'.
+				'<div class="taskCell"><input id="actual_'.$task_Row['ID'].'" type="text" disabled="disabled" size="2" value="'.$task_Row['Actual_Hours'].'"/></div>'.
+			'</div>';
 	}
-
 }
 
-
-function CommentsBlock($ThisStory)
-{
+function CommentsBlock($ThisStory){
 	Global $DBConn;
 
 	echo '<div class="commentsdialog" id="commentspop_'.$ThisStory.'"><ul id=commentlist_'.$ThisStory.'> ';
-
 	$q = "SELECT * FROM comment WHERE Story_AID = ".$ThisStory." and Parent_ID=0 order by ID";
-	$r = mysqli_query($DBConn, $q);   
-	while($row = mysqli_fetch_assoc($r))  :
-		PreviewGetComments($row);   
-	endwhile;   
-
+	$r =  $DBConn->directsql($q);
+	foreach ($r as $row){
+		PreviewGetComments($row);
+	}
 	echo '</ul>';
 	echo '</div>  ';
 }
 
-function PreviewGetComments($row)
-{
+function PreviewGetComments($row){
 	Global $DBConn;
 	Global $Project;
 
 	echo '<li class="comment" id="comment_'.$row['ID'].'">';
  	echo '<div class="comment-body" id="comment_body_'.$row['ID'].'">'.$row['Comment_Text'].'</div>';
 	echo "<div class='aut'>By: ".$row['User_Name'].' @ '. $row['Comment_Date']."</div>";
-	
+
 	/* The following sql checks whether there's any reply for the comment */
-	$q = "SELECT * FROM comment WHERE Parent_ID = ".$row['ID'];   
-	$r = mysqli_query($DBConn, $q);
-	if(mysqli_num_rows($r)>0) // there is at least reply
-	{
+	$q = "SELECT * FROM comment WHERE Parent_ID = ".$row['ID'];
+	$r = $DBConn->directsql($q);
+	if count($r) > 0){
 		echo '<ul id="commentreply_'.$row['ID'].'">';
-		while($row = mysqli_fetch_assoc($r)) {
+		foreach ($r as $row)(
 			PreviewGetComments($row);
 		}
 		echo "</ul>";
@@ -84,15 +64,12 @@ function PreviewGetComments($row)
 	echo "</li>";
 }
 
-	$Res=mysqli_query($DBConn, 'SELECT * FROM story WHERE AID='.$_REQUEST['id']);
-	$Row=mysqli_fetch_assoc($Res);
+	$Row=fetchusingID('*',$_REQUEST['id'],'story')
 	Get_Project_Name($Row['Project_ID']);
 	echo 	'<div id="container">';
-
-
 			echo '<div class="left">'.
 				$Row['Type'].': #'.$Row['ID'];
-		
+
 				$istring=Get_Iteration_Name($Row['Iteration_ID'],False);
 				if ($istring!='Backlog') {
 					echo ' - '.$istring;
@@ -130,27 +107,17 @@ function PreviewGetComments($row)
 			'<div class="right">';
 			if($Row['Parent_Story_ID'] != 0) {
 				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id :='.$Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
-				$parents_Res = mysqli_query($DBConn, $parentssql);
-				if ($parents_row = mysqli_fetch_assoc($parents_Res))
-				{
-					do
-					{
-				  		if($parents_row['parent']!=NULL)
-						{
-							$parentsql='select ID, AID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
-							$parent_Res = mysqli_query($DBConn, $parentsql);
-							if ($parent_row = mysqli_fetch_assoc($parent_Res))
-							{
-								echo ' #'.$parent_row ['ID'].' ('.$parent_row ['Size'].' pts)</a>&nbsp;&nbsp;';
-							}
+				$parents_Res = $DBConn->directsql($parentssql);
+				foreach ($parents_Res as $parents_Row){
+					if($parents_row['parent']!=NULL){
+						$parentsql='select ID, AID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
+						$parent_row = $DBConn->directsql( $parentsql);
+						if (count($parent_row) > 0){
+							echo ' #'.$parent_row[0]['ID'].' ('.$parent_row[0]['Size'].' pts)</a>&nbsp;&nbsp;';
 						}
 					}
-					while ($parents_row = mysqli_fetch_assoc($parents_Res));
 				}
 			}
 			echo '</div>';
-
-
 		echo '</div>';
 ?>
-

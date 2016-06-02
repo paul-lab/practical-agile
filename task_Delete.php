@@ -8,7 +8,7 @@
 	}
 
 	$sql= 'DELETE FROM task WHERE task.ID='.$_GET['id'];
-	mysqli_query($DBConn, $sql);
+	$DBConn->directsql($sql);
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Deleted task',$_GET['id'].'-'.$_GET['desc']);
 
 ?>

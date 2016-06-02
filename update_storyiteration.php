@@ -7,17 +7,15 @@
 		exit();
 	}
 
-	$sql= 'UPDATE story SET story.Iteration_ID='.$_GET['IID'].' WHERE story.AID='.$_GET['AID'];
-	mysqli_query($DBConn, $sql);
-	if ($_GET['mov']=='ltr')
-	{
+	$sql= 'UPDATE story SET Iteration_ID='.$_GET['IID'].' WHERE story.AID='.$_GET['AID'];
+	$DBConn->directsql($sql);
+	if ($_GET['mov']=='ltr')	{
 		echo Update_Iteration_Points($_GET['IID']);
 	}else{
 		Update_Iteration_Points($_GET['IID']);
 	}
 
-	if ($_GET['mov']=='rtl')
-	{
+	if ($_GET['mov']=='rtl')	{
 		echo Update_Iteration_Points($_GET['OIID']);
 	}else{
 		Update_Iteration_Points($_GET['OIID']);

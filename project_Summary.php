@@ -28,8 +28,6 @@ $(function() {
 
 <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 
-
-
 <?php
 
 function print_Size_Type_Dropdown($current)
@@ -37,22 +35,16 @@ function print_Size_Type_Dropdown($current)
 	Global $DBConn;
 
 	$sql = 'select * from size_type where ID='.$current;
-    	$queried = mysqli_query($DBConn, $sql );
-	$result = mysqli_fetch_assoc($queried);
-	return $result['Desc'];
+	$result = $DBConn->directsql($sql);
+	return $result[0]['Desc'];
 }
-
 	$showForm = true;
 
-	if ($showForm)
-	{
-		if (!empty($_REQUEST['PID']))
-		{
-			$project_Res = mysqli_query($DBConn, 'SELECT * FROM project WHERE ID = '.$_REQUEST['PID']);
-			$project_Row = mysqli_fetch_assoc($project_Res);
-		}
-		else
-		{
+	if ($showForm)	{
+		if (!empty($_REQUEST['PID']))	{
+			$project_Res = $DBConn->directsql('SELECT * FROM project WHERE ID = '.$_REQUEST['PID']);
+			$project_Row = $project_Res[0];
+		}else{
 			$project_Row = $_REQUEST;
 		}
 		echo '<table align="center" width=90%><tr><td align="center">';
@@ -66,129 +58,116 @@ function print_Size_Type_Dropdown($current)
 		'&nbsp; &nbsp;<a  title="Project Epic tree" href="story_List.php?Type=tree&Root=0&PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'"><img src="images/tree-large.png"></a>'.
 		'&nbsp; &nbsp;<a  title="Backlog List" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'"><img src="images/list-large.png"></a>'.
 	'</div>';
-
-	
 		echo '<table align="center" cellpadding="6" cellspacing="0" border="0">';
 ?>
+		<tr>
+			<td>
+				<br><?=$project_Row['Category'];?>
+			</td>
+			<td colspan=3>
+				<b><?=$project_Row['Name'];?></b>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan=3>
+				<?=$project_Row['Desc'];?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Use As A:</td>
+			<td>
+				<?=$project_Row['As_A'] == 1 ? 'Yes' : 'No';?>
+			</td>
+			<td align="right"><b>Use I Need:</td>
+			<td>
+				<?=$project_Row['Col_2'] == 1 ? 'Yes' : 'No';?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Use Acceptance Criteria:</td>
+			<td>
+				<?=$project_Row['Acceptance'] == 1 ? 'Yes' : 'No';?>
+			</td>
+			<td align="right"><b>Enable Story Tasks (on Scrum Board):</td>
+			<td>
+				<?=$project_Row['Enable_Tasks'] == 1 ? 'Yes' : 'No';?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Project Size Type:</td>
+			<td>
+				<?=print_Size_Type_Dropdown($project_Row['Project_Size_ID']+0);?>
+			</td>
 
-
-	<tr>
-		<td>
-			<br><?=$project_Row['Category'];?>
-		</td>
-		<td colspan=3>
-			<b><?=$project_Row['Name'];?></b>
-		</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td colspan=3>
-			<?=$project_Row['Desc'];?>
-		</td>
-	</tr>
-	<tr>
-		<td align="right"><b>Use As A:</td>
-		<td>
-			<?=$project_Row['As_A'] == 1 ? 'Yes' : 'No';?>
-		</td>
-
-		<td align="right"><b>Use I Need:</td>
-		<td>
-			<?=$project_Row['Col_2'] == 1 ? 'Yes' : 'No';?>
-		</td>
-	</tr>
-	<tr>
-		<td align="right"><b>Use Acceptance Criteria:</td>
-		<td>
-			<?=$project_Row['Acceptance'] == 1 ? 'Yes' : 'No';?>
-		</td>
-
-		<td align="right"><b>Enable Story Tasks (on Scrum Board):</td>
-		<td>
-			<?=$project_Row['Enable_Tasks'] == 1 ? 'Yes' : 'No';?>
-		</td>
-	</tr>
-	<tr>	
-
-		<td align="right"><b>Project Size Type:</td>
-		<td>
-			<?=print_Size_Type_Dropdown($project_Row['Project_Size_ID']+0);?>
-		</td>
-
-		<td align="right"><b>Archived:</td>
-		<td>
-			<?=$project_Row['Archived'] == 1 ? 'Yes' : 'No';?>
-		</td>
-	</tr>
-	<tr>
-		<td align="right"><b>Average Story Size:</td>
-		<td>
-			<b><?=$project_Row['Average_Size'];?></b>
-		</td>
-	
-		<td align="right"><b>Current Velocity:</td>
-		<td>
-			<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of  5 most recent<br>completed iterations.)
-		</td>
-	</tr>
-
-
-<tr><td align=right><b>Show recent History</td><td>
-<a class="auditpopup" id="auditp<?=$project_Row['ID'];?>" href="" onclick="javascript: return false;" title="Show Recent history (200 records)"><img src="images/history-small.png"></a> &nbsp;
-</tr>
-</table>
-<div class="auditdialog hidden" id="allaudits_<?=$project_Row['ID'];?>"></div>
-
-<table align="center" cellpadding="6" cellspacing="0" border="0">
-	<tr>
-		<td>&nbsp;</td>
-		<td  class="larger" ><b>
+			<td align="right"><b>Archived:</td>
+			<td>
+				<?=$project_Row['Archived'] == 1 ? 'Yes' : 'No';?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Average Story Size:</td>
+			<td>
+				<b><?=$project_Row['Average_Size'];?></b>
+			</td>
+			<td align="right"><b>Current Velocity:</td>
+			<td>
+				<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of <?=$project_Row['Vel_Iter'];?> most recently<br>completed iterations.)
+			</td>
+		</tr>
+		<tr><td align=right><b>Show recent History</td><td>
+			<a class="auditpopup" id="auditp<?=$project_Row['ID'];?>" href="" onclick="javascript: return false;" title="Show Recent history (200 records)"><img src="images/history-small.png"></a> &nbsp;
+		</tr>
+	</table>
+	<div class="auditdialog hidden" id="allaudits_<?=$project_Row['ID'];?>"></div>
+	<table align="center" cellpadding="6" cellspacing="0" border="0">
+		<tr>
+			<td>&nbsp;</td>
+			<td  class="larger" ><b>
 <?php
-		$thisdate =  Date("Y-m-d");
-		$sql = 'SELECT * FROM iteration where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
-		$iteration_Res = mysqli_query($DBConn, $sql);
-		$iteration_Row = mysqli_fetch_assoc($iteration_Res);
-		echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Iteration" >'.
-		substr($iteration_Row['Name'], 0, 14).'</a> &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].')</b> &nbsp;';
-		print_summary($iteration_Row['Points_Object_ID'], False);
-		echo '</td>';
-
-		echo '<td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b></td></tr>';
-
-		$left=1;
-		$sql = 'SELECT * FROM iteration  where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog"  order by iteration.End_Date desc';
-		$iteration_Res = mysqli_query($DBConn, $sql);
-		if ($iteration_Row = mysqli_fetch_assoc($iteration_Res))
-		{
-			echo '<tr>';
-			do {
-				$left+=1;
-				echo '<td>&nbsp;</td><td><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].
-					'" title = "'.$iteration_Row['Name'].'" >'.$iteration_Row['Name'].'</a>'.
-					' &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].') ';
-				if ($iteration_Row['Locked']==1)
-				{
-					echo '<br><b>Locked</b>';
-				}
+			$thisdate =  Date("Y-m-d");
+// get the current iteration
+			$sql = 'SELECT * FROM iteration where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
+			$iteration_Row = $DBConn->directsql($sql);
+			if (count($iteration_Row)>0){
+				$iteration_Row = $iteration_Row[0];
+				echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Iteration" >'.
+				substr($iteration_Row['Name'], 0, 14).'</a> &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].')</b> &nbsp;';
 				print_summary($iteration_Row['Points_Object_ID'], False);
-				echo '</td>';
-				if($left % 2==1)
-				{
-					echo '</tr><tr>';
-				}
-			} while ($iteration_Row = mysqli_fetch_assoc($iteration_Res));
-			echo '</tr>';
-		}
+			}else{
+				echo '&nbsp;';
+			}
+			echo '</td>';
+			echo '<td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b></td></tr>';
+			$left=1;
+			$sql = 'SELECT * FROM iteration  where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog"  order by iteration.End_Date DESC';
+			$iteration_Row = $DBConn->directsql($sql);
+			if (count($iteration_Row) > 0)	{
+				echo '<tr>';
+				$rowcnt=0;
+				do {
+					$left+=1;
+					echo '<td>&nbsp;</td><td><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row[$rowcnt]['ID'].
+						'" title = "'.$iteration_Row[$rowcnt]['Name'].'" >'.$iteration_Row[$rowcnt]['Name'].'</a>'.
+						' &nbsp; ('.$iteration_Row[$rowcnt]['Start_Date'].'--->'.$iteration_Row[$rowcnt]['End_Date'].') ';
+					if ($iteration_Row[$rowcnt]['Locked']==1)	{
+						echo '<br><b>Locked</b>';
+					}
+					print_summary($iteration_Row[$rowcnt]['Points_Object_ID'], False);
+					echo '</td>';
+					if($left % 2==1){
+						echo '</tr><tr>';
+					}
+					$rowcnt +=1;
+				} while ($rowcnt < count($iteration_Row));
+				echo '</tr>';
+			}
 ?>
-		</td>
-	</tr>
-	
-
-</table>
+			</td>
+		</tr>
+	</table>
 <?php
-	}
-	else
-	{
+	}else{
 		header("Location:project_List.php");
 	}
 	include 'include/footer.inc.php';

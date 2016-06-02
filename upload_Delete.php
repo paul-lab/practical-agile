@@ -6,12 +6,10 @@
 	if(!$user_details){
 		exit();
 	}
-
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Deleted File:'.$_GET['Name'].'.'.$_GET['Type']);
-
 	$sql= "DELETE FROM upload WHERE upload.Name=UNHEX('".$_GET['Name']."')";
-	mysqli_query($DBConn, $sql);
-	if(!mysqli_error($DBConn))
+	$cnt=$DBConn->directsql($sql);
+	if($cnt==1)
 	{
 		unlink(getcwd().'/upload/'.$_GET['Name'].'.'.$_GET['Type']);
 	}

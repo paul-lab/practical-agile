@@ -8,12 +8,14 @@
 	if(!$user_details){
 		exit();
 	}
+	if (empty($_REQUEST['exph'])) $_REQUEST['exph']=0;
+	if (empty($_REQUEST['acth'])) $_REQUEST['acth']=0;
 
-	$sql= 'UPDATE task SET task.User_ID="'.$_GET['user'].
-		'", task.Desc="'.addslashes($_GET['desc']).
-		'", Expected_Hours="'.$_GET['exph'].
-		'", Actual_Hours="'.$_GET['acth'].'" WHERE task.ID='.$_GET['TID'];
-	mysqli_query($DBConn, $sql);
-	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Update task',$_GET['desc'].' Assign to:'.Get_User($_GET['user']).' Expect. h:'.$_GET['exph'].' Act. h:'.$_GET['acth']);
+	$sql= 'UPDATE task SET User_ID="'.$_REQUEST['user'].
+		'", `Desc`="'.addslashes($_REQUEST['desc']).
+		'", Expected_Hours="'.$_REQUEST['exph'].
+		'", Actual_Hours="'.$_REQUEST['acth'].'" WHERE task.ID='.$_REQUEST['TID'];
+	$DBConn->directsql($sql);
+	auditit($_REQUEST['PID'],$_REQUEST['AID'],$_SESSION['Email'],'Update task',$_REQUEST['desc'].' Assign to:'.Get_User($_REQUEST['user']).' Expect. h:'.$_REQUEST['exph'].' Act. h:'.$_REQUEST['acth']);
 
 ?>

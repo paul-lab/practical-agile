@@ -13,22 +13,21 @@ Key Features.
 •	Drag and Drop Story & Epic ordering
 •	Multiple projects 
 •	Users allocated per project
-•	Multiple Views (List, Tree,  Board)
+•	Multiple Views (List, Tree/Hierarchy ,  Scrum Board)
 •	Burn-down/up and graph
-•	Customisable Story Status
-•	Customisable Story Size
-•	Customisable Story fields
-•	Import and Export of Stories
+•	Customisable Story Status for each project
+•	Customisable Story Size  for each project
+•	Customisable Story fields for each project
+•	Bulk Import and Export of Stories
 •	Easy to install
 •	Free & Simple to Use.
  
  
-
 Requirements 
 
 (Included in the full install)
 •	MySQL* 5+ (using 5.5)
-•	PHP* 5+ (using  5.6) incl Mysqli
+•	PHP* 5+ (using  5.6) incl Mysqli & SQLite 3.8.3
 •	Web server* 2.2 (using Apache 2.4)
 
 (Included in both installs)

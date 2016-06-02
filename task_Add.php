@@ -6,15 +6,12 @@
 	if(!$user_details){
 		exit();
 	}
+	if (empty($_REQUEST['user'])) $_REQUEST['user']='""';
+	if (empty($_REQUEST['exph'])) $_REQUEST['exph']=0;
+	if (empty($_REQUEST['acth'])) $_REQUEST['acth']=0;
 
-	$sql= 'INSERT INTO task SET Story_AID="'.$_GET['AID'].
-		'", task.User_ID="'.$_GET['user'].
-		'", task.Rank="30000'.
-		'", task.Desc="'.mysqli_real_escape_string($DBConn, $_GET['desc']).
-		'",  Done="0'.
-		'", Expected_Hours="'.$_GET['exph'].
-		'", Actual_Hours="'.$_GET['acth'].'";';
-	mysqli_query($DBConn, $sql);
-	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Added task',$_GET['desc'].' Assign to:'.Get_User($_GET['user']).' Expect. h:'.$_GET['exph'].' Act. h:'.$_GET['acth']);
-
+	$sql= 'INSERT INTO task (Story_AID, User_ID,`Rank`,`Desc`,Done,Expected_Hours,Actual_Hours) VALUES('.
+	$_REQUEST['AID'].', '.$_REQUEST['user'].', '.'30000'.', "'.htmlentities($_REQUEST['desc']).'", '.'0'.', '.$_REQUEST['exph'].', '.$_REQUEST['acth'].')';
+	$DBConn->directsql($sql);
+	auditit($_REQUEST['PID'],$_REQUEST['AID'],$_SESSION['Email'],'Added task',$_GET['desc'].' Assign to:'.Get_User($_REQUEST['user']).' Expect. h:'.$_REQUEST['exph'].' Act. h:'.$_REQUEST['acth']);
 ?>

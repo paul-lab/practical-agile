@@ -24,43 +24,35 @@ $(function() {
 <?php
 
 	$showForm = true;
-	if (isset($_POST['saveUpdate']))
-	{
-
-		if (empty($_REQUEST['id']))
-		{
-			$sql_method = 'INSERT INTO';
+	if (isset($_POST['saveUpdate']))	{
+		$data=array(
+			'Project_ID' => $_REQUEST['PID'],
+			'Desc' 		=> $_REQUEST['Desc'],
+			'Order' 	=> $_REQUEST['Order']
+		);
+		if (empty($_REQUEST['id']))		{
 			$button_name = 'Add';
-			$whereClause = '';
-		}
-		else
-		{
-			$sql_method = 'UPDATE';
+			$result=$DBConn->create('story_type',$data);
+		}	else{
 			$button_name = 'Save';
-			$whereClause = 'WHERE ID = '.($_REQUEST['id'] + 0);
+			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
+			$result=$DBConn->update('story_type',$data,$whereClause);
 		}
-		 if (mysqli_query($DBConn, "{$sql_method} story_type SET 			story_type.Project_ID = '".$_REQUEST['PID']."',
-			story_type.Desc = '".$_REQUEST['Desc']."',
-			story_type.Order = '".$_REQUEST['Order']."' {$whereClause}"))
-		{
+		 if ($result >0){
 			$showForm = false;
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'','Update Story Type',$_REQUEST['id'].'-'.$_REQUEST['Desc'].'-'.$_REQUEST['Order']);
-		}
-		else
-		{
-			$error = 'The form failed to process correctly.'.mysqli_error($DBConn);
+		}else{
+			$error = 'The form failed to process correctly.';
 		}
 	}
 
-	if (!empty($error))
-		echo '<div class="error">'.$error.'</div>';
+	if (!empty($error))	echo '<div class="error">'.$error.'</div>';
 
-	if ($showForm)
-	{
+	if ($showForm)	{
 		if (!empty($_REQUEST['id']))
 		{
-			$storyType_Res = mysqli_query($DBConn, 'SELECT * FROM story_type WHERE ID = '.$_REQUEST['id']);
-			$storyType_Row = mysqli_fetch_assoc($storyType_Res);
+			$storyType_Row = $DBConn->directsql('SELECT * FROM story_type WHERE ID = '.$_REQUEST['id']);
+			$storyType_Row = $storyType_Row[0];
 		}
 		else
 		{

@@ -21,12 +21,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 		<title>Practical Agile:</title>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
-		<script src="jquery/jquery.js"></script>    
+		<script src="jquery/jquery.js"></script>
 		<script src="jquery/jquery-ui.js"></script>
  		<link rel="stylesheet" href="jquery/jquery-ui.css" />
 		<script src="scripts/header-hash201af008be37c43617d23c6523c28878.js"></script>
 	</head>
-	
+
 <div class="header noPrint">
 <div id="breadcrumbs"></div>
 <div id="navicons"></div>
@@ -42,7 +42,7 @@ if (!empty($_REQUEST['PID'])){
 	echo '<div class="suserlist" >';
 	echo '&nbsp; &nbsp;<a title="User List" href="user_List.php?PID='.$_REQUEST['PID'].'" target="_blank"><img src="images/userlist-large.png"></a>';
 	echo '</div>';
-	echo '<div class="search" >';	
+	echo '<div class="search" >';
 	echo '<form method="get" action="story_List.php">';
 		echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type:, release: " type="text" name="searchstring" id="searchstring" > ';
 		echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
@@ -54,4 +54,4 @@ if (!empty($_REQUEST['PID'])){
 	require_once('include/side_menu.php');
 ?>
 </div>
-<div id=”container”> 
+<div id=”container”>

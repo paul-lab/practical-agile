@@ -2,7 +2,7 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit-hashb36985f412e83fdcb4836aa324603a83.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hasha9c7e65e35b97225ecb8b5d288368aef.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript" src="scripts/tag-it-hashf66e5c5daffc1248e495628cd1881f21.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
@@ -16,6 +16,7 @@
 <?php
 
 if (empty($_REQUEST['PID'])) header("Location:project_List.php");
+if (empty($_REQUEST['IID']))$_REQUEST['IID']=$Project['Backlog_ID'];
 
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
 echo '<a href="project_Summary.php?PID='.$_REQUEST['PID'].'">';
@@ -41,7 +42,8 @@ function checksummary(theForm) {
 	if (theForm.Summary.value.length == 0)
 	{
         	theForm.Summary.style.background = 'MistyRose';
-		alert("You should at least have a summary for the story!.\n");
+		$('#msg_div').html('You need at least have a summary for the story!');
+		$('#msg_div').show();
 	   	return false;
 	}
 	return true;
@@ -60,16 +62,15 @@ echo
 '</div>';
 
 
-
 function print_Story_Type_Dropdown($current)
 {
 	Global $DBConn;
 	if (empty($current)) $current = 'Feature';
-	$sql = 'select story_type.Desc from story_type where story_type.Project_ID='.$_REQUEST['PID'].' AND story_type.Desc <> "'.$current.'" order by story_type.Order';
-	$queried = mysqli_query($DBConn, $sql);
+	$sql = 'select story_type.Desc from story_type where story_type.Project_ID='.$_REQUEST['PID'].' AND story_type.Desc <> "'.$current.'" order by story_type.`Order`';
+	$queried = $DBConn->directsql($sql);
 	$menu = '<select name="Type">';
 	$menu .= '<option value="' . $current . '">' . $current . '</option>';
-		while ($result = mysqli_fetch_array($queried)) {
+		foreach ($queried as $result) {
 		$menu .= '<option value="' . $result['Desc'] . '">' . $result['Desc'] . '</option>';
 	    }
 	$menu .= '</select>';
@@ -79,13 +80,12 @@ function print_Story_Type_Dropdown($current)
 function print_Story_Status_Dropdown($current)
 {
 	Global $DBConn;
-
 	if (empty($current)) $current = 'Todo';
-	$sql = 'select story_status.Desc from story_status where story_status.Project_ID='.$_REQUEST['PID'].' AND story_status.Desc <> "'.$current.'" and LENGTH(story_status.Desc)>0 order by story_status.order';
-	$queried = mysqli_query($DBConn, $sql);
+	$sql = 'select story_status.Desc from story_status where story_status.Project_ID='.$_REQUEST['PID'].' AND story_status.Desc <> "'.$current.'" and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
+	$queried = $DBConn->directsql($sql);
 	$menu = '<select name="Status">';
 	$menu .= '<option value="' . $current . '">' . $current . '</option>';
-		while ($result = mysqli_fetch_array($queried)) {
+		foreach ($queried as $result) {
 		$menu .= '<option value="' . $result['Desc'] . '">' . $result['Desc'] . '</option>';
 	    }
 	$menu .= '</select>';
@@ -93,265 +93,211 @@ function print_Story_Status_Dropdown($current)
 }
 
 
-function print_Release_Dropdown($current)
-{
+function print_Release_Dropdown($current){
 	Global $DBConn;
 	$current+=0;
-	if ($current==0)
-	{
+	if ($current==0){
 		$current = '';
 		$name = '';
 	}else{
 		$sql = 'select * from release_details where ID='.$current;
-		$queried = mysqli_query($DBConn, $sql);
-		$result = mysqli_fetch_array($queried);
-		$name= $result['Name'].' ('.$result['Start'].'>'.$result['End'].')';
+		$result = $DBConn->directsql($sql);
+		$name= $result[0]['Name'].' ('.$result[0]['Start'].'>'.$result[0]['End'].')';
 	}
 
 	$sql = 'select * from release_details where Locked=0';
-	$queried = mysqli_query($DBConn, $sql);
+	$queried = $DBConn->directsql($sql);
 	$menu = '<select name="Release">';
-
-	if ($result['Locked']==1)
-	{
-		$menu = $result['Name'].'<select class="hidden" name="Release">';
-	}
 
 	$menu .= '<option value="' . $current . '">' . $name . '</option>';
 	$menu .= '<option value="0"></option>';
-		while ($result = mysqli_fetch_array($queried)) {
+	foreach($queried as $result) {
 		$menu .= '<option value="' . $result['ID'] . '">'.$result['Name'].' ('.$result['Start'].'>'.$result['End'].')</option>';
-	    }
+	}
 	$menu .= '</select>';
 	return $menu;
 }
 
 
-function print_Story_Size_Radio($current,$type)
-{
+function print_Story_Size_Radio($current,$type){
 	Global $DBConn;
 
 	if ($current=='') $current='?';
-	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID='.$_REQUEST['PID'].') order by size.Order';
-	$queried = mysqli_query($DBConn, $sql);
+	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID='.$_REQUEST['PID'].') order by size.`Order`';
+	$queried = $DBConn->directsql($sql);
 	$menu = '<div id="sizediv">';
-	while ($result = mysqli_fetch_array($queried)) {
+	foreach ($queried as $result) {
 		$menu .= '<input class="sizediv" type="radio" name="Size" value="' . $result['Value'].'"';
-		if ($current==$result['Value'])
-		{
+		if ($current==$result['Value'])		{
 			$menu .= ' checked';
 		}
 		$menu .= '>' . $result['Value'] .' &nbsp; </input>';
-	    }
+	}
 	$menu .= '</div>';
 	return $menu;
 }
 
-function print_Possible_Parent($Project, $current=0)
-{
+function print_Possible_Parent($Project, $current=0){
 	Global $DBConn;
 
 	$current+=0;
-	// Fetch Current Parent.
-	$sql = 'SELECT AID, ID, Summary FROM story where story.AID ='.$current;
-	$queried = mysqli_query($DBConn, $sql);
-	$result = mysqli_fetch_array($queried);
 	$menu = '<select name="Parent_Story_ID">';
-
 	if ($current==0){
 		$menu .= '<option value="0"></option>';
 	}else{
+// Fetch Current Parent.
+		$sql = 'SELECT AID, ID, Summary FROM story where story.AID ='.$current;
+		$result = $DBConn->directsql($sql);
+		$result = $result[0];
 		$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
 		$menu .= '<option value="0"></option>';
-
 		$stree.='&nbsp;<a  title="Show my parent and all its children"';
 		$stree .=' href="story_List.php?Type=tree&Root='.$result['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
 		$stree .='<img src="images/tree.png"></a>';
 	}
 
 	$sql = 'select AID, ID, Summary from story where Project_ID='.$_REQUEST['PID'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
-	$queried = mysqli_query($DBConn, $sql);
-	while ($result = mysqli_fetch_array($queried)) {
+	$queried =  $DBConn->directsql($sql);
+	foreach ($queried as $result) {
 		$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
 	}
 	$menu .= '</select>';
-
 	$menu .=$stree;
-
 	return $menu;
 }
 
-function Get_manual_Parent($current=0)
-{
+function Get_manual_Parent($current=0){
 	Global $DBConn;
-
 	$current+=0;
 	// Fetch Current Parent.
 	$sql = 'SELECT AID, ID FROM story where story.ID ='.$current.' and story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID=(select Backlog_ID from project where project.ID='.$_REQUEST['PID'].') and (story.Status="Todo" or story.Status IS NULL)';
-	$queried = mysqli_query($DBConn, $sql);
-	if($result = mysqli_fetch_array($queried))
-	{
-		return $result['AID'];
+	$result =  $DBConn->directsql($sql);
+	if(count($result)==1){
+		return $result[0]['AID'];
 	}
 	return 0;
 }
 
 
-function  Update_Project_Tags($PID,$Tags)
-{
+function  Update_Project_Tags($PID,$Tags){
 	Global $DBConn;
-	$sql= 'SELECT tags.Desc from tags where tags.Project_ID='.$PID;
-	$tag_Res = mysqli_query($DBConn, $sql);
-	if ($tag_Row = mysqli_fetch_array($tag_Res))
-	{
-		$newTags = implode(",",array_unique(explode(",", $tag_Row['Desc'].",".$Tags)));
-		$sql='UPDATE tags SET tags.Desc="'.$newTags.'" where tags.Project_ID='.$PID;
+	$sql= 'SELECT tags.`Desc` from tags where tags.Project_ID='.$PID;
+	$tag_Row =$DBConn->directsql($sql);
+	if (count($tag_Row) == 1){
+		$newTags = implode(",",array_unique(explode(",", $tag_Row[0]['Desc'].",".$Tags)));
+		$sql='UPDATE tags SET `Desc`="'.$newTags.'" where tags.Project_ID='.$PID;
 	}else{
 		$newTags = $Tags;
-		$sql='INSERT INTO tags ( Project_ID, tags.Desc) VALUES('.$PID.',"'.$newTags.'")';
+		$sql='INSERT INTO tags ( Project_ID, `Desc`) VALUES('.$PID.',"'.$newTags.'")';
 	}
- 		mysqli_query($DBConn, $sql);	
+ 		$DBConn->directsql($sql);
 }
 
 
-	echo '<div id="msg_div">&nbsp;</div>';
+	echo '<div class="noshow" id="msg_div">&nbsp;</div>';
 	$showForm = true;
-	if (isset($_POST['saveUpdate']))
-	{
+	if (isset($_POST['saveUpdate'])){
 		setcookie('ctorb',$_REQUEST['torb']);
-		if (!empty($_REQUEST['manualParent']))
-		{
+		if (!empty($_REQUEST['manualParent'])){
 			$manualPar=Get_manual_Parent($_REQUEST['manualParent']+0);
-			if ($manualPar!=0)
-			{
+			if ($manualPar!=0){
 				$_REQUEST['Parent_Story_ID']=$manualPar;
 			}
 		}
-
-		if (empty($_REQUEST['AID']))
-		{
-			$sql_method = 'INSERT INTO';
-			$whereClause = '';
-			$Insertsql =	', story.ID=(select IFNULL(MAX(prj.ID), 0)+1  from story as prj where prj.Project_ID='.$_REQUEST['PID'].')';
-
-			if ($_REQUEST['torb']=='b')
-			{
-				$Insertsql .=	', story.Iteration_Rank=(select IFNULL(MAX(prj.Iteration_Rank), 0)+100  from story as prj where Project_ID='.$_REQUEST['PID'].')';
-			}else{
-				$Insertsql .=	', story.Iteration_Rank=(select IFNULL(MIN(prj.Iteration_Rank), 0)-1  from story as prj where Project_ID='.$_REQUEST['PID'].')';
-			}
-			$Insertsql .=	', story.Epic_Rank=(select IFNULL(MAX(prj.Epic_Rank), 0)+100  from story as prj where Project_ID='.$_REQUEST['PID'].')'.
-					', Created_By_ID = "'.$_SESSION['ID'].'" ';
-		}
-		else
-		{
-			$sql_method = 'UPDATE';
-			$Insertsql = '';
-			$whereClause = 'WHERE AID = '.($_REQUEST['AID'] + 0);
-		}
-
-		$sql= $sql_method." story SET Project_ID = '".$_REQUEST['PID'].
-			"', Type = '".$_REQUEST['Type'].
-			"', Status = '".$_REQUEST['Status'];
-
-		// if no children then update the size (Parent points are calculated on the fly.)
-		if (Num_Children($_REQUEST['AID'] + 0)==0)
-		{
-			$sql.=	"', Size = '".$_REQUEST['Size'];
-		}
-
 // some common conversions to help with the auditing
 		$_REQUEST['Summary'] = htmlentities($_REQUEST['Summary'],ENT_QUOTES);
 		$_REQUEST['Col_1'] = htmlentities($_REQUEST['Col_1'],ENT_QUOTES);
 		$_REQUEST['As_A'] = htmlentities($_REQUEST['As_A'],ENT_QUOTES);
 		$_REQUEST['Col_2'] = htmlentities($_REQUEST['Col_2'],ENT_QUOTES);
 		$_REQUEST['Acceptance'] = htmlentities($_REQUEST['Acceptance'],ENT_QUOTES);
+		$data=array(
+			'Blocked'			=> ((isset($_REQUEST['Blocked'])) ? 1 : 0),
+			'Iteration_ID' 		=> $_REQUEST['Iteration_ID'],
+			'Owner_ID' 			=> $_REQUEST['Owner_ID'],
+			'Release_ID' 		=> $_REQUEST['Release'],
+			'Parent_Story_ID'	=> ((isset($_REQUEST['Parent_Story_ID'])) ? $_REQUEST['Parent_Story_ID'] : 0),
+			'Summary' 			=> $_REQUEST['Summary'],
+			'Col_1' 			=> $_REQUEST['Col_1'],
+			'As_A' 				=> $_REQUEST['As_A'],
+			'Col_2' 			=> $_REQUEST['Col_2'],
+			'Acceptance' 		=> $_REQUEST['Acceptance'],
+			'Tags' 				=> (addslashes($_REQUEST['Tags'])),
+			'Type' 				=> $_REQUEST['Type'],
+			'Status' 			=> $_REQUEST['Status']
+		);
 
+		if (empty($_REQUEST['AID'])){
 
-		$sql.=	"', Blocked = '".$_REQUEST['Blocked'].
-			"', Iteration_ID = '".$_REQUEST['Iteration_ID'].
-			"', Owner_ID = '".$_REQUEST['Owner_ID'].
-			"', Release_ID = '".$_REQUEST['Release'].
-			"', Parent_Story_ID = '".$_REQUEST['Parent_Story_ID'].
-			"', Summary = '".$_REQUEST['Summary'].
-			"', Col_1 = '".$_REQUEST['Col_1'].
-			"', As_A = '".$_REQUEST['As_A'].
-			"', Col_2 = '".$_REQUEST['Col_2'].
-			"', Acceptance = '".$_REQUEST['Acceptance'].
-			"', Tags = '".addslashes($_REQUEST['Tags'])."' ".$Insertsql." ".$whereClause;
-
-
-			if ($sql_method==='UPDATE')
-			{
-				$aaction='Update story ';
-				$osql='select * from story where story.AID='.$_REQUEST['AID'];
-				$ores=mysqli_query($DBConn, $osql);
-				$orow=mysqli_fetch_assoc($ores);
+			$temp					= $DBConn->directsql('select IFNULL(MAX(ID), 0)+1 as tmpn from story where Project_ID='.$_REQUEST['PID']);
+			$data['ID']				= $temp[0]['tmpn'];
+			$data['Project_ID'] 	= $_REQUEST['PID'];
+			$temp					= $DBConn->directsql('select IFNULL(MAX(Epic_Rank), 0)+100 as tmpn from story where Project_ID='.$_REQUEST['PID']);
+			$data['Epic_Rank']		= $temp[0]['tmpn'];
+			$data['Created_By_ID'] 	= $_SESSION['ID'];
+			$data['Size'] 			= $_REQUEST['Size'];
+			if ($_REQUEST['torb']=='b'){
+				$temp	= $DBConn->directsql('select IFNULL(MAX(Iteration_Rank), 0)+100 as tmpn from story  where Iteration_ID='.$_REQUEST['IID']);
+				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}else{
-				$aaction='Add new Story ';
+				$temp	= $DBConn->directsql('select IFNULL(MIN(Iteration_Rank), 0)-1 as tmpn from story  where Iteration_ID='.$_REQUEST['IID']);
+				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}
-
-		if (mysqli_query($DBConn, $sql))
-		{
-//Audit
-			//If we are updating
-			if ($sql_method==='UPDATE')
-			{
-				// for each field  that appears in a story record
-				foreach ($orow as $key => $value)
-				{
+			$result=$DBConn->create('story',$data);
+			if ($result>0) auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Add new Story ','',$_REQUEST['Summary']);
+		}else{
+			if (Num_Children($_REQUEST['AID'] + 0)==0)	{
+				$data['Size'] = $_REQUEST['Size'];
+			}
+			$whereClause = ' AID = '.($_REQUEST['AID'] + 0);
+			$aaction='Update story ';
+			$result=$DBConn->update('story',$data,$whereClause);
+			if ($result>0){
+				$orow= fetchusingID('*',$_REQUEST['AID'],'story');
+				foreach ($orow as $key => $value){
 					// that is passed in (Blocked wants some special handling)
-					if($_REQUEST[$key] || ($key=='Blocked' && $orow['Blocked']==1))
-					{
+					if($_REQUEST[$key] || ($key=='Blocked' && $orow['Blocked']==1))					{
 						// and somethng has changed then log it
-						if($_REQUEST[$key]!==$orow[$key] )
-						{
+						if($_REQUEST[$key]!==$orow[$key] ){
 							echo '# n'.$key.' '.$_REQUEST[$key]. ' - o'.$orow[$key].'</br>';
 							auditit($_REQUEST['PID'],$_REQUEST['AID'],$_SESSION['Email'],$aaction.$key,$orow[$key],$_REQUEST[$key]);
 						}
 					}
 				}
-			}else{
-				auditit($_REQUEST['PID'],0,$_SESSION['Email'],$aaction,'',$_REQUEST['Summary']);
 			}
-
+		}
+		if ($result>0){
 			$showForm = false;
 			Update_Parent_Points($_REQUEST['AID']);
+			Update_Iteration_Points($_REQUEST['IID']);
 			Update_Iteration_Points($_REQUEST['Iteration_ID']);
 			Update_Project_Tags($_REQUEST['PID'],$_REQUEST['Tags']);
-
-			if (!empty($_REQUEST['gobackto']))
-			{
+			if (!empty($_REQUEST['gobackto'])){
 				header('Location:'.$_REQUEST['gobackto']);
 			}else{
 				header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);
 			}
 		}else{
-			$error = 'The form failed to process correctly.'.mysqli_error($DBConn);
+			$error = 'The form failed to process correctly.';
 		}
 	}
-	if (!empty($error))
-	{
+	if (!empty($error)){
 		echo '<div class="error">'.$sql.'<p>'.$error.'</div>';
 	}
 
-
-
-	if ($showForm)
-	{
-		if (!empty($_REQUEST['AID']))
-		{
-			$story_Res = mysqli_query($DBConn, 'SELECT * FROM story WHERE AID = '.$_REQUEST['AID'].' and Project_ID='.$_REQUEST['PID']);
-			$story_Row = mysqli_fetch_assoc($story_Res);
+	if ($showForm){
+		if (!empty($_REQUEST['AID']))		{
+			$story_Row = fetchusingID('*',$_REQUEST['AID'],'story');
+			if (!$story_Row) header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);
 		}else{
 			$story_Row = $_REQUEST;
 		}
 
-
-		// if a new story, then default to the iteration we are currently in.
-		if (empty($story_Row['Iteration_ID']))
-		{
+// if a new story, then default to the iteration we are currently in.
+		if (empty($story_Row['Iteration_ID'])){
 			$story_Row['Iteration_ID']=$_REQUEST['IID'];
+		}
+		if (empty($story_Row['Project_ID'])){
+			$story_Row['Project_ID']=$_REQUEST['PID'];
 		}
 
 		$Num_Children=Num_Children($story_Row['AID']);
@@ -365,21 +311,21 @@ function  Update_Project_Tags($PID,$Tags)
 ?>
 	<table align="center" cellpadding="2" cellspacing="0" width=95% >
 	<tr>
-		<td width="97">Story : <img title="Duplicate this Story without tasks" class="dupestory hidden" id="dup<?=$story_Row['AID'];?>" src="images/duplicate.png">&nbsp;
-			<img title="Duplicate this Story and all its tasks (Owner, Status and Actual hours are reset )" class="dupestory hidden" id="dut<?=$story_Row['AID'];?>" src="images/duplicateandtasks.png"></td>
-		<td>
+		<td width="102">Story :	</td><td>
 <?php
-		if ($Num_Children!=0)
-		{
+		if ($Num_Children!=0){
 			echo '<a  title="Show my children (#'.$story_Row['ID'].') as the root of the tree)"';
 			echo ' href="story_List.php?Type=tree&Root='.$story_Row['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';
 			echo '<img src="images/tree.png"></a>&nbsp; &nbsp;';
 		}
 			echo '#'.$story_Row['ID'].'&nbsp; &nbsp;';
 			echo 'created by: '.Get_User($story_Row['Created_By_ID'],0).'&nbsp;on&nbsp;'.$story_Row['Created_Date'];
+			echo '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;';
+			echo '<img title="Duplicate this Story without tasks" class="dupestory hidden" id="dup'.$story_Row['AID'].'" src="images/duplicate.png">&nbsp';
+			echo '<img title="Duplicate this Story and all its tasks (Owner, Status and Actual hours are reset )" class="dupestory hidden" id="dut'.$story_Row['AID'].'" src="images/duplicateandtasks.png">';
 
-		if ($Num_Children==0)
-		{
+
+		if ($Num_Children==0){
 			echo '<span class="hint">';
 			echo 'Release: ';
 			echo print_Release_Dropdown($story_Row['Release_ID']);
@@ -401,8 +347,7 @@ function  Update_Project_Tags($PID,$Tags)
 
 
 <?php
-		if ($Num_Children==0)
-		{
+		if ($Num_Children==0){
 			echo print_Story_Size_Radio($story_Row['Size'],$Project['Project_Size_ID']);
 			echo '</td></tr><tr><td>&nbsp;</td><td>';
 			echo iterations_Dropdown($story_Row['Project_ID'], $story_Row['Iteration_ID']);
@@ -436,16 +381,16 @@ function  Update_Project_Tags($PID,$Tags)
 
 
 <?php
-if ($Project['As_A']){
+	if ($Project['As_A']){
 ?>
-	<tr>
-		<td>As A:</td>
-		<td>
-			<input type="text" name="As A" class="w50" value="<?=$story_Row['As_A'];?>">
-		</td>
-	</tr>
+		<tr>
+			<td>As A:</td>
+			<td>
+				<input type="text" name="As A" class="w50" value="<?=$story_Row['As_A'];?>">
+			</td>
+		</tr>
 <?php
-}
+	}
 ?>
 	<tr>
 		<td valign="top"><?=$Project['Desc_1'];?></td>
@@ -456,30 +401,26 @@ if ($Project['As_A']){
 
 
 <?php
-if ($Project['Col_2']){
+	if ($Project['Col_2']){
 ?>
-	<tr>
-		<td valign="top"><?=$Project['Desc_2'];?></td>
-		<td><textarea name="Col_2" class="w100 col2h"><?=$story_Row['Col_2'];?></textarea>
-		</td>
-	</tr>
-
-
+		<tr>
+			<td valign="top"><?=$Project['Desc_2'];?></td>
+			<td><textarea name="Col_2" class="w100 col2h"><?=$story_Row['Col_2'];?></textarea>
+			</td>
+		</tr>
 <?php
-}
+	}
 
-if ($Project['Acceptance']){
+	if ($Project['Acceptance']){
 ?>
-	<tr>
-		<td valign="top">Acceptance:</td>
-		<td>
-		<textarea name="Acceptance" class="w100 accepth"><?=$story_Row['Acceptance'];?></textarea>
-		</td>
-	</tr>
-
-
+		<tr>
+			<td valign="top">Acceptance:</td>
+			<td>
+			<textarea name="Acceptance" class="w100 accepth"><?=$story_Row['Acceptance'];?></textarea>
+			</td>
+		</tr>
 <?php
-}
+	}
 ?>
 	<tr>
 		<td>Tags:</td>
@@ -494,38 +435,31 @@ if ($Project['Acceptance']){
 
 <?php
 // can only add comments and tasks if we know what story to attach them to
-if (!empty($_REQUEST['AID']))
-{
-	printMicromenu($story_Row['AID']);
-
-	echo '<div class="hidden inline" id="alltasks_'.$story_Row['AID'].'"></div>';
-	echo '<div class="hidden" id="commentspops_'.$story_Row['AID'].'"></div> ';
-	echo '<div class="hidden" id="allupload_'.$story_Row['AID'].'"></div> ';
-	echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
-}
+	if (!empty($_REQUEST['AID'])){
+		printMicromenu($story_Row['AID']);
+		echo '<div class="hidden inline" id="alltasks_'.$story_Row['AID'].'"></div>';
+		echo '<div class="hidden" id="commentspops_'.$story_Row['AID'].'"></div> ';
+		echo '<div class="hidden" id="allupload_'.$story_Row['AID'].'"></div> ';
+		echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
+	}
 	echo '<td></tr></table>';
 	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
 	echo '	<input type="hidden" name="IID" value="'.$_REQUEST['IID'].'">';
 	echo '	<input type="hidden" name="AID" value="'.$story_Row['AID'].'">';
 
-	if (empty($_REQUEST['gobackto']))
-	{
+	if (empty($_REQUEST['gobackto'])){
 		echo '	<input type="hidden" name="gobackto" value="'.substr($_SERVER["HTTP_REFERER"],strrpos($_SERVER["HTTP_REFERER"],"/")+1).'">';
-
 	}else{
-		echo '	<input type="hidden" name="gobackto" value="'.$_REQUEST['gobackto'].'">';	
+		echo '	<input type="hidden" name="gobackto" value="'.$_REQUEST['gobackto'].'">';
 	}
 
 
 
 
-if(!$isReadonly)
-{
+	if(!$isReadonly){
 		echo '	<input type="submit" name="saveUpdate" value="Update">';
-		if (empty($_REQUEST['AID']))
-		{
-			if ($_COOKIE['ctorb']=='b')
-			{
+		if (empty($_REQUEST['AID'])){
+			if ($_COOKIE['ctorb']=='b'){
 				echo '<input type="radio" name="torb" value="t">Top or</input>';
 				echo '<input type="radio" name="torb" value="b" checked >Bottom of Backlog/Iteration</input>';
 			}else{

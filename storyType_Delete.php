@@ -9,24 +9,18 @@ echo '</a>';
 
 
 	$showForm = true;
-	if ($_REQUEST['delete'])
-	{
-		if (mysqli_query($DBConn, 'DELETE FROM story_type WHERE ID = '.($_REQUEST['id'] + 0)))
-		{
-			$showForm = false;
-			$deleted = true;
-		}
-	}
-	else if ($_REQUEST['nodelete'])
-	{
+	if ($_REQUEST['delete'])	{
+		$DBConn->directsql('DELETE FROM story_type WHERE ID = '.($_REQUEST['id'] + 0));
+		$showForm = false;
+		$deleted = true;
+	}	else if ($_REQUEST['nodelete'])	{
 		$showForm = false;
 		$deleted = false;
 	}
 
-	if ($showForm)
-	{
+	if ($showForm)	{
 		echo '<form method="post" action="?">'.
-					'Are you sure you want to delete this?<br />'.
+					'Are you sure you want to delete this story type?<br />'.
 					'<input type="hidden" name="id" value="'.$_REQUEST['id'].'">'.
 					'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
 					'<input type="submit" name="delete" value="Yes, Delete">&nbsp; '.

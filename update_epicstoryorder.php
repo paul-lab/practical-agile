@@ -11,9 +11,9 @@
 
 	foreach($_GET['story'] as $key=>$value) {
 		$key = ($key+1) * 10;
-		$sql= 'UPDATE story SET story.Epic_Rank='.$key.' WHERE story.AID='.$value;
-    		mysqli_query($DBConn, $sql);
-	} 
+		$sql= 'UPDATE story SET Epic_Rank='.$key.' WHERE AID='.$value;
+    	$DBConn->directsql($sql);
+	}
 
 	auditit($_GET['PID'],$_GET['AID'],$_SESSION['Email'],'Changed Epic rank');
 ?>

@@ -33,13 +33,10 @@ $(function() {
 				'<td>Status</td>'.
 				'<td>Policy</td>'.
 			'</tr>';
-	$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' order by story_status.Order';
-	$storyStatus_Res = mysqli_query($DBConn, $sql );
-
-	if ($storyStatus_Row = mysqli_fetch_assoc($storyStatus_Res))
-	{
-		do
-		{
+	$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' order by story_status.`Order`';
+	$storyStatus_Res = $DBConn->directsql($sql);
+	if (count($storyStatus_Res) > 0){
+		foreach($storyStatus_Res as $storyStatus_Row)		{
 			echo
 				'<tr>'.
 					'<td>'.
@@ -51,7 +48,6 @@ $(function() {
 					'<td>'.$storyStatus_Row['Policy'].'</td>'.
 				'</tr>';
 		}
-		while ($storyStatus_Row = mysqli_fetch_assoc($storyStatus_Res));
 	}
 	echo '</table>';
 

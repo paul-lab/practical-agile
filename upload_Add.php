@@ -55,21 +55,21 @@ if($_FILES['file']['name'])
 			$message = 'Bad File type.';
 		}else{
 			$valid_file = true;
-		}		
+		}
 		if($_FILES['file']['size'] > (2097152)) //can't be larger than 2 MB
 		{
 			$valid_file = false;
-			$message = 'Oops!  Your file size is to large.';
-		}		
+			$message = 'Oops!  Your file size is to large. (Max 2MB)';
+		}
 		//if the file has passed the tests
 		if($valid_file)
 		{
 			//move it to where we want it to be
 			move_uploaded_file($_FILES['file']['tmp_name'], getcwd().'/upload/'.$new_file_name.'.'.$fileType);
 			$fileSize =  $_FILES['file']['size'];
-			$query = "INSERT INTO upload (upload.AID, upload.Name, upload.Desc, upload.Size, upload.Type ) ".
+			$query = "INSERT INTO upload (`AID`, `Name`, `Desc`, `Size`, `Type` ) ".
 			"VALUES (".$_REQUEST['AID'].", UNHEX('".$new_file_name."'),'".$_FILES['file']['name']."', ".$fileSize.", '".$fileType."')";
-			mysqli_query($DBConn, $query);
+			$DBConn->directsql($query);
 			$message = '';
 			auditit($_REQUEST['PID'],$_REQUEST['AID'],$_SESSION['Email'],'Uploaded File',$_FILES['file']['name'],$new_file_name);
 		}else{

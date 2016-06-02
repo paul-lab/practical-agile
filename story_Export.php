@@ -51,8 +51,8 @@ function cleanData(&$str) {
 	if (!empty($_GET['QID'])){
 
 		$qsql = 'SELECT QSQL, Qorder, queries.Desc as qdesc FROM queries where ID='.$_REQUEST['QID'];
-		$QRes = mysqli_query($DBConn, $qsql);
-		$QRow = mysqli_fetch_assoc($QRes);
+		$QRow = $DBConn->directsql($qsql);
+		$QRow = $QRow[0];
 		$audittext=' Query '.$_GET['QID'].' '.$QRow['qdesc'] ;
 		$cond=" ".$QRow['QSQL'];
 		$cond= str_replace('{User}', $_SESSION['ID'], $cond);
@@ -65,20 +65,16 @@ function cleanData(&$str) {
 	// make sure that we dont get parent  stories when this is an iteration export (only really applies for the backlog.)
 	if (empty($_GET['etype'])) { $sql.=' and story.Iteration_ID='.$_GET['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) '; }
 	if (empty($_GET['QID'])){ $sql.= ' ORDER BY Iteration_Rank';}
-	$result = mysqli_query($DBConn, $sql) or die('Query failed!');
+	$result = $DBConn->directsql($sql) or die('Query failed!');
 
-	if ($row = mysqli_fetch_assoc($result))
-	{
-		do
-		{
-			if(!$flag) {
-				// display field/column names as first row
-				fputcsv($out, array_keys($row), ',', '"');
-				$flag = true;
-			}
-			array_walk($row, 'cleanData');
-			fputcsv($out, array_values($row), ',', '"');
-		} while ($row = mysqli_fetch_assoc($result));
+	foreach ($result as $row)		{
+		if(!$flag) {
+			// display field/column names as first row
+			fputcsv($out, array_keys($row), ',', '"');
+			$flag = true;
+		}
+		array_walk($row, 'cleanData');
+		fputcsv($out, array_values($row), ',', '"');
 	}
 
 	fclose($out);

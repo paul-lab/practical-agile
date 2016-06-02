@@ -1,11 +1,10 @@
 <?php
 	require_once('include/dbconfig.inc.php');
 
- 	// check version 
+ 	// check version
         $sql = 'Select * from dbver where ID=1';
-        $res = mysqli_query($DBConn, $sql);
-	$row=mysqli_fetch_assoc($res);
-
+	$row=$DBConn->directsql($sql);
+	$row=$row[0];
 ?>
 <script>
 	document.title = 'Practical Agile:About';
@@ -17,7 +16,7 @@
 <center>
 <h1>Practical Agile Scrum tool</h1>
 <p><h2><?php echo 'Application ver: '.$row['appver']; ?></h2>
-<p><h2><?php echo 'Database ver: '.$row['CurrVer']; ?></h2>
+<p><h2><?php echo 'Database ver: '.$row['CurrVer'].' Using: '.dbdriver; ?></h2>
 <p>
 <p><a href="help/help.html" title="Help (.html)">Help (.html)</a>
 <p><a href="help/help.pdf" title="Help (.pdf)">Help (.pdf)</a>

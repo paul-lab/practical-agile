@@ -5,11 +5,11 @@
 	if(!$user_details){
 		exit();
 	}
-	$sql= 'SELECT tags.Desc from tags where tags.Project_ID='.$_GET['PID'];
-	$tag_Res = mysqli_query($DBConn, $sql);
-	if ($tag_Row = mysqli_fetch_array($tag_Res))
+	$sql= 'SELECT `Desc` from tags where tags.Project_ID='.$_GET['PID'];
+	$tag_Row = $DBConn->directsql($sql);
+	if (count($tag_Row) > 0)
 	{
-		echo $tag_Row['Desc'];		
+		echo $tag_Row[0]['Desc'];
     	}else{
 		echo '';
 	}

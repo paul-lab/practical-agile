@@ -1,221 +1,268 @@
 
-DROP TABLE IF EXISTS `audit`;
+DROP TABLE IF EXISTS "audit";
 CREATE TABLE `audit` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `AID` INT KEY DEFAULT '0',
-  `PID` INT KEY DEFAULT NULL,
-  `User` TEXT(64) NOT NULL,
-  `Action` TEXT(64) DEFAULT '',
-  `From` longtext NOT NULL,
-  `To` longtext NOT NULL,
-  `When` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `ID` INTEGER NOT NULL primary key,
+  `AID` INTEGER  KEY DEFAULT '0' ,
+  `PID` INTEGER  DEFAULT NULL,
+  `User` TEXT NOT NULL,
+  `Action` TEXT DEFAULT '',
+  `From` TEXT NOT NULL,
+  `To` NOT NULL,
+  `When` DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
+CREATE INDEX "audit_PID" ON "audit" ("PID");
+CREATE INDEX "audit_AID" ON "audit" ("AID");
 
-DROP TABLE IF EXISTS `comment`;
+DROP TABLE IF EXISTS "comment";
 CREATE TABLE `comment` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Parent_ID` INT NOT NULL,
-  `User_Name` TEXT KEY DEFAULT NULL,
-  `Comment_Object_ID` INT NOT NULL DEFAULT '0',
-  `Story_AID` INT KEY DEFAULT NULL,
-  `Comment_Text` text,
-  `Comment_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Parent_ID` INTEGER NOT NULL,
+  `User_Name` TEXT DEFAULT NULL,
+  `Comment_Object_ID` INTEGER NOT NULL DEFAULT '0',
+  `Story_AID` INTEGER DEFAULT NULL,
+  `Comment_TEXT` TEXT,
+  `Comment_Date` DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+);
+CREATE INDEX "User_ID" ON "comment" ("User_Name");
+CREATE INDEX "Object_ID" ON "comment" ("Story_AID");
 
-DROP TABLE IF EXISTS `dbver`;
+DROP TABLE IF EXISTS "dbver";
 CREATE TABLE `dbver` (
   `ID` INTEGER DEFAULT NULL,
-  `CurrVer` text,
-  `appver` tinytext
-)  ;
+  `CurrVer` TEXT,
+  `appver` TEXT
+);
 
-DROP TABLE IF EXISTS `hint`;
-CREATE TABLE `hint` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Hint_Text` text NOT NULL
-) ;
+DELETE FROM "dbver";
+INSERT INTO "dbver" ("ID", "CurrVer", "appver") VALUES (1,	'1.17',	'2.56');
 
-DROP TABLE IF EXISTS `iteration`;
+DROP TABLE IF EXISTS "hint";
+CREATE TABLE "hint" (
+  "ID" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "Hint_Text" text NOT NULL
+);
+
+
+DROP TABLE IF EXISTS "iteration";
 CREATE TABLE `iteration` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Locked` tinyint(1) DEFAULT '0',
-  `Project_ID` INT KEY DEFAULT NULL,
-  `Name` text C NOT NULL,
-  `Points_Object_ID` bigint(20) DEFAULT NULL,
-  `Comment_Object_ID` INT unsigned DEFAULT NULL,
-  `Objective` text,
-  `Start_Date` date NOT NULL,
-  `End_Date` date NOT NULL
-); 
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Locked` INTEGER DEFAULT '0',
+  `Project_ID` INTEGER DEFAULT NULL,
+  `Name` TEXT NOT NULL,
+  `Points_Object_ID`  INTEGER DEFAULT NULL,
+  `Comment_Object_ID` INTEGER DEFAULT NULL,
+  `Objective` TEXT,
+  `Start_Date` DATE NOT NULL,
+  `End_Date` DATE NOT NULL
+);
 
-DROP TABLE IF EXISTS `points_log`;
+CREATE INDEX "Project_ID" ON "iteration" ("Project_ID");
+
+DROP TABLE IF EXISTS "points_log";
 CREATE TABLE `points_log` (
   `ID`  INTEGER NOT NULL PRIMARY KEY,
-  `Project_ID` INT KEY NOT NULL,
-  `Points_Date` datetime KEY NOT NULL,
-  `Object_ID` INT KEY NOT NULL,
-  `Status` char(16) NOT NULL,
-  `Story_Count` INT NOT NULL DEFAULT '0',
-  `Points_Claimed` decimal(11,1) DEFAULT NULL
-) ;
+  `Project_ID` INTEGER NOT NULL,
+  `Points_Date` DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
+  `Object_ID` INTEGER NOT NULL,
+  `Status`  TEXT NOT NULL,
+  `Story_Count` INTEGER NOT NULL DEFAULT '0',
+  `Points_Claimed` NUMERIC DEFAULT NULL
+);
 
-DROP TABLE IF EXISTS `project`;
+CREATE INDEX "points_log_Points_Date" ON "points_log" ("Points_Date");
+
+CREATE INDEX "points_log_Object_ID" ON "points_log" ("Object_ID");
+CREATE INDEX "points_log_Project_ID" ON "points_log" ("Project_ID");
+
+
+
+DROP TABLE IF EXISTS "project";
 CREATE TABLE `project` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Points_Object_ID` INT KEY UNIQUE DEFAULT NULL,
-  `Comment_Object_ID` INT KEY UNIQUE DEFAULT NULL,
-  `Project_Size_ID` INT NOT NULL,
-  `Name` TEXT(50) DEFAULT NULL,
-  `Desc` TEXT(255)  DEFAULT NULL,
-  `As_A` tinyint(1) NOT NULL DEFAULT '0',
-  `Col_2` tinyint(1) DEFAULT NULL,
-  `Desc_1` char(12) DEFAULT 'So That',
-  `Desc_2` char(12) DEFAULT 'I Need',
-  `Acceptance` tinyint(1) DEFAULT '0',
-  `Enable_Tasks` tinyint(1) DEFAULT '0',
-  `Backlog_ID` INT NOT NULL,
-  `Velocity` INT NOT NULL DEFAULT '0',
-  `Average_Size` INT unsigned DEFAULT '0',
-  `Category` TEXT(20) DEFAULT NULL,
-  `Archived` tinyint(1) DEFAULT NULL
-)   ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Points_Object_ID`  INTEGER DEFAULT NULL,
+  `Comment_Object_ID` INTEGER DEFAULT NULL,
+  `Project_Size_ID` INTEGER NOT NULL,
+  `Name` TEXT  DEFAULT NULL,
+  `Desc` TEXT  DEFAULT NULL,
+  `As_A` INTEGER NOT NULL DEFAULT '0',
+  `Col_2` INTEGER DEFAULT NULL,
+  `Desc_1` TEXT DEFAULT 'So That',
+  `Desc_2` TEXT DEFAULT 'I Need',
+  `Acceptance` INTEGER DEFAULT '0',
+  `Enable_Tasks` INTEGER DEFAULT '0',
+  `Backlog_ID` INTEGER NOT NULL,
+  `Velocity` INTEGER NOT NULL DEFAULT '0',
+  `Average_Size` INTEGER DEFAULT '0',
+  `Category` TEXT DEFAULT NULL,
+  `Archived` INTEGER DEFAULT 0
+);
 
-DROP TABLE IF EXISTS `queries`;
+CREATE UNIQUE INDEX "project_Points_Date" ON "project" ("Points_Object_ID");
+
+DROP TABLE IF EXISTS "queries";
 CREATE TABLE `queries` (
   `ID` INTEGER NOT NULL PRIMARY KEY,
-  `Qseq` int(10) DEFAULT '0',
-  `Desc` text NOT NULL,
-  `QSQL` text NOT NULL,
-  `Qorder` text NOT NULL,
-  `External` tinyint(1) NOT NULL
-)  ;
+  `Qseq` INTEGER DEFAULT '0',
+  `Desc` TEXT NOT NULL,
+  `QSQL` TEXT NOT NULL,
+  `Qorder` TEXT NOT NULL,
+  `External` INTEGER NOT NULL
+);
 
-DROP TABLE IF EXISTS `release_details`;
+
+DROP TABLE IF EXISTS "release_details";
 CREATE TABLE `release_details` (
   `ID` INTEGER NOT NULL PRIMARY KEY,
-  `Locked` tinyint(1) DEFAULT '0',
-  `Start` date DEFAULT NULL,
-  `End` date DEFAULT NULL,
-  `Name` TEXT(255) DEFAULT NULL,
-  `Points_Object_ID` INT KEY DEFAULT NULL,
-  `Comment_Object_ID` INT KEY DEFAULT NULL
-)  ;
+  `Locked` INTEGER DEFAULT '0',
+  `Start` DATE DEFAULT NULL,
+  `End` DATE DEFAULT NULL,
+  `Name` TEXT  DEFAULT NULL,
+  `Points_Object_ID` INTEGER DEFAULT NULL,
+  `Comment_Object_ID` INTEGER DEFAULT NULL
+);
 
-DROP TABLE IF EXISTS `sessions`;
+CREATE INDEX "release_details_Points_Comment_Object_ID" ON "release_details" ("Comment_Object_ID");
+
+CREATE INDEX "release_details_Points_Object_ID" ON "release_details" ("Points_Object_ID");
+
+DROP TABLE IF EXISTS "sessions";
 CREATE TABLE `sessions` (
-  `sessionid` INT NOT NULL PRIMARY KEY,
-  `sessiondata` text
-)  ;
+  `sessionid` INTEGER NOT NULL PRIMARY KEY,
+  `sessiondata` TEXT
+);
 
 
-DROP TABLE IF EXISTS `size_type`;
+DROP TABLE IF EXISTS "size_type";
 CREATE TABLE `size_type` (
-  `ID` INTEGER NOT NULL PRIMARY KEY, 
-  `Desc` text NOT NULL
-)   ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Desc` TEXT NOT NULL
+);
 
-DROP TABLE IF EXISTS `size`;
+
+DROP TABLE IF EXISTS "size";
 CREATE TABLE `size` (
-  `ID` INTEGER NOT NULL PRIMARY KEY, 
-  `Type` INT KEY NOT NULL,
-  `Order` INT DEFAULT NULL,
-  `Value` char(4) ,
-  CONSTRAINT `size_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `size_type` (`ID`) ON DELETE CASCADE
-) ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Type` INTEGER NOT NULL,
+  `Order` INTEGER DEFAULT NULL,
+  `Value` TEXT  DEFAULT NULL,
+  FOREIGN KEY (`Type`) REFERENCES `size_type`(`ID`) ON DELETE CASCADE
+);
 
+CREATE INDEX "isize_Type" ON "size" ("Type");
 
-DROP TABLE IF EXISTS `story`;
+DROP TABLE IF EXISTS "story";
 CREATE TABLE `story` (
-  `AID` INTEGER NOT NULL PRIMARY KEY ,
-  `ID` INT  KEY NOT NULL,
-  `Project_ID` INT KEY NOT NULL,
-  `Release_ID` INT KEY  DEFAULT NULL,
-  `Iteration_ID` INT KEY NOT NULL,
-  `Parent_Story_ID` INT KEY NOT NULL DEFAULT '0',
-  `Type` text,
-  `Created_By_ID` INT DEFAULT NULL,
-  `Owner_ID` INT DEFAULT NULL,
-  `Created_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Status` char(16) DEFAULT NULL,
-  `Children_Status` TEXT(200) DEFAULT NULL,
-  `Epic_Rank` INT DEFAULT NULL,
-  `Iteration_Rank` INT DEFAULT NULL,
-  `Size` char(4) DEFAULT NULL,
-  `Blocked` tinyint(1) DEFAULT NULL,
-  `Summary` text,
-  `Col_1` longtext,
-  `As_A` text,
-  `Col_2` longtext,
-  `Acceptance` longtext,
-  `Tags` text,
-  CONSTRAINT `story_ibfk_1` FOREIGN KEY (`Iteration_ID`) REFERENCES `iteration` (`ID`),
-  CONSTRAINT `story_ibfk_3` FOREIGN KEY (`Project_ID`) REFERENCES `project` (`ID`)
-)  ;
+  `AID` INTEGER NOT NULL PRIMARY KEY,
+  `ID` INTEGER NOT NULL,
+  `Project_ID` INTEGER NOT NULL,
+  `Release_ID` INTEGER DEFAULT NULL,
+  `Iteration_ID` INTEGER NOT NULL,
+  `Parent_Story_ID` INTEGER NOT NULL DEFAULT '0',
+  `Type` TEXT ,
+  `Created_By_ID` INTEGER DEFAULT NULL,
+  `Owner_ID` INTEGER DEFAULT NULL,
+  `Created_Date` DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
+  `Status`  TEXT  DEFAULT NULL,
+  `Children_Status` TEXT DEFAULT NULL,
+  `Epic_Rank` INTEGER DEFAULT NULL,
+  `Iteration_Rank` INTEGER DEFAULT NULL,
+  `Size` TEXT DEFAULT NULL,
+  `Blocked` INTEGER DEFAULT NULL,
+  `Summary` TEXT ,
+  `Col_1` longTEXT ,
+  `As_A` TEXT ,
+  `Col_2` longTEXT ,
+  `Acceptance` longTEXT ,
+  `Tags` TEXT ,
+  FOREIGN KEY (`Iteration_ID`) REFERENCES `iteration` (`ID`),
+  FOREIGN KEY (`Project_ID`) REFERENCES `project` (`ID`)
+);
 
-DROP TABLE IF EXISTS `story_status`;
+CREATE INDEX "story_ID" ON "story" ("ID");
+CREATE INDEX "story_Iteration_ID" ON "story" ("Iteration_ID");
+CREATE INDEX "story_Parent_Story_ID" ON "story" ("Parent_Story_ID");
+CREATE INDEX "story_Release_ID" ON "story" ("Release_ID");
+CREATE INDEX "story_Project_ID" ON "story" ("Project_ID");
+
+
+DROP TABLE IF EXISTS "story_status";
 CREATE TABLE `story_status` (
   `ID` INTEGER NOT NULL PRIMARY KEY,
-  `Project_ID` INT KEY NOT NULL,
-  `Desc` char(16) DEFAULT NULL,
-  `Policy` TEXT(128) DEFAULT NULL,
-  `Order` INT DEFAULT NULL,
-  `RGB` char(6) NOT NULL DEFAULT 'FFFFFF'
-) ;
+  `Project_ID` INTEGER NOT NULL,
+  `Desc`  TEXT  DEFAULT NULL,
+  `Policy` TEXT DEFAULT NULL,
+  `Order` INTEGER DEFAULT NULL,
+  `RGB` char(6)  NOT NULL DEFAULT 'FFFFFF'
+);
 
-DROP TABLE IF EXISTS `story_type`;
+CREATE INDEX "story_status_Project_ID" ON "story_status" ("Project_ID");
+
+
+DROP TABLE IF EXISTS "story_type";
 CREATE TABLE `story_type` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Project_ID` INT KEY NOT NULL,
-  `Desc` char(10) DEFAULT NULL,
-  `Order` INT NOT NULL
-)  ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Project_ID` INTEGER NOT NULL,
+  `Desc` TEXT  DEFAULT NULL,
+	`Order` INTEGER DEFAULT 0
+);
 
-DROP TABLE IF EXISTS `tags`;
+
+DROP TABLE IF EXISTS "tags";
 CREATE TABLE `tags` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Project_ID` INT unsigned DEFAULT NULL,
-  `Desc` text
-)  ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Project_ID` INTEGER DEFAULT NULL,
+  `Desc` TEXT
+);
 
-DROP TABLE IF EXISTS `task`;
+DELETE FROM "tags";
+INSERT INTO "tags" ("ID", "Project_ID", "Desc") VALUES (1,	1,	'test,A tag with spaces,TEST,Test,tag2,tag1,tag3');
+
+DROP TABLE IF EXISTS "task";
 CREATE TABLE `task` (
-  `ID` INTEGER NOT NULL PRIMARY KEY ,
-  `Story_AID` INT KEY DEFAULT NULL,
-  `User_ID` INT KEY DEFAULT NULL,
-  `Rank` INT DEFAULT NULL,
-  `Desc` text,
-  `Done` tinyint(1) DEFAULT NULL,
-  `Expected_Hours` INT DEFAULT '0',
-  `Actual_Hours` INT DEFAULT '0',
-  `Task_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-)  ;
+  `ID` INTEGER NOT NULL PRIMARY KEY,
+  `Story_AID` INTEGER DEFAULT NULL,
+  `User_ID` INTEGER DEFAULT NULL,
+  `Rank` INTEGER DEFAULT NULL,
+  `Desc` TEXT ,
+  `Done` INTEGER DEFAULT NULL,
+  `Expected_Hours` INTEGER DEFAULT '0',
+  `Actual_Hours` INTEGER DEFAULT '0',
+  `Task_Date` DATETIME NOT NULL DEFAULT (datetime('now','localtime')) 
+);
 
-DROP TABLE IF EXISTS `upload`;
+CREATE INDEX "task_User_ID" ON "task" ("User_ID");
+CREATE INDEX "task_Story_AID" ON "task" ("Story_AID");
+
+
+DROP TABLE IF EXISTS "upload";
 CREATE TABLE `upload` (
-  `AID` INTEGER NOT NULL PRIMARY KEY,
-  `Name` binary KEY UNIQUE NOT NULL,
-  `Desc` TEXT(128) NOT NULL,
-  `Type` TEXT(32) NOT NULL,
-  `Size` INT NOT NULL
-)  ;
+  `AID` INTEGER NOT NULL,
+  `Name` BLOB NOT NULL UNIQUE PRIMARY KEY,
+  `Desc` TEXT NOT NULL,
+  `Type` TEXT NOT NULL,
+  `Size` INTEGER NOT NULL
+);
 
-DROP TABLE IF EXISTS `user`;
+
+DROP TABLE IF EXISTS "user";
 CREATE TABLE `user` (
   `ID` INTEGER NOT NULL PRIMARY KEY,
-  `Initials` char(4) DEFAULT NULL,
-  `Password` TEXT(64) DEFAULT NULL,
-  `Friendly_Name` TEXT(64) DEFAULT NULL,
-  `EMail` TEXT(64) DEFAULT NULL,
-  `Admin_User` tinyint(1) NOT NULL DEFAULT '0',
-  `Disabled_User` tinyint(1) DEFAULT '0'
-)   ;
+  `Initials` TEXT  DEFAULT NULL,
+  `Password` TEXT  DEFAULT NULL,
+  `Friendly_Name` TEXT  DEFAULT NULL,
+  `EMail` TEXT  DEFAULT NULL,
+  `Admin_User` INTEGER NOT NULL DEFAULT '0',
+  `Disabled_User` INTEGER DEFAULT '0'
+);
 
-DROP TABLE IF EXISTS `user_project`;
+
+DROP TABLE IF EXISTS "user_project";
 CREATE TABLE `user_project` (
-  `Project_ID` INTEGER KEY DEFAULT NULL,
-  `User_ID` INT KEY DEFAULT NULL,
-  `Readonly` tinyint(1) NOT NULL,
-  `Project_Admin` tinyint(1) NOT NULL DEFAULT '0'
-)  ;
+  `Project_ID` INTEGER DEFAULT NULL,
+  `User_ID` INTEGER DEFAULT NULL,
+  `Readonly` INTEGER NOT NULL DEFAULT '0',
+  `Project_Admin` INTEGER NOT NULL DEFAULT '0'
+);
 
-
+CREATE INDEX "user_project_User_ID" ON "user_project" ("User_ID");
+CREATE INDEX "user_project_Project_ID" ON "user_project" ("Project_ID");

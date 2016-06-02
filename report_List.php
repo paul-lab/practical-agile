@@ -38,12 +38,10 @@ $(function() {
 			'</b></tr>';
 
 	$sql = 'select * from queries where ID >0 order by Qseq';
-	$Qry_Res = mysqli_query($DBConn, $sql);
+	$Qry_Res = $DBConn->directsql($sql);
 	$Toggle=0;
-	if ($Qry_Row = mysqli_fetch_assoc($Qry_Res))
-	{
-		do
-		{
+	if (count($Qry_Res)> 0){
+		foreach($Qry_Res as $Qry_Row )	{
 			$Toggle = ($Toggle + 1) % 2;
 			echo	'<tr valign="top" class="alternate'.$Toggle.'">'.
 				'<td>';
@@ -58,7 +56,6 @@ $(function() {
 			}
 			echo		'</td></tr>';
 		}
-		while ($Qry_Row = mysqli_fetch_assoc($Qry_Res));
 	}
 	echo '</table>';
 	include 'include/footer.inc.php';

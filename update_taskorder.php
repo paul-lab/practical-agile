@@ -10,7 +10,7 @@
 
 	foreach($_GET['task'] as $key=>$value) {
 		$key = ($key+1) * 100;
-		$sql= 'UPDATE task SET task.Rank='.$key.' WHERE task.ID='.$value;
-    		mysqli_query($DBConn, $sql);
-	} 
+		$sql= 'UPDATE task SET Rank='.$key.' WHERE ID='.$value;
+    	$DBConn->directsql($sql);
+	}
 ?>

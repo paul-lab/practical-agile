@@ -23,17 +23,13 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hasheadc4c06ca49398160497cb55b216b8a.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash55ec32a6286db98dff5cfdcbe3eb7cb7.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
 	<script src="fancytree/jquery.fancytree.dnd.js" type="text/javascript"></script>
 
-
-	<link rel="stylesheet" type="text/css" href="css/task_List.css" />
-	<link rel="stylesheet" type="text/css" href="css/upload_List.css" />
-	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 
 	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
@@ -83,8 +79,8 @@ $(function() {
 		echo buildstatuspop($_REQUEST['PID']);
 	echo '</div>';
 
-	echo '<div id="msg_div">';
-	echo '&nbsp;</div>';
+	#echo '<div id="msg_div">';
+	#echo '&nbsp;</div>';
 
 // a Standard story list for the iteraton or backlog.
 	echo '<div class="left-box">';
@@ -126,7 +122,7 @@ $(function() {
 
 //  display on the right then list the stories
 
-		echo '<div class="RIID mh15" id='.$_POST['RIID'].'>';
+		echo '<div class="RIID mh15">';
 			// this is populated by js onchange
 		echo '</div>';
 

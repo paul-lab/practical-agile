@@ -10,30 +10,25 @@
 		exit();
 	}
 
-
 function CommentsBlock($ThisID, $Thiskey)
 {
 	Global $DBConn;
 
-	if ($Thiskey=='s') 
-	{
+	if ($Thiskey=='s')	{
 		$q = "SELECT * FROM comment WHERE Story_AID = ".$ThisID." and Parent_ID=0 ORDER by ID";
 	}
-
-	if ($Thiskey=='i') 
-	{
-		$q = "SELECT * FROM comment WHERE Comment_Object_ID = ".$ThisID." and Comment_Object_ID <> 0 and Parent_ID=0 ORDER by ID";	
+	if ($Thiskey=='i')	{
+		$q = "SELECT * FROM comment WHERE Comment_Object_ID = ".$ThisID." and Comment_Object_ID <> 0 and Parent_ID=0 ORDER by ID";
 	}
+
 // comments must be wrapped in a div like this
 //	echo '<div class="commentsdialog" id="commentspop'.$Thiskey.'_'.$ThisID.'"><ul id=commentlist'.$Thiskey.'_'.$ThisID.'> ';
 	echo '<ul id=commentlist'.$Thiskey.'_'.$ThisID.'> ';
 
-
-
-	$r = mysqli_query($DBConn, $q);   
-	while($row = mysqli_fetch_assoc($r)):   
-		getComments($row, $ThisID,$Thiskey);   
-	endwhile;   
+	$r = $DBConn->directsql($q);
+	foreach ($r as $row){
+		getComments($row, $ThisID,$Thiskey);
+	}
 
 	echo '</ul>';
 	echo '<br><div class="smaller" id="replyto_'.$Thiskey.'_'.$ThisID.'"></div>';
@@ -44,16 +39,11 @@ function CommentsBlock($ThisID, $Thiskey)
 	echo ' <input type="hidden" name="Parent_ID" id="Parent_ID_'.$Thiskey.'_'.$ThisID.'" value="0"/>  ';
 	echo ' <input type="hidden" name="Iteration_ID" id="CIteration_ID" value="'.$_REQUEST['IID'].'"/>  ';
 
-
 // remember that this is not the Story_AID for iterations it is the Comment_Object_ID
 // being a lazy beggar it this is just easier
 	echo ' <input type="hidden" name="Story_AID" id="Story_AID_'.$ThisID.''.'" value="'.$ThisID.'"/>  ';
-//	echo ' <input type="hidden" name="PID" id="Story_PID_'.$ThisID.''.'" value="'.$_REQUEST['PID'].'"/>  ';
 
-//	echo '</div>  ';
 }
-
-
 
 CommentsBlock($_GET['id'], $_GET['key']);
 

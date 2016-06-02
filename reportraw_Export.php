@@ -36,9 +36,9 @@ function cleanData(&$str) {
 // Make a simple SELECT query
 
 	$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
-	$QRes = mysqli_query($DBConn, $qsql);
-	$QRow = mysqli_fetch_assoc($QRes);
-	$cond=" ".$QRow['QSQL'];	
+	$QRow = $DBConn->directsql($qsql);
+	$QRow =	$QRow[0];
+	$cond=" ".$QRow['QSQL'];
 	$cond= str_replace('{User}', $_SESSION['ID'], $cond);
 	$cond= str_replace('{Iteration}', $_REQUEST['IID'], $cond);
 	$cond= str_replace('{Project}', $_REQUEST['PID'], $cond);
@@ -51,21 +51,16 @@ function cleanData(&$str) {
 //echo $q;
 
 // do we have any results
-if (	$r = mysqli_query($DBConn, $q)) {  
-	if ($row = mysqli_fetch_assoc($r))
-	{
-		do
-		{
-			if(!$flag) {
-				// display field/column names as first row
-				fputcsv($out, array_keys($row), ',', '"');
-				$flag = true;
-			}
-			array_walk($row, 'cleanData');
-			fputcsv($out, array_values($row), ',', '"');
-		} while ($row = mysqli_fetch_assoc($r));
+	$r = $DBConn->directsql($q);
+	foreach($r as $row)	{
+		if(!$flag) {
+			// display field/column names as first row
+			fputcsv($out, array_keys($row), ',', '"');
+			$flag = true;
+		}
+		array_walk($row, 'cleanData');
+		fputcsv($out, array_values($row), ',', '"');
 	}
-}
 
 	fclose($out);
 	exit;

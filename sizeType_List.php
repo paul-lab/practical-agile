@@ -30,23 +30,25 @@ $(function() {
 				'<td>&nbsp;</td>'.
 			'</b></tr>';
 
-	$sql = 'select st.ID, st.Desc, pr.Project_Size_ID PRID from size_type as st left join `project` pr on st.ID=pr.Project_Size_ID group by st.ID';
-	$sizeType_Res = mysqli_query($DBConn, $sql);
+	$sql = 'select st.ID, st.Desc, pr.Project_Size_ID PRID , si.Type from size_type as st left join `project` pr on st.ID=pr.Project_Size_ID left join `size` si on st.ID=si.Type
+group by st.ID';
+	$sizeType_Row = $DBConn->directsql($sql);
 	$Toggle=0;
-	if ($sizeType_Row = mysqli_fetch_assoc($sizeType_Res))
-	{
-		do
-		{
+	if (count($sizeType_Row) > 0)	{
+	$rowcnt = 0;
+		do		{
 			$Toggle = ($Toggle + 1) % 2;
 			echo	'<tr valign="top" class="alternate'.$Toggle.'">'.
-				'<td><a href="sizeType_Edit.php?id='.$sizeType_Row['ID'].'"><img src="images/edit.png"></a></td>'.					'<td>'.$sizeType_Row['ID'].'</td>'.
-					'<td>'.$sizeType_Row['Desc'].'</td>';
-			if ($sizeType_Row['PRID']==NULL){
-				echo		'<td><a href="sizeType_Delete.php?id='.$sizeType_Row['ID'].'"><img src="images/delete.png"></a>';
+					'<td><a href="sizeType_Edit.php?id='.$sizeType_Row[$rowcnt]['ID'].'"><img src="images/edit.png"></a></td>'.
+					'<td>'.$sizeType_Row[$rowcnt]['ID'].'</td>'.
+					'<td>'.$sizeType_Row[$rowcnt]['Desc'].'</td>';
+			if ($sizeType_Row[$rowcnt]['PRID']==NULL && $sizeType_Row[$rowcnt]['Type']==NULL){
+				echo		'<td><a href="sizeType_Delete.php?id='.$sizeType_Row[$rowcnt]['ID'].'"><img src="images/delete.png"></a>';
 			}
 			echo		'</td></tr>';
+			$rowcnt+=1;
 		}
-		while ($sizeType_Row = mysqli_fetch_assoc($sizeType_Res));
+		while ($rowcnt < count($sizeType_Row));
 	}
 	echo '</table>';
 

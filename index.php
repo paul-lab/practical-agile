@@ -2,77 +2,69 @@
 	require_once('include/dbconfig.inc.php');
         require_once('include/common.php');
 
-$APP_VER='2.55';
+$APP_VER='2.56';
 
-        /*if user wants to login*/
-        if(isset($_POST['username'])){
-	        $user_data = login_user( $_POST['username'] , $_POST['password'] );
-	        if (!$user_data){ 
-	        	$error = 'Login failed.<br> Your account may have been disabled.';
-	        }else{
-		        $_SESSION['user_identifier'] = $user_data['session_identifier'];
-		        $_SESSION['ID'] = $user_data['ID'];
+    /*if user wants to login*/
+    if(isset($_POST['username'])){
+	    $user_data = login_user( $_POST['username'] , $_POST['password'] );
+	    if (!$user_data){
+	    	$error = 'Login failed.<br> Your account may have been disabled.';
+	    }else{
+			$_SESSION['user_identifier'] = $user_data['session_identifier'];
+			$_SESSION['ID'] = $user_data['ID'];
 			$_SESSION['Email'] = $user_data['Email'];
-		        $_SESSION['Name'] = $user_data['Friendly_Name'];
-		        $fromhere = $_GET['gobackto'];
-		        if(!$fromhere){
-	        		header("Location:project_List.php");
-		        }else{
-				if ($_COOKIE['cbadcnt']>1) 
-				{
+			$_SESSION['Name'] = $user_data['Friendly_Name'];
+			$fromhere = $_GET['gobackto'];
+			if(!$fromhere){
+				header("Location:project_List.php");
+			}else{
+				if ($_COOKIE['cbadcnt']>1){
 					header("Location:index.php");
 				}else{
 			        	header("Location:".$fromhere);
 				}
-		        }
-	        }      
-        }else{
-        	// check version and update database if needed
-	        $sql = 'Select * from dbver where ID=1';
-	        $res = mysqli_query($DBConn, $sql);
-	        if ($row = mysqli_fetch_assoc($res)) {
-			echo 'DBver: '.$row['CurrVer'];
-			$Ufile='_UpdateFrom-'.$row['CurrVer'].'.txt';
-			if (file_exists($Ufile)){
-				$lines = file($Ufile); 
-
-				if (is_array($lines)){
-					foreach ($lines as $line_num => $line) 
-					{ 
+			}
+		}
+	}else{
+		// check database and app version and update database if needed
+		$row =  $DBConn->read('dbver', 'ID=1');
+		if (count($row) > 0) {
+		echo 'DBver: '.$row[0]['CurrVer'];
+		$Ufile='_UpdateFrom-'.$row[0]['CurrVer'].'.txt';
+		if (file_exists($Ufile)){
+			$lines = file($Ufile);
+			if (is_array($lines)){
+				foreach ($lines as $line_num => $line){
 						$sql = $line;
-						mysqli_query($DBConn, $sql);
-					}
+						$row=$DBConn->directsql($sql);
 				}
-				header("Location:index.php?dbu=true");
 			}
-			if($APP_VER!=$row['CurrVer']){
-				$sql = 'update dbver set appver = '.$APP_VER.' where ID=1';
-				$res = mysqli_query($DBConn, $sql);
-			}
-	        }else{
+			header("Location:index.php?dbu=true");
+		}
+		if($APP_VER!=$row[0]['appver']){
+			$DBConn->update('dbver', array('appver' => $APP_VER ), 'ID = 1');}
+		}else{
 	        // no dbver table so we must be very very old
-		        $sql = "CREATE TABLE `dbver` (  `ID` integer, `CurrVer` text) ENGINE=InnoDB DEFAULT CHARSET=ascii;";
-		        mysqli_query($DBConn, $sql);
-		        $sql = "Insert into dbver set ID=1, CurrVer='1.0'";
-		        mysqli_query($DBConn, $sql);
-		        header("Location:index.php");
-	        }
-
-        }
+			$sql = "CREATE TABLE `dbver` (  `ID` integer, `CurrVer` text);";
+			$row=$DBConn->directsql($sql );
+			$DBConn->create('dbver ', array('ID' => '1', 'CurrVer' => '1.0'));
+			header("Location:index.php");
+		}
+	}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<script src="md5/md5.min.js"></script> 
+<script src="md5/md5.min.js"></script>
 <script>
 function hashit(){
 	var phash=document.getElementById('pwd').value;
 	phash=md5(phash);
 	if (phash=='21232f297a57a5a743894a0e4a801fc3')
 	{
-		alert('Please change the default password!');
+		alert('Please change the default "admin" password!');
 	}
 	document.getElementById('pwd').value=phash;
 }
@@ -89,7 +81,7 @@ function hashit(){
 
 <center>
 <h2>Practical Agile</h2>
-<?php 
+<?php
 if ($_GET['dbu']=='true')
 {
 	echo '<h3><font color="red">DATABASE UPDATED</h3></font>';
@@ -100,23 +92,23 @@ if ($_GET['dbu']=='true')
        <form method="post" action="" id="form_Login">
 		<table>
 			<tr>
-				<td>e-Mail/User :</td> 
+				<td>e-Mail/User :</td>
 				<td><input type="text" id="nam" name="username" value="" />
 			</tr>
 			<tr>
 				<td align="Right">Password :
 			        <td><input type="password" id="pwd"name="password" value="" />
-			</tr>    
-			<tr><td colspan=2>&nbsp</td></tr> 
+			</tr>
+			<tr><td colspan=2>&nbsp</td></tr>
 			<tr>
 				<td>&nbsp<td><input type="submit" title "Click here to login" onclick="hashit();"value="Login" />
 			</tr>
 		</table>
 		<?php echo $error; ?>
-        </form>  
-</center>  
+        </form>
+</center>
 <script>
 document.getElementById('nam').focus();
-</script> 
+</script>
 </body>
 </html>

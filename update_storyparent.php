@@ -6,13 +6,11 @@
 	if(!$user_details){
 		exit();
 	}
+	if ($_GET['NPAR']=='root_1') $_GET['NPAR']=0;
 
-
-	$sql= 'UPDATE story SET story.Parent_Story_ID="'.$_GET['NPAR'].'" WHERE story.AID='.$_GET['SID'];
-	mysqli_query($DBConn, $sql);
+	$sql= 'UPDATE story SET Parent_Story_ID="'.$_GET['NPAR'].'" WHERE AID='.$_GET['SID'];
+	$DBConn->directsql($sql);
 	Update_Parent_Points($_GET['SID']);
 	Update_oldParent_Points($_GET['OPAR']);
-
 	auditit($_GET['PID'],$_GET['SID'],$_SESSION['Email'],'Update parent',fetchusingID('Summary',$_GET['OPAR'],'story'),fetchusingID('Summary',$_GET['NPAR'],'story'));
-
 ?>

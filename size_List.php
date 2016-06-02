@@ -20,14 +20,12 @@ $(function() {
 function print_Size_Type($current)
 {
 	Global $DBConn;
-
-    	$sql='select * from size_type where ID='.$current;
-	$queried = mysqli_query($DBConn, $sql);
-	$result = mysqli_fetch_assoc($queried);
-	return $result['Desc'];
+   	$sql='select * from size_type where ID='.$current;
+	$result = $DBConn->directsql($sql);
+	return $result[0]['Desc'];
 }
 
-	
+
 	echo
 		'<div align="center">'.
 			'<a href="size_Edit.php">add a new size</a>'.
@@ -41,25 +39,26 @@ function print_Size_Type($current)
 				'<td>&nbsp;</td>'.
 			'</b></tr>';
 
-	$size_Res = mysqli_query($DBConn, 'SELECT * FROM size order by Type, size.Order');
+	$size_Row = $DBConn->directsql('SELECT * FROM size order by Type, size.`Order`');
 	$Toggle=0;
-	if ($size_Row = mysqli_fetch_assoc($size_Res))
-	{
+	if (count($size_Row) > 0)	{
+		$rowcount=0;
 		do
 		{
 			$Toggle = ($Toggle + 1) % 2;
 			echo
 				'<tr valign="top" class="alternate'.$Toggle.'">'.
-					'<td>'.'<a href="size_Edit.php?id='.$size_Row['ID'].'"><img src="images/edit.png"></a> &nbsp;'.'</td>'.
-					'<td>'.print_Size_Type($size_Row['Type']).'</td>'.
-					'<td>'.$size_Row['Value'].'</td>'.
-					'<td>'.$size_Row['Order'].'</td>'.
+					'<td>'.'<a href="size_Edit.php?id='.$size_Row[$rowcount]['ID'].'"><img src="images/edit.png"></a> &nbsp;'.'</td>'.
+					'<td>'.print_Size_Type($size_Row[$rowcount]['Type']).'</td>'.
+					'<td>'.$size_Row[$rowcount]['Value'].'</td>'.
+					'<td>'.$size_Row[$rowcount]['Order'].'</td>'.
 					'<td>'.
-						'<a href="size_Delete.php?id='.$size_Row['ID'].'"><img src="images/delete.png"></a>'.
+						'<a href="size_Delete.php?id='.$size_Row[$rowcount]['ID'].'"><img src="images/delete.png"></a>'.
 					'</td>'.
 				'</tr>';
+				$rowcount+=1;
 		}
-		while ($size_Row = mysqli_fetch_assoc($size_Res));
+		while ($rowcount < count($size_Row));
 	}
 	echo '</table>';
 

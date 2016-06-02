@@ -15,7 +15,7 @@ $(function() {
 	}
 });
 </script>
-<script src="md5/md5.min.js"></script> 
+<script src="md5/md5.min.js"></script>
 <script>
 function hashit(){
 	var phash=document.getElementById('pwd').value;
@@ -23,114 +23,101 @@ function hashit(){
 	{
 		document.getElementById('pwd').value=md5(phash);
 	}
-	
-	
+
+
 }
 </script>
 <?php
 	$showForm = true;
 
-	if (isset($_POST['saveUpdate'])) 
-	{	
-		if (empty($_REQUEST['id']))
-		{
-			$sql_method = 'INSERT INTO';
+	if (isset($_POST['saveUpdate'])){
+		$data=array(
+			'Initials' 		=> trim($_REQUEST['Initials'], "\t\n\r\0" ),
+			'Disabled_User' => ((isset($_REQUEST['Disabled_User'])) ? 1 : 0),
+			'Friendly_Name' => $_REQUEST['Friendly_Name'],
+			'EMail' 		=> strtolower(trim($_REQUEST['EMail'], "\t\n\r\0" ))
+		);
+		if (empty($_REQUEST['id']))	{
 			$button_name = 'Add';
-			$whereClause = '';
-			$password = md5($_REQUEST['Password']);
-		}
-		else
-		{
-			$sql_method = 'UPDATE';
+			$data['Password'] = md5(trim($_REQUEST['Password'], "\t\n\r\0" ));
+			$result=$DBConn->create('user',$data);
+			auditit(0,0,$_SESSION['Email'],'Added User',$_REQUEST['EMail'].' - '.$_REQUEST['Friendly_Name']);
+		}else{
 			$button_name = ' Save';
-			$whereClause = ' WHERE ID = '.($_REQUEST['id'] + 0);
 			if (strlen($_REQUEST['Password'])>0) {
-				$password = md5($_REQUEST['Password']);
+				$data['Password'] = md5(trim($_REQUEST['Password'], "\t\n\r\0" ));
+			}else{
+				$data['Password'] = $_REQUEST['md5'];
 			}
-			else{
-				$password = $_REQUEST['md5'];
-			}
-		}
-
-if ($Usr['Admin_User'] == 1) 
-{
-	if ($_REQUEST['Admin_User']==1) 
-	{
-		$whereClause = ', Admin_User=1 '.$whereClause;
-	}else{
-		$whereClause = ', Admin_User=0 '.$whereClause;
-	}
-}
-
-	if ($Usr['Admin_User'] == 1 || $_REQUEST['id'] == $_SESSION['ID'])
-	{
-
-		$sql= $sql_method.' user SET Initials = "'.trim($_REQUEST['Initials'], "\t\n\r\0" ).'" ,'.
-				' Disabled_User = "'.$_REQUEST['Disabled_User'].'" ,'.
-				' Friendly_Name = "'.$_REQUEST['Friendly_Name'].'" ,'.
-				' EMail = "'.strtolower(trim($_REQUEST['EMail'], "\t\n\r\0" )).'"';
-		if (strlen(trim($password, "\t\n\r\0" ))>0)
-		{
-			$sql.= ', Password ="'.trim($password, "\t\n\r\0" ).'" ';
-		}
-		$sql.= $whereClause;
-
-			if (mysqli_query($DBConn, $sql))
-			{
-				if ($sql_method=='INSERT INTO')
-				{
-					auditit(0,0,$_SESSION['Email'],'Added User',$_REQUEST['EMail'].' - '.$_REQUEST['Friendly_Name']);
+			if ($Usr['Admin_User'] == 1) {
+				if ($_REQUEST['Admin_User']==1) {
+					$data['Admin_User'] =1;
+				}else{
+					$$data['Admin_User']=0;
 				}
-				$showForm = false;
-				if ($Usr['Admin_User']==1)
-				{
-					mysqli_query($DBConn, 'DELETE from user_project where User_ID ='.$_REQUEST['id']);
-					if ($_REQUEST['proj'])
-					{	
-						foreach($_REQUEST['proj'] as $proj) {
-							$sql= 'INSERT into user_project set User_ID='.$_REQUEST['id'].', Project_ID='.$proj.' ';
-							$audit=" ";
-							if (isset($_REQUEST['Readonly'.$proj])){$sql.= ', Readonly =1'; $audit.='Read only: True';}
-							if (isset($_REQUEST['proj_admin'.$proj])){$sql.= ', Project_Admin=1'; $audit.='Proj Admin: True';}
-							mysqli_query($DBConn, $sql);
-							auditit($proj,0,$_SESSION['Email'],'Alter access',$_REQUEST['EMail'],Get_Project_Name($proj).'" '.$audit);
+			}
+			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
+			$result=$DBConn->update('user',$data,$whereClause);
+		}
+// updated the user, now do their access
+		if ($result!=0){
+			$showForm = false;
+			if ($Usr['Admin_User']==1){
+				$sql='DELETE from user_project where User_ID ='.$_REQUEST['id'];
+				$up=$DBConn->directsql($sql);
+				if ($_REQUEST['proj']){
+					foreach($_REQUEST['proj'] as $proj) {
+						$data=array(
+							'User_ID' => $_REQUEST['id'],
+							'Project_ID' => $proj
+						);
+						$audit=" ";
+						if (isset($_REQUEST['Readonly'.$proj])){
+							$data['Readonly']=1;
+							$audit='Read only: True';
+						}else{
+							$data['Readonly']=0;
+							$audit='Read only: False';
 						}
+						if (isset($_REQUEST['proj_admin'.$proj])){
+							$data['Project_Admin']=1;
+							$audit='Proj Admin: True';
+						}else{
+							$data['Project_Admin']=0;
+							$audit='Projadmin: False';
+						}
+						$prj=$DBConn->create('user_project',$data);
+						auditit($proj,0,$_SESSION['Email'],'User Access Updated',$_REQUEST['EMail'],Get_Project_Name($proj).'" '.$audit);
 					}
 				}
 			}
-			else
-			{
-				$error = 'The form failed to process correctly.'.mysqli_error($DBConn);
-			}
+		}else{
+			$error = 'The form failed to process correctly.';
 		}
 	}
 
 	if (!empty($error))
 		echo '<div class="error">'.$error.'</div>';
 
-	if ($showForm)
-	{
+	if ($showForm)	{
 		if ($Usr['Admin_User'] == 1 || $_REQUEST['id'] == $_SESSION['ID']){
-			if (!empty($_REQUEST['id']))
-			{
-				$user_Res = mysqli_query($DBConn, 'SELECT * FROM user WHERE ID = '.$_REQUEST['id']);
-				$user_Row = mysqli_fetch_assoc($user_Res);
-			}
-			else
-			{
+			if (!empty($_REQUEST['id'])){
+				$sql = 'SELECT * FROM user WHERE ID = '.$_REQUEST['id'];
+				$user_Row  = $DBConn->directsql($sql);
+				$user_Row = $user_Row[0];
+			}else{
 				$user_Row = $_REQUEST;
 			}
 			echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.'<form method="post" action="?">';
-		
-	if ($Usr['Admin_User']==1)
-	{
+
+	if ($Usr['Admin_User']==1)	{
 		echo '<tr><td>EMail/Username:</td>';
 		echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'"></td></tr>';
 	}else{
 		echo '<tr><td>EMail/Username:</td>';
 		echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'].'</td></tr>';
-}
-	
+	}
+
 ?>
 <tr><td>Password:</td>
 	<td><input type="password" id="pwd" name="Password" value=""> empty Passwords wont be changed!</td>
@@ -143,67 +130,65 @@ if ($Usr['Admin_User'] == 1)
 </tr>
 <tr><td>Global Admin User:</td>
 	<td>
-		
+
 <?php
 
-	if ($Usr['Admin_User']==1)
-	{
+	if ($Usr['Admin_User']==1)	{
 ?>
 	<input <?=$user_Row['Admin_User'] == 1 ? 'checked' : '';?> value="1" type="checkbox" name="Admin_User">
 <?php
 		echo '</td></tr>';
 	} else {
 		echo 'No</td></tr>';
-	}			
+	}
 ?>
 
 <tr><td>Disable User:</td>
 	<td>
 <?php
 
-	if ($Usr['Admin_User']==1)
-	{
-
-
+	if ($Usr['Admin_User']==1)	{
 ?>
 	<input <?=$user_Row['Disabled_User'] == 1 ? 'checked' : '';?> value="1" type="checkbox" name="Disabled_User">
 <?php
 		echo '</td></tr>';
 	} else {
 		echo 'No</td></tr>';
-	}			
+	}
 ?>
 
 
 <?php
 	// Fetch all projects and show which ones the user has access to
-		if ($Usr['Admin_User']==1 && isset($_REQUEST['id']))
-		{
+		if ($Usr['Admin_User']==1 && !empty($_REQUEST['id'])){
 
-			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where p.Archived=0';
-			$proj_Res = mysqli_query($DBConn, $psql);
-			$proj_Row = mysqli_fetch_assoc($proj_Res);
+			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where p.Archived<>1';
+			$proj_Row = $DBConn->directsql($psql);
 			echo '<tr><td/><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
-			do
-			{
-				$chkbox = '<tr><TD>&nbsp</td><td align=left><input type="checkbox" name=proj[] ';
-				if($proj_Row['Access'] > 0) $chkbox .= ' checked ';
-				$chkbox .= ' value='.$proj_Row['ID'].'>'.$proj_Row['ID'].' - '.$proj_Row['Name'].'</td>';
-				
-				$chkbox .= '<td align=left>';
-				$chkbox .= '<input type="checkbox" name=proj_admin'.$proj_Row['ID'];
-				if($proj_Row['Admin'] > 0) $chkbox .= ' checked ';
-				$chkbox .= ' value="'.$proj_Row['Admin'].'" ><br>';
-				$chkbox .= '</td>';
-				
-				$chkbox .= '<td align=left>';
-				$chkbox .= '<input type="checkbox" name=Readonly'.$proj_Row['ID'];
-				if($proj_Row['Readonly'] > 0) $chkbox .= ' checked ';
-				$chkbox .= ' value="'.$proj_Row['Readonly'].'" ><br>';
-				$chkbox .= '</td></tr>';
+			if (count($proj_Row) > 0){
+				$pcnt = 0;
+				do	{
+					$chkbox = '<tr><TD>&nbsp</td><td align=left><input type="checkbox" name=proj[] ';
+					# do not change this to an ==1 , it is the user ID
+					if($proj_Row[$pcnt]['Access'] <> 0) $chkbox .= ' checked ';
+					$chkbox .= ' value='.$proj_Row[$pcnt]['ID'].'>'.$proj_Row[$pcnt]['ID'].' - '.$proj_Row[$pcnt]['Name'].'</td>';
 
-				echo $chkbox;
-			} while ($proj_Row = mysqli_fetch_assoc($proj_Res));
+					$chkbox .= '<td align=left>';
+					$chkbox .= '<input type="checkbox" name=proj_admin'.$proj_Row[$pcnt]['ID'];
+					if($proj_Row[$pcnt]['Admin'] ==1) $chkbox .= ' checked ';
+					$chkbox .= ' value="'.$proj_Row[$pcnt]['Admin'].'" ><br>';
+					$chkbox .= '</td>';
+
+					$chkbox .= '<td align=left>';
+					$chkbox .= '<input type="checkbox" name=Readonly'.$proj_Row[$pcnt]['ID'];
+					if($proj_Row[$pcnt]['Readonly'] ==1) $chkbox .= ' checked ';
+					$chkbox .= ' value="'.$proj_Row[$pcnt]['Readonly'].'" ><br>';
+					$chkbox .= '</td></tr>';
+
+					echo $chkbox;
+					$pcnt += 1;
+				} while ($pcnt < count($proj_Row));
+			}
 		}
 ?>
 	<tr>
@@ -218,9 +203,7 @@ if ($Usr['Admin_User'] == 1)
 
 <?php
 		}
-	}
-	else
-	{
+	}else{
 		if ($Usr['Admin_User'] == 1){header("Location:user_List.php");}else{header("Location:project_List.php");}
 	}
 

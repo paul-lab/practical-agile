@@ -83,7 +83,7 @@ function bloop(){
 	$(function() {
 
 	var gstoryid=0;
-	
+
 	//$('#LIID').val( getParameterByName('LeftIID'));
 	//$('#RIID').val( getParameterByName('RightIID'));
 
@@ -95,7 +95,7 @@ function bloop(){
 	var nlines=3;
 	$("#"+nlines+"line").hide();
 	showLines(nlines);
-	
+
 
 //default to only showing a single summary line when in the tree view
 	var treelines=1
@@ -136,7 +136,7 @@ function showLines(n){
 			$("#1line").show();
 			$("#2line").show();
 			$(".line-2-div").show();
-			$(".line-3-div").show();	
+			$(".line-3-div").show();
 			nlines=3;
 	}
 }
@@ -216,7 +216,7 @@ function showLines(n){
 				});
 			}
 		}
-	
+
 	});
 
 
@@ -269,9 +269,9 @@ function showLines(n){
 		var RightIID = $('select[name="RIID"]').val();
 		var gbt='';
 		if(LeftIID>0 || RightIID>0){
-			gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&IID='+thisiteration+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
+			gbt='&gobackto='+escape('iteration_Planning.php?PID='+thisproject+'&LeftIID='+LeftIID+'&RightIID='+RightIID);
 		}
-		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8)+'&IID='+thisiteration+gbt;
+		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id").substring(8);
 	});
 
 
@@ -303,22 +303,22 @@ function showLines(n){
 // find the id of the story we are busy working with in the story listview
 	$('.storybox-div').click(function() {
 		gstoryid = $(this).attr("id").substring(8);
-	}); 
+	});
 
 // iteration select minimenu setup
 	$( ".iterationdialog" ).dialog({
 		autoOpen: false,
 		resizable: false,
 		modal: true
-	});  
+	});
 
 // iteration select minimenu open
        	$('.iterationpopup').click(function() {
         	$('.iterationdialog').dialog('open');
     		$(".iterationdialog").dialog().dialog('widget').position({
-			my: 'left', 
-			at: 'right', 
-			of: $(this) 
+			my: 'left',
+			at: 'right',
+			of: $(this)
 		});
         });
 
@@ -342,15 +342,15 @@ function showLines(n){
 		autoOpen: false,
 		resizable: false,
 		modal: true
-	});  
+	});
 
        	$('.statuspopup').click(function() {
 
         	$('.statusdialog').dialog('open');
     		$(".statusdialog").dialog().dialog('widget').position({
-			my: 'left', 
-			at: 'right', 
-			of: $(this) 
+			my: 'left',
+			at: 'right',
+			of: $(this)
 		});
         });
 
@@ -378,7 +378,7 @@ function showLines(n){
 			$("#line-2-div"+$(this).prop("id").substring(9)).show();
 			$("#line-3-div"+$(this).prop("id").substring(9)).show();
 			$("#line-2-div"+$(this).prop("id").substring(9)).css("max-height","999em" );
-		}else{ 
+		}else{
 			$("#line-2-div"+$(this).prop("id").substring(9)).css("max-height","28px" );
 		}
         });
@@ -401,7 +401,7 @@ function showLines(n){
    		selectMode: 1, // 1:single, 2:multi, 3:multi-hier
     		tabbable: true, // Whole tree behaves as one single control
     		titlesTabbable: true,  // Node titles can receive keyboard focus
-   
+
  	     	init: function(event, data, flag) {
 			$(".tree").fancytree("getRootNode").visit(function(node){
  				node.setExpanded(true);
@@ -454,7 +454,7 @@ function showLines(n){
 		           *  Return ['before', 'after'] to restrict available hitModes.
 		           *  Any other return value will calc the hitMode from the cursor position.
 		           */
-// Prevent dropping onto a story that is not in the backlog 
+// Prevent dropping onto a story that is not in the backlog
 				if (node.data.iteration != 'Backlog') return 'after';
 		         	if(node.parent.data.key == '_1'){  return false; }
 			           return true;
@@ -462,12 +462,12 @@ function showLines(n){
 		        dragDrop: function(node, data) {
 
 // Just to prevent accidently creating parent stories
-		 		updateit=true;	
+		 		updateit=true;
 				if (data.hitMode+ node.hasChildren() === "overfalse"){
 					updateit = confirm ("You are creating a new Parent Story\n Is this really what you want to do?");
 				}
-		
-				if (updateit==true  && JisReadonly==0){ 
+
+				if (updateit==true  && JisReadonly==0){
 		 			goldparent=data.otherNode.parent.key;
 					data.otherNode.moveTo(node, data.hitMode);
 					if( data.hitMode=='over'){
@@ -481,7 +481,7 @@ function showLines(n){
 		 						url: "update_storyparent.php",
 		 						data: 'PID='+thisproject+'&SID='+data.otherNode.key+'&NPAR='+gnewparent+'&OPAR='+goldparent,
 		 						success: function (data) {
-// 	TODO update parent points on page 
+// 	TODO update parent points on page
 									node.setExpanded(true);
 									showLines(nlines);
 		 						}
@@ -511,7 +511,7 @@ function showLines(n){
 		$("#tree"+$(this).prop("id")).fancytree("getRootNode").visit(function(node){
 			node.setExpanded(true);
 		});
-		
+
 	});
 
 

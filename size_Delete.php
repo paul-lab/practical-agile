@@ -4,11 +4,9 @@
 	$showForm = true;
 	if ($_REQUEST['delete'])
 	{
-		if (mysqli_query($DBConn, 'DELETE FROM size WHERE ID = '.($_REQUEST['id'] + 0)))
-		{
-			$showForm = false;
-			$deleted = true;
-		}
+		$DBConn->directsql('DELETE FROM size WHERE ID = '.($_REQUEST['id'] + 0));
+		$showForm = false;
+		$deleted = true;
 	}
 	else if ($_REQUEST['nodelete'])
 	{
@@ -27,7 +25,7 @@
 	}
 	else
 	{
-		header('Location:size_List.php');		
+		header('Location:size_List.php');
 	}
 
 	include 'include/footer.inc.php';

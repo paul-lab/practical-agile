@@ -8,12 +8,10 @@
 	}
 
 	$comt=fetchusingID('Comment_Text',$_GET['id'],'comment');
-
 	$sql= 'DELETE FROM comment WHERE ID='.$_GET['id'];
-	mysqli_query($DBConn, $sql);
-	$cnt= mysqli_affected_rows($DBConn);
-	echo $cnt;				
-	
+	$cnt=$DBConn->directsql($sql);
+	echo $cnt;
+
 	if ($cnt > 0)
 	{
 		if($_GET['type']=='s')
@@ -23,5 +21,4 @@
 			auditit($_GET['PID'], $_GET['AID'],$_SESSION['Email'],'Deleted iteration Comment',$comt);
 		}
 	}
-
 ?>
