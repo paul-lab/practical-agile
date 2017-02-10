@@ -29,7 +29,7 @@ $APP_VER='2.56';
 		// check database and app version and update database if needed
 		$row =  $DBConn->read('dbver', 'ID=1');
 		if (count($row) > 0) {
-		echo 'DBver: '.$row[0]['CurrVer'];
+		echo 'DBver: '.$row[0]['CurrVer'].' Using: '.dbdriver;
 		$Ufile='_UpdateFrom-'.$row[0]['CurrVer'].'.txt';
 		if (file_exists($Ufile)){
 			$lines = file($Ufile);

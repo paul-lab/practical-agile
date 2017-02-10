@@ -22,8 +22,8 @@ function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
 ###########################################################################################
 ###########################
            ##########
-		     ######
-			   ##
+             ######
+               ##
 #	define("dbdriver", "mysql");
 	define("dbdriver", "sqlite");
 
@@ -35,8 +35,8 @@ class db
 ##
 ###########################
            ##########
-		     ######
-			   ##
+             ######
+               ##
 # MYSQL
     private $config = array(
 	"dbhost" => "127.0.0.1",
@@ -50,8 +50,8 @@ class db
 ##
 ############################
            ##########
-		     ######
-			   ##
+             ######
+               ##
 # SQLITE
     private $configl = array(
 	"sqlitedb" => "../../usr/local/sqlite/practicalagile.db"

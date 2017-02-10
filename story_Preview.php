@@ -54,9 +54,9 @@ function PreviewGetComments($row){
 	/* The following sql checks whether there's any reply for the comment */
 	$q = "SELECT * FROM comment WHERE Parent_ID = ".$row['ID'];
 	$r = $DBConn->directsql($q);
-	if count($r) > 0){
+	if (count($r) > 0){
 		echo '<ul id="commentreply_'.$row['ID'].'">';
-		foreach ($r as $row)(
+		foreach ($r as $row){
 			PreviewGetComments($row);
 		}
 		echo "</ul>";
@@ -64,7 +64,7 @@ function PreviewGetComments($row){
 	echo "</li>";
 }
 
-	$Row=fetchusingID('*',$_REQUEST['id'],'story')
+	$Row=fetchusingID('*',$_REQUEST['id'],'story');
 	Get_Project_Name($Row['Project_ID']);
 	echo 	'<div id="container">';
 			echo '<div class="left">'.
