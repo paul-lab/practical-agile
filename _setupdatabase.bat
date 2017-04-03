@@ -9,13 +9,14 @@ set binpath=..\..\usr\local\mysql\bin
 set mysqlport=3311
 
 echo.
-echo Creating database %database% based on _dbstructure.txt
+echo Creating MYSql database %database% and data based on _dbstructure.txt
 echo.
 echo ^^C to abort
 echo.
 pause
 
 time /T 
+echo Creating Database
 echo CREATE database %database%; > database.txt
 %binpath%\mysql  --user=root --password=root --port=%mysqlport% < database.txt
 %binpath%\mysql  --user=root --password=root --port=%mysqlport% %database%  < _dbstructure.txt

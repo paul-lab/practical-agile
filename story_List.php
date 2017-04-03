@@ -22,7 +22,7 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash55ec32a6286db98dff5cfdcbe3eb7cb7.js"></script>
+	<script type="text/javascript" src="scripts/story_List-hash6e425f6d9c30a8356feb21b4ead6a72a.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
@@ -63,27 +63,28 @@ $(function() {
 		// Project
 		if ($_REQUEST['PARID']=='P')
 		{
-			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID=0 ';
+			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID=0 ';
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added entire Project',Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// all Done Work
 		}elseif ($_REQUEST['PARID']=='D')
 		{
-			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Status="Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Status="Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Not Done work
 		}elseif ($_REQUEST['PARID']=='N')
 		{
-			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all NOT DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Iteration
 		}elseif ($_REQUEST['PARID']=='I')
 		{
-			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration',Get_Iteration_Name($_REQUEST['IID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Epic Contents
-		}else{
-			$sql= 'UPDATE story SET story.Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID=0 ';
-			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['PARID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
+		}elseif ($_REQUEST['PARID']=='E')
+		{
+			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['IID'].' AND story.Release_ID=0 ';
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['IID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
 		$DBConn->directsql($sql);
 	}
@@ -92,24 +93,25 @@ $(function() {
 		$_REQUEST['IID']=substr($_REQUEST['PARID'],1,64);
 		$_REQUEST['PARID']=substr($_REQUEST['PARID'],0,1);
 		if ($_REQUEST['PARID']=='P')
-		{
-			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID='.$_REQUEST['RID'];
+		{ //project
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID='.$_REQUEST['RID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed entire Project',Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='D')
-		{
-			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Status="Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+		{ //done
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status="Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all Done work','for Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='N')
-		{
-			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+		{ //not done
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all NOT DONE work',' in Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='I')
-		{
-			$sql= 'UPDATE story SET story.Release_ID=0 WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+		{ //iteration
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Iteration',Get_Iteration_Name($_REQUEST['IID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
-		}else{
-			$sql= 'UPDATE story SET story.Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['PARID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['PARID'];
-			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['PARID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
+		}elseif ($_REQUEST['PARID']=='E')
+		{ //epic
+			$sql= 'UPDATE story SET Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['IID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['IID'];
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['IID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
 		$DBConn->directsql($sql);
 	}
@@ -318,8 +320,8 @@ if ($_REQUEST['Type']=='tree'){
 		$RelRow = fetchusingID('*',$_REQUEST['RID'],'release_details');
 		if (count($RelRow)>0)		{
 			echo '&nbsp;<div class="inline larger"><b>'.$RelRow['Name'].' ('.$RelRow['Start'].' -> '.$RelRow['End'].')</b></div>';
-			if ($RelRow['Locked']!==0){
-				echo ' Locked<br>';
+			if ($RelRow['Locked']!=0){
+				echo ' <b>Locked</b><br>';
 			}
 		}
 
@@ -368,7 +370,7 @@ if ($_REQUEST['Type']=='tree'){
 				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
 				$queried = $DBConn->directsql($sql);
 				foreach($queried as $result) {
-					$menu .= '<option value="' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
+					$menu .= '<option value="E' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
 				}
 				$menu .= '<option value="0"></option>';
 // Iterations

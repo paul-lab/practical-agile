@@ -158,7 +158,7 @@ CREATE TABLE `story` (
   `AID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ID` int(11) NOT NULL,
   `Project_ID` int(11) unsigned NOT NULL,
-  `Release_ID` int(11) unsigned DEFAULT NULL,
+  `Release_ID` int(11) unsigned DEFAULT 0,
   `Iteration_ID` int(11) unsigned NOT NULL,
   `Parent_Story_ID` int(11) unsigned NOT NULL DEFAULT '0',
   `Type` text CHARACTER SET utf8,

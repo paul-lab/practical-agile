@@ -6,7 +6,7 @@ echo '</div>';
 ?>
 
 <link href="fancytree/ui.fancytree.css" rel="stylesheet" type="text/css">
-	<script src="fancytree/jquery.fancytree.js" type="text/javascript"></script>
+	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="css/comment.css" />
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 
@@ -60,7 +60,11 @@ $(document).ready(function(){
 			$showForm = false;
 			header('Location:releaseDetails_List.php');
 		}else{
-			$error = 'The form failed to process correctly.';
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 

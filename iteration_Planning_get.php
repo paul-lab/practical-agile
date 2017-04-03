@@ -26,11 +26,13 @@
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_GET['PID'].' and story.Iteration_ID='.$_GET['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = $DBConn->directsql($sql);
 	echo '<ul id="sortable-'.$_GET['LorR'].'" class="connectedSortable mh15">';
-	foreach ($story_Res as $story_Row)	{
-		echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-		PrintStory ($story_Row);
-		echo	'</li>';
-		$sumpts+=$story_Row['Size'];
+	if($story_Res){
+		foreach ($story_Res as $story_Row)	{
+			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+			PrintStory ($story_Row);
+			echo	'</li>';
+			$sumpts+=$story_Row['Size'];
+		}
 	}
 	echo '</ul>';
 	echo '{6B89778E-1B36-4E75-A7F2-301656217750}'.$sumpts;

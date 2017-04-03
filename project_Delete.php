@@ -27,12 +27,15 @@ $(function() {
 			$DBConn->directsql('DELETE FROM comment WHERE Comment_Object_ID = '.($_REQUEST['PID']+ 0));
 			$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type, upload.AID FROM upload left Join story s on upload.AID = s.AID where s.Project_ID=".($_REQUEST['PID']+ 0);
 			$aqry=$DBConn->directsql($asql);
+			// remove uploaded files
 			foreach($aqry as $aresult)	{
 				if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type'])){
 						auditit($_REQUEST['PID'],$aresult['Type'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
 				}
 			}
-			$DBConn->directsql('DELETE FROM upload where AID = (select AID from story WHERE Project_ID ='.($_REQUEST['PID']+ 0).')');
+			// remove upload entry
+			$asql='DELETE FROM upload where AID = (select AID from story WHERE Project_ID ='.($_REQUEST['PID']+ 0).')';
+			$aqry=$DBConn->directsql($asql);
 			$result=$DBConn->directsql('SELECT AID from story where Project_ID = '.($_REQUEST['PID']+ 0));
 			foreach ($Res as $Result){
 				$DBConn->directsql('DELETE FROM task WHERE Story_AID='.$Result['AID']);

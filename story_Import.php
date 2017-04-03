@@ -66,7 +66,7 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 							'Epic_Rank'		=> $data[1],
 							'Iteration_Rank'=> $data[2],
 							'Parent_Story_ID' =>0,
-							'Release_ID'	=> $release_id[$data[4]]
+							'Release_ID'	=> $release_id[$data[4]+0]
 						);
 
 						if (isset($iter_id[$data[5]]) && in_array($data[5], $iter_id)){
@@ -98,7 +98,7 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 						$whereClause = 'Project_ID="'.$_REQUEST['PID'].'" and ID = '.($data[0] + 0);
 
 						// no existing story ID in import file so it must be an insert
-						if ($data[0] + 0 == 0 ) {
+						if ($data[0] + 0 == 0 )  {
 							$sql_method = 'CREATE';
 							$datao['Created_By_ID'] = $_SESSION['ID'];
 							$tsql='select (IFNULL(MAX(ID), 0)+1) as SID from story  where Project_ID='.$_REQUEST['PID'];
@@ -166,17 +166,22 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 		<ul>
 		<li><b>The first row of the import file MUST contain the correct column headers in the correct order.</b>
 		<li>You can only import into the current project.
-		<li>Parent records must exist before child records cn be assigned to them
 		</ul>
 		<ul>
+		<li>Where there is No story ID in the import file, the story will be ADDED. (Multiple imports will create duplicate stories!)
 		<li>Where a story ID is presents in the import file, the story will be updated.
-		<br>If there is no story with that ID is is <b>NOT</b> added, it is skipped.
-		<li>Where there is No story ID in the import file, the story will be ADDED
-		<li>To DELETE a story, set the Iteration to "** Delete **" (without the quotes)
-		<li>If an error occurs during the import, that story is skipped and the next record imported.
+		<br>&nbsp; &nbsp; &nbsp; If there is no story with that ID is is <b>NOT</b> added, it is <b>skipped</b>.
 		<li>If the iteration does not exist, the story is put in the backlog.
 		<li>An attempt to assign the correct owner is made, but if they can't be found the owner is set to an empty string.
-		<li>The Parent for a story is only added/updated if there is a numeric value as a Parent Story Id and we are not adding a new record (to remove a story's parent, set it it 0 or empty).
+		<li>AS Parent records must exist before child records can be assigned to them, no story hiearchy is created for new stories.
+		<li>The Parent for a story is only added/updated if there is a Parent Story Id and we are updating an existing story (to remove a story's parent, set it it 0).
+		</ul>
+		<ul>
+		<li>To DELETE a story, set the Iteration to "** Delete **" (without the quotes)
+		</ul>
+		<ul>
+		<li>If an error occurs during the import, that story is skipped and the next record imported.
+
 		</ul>
 <?php
 	}

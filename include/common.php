@@ -67,12 +67,12 @@ function projectadmin($thisproject){
 	$sql='select user.Admin_User from user where user.ID='.$_SESSION['ID'];
 	$Usr=$DBConn->directsql($sql);
 	$Usr=$Usr[0];
-	if ($Usr['Admin_User']==1) return 1;
+	if ($Usr){	if ($Usr['Admin_User']==1) return 1;}
 
 	if (!empty($thisproject)){
 		$sql = 'select Project_Admin from user_project where Project_ID='.$thisproject.' and User_ID='.$_SESSION['ID'];
 		$result=$DBConn->directsql($sql);
-		if(count($result)>0)
+		if($result)
 		{
 			return count( $result ) > 0 ? $result[0]['Project_Admin'] : false;
 		}else{
@@ -424,12 +424,14 @@ function buildstatuspop($proj){
 		$sql = 'SELECT story_status.RGB, story_status.Desc, story_status.Policy FROM story_status where story_status.Project_ID='.$proj.' and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
 		$status_Res = $DBConn->directsql($sql);
 		$statusList='';
-		foreach($status_Res as $status_Row)	{
-			$statuscolour[$status_Row['Desc']] = $status_Row['RGB'];
-			$statusList.='&nbsp;&nbsp;<button title="'.$status_Row['Policy'].'" id="'.$status_Row['Desc'];
-			$statusList.='" style="background:#'.$status_Row['RGB'].'" class="ui-button ui-state-default ui-corner-all">&nbsp;';
-			$statusList.=$status_Row['Desc'];
-			$statusList.='&nbsp;</button>';
+		if (status_Res){
+			foreach($status_Res as $status_Row)	{
+				$statuscolour[$status_Row['Desc']] = $status_Row['RGB'];
+				$statusList.='&nbsp;&nbsp;<button title="'.$status_Row['Policy'].'" id="'.$status_Row['Desc'];
+				$statusList.='" style="background:#'.$status_Row['RGB'].'" class="ui-button ui-state-default ui-corner-all">&nbsp;';
+				$statusList.=$status_Row['Desc'];
+				$statusList.='&nbsp;</button>';
+			}
 		}
 		return ($statusList);
 	}else{
@@ -448,15 +450,16 @@ function iterations_Dropdown($project, $current,$iterationname='Iteration_ID')
 
 	// Fetch Current Iteration.
 	$result = fetchusingID('*',$current,'iteration');
-	$menu = '<select name="'.$iterationname.'" id="'.$iterationname.'"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
 
-	$IterationLocked = $result['Locked'];
-
-	if ($result['Locked']==1){
-	$menu =$result['Name'].'<select  class="hidden"  name="Iteration_ID"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
-
+	if ($result<>'empty'){
+		$menu = '<select name="'.$iterationname.'" id="'.$iterationname.'"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
+		$IterationLocked = $result['Locked'];
+		if ($result['Locked']==1){
+			$menu =$result['Name'].'<select  class="hidden"  name="Iteration_ID"><option value="' . $result['ID'] . '">' . substr($result['Name'], 0, 14) .'</option>';
+		}
+	}else{
+		$menu = '<select name="'.$iterationname.'" id="'.$iterationname.'"><option value=""></option>';
 	}
-
 	// Fetch other iteratons
 	$sql = 'SELECT * FROM iteration where iteration.Project_ID ='.$project.' and iteration.ID<>'.$current.' AND Locked=0 order by iteration.End_Date desc';
     $queried = $DBConn->directsql($sql);
@@ -638,7 +641,7 @@ function NextPointsObject($pid){
 		$switch = $Row[0]['CNT'];
 	} while ($switch != 0);
 	$sql="INSERT INTO points_log ( 'Object_ID', 'Project_ID','Status','Story_Count','Points_Claimed') values(".$rand.",".$pid.",'Todo',0,0)";
-	$DBConn->directsql($sql);
+	$result=$DBConn->directsql($sql);
 	return $rand;
 }
 
@@ -692,7 +695,7 @@ function Get_Hint(){
 	}else{
 		$sql = 'SELECT * FROM `hint` WHERE ID = (SELECT ( ABS(RANDOM() % MAX(ID))) FROM `hint` )';
 	}
-	$result = $result=$DBConn->directsql($sql);
+	$result=$DBConn->directsql($sql);
 	return $result[0]['Hint_Text'];
 }
 
@@ -708,7 +711,7 @@ function Update_Parent_Points($thisstory){
 		$parent_res = $DBConn->directsql($sql);
 		foreach ($parent_res as $prow){
 			$psql = 'Update story set Status=NULL, Size = (select sum(Size) from (select * from story) as p where p.Parent_Story_ID='.$prow['_aid'].') where story.AID ='.$prow['_aid'];
-			$DBConn->directsql($psql);
+			$result=$DBConn->directsql($psql);
 			Update_Parent_Status($prow['_aid']);
 		}
 		unset ($parent_res);
@@ -718,7 +721,7 @@ function Update_Parent_Points($thisstory){
 function Update_oldParent_Points($thisstory){
 	Global $DBConn;
 	$psql = 'Update story set Size = (select sum(Size) from (select * from story) as p where p.Parent_Story_ID='.$thisstory.') where story.AID ='.$thisstory;
-	$DBConn->directsql($psql);
+	$result = $DBConn->directsql($psql);
 	$psql = 'select Iteration_ID from story where story.AID ='.$thisstory;
 	$Row = $DBConn->directsql($psql);
 	$Row = $Row[0];
@@ -821,22 +824,24 @@ function Update_Iteration_Points($thisiteration){
 	$result=$DBConn->directsql($sql);
 
 //get the points for each status for the iteration
-	$sql='select Project_ID, count(ID) as Story_Count, story.`Status`, sum(story.Size) as Size from story where story.Iteration_ID='.$thisiteration.' and Status NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by story.`Status`';
+	$sql='select Project_ID, count(ID) as Story_Count, story.`Status`, sum(story.Size) as Size from story where story.Iteration_ID='.$thisiteration.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by story.`Status`';
 	$status_Res = $DBConn->directsql($sql);
 	$iSize=0;
-
-# and update the points log
-	foreach ($status_Res as $status_Row)	{
-		$data=array(
-		'Project_ID' =>				$thisproject,
-		'Points_Date' => 			$today.' 00:00:00',
-		'Object_ID' => 				$Iteration['Points_Object_ID'],
-		'Status' => 				$status_Row['Status'],
-		'Story_Count' => 			$status_Row['Story_Count'],
-		'Points_Claimed' => 		$status_Row['Size']	);
-		$result = $DBConn->create('points_log',$data);
-		$iSize += $story_Row['Size'];
+// and update the points log
+	if ($status_Res){
+		foreach ($status_Res as $status_Row)	{
+			$iSize += $status_Row['Size'];
+			$data=array(
+			'Project_ID' =>				$thisproject,
+			'Points_Date' => 			$today.' 00:00:00',
+			'Object_ID' => 				$Iteration['Points_Object_ID'],
+			'Status' => 				$status_Row['Status'],
+			'Story_Count' => 			$status_Row['Story_Count'],
+			'Points_Claimed' => 		$status_Row['Size']	);
+			$result = $DBConn->create('points_log',$data);
+		}
 	}
+
 	Update_Project_Points($thisproject);
 	// Iteration total points
 	return $iSize;
@@ -852,18 +857,20 @@ function Update_Project_Points($thisproject){
 
 	$qry='delete from points_log where points_log.Object_ID ='.$piid.' and (Points_Date="'.$today.' 00:00:00" or Points_Date="0000-00-00 00:00:00")';
 	$result=$DBConn->directsql($qry);
-	$sql = 'select Status, Project_ID, sum(Size) as Sizes, count(AID) as Story_Count from story where story.Project_ID ='.$thisproject.' and Status NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by Status';
+	$sql = 'select Status, Project_ID, sum(Size) as Sizes, count(AID) as Story_Count from story where story.Project_ID ='.$thisproject.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by Status';
 	$Status_Res = $DBConn->directsql($sql);
-	foreach ($Status_Res as $Status_Row)	{
-		$data=array(
-			'Project_ID' => 	$thisproject,
-			'Points_Claimed' => $Status_Row['Sizes'],
-			'Story_Count' => 	$Status_Row['Story_Count'],
-			'Object_ID' => 		$piid,
-			'Points_Date' => 	$today.' 00:00:00',
-			'Status' => 		$Status_Row['Status']
-			);
-		$DBConn->create('points_log',$data);
+	if ($Status_Res){
+		foreach ($Status_Res as $Status_Row)	{
+			$data=array(
+				'Project_ID' => 	$thisproject,
+				'Points_Claimed' => $Status_Row['Sizes'],
+				'Story_Count' => 	$Status_Row['Story_Count'],
+				'Object_ID' => 		$piid,
+				'Points_Date' => 	$today.' 00:00:00',
+				'Status' => 		$Status_Row['Status']
+				);
+			$DBConn->create('points_log',$data);
+		}
 	}
 
 // this is to make sure that velocity is calculated correctly where we have less than the specified completed iterations in the project.
@@ -889,13 +896,12 @@ function Update_Project_Points($thisproject){
 		$iterations = substr($iterations, 0, -1);
 		$sqli= "(select ROUND((sum(Size)/".$Done_Iterations."),0) from  story  where story.Iteration_ID in (".$iterations.") and story.Status='Done')";
 		$sql='Update project Set Velocity='. $sqli.' where project.ID='.$thisproject;
-#echo $sql;
 		$DBConn->directsql($sql);
 	}
 	unset ($iires);
 // update project card Average_Size to use when predicting unsized cards.
 	$sql= "Update Project set Average_Size=(SELECT ROUND(avg(Size),0) as Average_Size from story where story.Project_ID=".$thisproject." and Size> 0) where project.ID=".$thisproject;
-	$DBConn->directsql($sql);
+	$result = $DBConn->directsql($sql);
 }
 
 function print_releasesummary($proj,$tsql){
@@ -932,7 +938,7 @@ function print_summary($object, $WithVelocity=False){
 	 $sql .=' DESC, ststatus';
 	}
 	$result=$DBConn->directsql($sql);
-	if (count($result)>0)	{
+	if ($result)	{
 		$last_Date=$result[0]['Points_Date'];
 		$l1='<th bgcolor="#F2F2F2"><img class="hideSummary" src="images/minus-small.png" title="Hide Summary"></th>';
 		$l2='<td bgcolor="#F2F2F2" align="Right">Cards:</td>';
@@ -960,7 +966,7 @@ function print_summary($object, $WithVelocity=False){
 	if ($WithVelocity==True)	{
 		$l1.='<th>&nbsp;&nbsp;</th><th title="Average of 5 most recent completed iterations" align="center" class="evenlarger">Velocity</th>';
 		$l3.='<td>&nbsp;&nbsp;</td><td align="center" class="evenlarger"><b>'.$Project['Velocity'].'</b></td>';
-		$l2.='<td>&nbsp;&nbsp;</td><td align="center" class="larger">(5 sprint <span style="text-decoration: overline" >x</span>)</td>';
+		$l2.='<td>&nbsp;&nbsp;</td><td align="center" class="larger"></td>';
 	}
 	echo '<tr>'.$l1.'</tr>';
 	echo '<tr>'.$l3.'</tr>';

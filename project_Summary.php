@@ -112,7 +112,7 @@ function print_Size_Type_Dropdown($current)
 			</td>
 			<td align="right"><b>Current Velocity:</td>
 			<td>
-				<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of <?=$project_Row['Vel_Iter'];?> most recently<br>completed iterations.)
+				<b><?=$project_Row['Velocity'];?></b> &nbsp; (average of <b><?=$project_Row['Vel_Iter'];?></B> most recent completed iterations.)
 			</td>
 		</tr>
 		<tr><td align=right><b>Show recent History</td><td>
@@ -129,7 +129,7 @@ function print_Size_Type_Dropdown($current)
 // get the current iteration
 			$sql = 'SELECT * FROM iteration where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
 			$iteration_Row = $DBConn->directsql($sql);
-			if (count($iteration_Row)>0){
+			if ($iteration_Row){
 				$iteration_Row = $iteration_Row[0];
 				echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Iteration" >'.
 				substr($iteration_Row['Name'], 0, 14).'</a> &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].')</b> &nbsp;';
@@ -142,7 +142,7 @@ function print_Size_Type_Dropdown($current)
 			$left=1;
 			$sql = 'SELECT * FROM iteration  where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog"  order by iteration.End_Date DESC';
 			$iteration_Row = $DBConn->directsql($sql);
-			if (count($iteration_Row) > 0)	{
+			if ($iteration_Row)	{
 				echo '<tr>';
 				$rowcnt=0;
 				do {

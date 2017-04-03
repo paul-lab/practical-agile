@@ -58,7 +58,11 @@ $(function() {
 			$showForm = false;
 
 		}else{
-			$error = '<br>The form failed to process correctly.';
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 

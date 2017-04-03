@@ -33,7 +33,11 @@ $(function() {
 		if ($result!=0){
 			$showForm = false;
 		}else{
-			$error = 'The form failed to process correctly.';
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 

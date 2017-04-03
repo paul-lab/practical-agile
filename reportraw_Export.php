@@ -52,14 +52,16 @@ function cleanData(&$str) {
 
 // do we have any results
 	$r = $DBConn->directsql($q);
-	foreach($r as $row)	{
-		if(!$flag) {
-			// display field/column names as first row
-			fputcsv($out, array_keys($row), ',', '"');
-			$flag = true;
+	if ($r){
+		foreach($r as $row)	{
+			if(!$flag) {
+				// display field/column names as first row
+				fputcsv($out, array_keys($row), ',', '"');
+				$flag = true;
+			}
+			array_walk($row, 'cleanData');
+			fputcsv($out, array_values($row), ',', '"');
 		}
-		array_walk($row, 'cleanData');
-		fputcsv($out, array_values($row), ',', '"');
 	}
 
 	fclose($out);

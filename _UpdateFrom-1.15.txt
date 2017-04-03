@@ -1,2 +1,2 @@
-ALTER TABLE `comment` ADD INDEX `AID` (`AID`);
+ALTER TABLE `comment` ADD INDEX `Story_AID` (`Story_AID`);
 update dbver set CurrVer = 1.16 where dbver.ID=1;

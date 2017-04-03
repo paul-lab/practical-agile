@@ -97,7 +97,6 @@ function print_Release_Dropdown($current){
 	Global $DBConn;
 	$current+=0;
 	if ($current==0){
-		$current = '';
 		$name = '';
 	}else{
 		$sql = 'select * from release_details where ID='.$current;
@@ -235,11 +234,15 @@ function  Update_Project_Tags($PID,$Tags){
 			$data['Epic_Rank']		= $temp[0]['tmpn'];
 			$data['Created_By_ID'] 	= $_SESSION['ID'];
 			$data['Size'] 			= $_REQUEST['Size'];
+
+
 			if ($_REQUEST['torb']=='b'){
-				$temp	= $DBConn->directsql('select IFNULL(MAX(Iteration_Rank), 0)+100 as tmpn from story  where Iteration_ID='.$_REQUEST['IID']);
+				$sql='select IFNULL(MAX(Iteration_Rank), 0)+100 as tmpn from story  where Iteration_ID='.$_REQUEST['IID'];
+				$temp	= $DBConn->directsql($sql);
 				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}else{
-				$temp	= $DBConn->directsql('select IFNULL(MIN(Iteration_Rank), 0)-1 as tmpn from story  where Iteration_ID='.$_REQUEST['IID']);
+				$sql='select IFNULL(MIN(Iteration_Rank), 0)-1 as tmpn from story  where Iteration_ID='.$_REQUEST['IID'];
+				$temp	= $DBConn->directsql($sql);
 				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}
 			$result=$DBConn->create('story',$data);
@@ -265,19 +268,25 @@ function  Update_Project_Tags($PID,$Tags){
 				}
 			}
 		}
-		if ($result>0){
+
+		if (!empty($_REQUEST['gobackto'])){
+			header('Location:'.$_REQUEST['gobackto']);
+		}else{
+			header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);
+		}
+		if ($result!=0){
 			$showForm = false;
 			Update_Parent_Points($_REQUEST['AID']);
 			Update_Iteration_Points($_REQUEST['IID']);
 			Update_Iteration_Points($_REQUEST['Iteration_ID']);
 			Update_Project_Tags($_REQUEST['PID'],$_REQUEST['Tags']);
-			if (!empty($_REQUEST['gobackto'])){
-				header('Location:'.$_REQUEST['gobackto']);
-			}else{
-				header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);
-			}
+
 		}else{
-			$error = 'The form failed to process correctly.';
+			if  ($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			} else{
+				$showForm = false;
+			}
 		}
 	}
 	if (!empty($error)){

@@ -50,11 +50,11 @@ $(document).ready(function(){
 			$whereClause = 'ID = '.($_REQUEST['IID'] + 0);
 			$result=$DBConn->update('iteration',$data,$whereClause);
 		}
-		if ($result!=0)	{
-			$showForm = false;
-			header('Location:iteration_List.php?PID='.$_REQUEST['PID']);
+		if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
 		}else{
-			$error = 'The form failed to process correctly.';
+				$showForm = false;
+				header('Location:iteration_List.php?PID='.$_REQUEST['PID']);
 		}
 	}
 

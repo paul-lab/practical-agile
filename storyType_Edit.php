@@ -38,11 +38,15 @@ $(function() {
 			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
 			$result=$DBConn->update('story_type',$data,$whereClause);
 		}
-		 if ($result >0){
+		 if ($result!=0){
 			$showForm = false;
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'','Update Story Type',$_REQUEST['id'].'-'.$_REQUEST['Desc'].'-'.$_REQUEST['Order']);
 		}else{
-			$error = 'The form failed to process correctly.';
+			if  ($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			} else{
+				$showForm = false;
+			}
 		}
 	}
 

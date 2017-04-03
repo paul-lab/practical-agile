@@ -9,7 +9,7 @@
 	}
 	$rank=0;
 	foreach($_GET['story'] as $key=>$value) {
-		$rank+=10;
+		$rank+=50;
 		$sql= 'UPDATE story SET Iteration_Rank='.$rank.' WHERE AID='.$value;
     	$DBConn->directsql($sql);;
 	}

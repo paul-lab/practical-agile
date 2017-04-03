@@ -79,7 +79,7 @@ jQuery(document).ready(function () {
 
 
 function bloop(){
-
+//alert ('bloop');
 	$(function() {
 
 	var gstoryid=0;
@@ -256,7 +256,7 @@ function showLines(n){
 		connectWith: ".connectedSortable"
 	}).disableSelection();
 
-// double click edit on scum board
+// double click edit on scrum board
 	$(".scrumdetail").dblclick(function() {
 		window.location.href="story_Edit.php"+'?PID='+thisproject+'&AID='+$(this).attr("id")+'&IID='+thisiteration;
 	});
@@ -398,7 +398,7 @@ function showLines(n){
     		keyboard: true, // Support keyboard navigation.
     		keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
     		minExpandLevel: 1, // 1: root node is not collapsible
-   		selectMode: 1, // 1:single, 2:multi, 3:multi-hier
+			selectMode: 1, // 1:single, 2:multi, 3:multi-hier
     		tabbable: true, // Whole tree behaves as one single control
     		titlesTabbable: true,  // Node titles can receive keyboard focus
 
@@ -406,16 +406,14 @@ function showLines(n){
 			$(".tree").fancytree("getRootNode").visit(function(node){
  				node.setExpanded(true);
       			});
-			showLines(treelines);
-		},
+				showLines(treelines);
+			},
 
      		activate: function(event, data) {
         		var node = data.node;
 		        // acces node attributes
 		        $("#echoActive").text(node.title);
-		},
-
-
+			},
 
  	     	keydown: function(event, data) {
         		switch( event.which ) {
@@ -501,6 +499,10 @@ function showLines(n){
 		        }
 		}
 	});
+
+
+
+
 
 	$(".btnCollapseAll").click(function(){
 		$("#tree"+$(this).prop("id")).fancytree("getRootNode").visit(function(node){

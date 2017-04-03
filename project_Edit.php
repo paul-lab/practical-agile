@@ -102,10 +102,13 @@ function NextbacklogID($thisproject){
 				$thisproject = $_REQUEST['PID'];
 			}
 			Update_Project_Points($thisproject);
-#exit(1);
 			$showForm = false;
 		}else{
-			$error = 'The form failed to process correctly.';
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 
@@ -115,7 +118,7 @@ function NextbacklogID($thisproject){
 		if (!empty($_REQUEST['PID'])){
 			$project_Row = $DBConn->directsql('SELECT * FROM project WHERE ID = '.$_REQUEST['PID']);
 		}else{
-			$project_Row = $DBConn->directsql('SELECT As_A,  Desc_1, Col_2, Desc_2, Acceptance, Project_Size_ID FROM project WHERE ID = 1');
+			$project_Row = $DBConn->directsql('SELECT As_A,  Desc_1, Col_2, Desc_2, Acceptance, Project_Size_ID, Vel_Iter FROM project WHERE ID = 1');
 		}
 		$project_Row=$project_Row[0];
 		echo '<form method="post" action="?">';

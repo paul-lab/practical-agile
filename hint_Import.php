@@ -36,7 +36,7 @@ if (isset($_POST['delete_existing']))
 				}
 			}
 		}else{
-			echo 'Unable to open file<p>';
+			echo 'Unable to open hint file<p>';
 			echo $_FILES['file']['name'];
 			$hasError = true;
 		}
@@ -54,7 +54,7 @@ if (isset($_POST['delete_existing']))
 ?>
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
 				Import hints: <input type="file" size="50" name="file" /><p>
-				Delete Existing: <input 'checked' value="1" type="checkbox" name="delete_existing" /><p>
+				Delete all existing hints : <input 'checked' value="1" type="checkbox" name="delete_existing" /><p>
 				<input type="submit" name="saveUpload" value="Import">
 			</form></center>
 

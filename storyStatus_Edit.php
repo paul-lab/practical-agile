@@ -39,7 +39,7 @@ $(function() {
 			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
 			$result=$DBConn->update('story_status',$data,$whereClause);
 		}
-		if ($result>0){
+		if ($result!=0){
 			$sql='Update story set `Status`="'.$_REQUEST['Desc'].'" where story.Project_ID='.$_REQUEST['PID'].' and `Status`="'.$_REQUEST['ODesc'].'"';
 			$DBConn->directsql($sql);
 			$sql='Update points_log set `Status`="'.$_REQUEST['Desc'].'" where points_log.Project_ID='.$_REQUEST['PID'].' and points_log.`Status`="'.$_REQUEST['ODesc'].'"';
@@ -47,7 +47,11 @@ $(function() {
 			$showForm = false;
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Project Story Status','',$_REQUEST['Order'].' - '.$_REQUEST['Desc'].'-'.$_REQUEST['Policy'].'-'.$_REQUEST['RGB']);
 		}else{
-			$error-'Form failed to process correctly';
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 

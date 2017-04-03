@@ -47,7 +47,7 @@ $(function() {
 				// count the # of stories in this release
 				$tsql = 'SELECT count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$releaseDetails_Row['ID'];
 				$trow =$DBConn->directsql($tsql);
-				if ($t_row[0]['relcount'] == 0){
+				if ($trow[0]['relcount'] == 0){
 					echo	'<td><a title="Delete release" href="releaseDetails_Delete.php?id='.$releaseDetails_Row['ID'].'"><img src="images/delete.png"></a>'.'</td>';
 				}else{
 					echo	'<td>'.$t_row['relcount'].' cards and '.$t_row['relsize'].' points</td>';

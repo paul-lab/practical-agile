@@ -35,7 +35,6 @@ $(function() {
 
 	echo
 		'<div align="center">';
-
 		if ($isProjectAdmin ) echo '<a href="iteration_Edit.php?PID='.$_REQUEST['PID'].'">add a new iteration</a>';
 	echo	'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.

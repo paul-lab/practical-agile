@@ -5,9 +5,9 @@ Note: I do not normally use a Linux/Unix environment!
 Version 2.56
  * A first pass at adding SQLite support. Requires SQLite 3.8.3  to support CTE's (WITH RECURSIVE)
    *** Need to check how this works with versions 3.8.11 or greater ***
- * Start using PDO to help with SQL injection
- * Fixed a bug in Iteration delete where comments entries were being left behind.
- * Fixed a bug in Project delete where Story Tasks were being left behind.
+ * Using PDO to reduce SQL injection issues
+ * Fixed a bug in Iteration delete where some comments entries were being left behind.
+ * Fixed a bug in Project delete where some Story Tasks were being left behind.
  * A few 'Global Admin' user security tweaks
  * A fair bit of 'productionising' code
  * Can now specify the number of completed iterations to use to calculate velocity (Project level)

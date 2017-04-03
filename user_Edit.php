@@ -60,7 +60,7 @@ function hashit(){
 			$result=$DBConn->update('user',$data,$whereClause);
 		}
 // updated the user, now do their access
-		if ($result!=0){
+		if (!$DBConn->error){
 			$showForm = false;
 			if ($Usr['Admin_User']==1){
 				$sql='DELETE from user_project where User_ID ='.$_REQUEST['id'];
@@ -92,7 +92,7 @@ function hashit(){
 				}
 			}
 		}else{
-			$error = 'The form failed to process correctly.';
+			$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
 		}
 	}
 
@@ -110,12 +110,12 @@ function hashit(){
 			}
 			echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.'<form method="post" action="?">';
 
-	if ($Usr['Admin_User']==1)	{
-		echo '<tr><td>EMail/Username:</td>';
-		echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'"></td></tr>';
-	}else{
-		echo '<tr><td>EMail/Username:</td>';
-		echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'].'</td></tr>';
+		if ($Usr['Admin_User']==1)	{
+			echo '<tr><td>EMail/Username:</td>';
+			echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'"></td></tr>';
+		}else{
+			echo '<tr><td>EMail/Username:</td>';
+			echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'].'</td></tr>';
 	}
 
 ?>

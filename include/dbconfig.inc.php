@@ -1,6 +1,13 @@
 <?php
 	error_reporting (E_ALL ^ E_NOTICE);
 	ob_start();
+
+##	Change your timezone here
+##
+###########################
+           ##########
+             ######
+               ##
 	date_default_timezone_set('Europe/London');
 //	date_default_timezone_set('America/Detroit');
 
@@ -39,8 +46,8 @@ class db
                ##
 # MYSQL
     private $config = array(
-	"dbhost" => "127.0.0.1",
-	"dbport" => "3311",
+		"dbhost" => "127.0.0.1",
+		"dbport" => "3311",
         "dbuser" => "root",
         "dbpass" => "root",
         "dbname" => "practicalagile"
@@ -54,7 +61,7 @@ class db
                ##
 # SQLITE
     private $configl = array(
-	"sqlitedb" => "../../usr/local/sqlite/practicalagile.db"
+		"sqlitedb" => "../../usr/local/sqlite/practicalagile.db"
    );
 
 #
@@ -113,16 +120,12 @@ class db
 
     function run($sql, $bind=array()) {
         $sql = trim($sql);
+		$this->error = "";
         try {
-
             $result = $this->db->prepare($sql);
             $result->execute($bind);
             return $result;
-
         } catch (PDOException $e) {
-			echo '<br>';
-			echo $sql;
-			echo '<br>';
 			$this->error =  $e->getMessage();
 			exit(1);
         }
@@ -130,7 +133,6 @@ class db
 
     function create($table, $data) {
         $fields = $this->filter($table, $data);
-
         $sql = "INSERT INTO " . $table . " (`" . implode($fields, "`, `") . "`) VALUES (:" . implode($fields, ", :") . ");";
         $bind = array();
         foreach($fields as $field) $bind[":$field"] = $data[$field];
@@ -150,7 +152,6 @@ class db
         while($row = $result->fetch()) {
             $rows[] = $row;
         }
-
         return $rows;
     }
 
@@ -193,10 +194,6 @@ class db
 			}
 		} catch (PDOException $e) {
 			$this->error = $e->getMessage();
-#echo '<br>';
-#echo $this->sql;
-#echo '<br>';
-#echo $this->error;
 			return false;
 		}
     }

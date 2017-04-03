@@ -59,10 +59,12 @@ function print_Story_Size_Type_Dropdown($current)
 		 if ($result>0)
 		{
 			$showForm = false;
-		}
-		else
-		{
-			$error = 'The form failed to process correctly.';
+		}else{
+			if($DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}else{
+				$showForm = false;
+			}
 		}
 	}
 

@@ -49,7 +49,7 @@ $(function() {
 	$r = $DBConn->directsql($q);
 	echo $q;
 // do we have any results
-	if (count($r) > 0) {
+	if ($r) {
 		// send to the screen
 		if ($_REQUEST['Type']=="search"){
 			// write the column headers

@@ -23,7 +23,7 @@ INSERT INTO `queries` VALUES
 ('500','500','Audit (recent 200)','SELECT * from audit order by ID desc limit 200','','2'),
 ('510','510','Project Audit','SELECT * from audit where PID={Project} order by ID desc','','2'),
 ('520','520','Non Project Audit','SELECT * from audit where PID=0 order by ID desc','','2'),
-('530','20','Release plan','(story.Release_ID > 0) and 0 = (select count(*) from story as child where child.Parent_Story_ID=story.AID) ','order by  Release_ID','1'),
+('550','20','Release plan','(story.Release_ID > 0) and 0 = (select count(*) from story as child where child.Parent_Story_ID=story.AID) ','order by  Release_ID','1'),
 ('540','530','Uploaded Files','select concat(\'<a href=story_List.php?searchstring=%23\',story.ID,\'&PID=\',story.Project_ID,\'&Type=search>#\',story.ID,\'</a>\') as \'Story\', story.Summary as \'Summary\', upload.Desc as \'File\' , CONCAT(\'<a href=upload/\',HEX(upload.Name),\'.\',convert(upload.Type using utf8),\'>Link</a>\')as \'Link\' from story inner join `upload` on upload.AID=story.aid  where Story.project_ID=1 order by upload.Desc','','2');
 /*!40000 ALTER TABLE `queries` ENABLE KEYS */;
 

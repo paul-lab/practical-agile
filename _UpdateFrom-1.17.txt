@@ -1,20 +1,20 @@
+ALTER TABLE project ADD COLUMN `Vel_Iter` integer default 5;
+ALTER TABLE story ALTER Release_ID SET DEFAULT 0;
+
 --Some data tidy to make sure we don't fall foul of historic bad code
 UPDATE iteration set `Locked`=0 where `Locked` IS NULL;
-
-ALTER TABLE `project` ADD COLUMN `Vel_Iter` integer default 3;
 UPDATE project set `As_A`=0 where `As_A` IS NULL;
 UPDATE project set `Col_2`=0 where `Col_2` IS NULL;
 UPDATE project set `Acceptance`=0 where `Acceptance` IS NULL;
 UPDATE project set `Enable_Tasks`=0 where `Enable_Tasks` IS NULL;
 UPDATE project set `Velocity`=0 where `Velocity` IS NULL;
 UPDATE project set `Archived`=0 where `Archived` IS NULL;
-
 UPDATE story set `Parent_Story_ID`=0 where `Parent_Story_ID` IS NULL;
 UPDATE story set `Blocked`=0 where `Blocked` IS NULL;
-
+UPDATE story set `Release_ID`=0 where `Release_ID` IS NULL;
+UPDATE story set `Release_ID`=0 where `Release_ID` ='';
 UPDATE user_project set `Readonly`=0 where `Readonly` IS NULL;
 UPDATE user_project set `Project_Admin`=0 where `Project_Admin` IS NULL;
-
 UPDATE user set `Disabled_User`=0 where `Disabled_User` IS NULL;
 
 UPDATE dbver set CurrVer = 1.18 where `ID`=1;
