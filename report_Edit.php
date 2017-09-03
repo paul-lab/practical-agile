@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 include 'include/header.inc.php';
 
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
@@ -47,11 +60,13 @@ $(function() {
 			$button_name = 'Add';
 			$whereClause = '';
 			$result=$DBConn->create('queries',$data);
+			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Added report',$_REQUEST['ID'],$_REQUEST['Desc'],$_REQUEST['QSQL']);
 		}else{
 			$sql_method = 'UPDATE';
 			$button_name = 'Save';
 			$whereClause = 'ID = '.($_REQUEST['ID'] + 0);
 			$result=$DBConn->update('queries',$data,$whereClause);
+			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Updated report',$_REQUEST['ID'],$_REQUEST['Desc'],$_REQUEST['QSQL']);
 		}
 
 		if (count($result>0)){
@@ -133,7 +148,7 @@ $(function() {
 	<tr>
 		<td colspan="2">
 			<input type="hidden" name="ID" value="<?=$Qry_Row['ID'];?>">
-			<input type="submit" name="saveUpdate" value="Update">
+			<input class="btn" type="submit" name="saveUpdate" value="Update">
 		</td>
 	</tr>
 	</form>

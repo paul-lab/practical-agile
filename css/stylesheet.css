@@ -17,6 +17,7 @@ body, textarea, input, select {
 	background-color: #fff;
 } 
 
+
 body {padding-top:50px; padding-bottom:10px; margin: 2px; } 
 img {  	border-style: none;}
 
@@ -94,3 +95,26 @@ table.center {
 	border-top: 1px solid #ddd;
 }
 .hint { float:right;}
+
+.btn{
+	background: #eee; 
+	border-radius: 5px;
+}
+input.btn:hover {
+	cursor: default; 
+	background: #ccc;
+}
+
+.btnlink{
+	border: 1px solid lightGray;
+	padding:5px;
+	background: #eee; 
+	border-radius: 3px;
+}
+.btnlink:hover {
+	cursor: default; 
+	background: #ccc;
+}
+
+
+

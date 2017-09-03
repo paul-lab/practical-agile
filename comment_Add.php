@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');
 
@@ -7,9 +21,8 @@
 		exit();
 	}
 
-	$comment_text = htmlentities($_REQUEST['comment_text']);
 	if($_REQUEST['Type']=="s"){
-		$q = "INSERT INTO comment (Parent_ID, User_Name, Story_AID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$_REQUEST['Story_AID'].", '".$comment_text."' )";
+		$q = "INSERT INTO comment (Parent_ID, User_Name, Story_AID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$_REQUEST['Story_AID'].", '".$_REQUEST['comment_text']."' )";
 		auditit($_REQUEST['PID'],$_REQUEST['Story_AID'],$_SESSION['Email'],'Added Comment','',$_REQUEST['comment_text']);
 	}else{
 		if ($_REQUEST['Story_AID']==0) { // this means an iteration that has no comments against it.
@@ -19,10 +32,10 @@
 		}else{
 			$icoid=$_REQUEST['Story_AID'];
 		}
-		$q = "INSERT INTO comment (Parent_ID, User_Name, Comment_Object_ID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$icoid.", '".$comment_text."' )";
+
+		$q = "INSERT INTO comment (Parent_ID, User_Name, Comment_Object_ID, Comment_Text) VALUES (".$_REQUEST['Parent_ID'].", '".$_REQUEST[User_Name]."', ".$icoid.", '".$_REQUEST['comment_text']."' )";
 		auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration Comment','',$_REQUEST['comment_text']);
 	}
-
 	$row = $DBConn->directsql($q);
 
 	if($row!=0) {

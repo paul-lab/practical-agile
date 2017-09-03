@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	include 'include/header.inc.php';
 
 	if ($Usr['Admin_User'] == 1 )	{
@@ -31,8 +45,8 @@
 					$_REQUEST['id'].' - '.$_REQUEST['desc'].'<p>'.
 					'<input type="hidden" name="id" value="'.$_REQUEST['id'].'">'.
 					'<input type="hidden" name="desc" value="'.$_REQUEST['desc'].'">'.
-					'<input type="submit" name="delete" value="Yes, Delete"> &nbsp; '.
-					'<input type="submit" name="nodelete" value="No, Don\'t Delete">'.
+					'<input  class="btn" type="submit" name="delete" value="Yes, Delete"> &nbsp; '.
+					'<input  class="btn" type="submit" name="nodelete" value="No, Don\'t Delete">'.
 				 '</form>';
 	}	else	{
 		header('Location:user_List.php');

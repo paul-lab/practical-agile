@@ -1,9 +1,5 @@
 -- phpMiniAdmin dump 1.9.150108
--- Datetime: 2015-10-27 16:41:26
--- Host: 127.0.0.1
 -- Database: practicalagile
-
-USE practicalagile
 
 /*!40030 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
@@ -17,7 +13,7 @@ INSERT INTO `comment` VALUES ('1','0','Admin','0','3','Probably an idea to use t
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `dbver` DISABLE KEYS */;
-INSERT INTO `dbver` VALUES ('1','1.14','2.51');
+INSERT INTO `dbver` VALUES ('1','1.18','2.57');
 /*!40000 ALTER TABLE `dbver` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `hint` DISABLE KEYS */;
@@ -33,7 +29,7 @@ INSERT INTO `points_log` VALUES ('1','1','2013-04-10 00:00:00','1','Todo','3','1
 /*!40000 ALTER TABLE `points_log` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES ('1','1',NULL,'2','Template Project','Template Project used as source for \r\n\'Story Type\' as well as \'Story Status\' and a few other bits & bobs\r\n== Do NOT Delete Me ==','1','0','So That','I Need','0','0','1','6','0','_ Template','1');
+INSERT INTO `project` VALUES ('1','1',NULL,'2','Template Project','Template Project used as source for \r\n\'Story Type\' as well as \'Story Status\' and a few other bits & bobs\r\n== Do NOT Delete Me ==','1','0','So That','I Need','0','0','1','6','0','_ Template','1','5');
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `release_details` DISABLE KEYS */;
@@ -56,7 +52,7 @@ INSERT INTO `story` VALUES ('1','1','1','0','1','0','Feature',NULL,'0','0000-00-
 /*!40000 ALTER TABLE `story` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `story_status` DISABLE KEYS */;
-INSERT INTO `story_status` VALUES ('1','1','Todo','Card created, No work started (possibly Sized)','1','D0D0D0'),('2','1','','Sized, Understood and contains acceptance criteria','2','A0A0A0'),('3','1','',NULL,'3','66CCFF'),('4','1','Doing','Tasked out, Development and unit test work in progress','4','3399FF'),('5','1','',NULL,'5','0066FF'),('6','1','',NULL,'6','A066FF'),('7','1','',NULL,'7','FFFF54'),('8','1','OK to Review','All unit and system tests passing, ready for review by PO/Truth','8','FF7F05'),('9','1','','Work rejected. Review, revise & go back to in progress','9','FF0000'),('10','1','Done','Accepted as per the current Definition of Done','10','A0D050');
+INSERT INTO `story_status` VALUES ('1','1','Todo','Card created, No work started (possibly Sized)','1','D0D0D0'),('2','1','','Sized Understood and contains acceptance criteria','2','A0A0A0'),('3','1','',NULL,'3','66CCFF'),('4','1','Doing','Tasked out, Development and unit test work in progress','4','3399FF'),('5','1','',NULL,'5','0066FF'),('6','1','',NULL,'6','A066FF'),('7','1','',NULL,'7','FFFF54'),('8','1','OK to Review','All unit and system tests passing, ready for review by PO/Truth','8','FF7F05'),('9','1','','Work rejected. Review, revise & go back to in progress','9','FF0000'),('10','1','Done','Accepted as per the current Definition of Done','10','A0D050');
 /*!40000 ALTER TABLE `story_status` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `story_type` DISABLE KEYS */;
@@ -74,7 +70,7 @@ INSERT INTO `task` VALUES ('1','3','0','100','Database Changes to support points
 /*!40000 ALTER TABLE `upload` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1','ADMI','c3284d0f94606de1fd2af172aba15bf3','Admin (Do Not Delete)','admin','1','0'),('2','U2','7e58d63b60197ceb55a1c487989a3720','User2','user2','0','0'),('3','U3','92877af70a45fd6a2ed7fe81e1236b78','User3','user3@here.com','0','0');
+INSERT INTO `user` VALUES ('1','ADMI','c3284d0f94606de1fd2af172aba15bf3','Admin (Do Not Delete)','admin','1','0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `user_project` DISABLE KEYS */;

@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 if (empty($_REQUEST['PID'])) header("Location:project_List.php");
 
@@ -47,7 +60,7 @@ $(function() {
 	$q =$sel.$cond.' '.$QRow['Qorder'];
 
 	$r = $DBConn->directsql($q);
-	echo $q;
+	echo$QRow['Desc'];
 // do we have any results
 	if ($r) {
 		// send to the screen

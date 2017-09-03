@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
 echo 'Story Size';
@@ -27,8 +40,8 @@ function print_Size_Type($current)
 
 
 	echo
-		'<div align="center">'.
-			'<a href="size_Edit.php">add a new size</a>'.
+		'<div align="center"><p>'.
+			'<a class="btnlink" href="size_Edit.php">Add a new size</a>'.
 		'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.
 			'<tr><b>'.

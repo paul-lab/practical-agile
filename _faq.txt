@@ -12,12 +12,22 @@ Q. How can I have multiple teams working off a single product Backlog?
 A. Create multiple interations or Sprints, one for each team, with the same dates against the project. 
    That way they can share the backlog without tripping over each other.
 
+Q. Why dont the 'Iteration' reports work. 
+A. These reports run against the current iteration. Select an Iteration or the Backlog, and then select the report. 
+
+Q. I can't move a story in or out of an specific iteration. Why?
+A. The iteration has been locked.
+
+Q. I don't want to clutter my backlog with stories that ma never be worked on
+A. Multiple backlogs for a single project are a very bad idea. Create a temporary project to work in and export/import stories aas you need
+A. Create an iteration with no dates and work in there. Stories in here will count towards towards the project size. 
+
 Q. How do I view Project progress?
 A. View the project summary page, The Backlog, or use the project progress report.
 
-Q. Why is the 'Project Summary' graph not the same as the Backlog'?
-A. The Backlog excludes stories that appear in an Iteration use this as a Burndown Chart. 
-   The 'Project Summary' is a close to a cumulative flow diagram as you are going to get and includes all stories in a project. 
+Q. Why is the 'Project Summary' graph not the same as the Backlog graph?
+A. The Backlog excludes stories that appear in an Iteration. Use the backlog graph as a Burndown Chart. 
+   The 'Project Summary' is as close to a cumulative flow diagram as you are going to get and includes all stories in a project. 
 
 Q. How do I view epic progress?
 A. Select the Project/Epic Tree from the header or any story list view. the status for all stories in each epic is presented to you.
@@ -29,9 +39,6 @@ A. View the project/Iteration backlog using the 'Epic tree' and drag the child u
 A. When editing a story, select the parent from the list of existing parents in project from the dropdown
 A. When editing a story, type the Parent story number in the 'manual' parent edit box.
 
-Q. Why dont the 'Iteration' reports work. 
-A. These reports run against the current iteration. Select an Iteration or the Backlog, and then select the report. 
-
 Q. I can’t make a story a child using the Epic tree.
 A. You will find that the parent you are trying to use is already in an iteration (ie work scheduled) or not in a Todo Status. 
    Remember, work can only be performed at the lowest level. 
@@ -42,10 +49,7 @@ A. You are probably viewing the Release Tree, this does not allow ordering/ranki
 
 Q. What are the borders around stories for?
 A. Blocked work is highlighted with a RED border and in the Iteration Epic/tree view, 
-   work in the current Iteration has a BLUE Border.
-
-Q. I can't move a story in or out of an specific iteration. Why?
-A. The iteration has been locked. 
+   work in the current Iteration has a BLUE Border. 
 
 Q. I can't move work in or out of an specific release. Why?
 A. The release has been locked. or

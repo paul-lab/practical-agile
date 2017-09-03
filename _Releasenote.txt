@@ -2,6 +2,19 @@ Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
                        ----------------------------------------
+Version 2.57
+ * Fixed comments text in SQLite (db column name case issue)
+ * Reduced comment height inc css\micromenu.css
+ * Graph for sprints now runs from the start to the end of the sprint rather than only days where points have changed
+ * Add/Delete buttons are now consistent
+ * Readme, Hints & FAQ Updated
+ * Full Windows install can now use either MySQL or SQLite (Start.bat or _startSQLite.bat)
+ * All key auditing now in place (remember to export / delete as needed)
+ * Backlog & Iteration Tree in SQLite now behaving correctly
+ * Make blocked stories obvious when editing them & on the board (they are already obvious in the story list & Tree)
+ * Added copyrigght text to source files
+ * Prevented disabling the user 'admin'
+
 Version 2.56
  * A first pass at adding SQLite support. Requires SQLite 3.8.3  to support CTE's (WITH RECURSIVE)
    *** Need to check how this works with versions 3.8.11 or greater ***

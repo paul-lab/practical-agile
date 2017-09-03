@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 
 
@@ -7,7 +20,6 @@
 		if (readonly($_REQUEST['PID']) == 0 )		{
 			$sql = 'delete from tags where Project_ID='.$_REQUEST['PID'];
 			$DBConn->directsql($sql);
-
 			$sql = "insert into tags (`Project_ID`, `Desc`) select Project_ID, GROUP_CONCAT(Tags) as Tags from story where length(Tags)> 0 and Project_ID=".$_REQUEST['PID']." group by Project_ID";
 			$DBConn->directsql($sql);
 			$sql = 'select * from tags where Project_ID='.$_REQUEST['PID'];
@@ -17,7 +29,7 @@
 			$sql='UPDATE tags SET `Desc`="'.$newTags.'" where Project_ID='.$_REQUEST['PID'];
 			$tags_Res = $DBConn->directsql($sql);
 			$showForm = false;
-			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Clear Unused Tags','','');
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Cleared Unused Tags','','');
 		}
 	}
 
@@ -31,9 +43,9 @@
 		echo '<form method="post" action="?"><p><h2>'.
 					'Are you sure you want to Clear unused Story Tags for this project?<br /></h2><p>'.
 					'<p>'.
-					'<input type="submit" name="reset" value="Yes, Clear"> &nbsp; '.
+					'<input class="btn" type="submit" name="reset" value="Yes, Clear"> &nbsp; '.
 					'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
-					'<input type="submit" name="noreset" value="No, Don\'t clear">'.
+					'<input class="btn" type="submit" name="noreset" value="No, Don\'t clear">'.
 					 '</form>';
 	}else{
 		header('Location:project_Summary.php?PID='.$_REQUEST['PID']);

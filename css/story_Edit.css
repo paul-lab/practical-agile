@@ -1,3 +1,12 @@
 .col1h { height:150px;}
 .col2h { height:100px;}
 .accepth { height:100px;}
+
+.blocked {display:inline}
+
+input[type=checkbox] + label {
+}
+
+input[type=checkbox]:checked + label {
+background:red;
+}

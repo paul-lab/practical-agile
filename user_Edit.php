@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 require_once('include/header.inc.php');
 
 
@@ -46,6 +60,7 @@ function hashit(){
 			$button_name = ' Save';
 			if (strlen($_REQUEST['Password'])>0) {
 				$data['Password'] = md5(trim($_REQUEST['Password'], "\t\n\r\0" ));
+					auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Password','','');
 			}else{
 				$data['Password'] = $_REQUEST['md5'];
 			}
@@ -53,8 +68,11 @@ function hashit(){
 				if ($_REQUEST['Admin_User']==1) {
 					$data['Admin_User'] =1;
 				}else{
-					$$data['Admin_User']=0;
+					$data['Admin_User']=0;
 				}
+			}
+			if ($data['EMail'] =='admin'){
+				$data['Disabled_User']=0;
 			}
 			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
 			$result=$DBConn->update('user',$data,$whereClause);
@@ -195,7 +213,7 @@ function hashit(){
 		<td colspan="2">
 			<input type="hidden" name="id" value="<?=$_REQUEST['id'];?>">
 			<input type="hidden" name="md5" value="<?=$user_Row['Password'];?>">
-			<input type="submit" onclick="hashit()"  name="saveUpdate" value="Update">
+			<input class="btn" type="submit" onclick="hashit()"  name="saveUpdate" value="Update">
 		</td>
 	</tr>
 	</form>

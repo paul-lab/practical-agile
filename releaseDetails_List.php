@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	include 'include/header.inc.php';
 echo '<div class="hidden" id="phpbread">';
 echo 'Releases';
@@ -17,8 +31,8 @@ $(function() {
 <?php
 
 	echo
-		'<div align="center">'.
-			'<a href="releaseDetails_Edit.php">add a new Release</a>'.
+		'<div align="center"><p>'.
+			'<a class = "btnlink" href="releaseDetails_Edit.php">Add a new Release</a>'.
 		'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.
 			'<tr>'.

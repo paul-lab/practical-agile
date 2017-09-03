@@ -58,7 +58,7 @@ Change your password via the "Edit my details" on the <your name> menu item,
 Global Admin' Users allow Users access to Projects and enable Project admin rights
 Give your stakeholders read only access to your Projects, that way, they can see what is happening without being able to 'break' things
 Change "Story Status" colours to suit you from the <Project Name> "Story Status" menu item.
-In any Story list click on a Story "tag" to find all Stories with the same tag.
+Click on a Story "tag" to find all Stories with the same tag.
 The Search  will find text within the Story, Tasks or Comments for a Story in the CURRENT project
 Use the 'Story List' and 'Scrum Board' icons to quickly switch between views for the current Iteration.
 In any Story list, select an Epic ID against a Story to view the contents of that Epic Tree.
@@ -93,10 +93,9 @@ Remember that only Storys in the backlog can be converted to Epics.
 Use Epics or Tags to link pieces of work that across iterations or to tie 'technical work' to 'business value' stories 
 Assign tags to Cards to group them by theme or other criteria
 Up to 20 tags can be added to a story or card
-Clicking on a tag in any view will return all stories that contain that tag.
 Remember that you need to save a Story after updating the Tags!
 Remember that a story with a 0 size, is NOT unsized.
-An unsized card has a size of ? (You sohld have as few of these as possible in your backlog.)
+An unsized card has a size of ? (You should have as few of these as possible in your backlog.)
 Any link can be opened in a new tab, but take care not to get lost and edit the same item twice.
 Review historic velocity and loading by selecting 'Iterations (and History) from the <Project> menu
 Use "Print Preview" to create a single Story Card in a format suitable for printing and using on a radiator board.
@@ -110,6 +109,7 @@ Drag and drop Tasks to put them in an order that makes sense (Use the 'edit' and
 click the <Project Name> breadcrumb, or 'Project Summary' on the <Project Name> menu to view a summary of the Project progress
 Use the #storynum, tag:<tagtext>, owner:<initials>, status:<Status>, Size:<Size> & Type:<Type> notation to easily find Stories.
 Print physical Cards, by exporting the Iteration and using the included printCards.xls spreadsheet.
+Print cards by usig the 'Print card' feature against a story or iteration.
 You can format text within your Stories and Comments.
 Give your Iterations an objective to make them more meaningful to you and the team.
 Change or edit the "Story Status" values to suit your Project from the <Project Name> "Story Status" menu item.
@@ -128,7 +128,7 @@ Select a Card, hold the left button down and use 'page-up/down' or the up/down k
 Update the "Template Project" Project to set the default Size, Status & Story Types for new Projects.
 Click on the blue 'Minus' to hide the points summary and graph for a more compact view.
 Only items in the 'Backlog' count towards product work and taken into account in predictions.
-View you Iteration either on a Radiator Board, as a list or in a Tree (Blue borders).
+View your Iteration either on a Radiator Board, as a list or in a Tree (Blue borders).
 Use the breadcrumbs on the top left of the screen to quickly & Easily navigate to key screens.
 Add Comments against Stories to record decisions or other relevant detail.
 When presenting future Iterations in the Backlog, already planned Iterations are excluded from work to be completed.
@@ -180,9 +180,11 @@ Remember that the graph presented as a Project Summary is NOT the same as the Ba
 To see how much work is left to do, look at the backlog graph, or the todo portion of the Project Summary
 Use the Iteration Planning tool to easily move cards between ANY two iterations (incl. the Backlog)
 If an iteration is not available for selection, it has probably been 'Locked' speak to a Project admin to unlock it.
-you can only move Stories in and out of Iterations and releases if they are not locked.
+You can only move Stories in and out of Iterations and releases if they are not locked.
 If you can't access the Iteration Planning Screen, you are a read only user.
 Dont forget to click the '+' when adding comments to an iteration or Story card.
 Dont forget to click the '+' when adding tasks or uploading files to a Story card.
 Remember to click '+' when adding Tasks,Comments or uploading files.
 To Print story cards 4 to a page use landscape orientation, use portrait for 8 cards to a page.
+Specify the number of past iterations to use to calculate velocity on the project admin page (Default 3)
+Fin unsized work in a project by using the search 'size:?'

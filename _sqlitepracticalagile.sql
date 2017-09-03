@@ -20,7 +20,7 @@ CREATE TABLE `comment` (
   `User_Name` TEXT DEFAULT NULL,
   `Comment_Object_ID` INTEGER NOT NULL DEFAULT '0',
   `Story_AID` INTEGER DEFAULT NULL,
-  `Comment_TEXT` TEXT,
+  `Comment_Text` TEXT,
   `Comment_Date` DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 CREATE INDEX "User_ID" ON "comment" ("User_Name");

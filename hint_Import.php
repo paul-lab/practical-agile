@@ -1,4 +1,17 @@
 <?PHP
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 
 include 'include/header.inc.php';
 $showForm = true;
@@ -44,7 +57,7 @@ if (isset($_POST['delete_existing']))
 		auditit(0, 0,$_SESSION['Email'],'Imported new hints',$_FILES['file']['name']);
 ?>
 				<center><p><p><form  enctype="multipart/form-data" method="post" action="?">
-				<br><input type="submit" name="acceptImport" value="OK">
+				<br><input  class="btn" type="submit" name="acceptImport" value="OK">
 				</form></center>
 <?php
 	}
@@ -55,7 +68,7 @@ if (isset($_POST['delete_existing']))
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
 				Import hints: <input type="file" size="50" name="file" /><p>
 				Delete all existing hints : <input 'checked' value="1" type="checkbox" name="delete_existing" /><p>
-				<input type="submit" name="saveUpload" value="Import">
+				<input  class="btn" type="submit" name="saveUpload" value="Import">
 			</form></center>
 
 <br><br>Notes:<br>

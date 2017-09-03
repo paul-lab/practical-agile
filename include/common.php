@@ -2,7 +2,7 @@
 /*
 * Practical Agile Scrum tool
 *
-* Copyright 2013-2015, P.P. Labuschagne
+* Copyright 2013-2017, P.P. Labuschagne
 *
 * Released under the MIT license.
 * https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
@@ -47,9 +47,11 @@ function login_user( $user , $password ){
 
 function check_user( $md5_sum ){
 	Global $DBConn;
-	$md='';
+
 	if (dbdriver=='sqlite'){
 		$md='sqlite';
+	}else{
+		$md='';
 	}
 	if (empty($_REQUEST['PID']) || $Usr['Admin']==1) {
 		$sql = "SELECT * FROM user WHERE Disabled_User = 0 AND ".$md."MD5(email) = '".$md5_sum."'";
@@ -307,7 +309,7 @@ function PrintStory ($story_Row){
 						$parent_row =$DBConn->directsql($parentsql);
 						if (count($parent_row) == 1){
 							$parent_row=$parent_row[0];
-							echo '<a  title="'.$parent_row ['Summary'].'"';
+							echo '<a title="'.$parent_row ['Summary'].'"';
 							echo ' href="story_List.php?Type=tree&Root='.$parent_row ['ID'].'&PID='.$story_Row['Project_ID'].'&IID='.$story_Row['Iteration_ID'].'">';
 							echo ' #'.$parent_row ['ID'].' ('.$parent_row ['Size'].' pts)</a>&nbsp;';
 						}
@@ -662,6 +664,7 @@ function Show_Project_Users($ThisProject=0, $current,$name,$disabled=0){
 		if (!empty($current)) $menu .='<option value=""></option>';
 
 		$sql = 'SELECT ID, Friendly_Name FROM user LEFT JOIN user_project ON user.ID = user_project.USER_ID where user_project.Project_ID='.$ThisProject.' and user.Disabled_User = 0 ORDER BY Friendly_Name';
+
 		$queried = $DBConn->directsql($sql);
 
 		foreach ($queried as $result) {
@@ -686,7 +689,6 @@ function Get_User($current,$initials=0){
 		}
 	}
 }
-
 
 function Get_Hint(){
 	Global $DBConn;
@@ -731,7 +733,7 @@ function Update_oldParent_Points($thisstory){
 
 function Update_Parent_Status($thisstory){
 	Global $DBConn;
-// update  child story status if there are still children, other wise reset the status to todo
+// update  child story status if there are still children, otherwise reset the status to todo
 	if (Num_Children($thisstory)>0)	{
 		$sql = 'Select story.Children_Status, story.Status, story.Iteration_ID from story where Parent_Story_ID='.$thisstory. ' order by story.Status';
 		$Res=$DBConn->directsql($sql);
@@ -762,12 +764,12 @@ function Top_Parent($StoryAID){
 	if (dbdriver=='mysql'){
 		$sql = 'SELECT  @r AS _id, (SELECT  @r := Parent_Story_ID FROM story WHERE AID = _id) AS parent, @l := @l + 1 AS level FROM (SELECT  @r :='.$StoryAID.', @l := 0) vars, story WHERE @r <> 0 order by level desc limit 1';
 	}else{
-		$sql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$StoryAID.',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story  JOIN xid ON story.aid=xid.aid where parent_story_id <>0) SELECT aid as _id FROM xid where level <> 0 order by level desc  limit 1';
+		$sql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$StoryAID.',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story  JOIN xid ON story.aid=xid.aid where parent_story_id <>0) SELECT aid as _id FROM xid order by level desc  limit 1';
 	}
+
 	$Row = $DBConn->directsql($sql);
 	if (count($Row)>0)	{
 		return $Row[0]['_id'];
-
 	}else{
 		return 0;
 	}
@@ -841,7 +843,6 @@ function Update_Iteration_Points($thisiteration){
 			$result = $DBConn->create('points_log',$data);
 		}
 	}
-
 	Update_Project_Points($thisproject);
 	// Iteration total points
 	return $iSize;
@@ -947,24 +948,24 @@ function print_summary($object, $WithVelocity=False){
 		$t2=0;
 		$rowcnt=0;
 		do	{
-			$l1.=	'<th bgcolor="#F2F2F2">'.$result[$rowcnt]['Status'].'</th>';
-			$l2.=	'<td align="center" bgcolor="#F2F2F2" class="larger">'.$result[$rowcnt]['Story_Count'].'</td>';
-			$l3.=	'<td align="center" bgcolor="#F2F2F2" class="larger">'.$result[$rowcnt]['Size'].'</td>';
+			$l1.=	'<th bgcolor="#F2F2F2">&nbsp;'.$result[$rowcnt]['Status'].'&nbsp;</th>';
+			$l2.=	'<td align="right" bgcolor="#F2F2F2" class="larger">'.$result[$rowcnt]['Story_Count'].'&nbsp;&nbsp;</td>';
+			$l3.=	'<td align="right" bgcolor="#F2F2F2" class="larger">'.$result[$rowcnt]['Size'].'&nbsp;&nbsp;</td>';
 			$t1+=$result[$rowcnt]['Story_Count'];
 			$t2+=$result[$rowcnt]['Size'];
 			$rowcnt+=1;
 		}
 		while ($rowcnt<count($result) and $last_Date==$result[$rowcnt]['Points_Date']);
-		$l1.=	'<th bgcolor="#F2F2F2">Total</th>';
-		$l2.=	'<td bgcolor="#F2F2F2" class="larger"><b>'.$t1.'</b></td>';
-		$l3.=	'<td bgcolor="#F2F2F2" class="larger"><b>'.$t2.'</b></td>';
+		$l1.=	'<th bgcolor="#F2F2F2">&nbsp;Total&nbsp;</th>';
+		$l2.=	'<td align="right" bgcolor="#F2F2F2" class="larger"><b>'.$t1.'</b></td>';
+		$l3.=	'<td align="right" bgcolor="#F2F2F2" class="larger"><b>'.$t2.'</b></td>';
 	}
 	unset($result);
 
 	echo '<table class="SummaryTable" cellpadding="2" cellspacing="1" border="0" >';
 
 	if ($WithVelocity==True)	{
-		$l1.='<th>&nbsp;&nbsp;</th><th title="Average of 5 most recent completed iterations" align="center" class="evenlarger">Velocity</th>';
+		$l1.='<th>&nbsp;&nbsp;</th><th title="Average of '.$Project['Vel_Iter'].' most recent completed iterations" align="center" class="evenlarger">Velocity</th>';
 		$l3.='<td>&nbsp;&nbsp;</td><td align="center" class="evenlarger"><b>'.$Project['Velocity'].'</b></td>';
 		$l2.='<td>&nbsp;&nbsp;</td><td align="center" class="larger"></td>';
 	}
@@ -974,10 +975,9 @@ function print_summary($object, $WithVelocity=False){
 	echo '</table>';
 }
 
-
-function print_Graphx($object, $small=False){
+// Points Object ID, Small|Regular Size, Iteration end date|0
+function print_Graphx($object, $small=False, $iterstart=0, $iterend=0){
 	Global $DBConn;
-
 	if ($small==False)	{
 		echo '<div class="chart_div" id="chart2'.$object.'" style="width:70%; height: 250px;"></div>';
 	}else{
@@ -1025,8 +1025,16 @@ function print_Graphx($object, $small=False){
 	$result =$DBConn->directsql($sql);
 
 	$idx=0;
+
 	if (count($result) > 0)	{
 		$rowcnt=0;
+		//todo  	only add this if no pointslog on the first  day of the sprint
+		if ($iterstart!=0){
+			if ($iterstart<substr($result[$rowcnt]['Points_Date'],0,10)){
+				$idx+=1;
+				$tick .="[".$idx.",'".$iterstart."'],";
+			}
+		}
 		do	{
 			$idx+=1;
 			$dat_id[$result[$rowcnt]['Points_Date']]=$idx;
@@ -1037,8 +1045,17 @@ function print_Graphx($object, $small=False){
 		}while ($rowcnt < count($result));
 	}
 
+	if ($iterend!=0){
+		if ($iterend>substr($result[$rowcnt-1]['Points_Date'],0,10)){
+			$iterlastpointsdate=$result[$rowcnt-1]['Points_Date'];
+			$idx+=1;
+			$tick .="[".$idx.",'".$iterend."'],";
+		}
+	}
+
 	$tick = substr($tick ,0, -1);
 	$tick .=']';
+
   	//create a 2d array [status][date]
 	$a = array_fill(0, count($sta_id)+1, array_fill(0,$idx, 0));
 
@@ -1046,13 +1063,20 @@ function print_Graphx($object, $small=False){
 	$result = $DBConn->directsql($sql);
 	if (count($result)>0){
 		$rowcnt=0;
+
 		do {
 			$a[$sta_id[$result[$rowcnt]['Status']]][$dat_id[$result[$rowcnt]['Points_Date']]-1] = $result[$rowcnt]['Size'];
+			// if we have an iteration end date then carry the last points value on the sprint across to the end of the iteration
+			if ($iterend!=0){
+				if($result[$rowcnt]['Points_Date'] == $iterlastpointsdate){
+					$a[$sta_id[$result[$rowcnt]['Status']]][$idx-1] = $result[$rowcnt]['Size'];
+				}
+			}
+
 			$rowcnt+=1;
 		}
 		while ($rowcnt < count($result));
 	}
-
 
 	echo '<div id="customTooltipDiv">tooltip.</div>';
 	echo '<script> $(document).ready(function(){';
@@ -1066,38 +1090,38 @@ function print_Graphx($object, $small=False){
 	echo " plot2".$object." = $.jqplot('chart2".$object."',[";
 	echo $va;
 	echo '],{
-	stackSeries: true,
-	       showMarker: false,
-	       highlighter: {
-	        show: true,
-	        showTooltip: false
-	       },
-	       seriesDefaults: {
+		stackSeries: true,
+			showMarker: false,
+			highlighter: {
+				show: true,
+				showTooltip: false
+			},
+			seriesDefaults: {
 	           fill: true,
-       },';
+			},';
 	if ($small==False){
 		echo '	legend: {
-		renderer: $.jqplot.EnhancedLegendRenderer,
+			renderer: $.jqplot.EnhancedLegendRenderer,
 	        show: true,
-		location: "n",
-		rendererOptions: {
-	        numberRows: 1
-		},
-		 placement: "insideGrid",
-	       },';
+			location: "n",
+			rendererOptions: {
+				numberRows: 1
+			},
+			placement: "insideGrid",
+		},';
 	}
 
 	echo	 $d1.' '.
    	' '.$o1.' '.
        'grid: {
-        drawBorder: true,
-        shadow: false
-       },  axes: {
-		yaxis:{ min: 0},
-           xaxis: {
-              ticks: ticks,
-              tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-              tickOptions: {';
+			drawBorder: true,
+			shadow: false
+		},  axes: {
+				yaxis:{ min: 0},
+				xaxis: {
+					ticks: ticks,
+					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+					tickOptions: {';
 	if ($small==True)
 	{
 		echo 'show: false,';

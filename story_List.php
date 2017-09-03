@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 
 	if (empty($_REQUEST['PID']) && empty($_REQUEST['RID'])) header("Location:project_List.php");
@@ -206,7 +219,11 @@ if ($_REQUEST['Type']=="search"){
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,4))=='tag:'){
 			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],4).'%"';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='size:'){
-			$cond='story.Size='.substr($_REQUEST['searchstring'],5).'';
+			if (substr($_REQUEST['searchstring'],5)=='?'){
+				$cond="story.Size='?'";
+			}else{
+				$cond='story.Size='.substr($_REQUEST['searchstring'],5).'';
+			}
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='type:'){
 			$cond='story.Type="'.substr($_REQUEST['searchstring'],5).'"';
 		} else{
@@ -254,7 +271,14 @@ if (empty($_REQUEST['Type'])){
 	echo '<table align="center" width=90%><tr><td align="center">';
 	print_summary($Iteration['Points_Object_ID'],True); // with velocity
 	echo '</td></tr><tr><td align="center">';
-	print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+
+	// if not the backlog include iteration start and end dates for graph
+	if ($Iteration['ID']== $Project['Backlog_ID']){
+		print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+	} else {
+		print_Graphx($Iteration['Points_Object_ID'], False, $Iteration['Start_Date'], $Iteration['End_Date']); // Not Small
+	}
+
 	echo '</td></tr></table>';
 
 	echo '<div class="left-box">';
@@ -285,10 +309,12 @@ if (empty($_REQUEST['Type'])){
 	echo '<ul id="sortable">';
 	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
 	$story_Res = $DBConn->directsql($sql);
-	foreach ($story_Res as $story_Row){
-		echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
-		PrintStory ($story_Row);
-		echo	'</li>';
+	if (count($story_Res)>0 ){
+		foreach ($story_Res as $story_Row){
+			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
+			PrintStory ($story_Row);
+			echo	'</li>';
+		}
 	}
 	echo '</ul>';
 }
@@ -302,7 +328,13 @@ if ($_REQUEST['Type']=='tree'){
 		echo '<table align="center" width=90%><tr><td align="center">';
 		print_summary($Iteration['Points_Object_ID'],True); // with velocity
 		echo '</td></tr><tr><td align="center">';
-		print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+
+		if ($Iteration['ID']== $Project['Backlog_ID']){
+			print_Graphx($Iteration['Points_Object_ID'], False); // Not Small
+		} else {
+			print_Graphx($Iteration['Points_Object_ID'], False, $Iteration['Start_Date'], $Iteration['End_Date']); // Not Small
+		}
+
 		echo '</td></tr></table>';
 		$sqlp = 'SELECT AID FROM story where story.Iteration_ID='.$_REQUEST['IID'];
 		$Res = $DBConn->directsql($sqlp);
@@ -357,8 +389,8 @@ if ($_REQUEST['Type']=='tree'){
 			if ($RelRow['Locked']==0)
 			{
 				echo '<form method="post" action="?">';
-				echo '&nbsp; &nbsp; <input type="submit" name="AddToRelease" value="Add" title="Add stories in this epic, to this release. (No child Epics)">';
-				echo '&nbsp; &nbsp; <input type="submit" name="DeleteFromRelease" value="Remove" title="Remove stories in this epic, from this release. (Not Chid Epics)">';
+				echo '&nbsp; &nbsp; <input class="btn" type="submit" name="AddToRelease" value="Add" title="Add stories in this epic, to this release. (No child Epics)">';
+				echo '&nbsp; &nbsp; <input class="btn" type="submit" name="DeleteFromRelease" value="Remove" title="Remove stories in this epic, from this release. (Not Chid Epics)">';
 
 				$menu = '&nbsp; <select name="PARID">';
 				$menu .= '<option value="0"></option>';
@@ -437,7 +469,13 @@ if ($_REQUEST['Type']=='tree'){
 		' and story.Status="'.$status_Row['Desc'].'" order by story.Iteration_Rank';
 		$story_Res = $DBConn->directsql($sqls);
 		foreach ($story_Res as $story_Row){
-			echo '<li class="scrumdetail" id="'.$story_Row['AID'].'">'.
+			echo '<li class="scrumdetail';
+			if ($story_Row['Blocked'] != 0){
+				echo ' blocked"';
+			}else{
+				echo '"';
+			}
+			echo 'id="'.$story_Row['AID'].'">'.
  				'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a>'.
 				' - '.substr($story_Row['Summary'], 0, 120).
 				'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;'.

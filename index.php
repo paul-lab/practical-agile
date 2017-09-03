@@ -1,8 +1,21 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	require_once('include/common.php');
 	require_once('include/dbconfig.inc.php');
 
-$APP_VER='2.56';
+$APP_VER='2.57';
 
     /*if user wants to login*/
     if(isset($_POST['username'])){
@@ -101,7 +114,7 @@ if ($_GET['dbu']=='true')
 			</tr>
 			<tr><td colspan=2>&nbsp</td></tr>
 			<tr>
-				<td>&nbsp<td><input type="submit" title "Click here to login" onclick="hashit();"value="Login" />
+				<td>&nbsp<td><input  class="btn" type="submit" title "Click here to login" onclick="hashit();"value="Login" />
 			</tr>
 		</table>
 		<?php echo $error; ?>

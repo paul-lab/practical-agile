@@ -1,6 +1,19 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
 
-// List audits for a Story
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
+// List audit entries for a Story
 
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');

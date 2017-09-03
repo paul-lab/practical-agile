@@ -2,7 +2,8 @@
 
 Create and manage Releases, Projects, Epics, Iterations, Stories, Story Tasks and Story Comments using a tool that is simple, easy to use and only does what it needs to do.
 
-The most useful feature is that you can have a hierarchy of Stories, something that is normally only included in scrum tools at a cost. The hierarchy is easily accessible from most places and visible for each story that is part of a tree. This means Stories can have children (and obviously parents) to an almost infinite level. This helps with breaking larger pieces of work down into manageable addressable chunks. Work can then be addressed in a single iteration while not losing track of the ultimate business value goal, and purpose of the work. 
+The most useful feature is that you can have a hierarchy of Stories, something that is normally only included in scrum tools at a cost. The hierarchy is easily accessible from most places and visible for each story that is part of a tree. This means Stories can have children (and obviously parents) to an almost infinite level. This helps with breaking larger pieces of work down into manageable addressable chunks. The order of the stories in the hierarchy is independently ordered from the backlog. This means that features can be grouped and ordered in the hierarchy and value ordered in the backlog.
+Work can then be addressed in a single iteration while not losing track of the ultimate business value goal, and purpose of the work. 
 
 Key Features.
  
@@ -26,8 +27,9 @@ Key Features.
 Requirements 
 
 (Included in the full install)
-•	MySQL* 5+ (using 5.5)
-•	PHP* 5+ (using  5.6) incl Mysqli & SQLite 3.8.3
+•	MySQL* 5+ (using 5.5) or SQLite
+•	PHP* 5+ (using  5.6) 
+	incl Mysqli & SQLite 3.8.3 (Need one or the other)
 •	Web server* 2.2 (using Apache 2.4)
 
 (Included in both installs)
@@ -36,10 +38,6 @@ Requirements
 •	JQuery+ & JqueryUI+ 
 •	jqplot 
  
-
-* Included in full install
-+ Included in both full and small install
-
 
 Quick Install (Windows only)
 1.	Download and extract  the ‘PA-Full- Install’  file into a new directory ‘e.g. PracticalAgile ’ on the server you want to use (a local PC is fine for testing)

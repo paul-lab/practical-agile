@@ -1,4 +1,17 @@
 <?PHP
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 
 include 'include/header.inc.php';
 
@@ -142,7 +155,7 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 				<center><p><p><form  enctype="multipart/form-data" method="post" action="?">
 				<input type="hidden" name="PID" value="<?=$_REQUEST['PID'];?>">
 				<input type="hidden" name="IID" value="<?=$story_Row['Iteration_ID'];?>">
-				<br><input type="submit" name="acceptImport" value="OK">
+				<br><input class="btn" type="submit" name="acceptImport" value="OK">
 				</form></center>
 <?php
 	}
@@ -158,7 +171,7 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 
 <?php
 		if(!$isReadonly){
-			echo '<input type="submit" name="saveUpload" value="Import">';
+			echo '<input class="btn" type="submit" name="saveUpload" value="Import">';
 		}
 ?>
 		</form></center>

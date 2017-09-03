@@ -1,5 +1,19 @@
 <link rel="stylesheet" type="text/css" href="css/side_menu.css" />
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 echo '<div id="sidemenucontainer">';
 echo '<ul id="nav" class="drop">';
 echo '<li><a title="Practical Agile" href="http://www.practicalagile.co.uk"><img src="images/logo.png"></a></li>';

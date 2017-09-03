@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	include 'include/header.inc.php';
 
 echo '<a href="project_List.php">All</a>->';
@@ -52,9 +66,9 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 			'<input type="hidden" name="id" value="'.$_REQUEST['id'].'">'.
 			'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
 			'<input type="hidden" name="IID" value="'.$_REQUEST['IID'].'">'.
-			'<input type="submit" name="delete" value="Yes, Delete">'.
+			'<input class="btn" type="submit" name="delete" value="Yes, Delete">'.
 			' &nbsp; &nbsp; '.
-			'<input type="submit" name="nodelete" value="No, Don\'t Delete">'.
+			'<input class="btn" type="submit" name="nodelete" value="No, Don\'t Delete">'.
 		 '</form>';
 	}else{
 		header('Location:story_List.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID']);

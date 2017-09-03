@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 echo '<div class="hidden" id="phpbread"><a href="releaseDetails_List.php">Releases</a>->';
 echo 'Release Details';
@@ -49,10 +62,12 @@ $(document).ready(function(){
 			// releases dont have a single project so use 0
 			$data['Points_Object_ID'] = NextPointsObject(0);
 			$result=$DBConn->create('release_details',$data);
+			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Created release',$_REQUEST['id'],$_REQUEST['Name'].' ('.$_REQUEST['Start'].' to '.$_REQUEST['End']);
 		}else{
 			$button_name = 'Save';
 			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
 			$result=$DBConn->update('release_details',$data,$whereClause);
+			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Updated release',$_REQUEST['id'],$_REQUEST['Name'].' ('.$_REQUEST['Start'].' to '.$_REQUEST['End']);
 		}
 		unset($data);
 		if ($result>0)
@@ -110,7 +125,7 @@ $(document).ready(function(){
 	<tr>
 			<td colspan="2">
 				<input type="hidden" name="id" value="<?=$_REQUEST['id'];?>">
-				<input type="submit" name="saveUpdate" value="Update">
+				<input class="btn" type="submit" name="saveUpdate" value="Update">
 			</td>
 	</tr>
 	</form>

@@ -1,6 +1,18 @@
 <?php
-	include 'include/header.inc.php';
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
 
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+	include 'include/header.inc.php';
 
 	if (empty($_REQUEST['PID'])) header("Location:project_List.php");
 
@@ -11,8 +23,8 @@
 
 
 	echo
-		'<div align="center">'.
-			'<a href="storyType_Edit.php?PID='.$_REQUEST['PID'].'">add a new storyType</a>'.
+		'<div align="center"><p>'.
+			'<a class="btnlink" href="storyType_Edit.php?PID='.$_REQUEST['PID'].'">Add a new storyType</a>'.
 		'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.
 			'<tr>'.

@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 
 	if (empty($_REQUEST['PID'])) header("Location:project_List.php");
@@ -47,6 +60,7 @@ $(function() {
 			$DBConn->directsql('DELETE FROM tags WHERE Project_ID = '.($_REQUEST['PID']+ 0));
 			$DBConn->directsql('DELETE FROM user_project WHERE Project_ID = '.($_REQUEST['PID']+ 0));
 			$DBConn->directsql('DELETE FROM audit WHERE PID = '.($_REQUEST['PID']+ 0));
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Deleted Project ',Get_Project_Name($_REQUEST['PID']));
 			$cnt= $DBConn->directsql('DELETE FROM project WHERE ID = '.($_REQUEST['PID']+0));
 		if ($cnt > 0){
 			$showForm = false;
@@ -54,7 +68,6 @@ $(function() {
 			header('Location:project_List.php');
 		}
 	} else if ($_REQUEST['nodelete'])	{
-		auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Deleted Project ',Get_Project_Name($_REQUEST['PID']));
 		$showForm = false;
 		$deleted = false;
 	}
@@ -77,8 +90,8 @@ $(function() {
 		echo '<form method="post" action="?">'.
 					'Are you sure you want to delete this Project?<br />'.
 					'<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">'.
-					'<input type="submit" name="delete" value="Yes, Delete"> &nbsp; '.
-					'<input type="submit" name="nodelete" value="No, Don\'t Delete">'.
+					'<input class="btn" type="submit" name="delete" value="Yes, Delete"> &nbsp; '.
+					'<input class="btn" type="submit" name="nodelete" value="No, Don\'t Delete">'.
 				 '</form>';
 	} else{
 		header('Location:project_List.php');

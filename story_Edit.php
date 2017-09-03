@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
@@ -314,11 +328,7 @@ function  Update_Project_Tags($PID,$Tags){
 ?>
 <form method="post"  onsubmit="return checksummary(this)" action="?">
 
-
-<?php
-
-?>
-	<table align="center" cellpadding="2" cellspacing="0" width=95% >
+	<table align="center" border=0 cellpadding="2" cellspacing="0" width=95% >
 	<tr>
 		<td width="102">Story :	</td><td>
 <?php
@@ -354,7 +364,6 @@ function  Update_Project_Tags($PID,$Tags){
 		<td>Size:</td>
 		<td>
 
-
 <?php
 		if ($Num_Children==0){
 			echo print_Story_Size_Radio($story_Row['Size'],$Project['Project_Size_ID']);
@@ -377,7 +386,7 @@ function  Update_Project_Tags($PID,$Tags){
 			echo Show_Project_Users($_REQUEST['PID'], $story_Row['Owner_ID'],"Owner_ID");
 			echo '&nbsp;&nbsp;&nbsp;';
 ?>
-			Blocked? <input <?=$story_Row['Blocked'] == 1 ? 'checked' : '0';?> value="1" type="checkbox" name="Blocked">&nbsp;&nbsp;&nbsp;
+			<div class="blocked" > &nbsp; <input id="c1" <?=$story_Row['Blocked'] == 1 ? 'checked' : '0';?> value="1" type="checkbox" name="Blocked"><label for="c1">&nbsp;&nbsp;Blocked?&nbsp;&nbsp;</label></div>
 		</td>
 	</tr>
 	<tr>
@@ -387,7 +396,6 @@ function  Update_Project_Tags($PID,$Tags){
 			<?=print_Possible_Parent($_REQUEST['PID'],$story_Row['Parent_Story_ID']);?>
 		<td>
 	</tr>
-
 
 <?php
 	if ($Project['As_A']){
@@ -406,8 +414,6 @@ function  Update_Project_Tags($PID,$Tags){
 		<td><textarea name="Col_1" class="w100 col1h"><?=$story_Row['Col_1'];?></textarea>
 		</td>
 	</tr>
-
-
 
 <?php
 	if ($Project['Col_2']){
@@ -462,11 +468,8 @@ function  Update_Project_Tags($PID,$Tags){
 		echo '	<input type="hidden" name="gobackto" value="'.$_REQUEST['gobackto'].'">';
 	}
 
-
-
-
 	if(!$isReadonly){
-		echo '	<input type="submit" name="saveUpdate" value="Update">';
+		echo '	<input class="btn" type="submit" name="saveUpdate" value="Update">';
 		if (empty($_REQUEST['AID'])){
 			if ($_COOKIE['ctorb']=='b'){
 				echo '<input type="radio" name="torb" value="t">Top or</input>';
@@ -488,9 +491,7 @@ function  Update_Project_Tags($PID,$Tags){
 	</form><br>
 
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
-
 	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
-
 
 <script>
 	document.forms[1].Summary.focus();

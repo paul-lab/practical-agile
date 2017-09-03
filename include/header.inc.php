@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	require_once('include/dbconfig.inc.php');
 	require_once('include/common.php');
 
@@ -28,29 +42,28 @@
 	</head>
 
 <div class="header noPrint">
-<div id="breadcrumbs"></div>
-<div id="navicons"></div>
+	<div id="breadcrumbs"></div>
+	<div id="navicons"></div>
 
 <?php
 
-if (!empty($_REQUEST['PID'])){
-	// create a class with the id of the current project that we can access from anywhere via javascript
-	echo '<div class="thisproject hidden" id='.$_REQUEST['PID'].'></div>';
-	if (!empty($_REQUEST['IID'])){
-		echo '<div class="thisiteration hidden" id='.$_REQUEST['IID'].'></div>';
+	if (!empty($_REQUEST['PID'])){
+		// create a class with the id of the current project that we can access from anywhere via javascript
+		echo '<div class="thisproject hidden" id='.$_REQUEST['PID'].'></div>';
+		if (!empty($_REQUEST['IID'])){
+			echo '<div class="thisiteration hidden" id='.$_REQUEST['IID'].'></div>';
+		}
+		echo '<div class="suserlist" >';
+		echo '&nbsp; &nbsp;<a title="User List" href="user_List.php?PID='.$_REQUEST['PID'].'" target="_blank"><img src="images/userlist-large.png"></a>';
+		echo '</div>';
+		echo '<div class="search" >';
+		echo '<form method="get" action="story_List.php">';
+			echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type:, release: " type="text" name="searchstring" id="searchstring" > ';
+			echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
+			echo '<input  class="btn" type="submit" name="Type" value="search">';
+		echo '</form>';
+		echo '</div>';
 	}
-	echo '<div class="suserlist" >';
-	echo '&nbsp; &nbsp;<a title="User List" href="user_List.php?PID='.$_REQUEST['PID'].'" target="_blank"><img src="images/userlist-large.png"></a>';
-	echo '</div>';
-	echo '<div class="search" >';
-	echo '<form method="get" action="story_List.php">';
-		echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type:, release: " type="text" name="searchstring" id="searchstring" > ';
-		echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
-		echo '<input type="submit" name="Type" value="search">';
-	echo '</form>';
-	echo '</div>';
-
-}
 	require_once('include/side_menu.php');
 ?>
 </div>

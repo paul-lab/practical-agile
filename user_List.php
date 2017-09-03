@@ -1,4 +1,18 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
+
 	include 'include/header.inc.php';
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
 echo 'User List';
@@ -16,10 +30,10 @@ $(function() {
 
 <?php
 	echo
-		'<div align="center">';
+		'<div align="center"><p>';
 // have a projectId so probably came from the search.
 		if (empty($_REQUEST['PID'])) {
-			echo '<a href="user_Edit.php">add a new user</a>';
+			echo '<a class="btnlink" href="user_Edit.php">Add a new user</a>';
 		}else{
 			echo '&nbsp;';
 		}

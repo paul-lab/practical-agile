@@ -1,4 +1,17 @@
 <?php
+/*
+* Practical Agile Scrum tool
+*
+* Copyright 2013-2017, P.P. Labuschagne
+
+* Released under the MIT license.
+* https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt
+*
+* Homepage:
+*   	http://practicalagile.co.uk
+*	http://practicalagile.uk
+*
+*/
 	include 'include/header.inc.php';
 
 echo '<div class="hidden" id="phpbread"><a href="project_List.php">My Projects</a>->';
@@ -80,6 +93,7 @@ function NextbacklogID($thisproject){
 			$button_name = 'Save';
 			$whereClause = 'ID = '.($_REQUEST['PID']+ 0);
 			$result=$DBConn->update('project',$data,$whereClause);
+			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Project Updated','',$_REQUEST['Name']);
 		}
 
 		if ($result<>0)	{
@@ -98,6 +112,7 @@ function NextbacklogID($thisproject){
 				// give admin user rights
 				$sql = 'INSERT INTO user_project (`Project_ID`, `User_ID`, `Readonly`) VALUES('.$thisproject.',1,0)';
 				$DBConn->directsql($sql);
+				auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Add new project ','',$_REQUEST['Name']);
 			}else{
 				$thisproject = $_REQUEST['PID'];
 			}
@@ -205,7 +220,7 @@ function NextbacklogID($thisproject){
 				<input type="hidden" name="PID" value="<?=$_REQUEST['PID'] + 0;?>">
 <?php
 			if(!$isReadonly){
-				echo '<input type="submit" name="saveUpdate" value="Update">';
+				echo '<input class="btn" type="submit" name="saveUpdate" value="Update">';
 			}
 ?>
 			</td>

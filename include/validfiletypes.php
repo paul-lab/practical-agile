@@ -2,7 +2,7 @@
 /*
 * Practical Agile Scrum tool
 *
-* Copyright 2013-2015, P.P. Labuschagne
+* Copyright 2013-2017, P.P. Labuschagne
 
 * Released under the MIT license.
 * https://github.com/paul-lab/practical-agile/blob/master/_Licence.txt

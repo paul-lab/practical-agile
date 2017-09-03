@@ -361,8 +361,8 @@ INSERT INTO "story" ("AID", "ID", "Project_ID", "Release_ID", "Iteration_ID", "P
 INSERT INTO "story" ("AID", "ID", "Project_ID", "Release_ID", "Iteration_ID", "Parent_Story_ID", "Type", "Created_By_ID", "Owner_ID", "Created_Date", "Status", "Children_Status", "Epic_Rank", "Iteration_Rank", "Size", "Blocked", "Summary", "Col_1", "As_A", "Col_2", "Acceptance", "Tags") VALUES (27,	27,	1,	3,	1,	'0',	'Feature',	NULL,	'0',	'0000-00-00 00:00:00',	NULL,	'Done,Todo',	10,	11200,	'4',	'0',	'Projects',	'',	'',	'',	'',	'');
 INSERT INTO "story" ("AID", "ID", "Project_ID", "Release_ID", "Iteration_ID", "Parent_Story_ID", "Type", "Created_By_ID", "Owner_ID", "Created_Date", "Status", "Children_Status", "Epic_Rank", "Iteration_Rank", "Size", "Blocked", "Summary", "Col_1", "As_A", "Col_2", "Acceptance", "Tags") VALUES (49,	28,	1,	'',	'',	26,	'Feature',	1,	'',	'2015-07-30 20:22:15',	'Todo',	NULL,	90,	9,	'1',	NULL,	'Upload',	'Uploads',	'',	'',	'',	'');
 
-INSERT INTO "comment" ("ID", "Parent_ID", "User_Name", "Comment_Object_ID", "Story_AID", "Comment_TEXT", "Comment_Date") VALUES (1,	'0',	'Admin',	'0',	3,	'Probably an idea to use the Google graphs as everything is already there',	'2013-05-22 16:32:22');
-INSERT INTO "comment" ("ID", "Parent_ID", "User_Name", "Comment_Object_ID", "Story_AID", "Comment_TEXT", "Comment_Date") VALUES (2,	'0',	'Admin',	'0',	3,	'The stacked area graph looks like the best fit here but it does need 2 dates before showing anything',	'2013-05-22 16:32:58');
+INSERT INTO "comment" ("ID", "Parent_ID", "User_Name", "Comment_Object_ID", "Story_AID", "Comment_Text", "Comment_Date") VALUES (1,	'0',	'Admin',	'0',	3,	'Probably an idea to use the Google graphs as everything is already there',	'2013-05-22 16:32:22');
+INSERT INTO "comment" ("ID", "Parent_ID", "User_Name", "Comment_Object_ID", "Story_AID", "Comment_Text", "Comment_Date") VALUES (2,	'0',	'Admin',	'0',	3,	'The stacked area graph looks like the best fit here but it does need 2 dates before showing anything',	'2013-05-22 16:32:58');
 
 INSERT INTO "tags" ("ID", "Project_ID", "Desc") VALUES (1,	1,	'test,A tag with spaces,TEST,Test,tag2,tag1,tag3,');
 
