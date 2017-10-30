@@ -17,13 +17,13 @@ $(document).ready(function(){
 			$.ajax({
 				type: "GET",
 				url: "audit_List.php",
-				data: 'id='+thisstory+'&type='+typ, 
+				data: 'id='+thisstory+'&type='+typ,
 				success: function (data) {
-					$('#allaudits_'+thisstory).append(data);				
+					$('#allaudits_'+thisstory).append(data);
 				}
-			});	
+			});
 
-			$('#allaudits_'+thisstory ).show();	
+			$('#allaudits_'+thisstory ).show();
 		}else{
 			$('#allaudits_'+thisstory).empty();
 			$('#allaudits_'+thisstory).hide();
@@ -79,17 +79,17 @@ $(document).ready(function(){
 										$('#commentreply_'+parid).append(data);
 										// reset parent ID and hide parent delete
 										$('#deletecomment'+parid).hide();
-										$("#Parent_ID_"+idx).attr("value", 0); 
+										$("#Parent_ID_"+idx).attr("value", 0);
 										$('div#replyto_'+idx).text('');
 									}else{
 										$('#commentlist'+idx).append(data);
-									} 
+									}
 					      			}
 							});
 						}
 					});
 				// Delete a single comment
-					$('#commentspop'+array[0]+'_'+array[1]).on('click', '.deletecomment', function() {						
+					$('#commentspop'+array[0]+'_'+array[1]).on('click', '.deletecomment', function() {
 						var cid=$(this).attr("id").substring(15);
 						var idx3="#comment_count_"+array[0]+'_'+array[1];
 						if (JisReadonly===0){
@@ -109,25 +109,25 @@ $(document).ready(function(){
 
 				//set the id for parent if this is a reply to a comment  and hide the delete
 					$('#commentspop'+array[0]+'_'+array[1]).on('click', '.reply', function() {
-						var id = $(this).attr("id"); 
+						var id = $(this).attr("id");
 						$('#deletecomment'+array[0]+'_'+id).hide();
 						var aid=$(this).attr("href").substring(12);
-						$('div#replyto_'+aid).text('Reply to:'+$('div#comment_body_'+id).text().substring(0,50)+'...');   
-						$("#Parent_ID_"+aid).attr("value", id); 
+						$('div#replyto_'+aid).text('Reply to:'+$('div#comment_body_'+id).text().substring(0,50)+'...');
+						$("#Parent_ID_"+aid).attr("value", id);
 					});
 
 
         			/*
        				The below table contains a list of the missing "built-in" toolbar buttons that can be used.
-  
-				p  Creates a new paragraph "<p>"  
-				h1  Surrounds the selected text with a <h1> tag.  
-				h2  Surrounds the selected text with a <h2> tag.  
-				h3  Surrounds the selected text with a <h3> tag.  
-				h4  Surrounds the selected text with a <h4> tag.  
-				h5  Surrounds the selected text with a <h5> tag.  
-				h6  Surrounds the selected text with a <h6> tag.  
-				image  Allows for an image to be inserted into the current caret location.  
+
+				p  Creates a new paragraph "<p>"
+				h1  Surrounds the selected text with a <h1> tag.
+				h2  Surrounds the selected text with a <h2> tag.
+				h3  Surrounds the selected text with a <h3> tag.
+				h4  Surrounds the selected text with a <h4> tag.
+				h5  Surrounds the selected text with a <h5> tag.
+				h6  Surrounds the selected text with a <h6> tag.
+				image  Allows for an image to be inserted into the current caret location.
 			        */
 					$("textarea").htmlarea({
 						toolbar: [
@@ -142,7 +142,7 @@ $(document).ready(function(){
 					});
 				}
 			});
-			$('#commentspop'+array[0]+'_'+array[1]).show();	
+			$('#commentspop'+array[0]+'_'+array[1]).show();
 		}else{
 			$('#commentspop'+array[0]+'_'+array[1]).empty();
 			$('#commentspop'+array[0]+'_'+array[1]).hide();
@@ -161,8 +161,6 @@ $(document).ready(function(){
 		}
 	}
 
-
-
 // iTask
        	$('.taskpopup').click(function() {
 		var thisstory = $(this).prop("id");
@@ -170,12 +168,13 @@ $(document).ready(function(){
 			$.ajax({
 				type: "GET",
 				url: "task_List.php",
-				data: 'pid='+thisproject+'&aid='+thisstory, 
+				data: 'pid='+thisproject+'&aid='+thisstory,
 				success: function (data) {
 					$('#alltasks_'+thisstory).append(data);
 					// hide the task save button
-					$(".savetask").hide();		
-					$('.taskdialog').find( ".indet1" ).prop('indeterminate',true);	
+					$(".savetask").hide();
+					//$('.taskdialog').find('.indet1').prop('indeterminate',true);
+					$('.indet1').prop('indeterminate',true);
 	 				var qwe=$('#sortabletask'+thisstory).sortable({
 						update: function(event, ui) {
 						$.ajax({
@@ -205,7 +204,7 @@ $(document).ready(function(){
 								data: 'id='+thistask+'&PID='+thisproject+'&AID='+thisstory+'&desc='+des,
 								success: function () {
 										updatetaskcount($( "#task_count_"+thisstory ),thisstate);
-								} 
+								}
 							});
 						}
 					});
@@ -250,7 +249,7 @@ $(document).ready(function(){
 					$('.savetask').mouseout(function() {
 						$('html, body').css("cursor", "default");
 					});
-	
+
 					$(".divRow .savetask").click(function() {
 						$(this).hide();
 				 		$(this).parent().find('.edittask').show();
@@ -305,9 +304,9 @@ $(document).ready(function(){
 						}
 					});
 				}
-			});	
+			});
 
-			$('#alltasks_'+thisstory ).show();	
+			$('#alltasks_'+thisstory ).show();
 		}else{
 			$('#alltasks_'+thisstory).empty();
 			$('#alltasks_'+thisstory).hide();
@@ -317,23 +316,23 @@ $(document).ready(function(){
 
 	function updatetaskcount(tsk,act){
 		act*=1;
-		var array=tsk.html().trim().slice(1,-1).split('/');		
-		array[0]*=1;	
+		var array=tsk.html().trim().slice(1,-1).split('/');
+		array[0]*=1;
 		if(isNaN(array[1])){array[1]=0;};
 		array[1]*=1;
 		switch(act){
 			case 2:
 				array[0]-=1;
 				array[1]-=1;
-				break; 
+				break;
 			case 20:
 				array[0]+=1;
-				break; 
+				break;
 			case 0:
 				array[0]-=1;
 				break;
 			case 1:
-				array[1]-=1;	
+				array[1]-=1;
 				break;
 			case 30:
 				array[1]+=1;
@@ -345,21 +344,21 @@ $(document).ready(function(){
 	function toggletaskstate(cb) {
 		switch(cb.prop("value")) {
 		// unchecked, going indeterminate
-	            case '0': 
+	            case '0':
 			cb.prop('checked',false);
 	                cb.prop('indeterminate',true);
 	 		cb.prop('value',1);
 	                break;
-	
+
 		// indeterminate, going checked
-	            case '1': 
+	            case '1':
 			cb.prop('checked',true);
 	                cb.prop('indeterminate',false);
 	 		cb.prop('value',2);
 	                break;
-	
+
 		// checked, going unchecked
-		    default: 
+		    default:
 			cb.prop('checked',false);
 	                cb.prop('indeterminate',false);
 			cb.prop('value',0);
@@ -375,11 +374,11 @@ $(document).ready(function(){
 			$.ajax({
 				type: "GET",
 				url: "upload_List.php",
-				data: 'PID='+thisproject+'&AID='+thisstory, 
+				data: 'PID='+thisproject+'&AID='+thisstory,
 				success: function (data) {
 					$('#allupload_'+thisstory).append(data);
 					// hide the upload save button
-					//$(".saveupload").hide();		
+					//$(".saveupload").hide();
 
 
 					$('.deleteupload').mouseover(function() {
@@ -399,7 +398,7 @@ $(document).ready(function(){
 								data: 'PID='+thisproject+'&AID='+thisstory+'&Name='+thisupload+'&Type='+$(this).parent().prop('id').substring(7)+'&fdet='+fdet,
 								success: function () {
 										updateuploadcount($( "#upload_count_"+thisstory),-1);
-								} 
+								}
 							});
 						}
 					});
@@ -417,7 +416,7 @@ $(document).ready(function(){
 					$(".uploadnew").click(function() {
 						if (JisReadonly===0){
 							var thisstory=$(this).parent().attr("id").substring(7);
-							var file_data = $('#ndesc_'+ thisstory).prop('files')[0];     
+							var file_data = $('#ndesc_'+ thisstory).prop('files')[0];
 							var form_data =new FormData();
 							form_data.append('AID', thisstory);
 							form_data.append('PID', thisproject);
@@ -429,8 +428,8 @@ $(document).ready(function(){
 						                cache: false,
 						                contentType: false,
 						                processData: false,
-						                data: form_data,                         
-								success: function (data) 
+						                data: form_data,
+								success: function (data)
 								{
 									if(data.length>5)
 									{
@@ -446,9 +445,9 @@ $(document).ready(function(){
 						}
 					});
 				}
-			});	
+			});
 
-			$('#allupload_'+thisstory ).show();	
+			$('#allupload_'+thisstory ).show();
 		}else{
 			$('#allupload_'+thisstory).empty();
 			$('#allupload_'+thisstory).hide();

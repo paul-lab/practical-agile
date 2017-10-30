@@ -2,6 +2,11 @@ Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
                        ----------------------------------------
+Version 2.58
+ * Added tasks to radiator board (Configure in <projectname> Edit Project)
+ * css updates for tasks
+ * Copy 'Enable_Tasks' on radiator board from template project for new projects
+
 Version 2.57
  * Fixed comments text in SQLite (db column name case issue)
  * Reduced comment height inc css\micromenu.css

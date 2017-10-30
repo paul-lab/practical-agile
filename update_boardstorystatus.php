@@ -21,7 +21,9 @@
 	}
 
 //STAID= status order id for his project.
-	$sql= 'UPDATE story SET story.Status=(select d.Desc from story_status as d where d.Project_ID = (select project_ID from iteration where iteration.ID='.$_GET['IID'].' ) and d.Order='.$_GET['STAID'].') WHERE story.AID='.$_GET['AID'];
+	$sql= 'UPDATE story SET Status=(select Desc from story_status where Project_ID = '.$_GET['PID'].' and `story_status`.`Order`='.$_GET['STAID'].') WHERE AID='.$_GET['AID'];
+
+	echo $sql;
 	$DBConn->directsql($sql);
 	Update_Iteration_Points($_GET['IID']);
 

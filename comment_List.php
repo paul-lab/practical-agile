@@ -46,8 +46,8 @@ function CommentsBlock($ThisID, $Thiskey)
 	echo '</ul>';
 	echo '<br><div class="smaller" id="replyto_'.$Thiskey.'_'.$ThisID.'"></div>';
 
-	echo '<a href="" onclick="javascript: return false;" title="Add Comment"><img class="submit_button" id="submit_button'.$Thiskey.'_'.$ThisID.'" src="images/add.png"></a>';
-	echo ' <textarea class="w80 commenth" name="comment_text_'.$ThisID.'" rows="3" cols="80" id="comment_text_'.$ThisID.'"></textarea>  ';
+	echo '<a href="" onclick="javascript: return false;" title="Add Comment"><img class="submit_button" id="submit_button'.$Thiskey.'_'.$ThisID.'" src="images/add-small.png"></a>';
+	echo ' <textarea class="w80 h100" name="comment_text_'.$ThisID.'" rows="3" cols="80" id="comment_text_'.$ThisID.'"></textarea>  ';
 	echo ' <input type="hidden" name="User_Name" id="User_Name_'.$ThisID.''.'" value="'.$_SESSION['Name'].'"/>  ';
 	echo ' <input type="hidden" name="Parent_ID" id="Parent_ID_'.$Thiskey.'_'.$ThisID.'" value="0"/>  ';
 	echo ' <input type="hidden" name="Iteration_ID" id="CIteration_ID" value="'.$_REQUEST['IID'].'"/>  ';

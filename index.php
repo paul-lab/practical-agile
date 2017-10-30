@@ -15,7 +15,7 @@
 	require_once('include/common.php');
 	require_once('include/dbconfig.inc.php');
 
-$APP_VER='2.57';
+$APP_VER='2.58';
 
     /*if user wants to login*/
     if(isset($_POST['username'])){
@@ -73,13 +73,13 @@ $APP_VER='2.57';
 <script src="md5/md5.min.js"></script>
 <script>
 function hashit(){
+// we really do not want to use the default admin password
 	var phash=document.getElementById('pwd').value;
-	phash=md5(phash);
-	if (phash=='21232f297a57a5a743894a0e4a801fc3')
+	if (phash=='admin')
 	{
 		alert('Please change the default "admin" password!');
 	}
-	document.getElementById('pwd').value=phash;
+	document.getElementById('pwd').value=md5(phash);
 }
 </script>
 <title>Practical Agile Scrum tool: Please login</title>

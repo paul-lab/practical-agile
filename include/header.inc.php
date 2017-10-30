@@ -56,12 +56,30 @@
 		echo '<div class="suserlist" >';
 		echo '&nbsp; &nbsp;<a title="User List" href="user_List.php?PID='.$_REQUEST['PID'].'" target="_blank"><img src="images/userlist-large.png"></a>';
 		echo '</div>';
-		echo '<div class="search" >';
+
+		echo '<div class="search hoverToShowInfo" >';
 		echo '<form method="get" action="story_List.php">';
-			echo '&nbsp;<input size="24" title="searchstring, #, owner:, status:, size:, tag:, type:, release: " type="text" name="searchstring" id="searchstring" > ';
+			echo '&nbsp;<input size="24" type="text" name="searchstring" id="searchstring" > ';
 			echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
 			echo '<input  class="btn" type="submit" name="Type" value="search">';
 		echo '</form>';
+		echo '<div class="info">'.
+			'Filter by <b>field value</b> e.g.'.
+			'<table border=0>'.
+				'<tr><td colspan=2>#23</td><td>(Story Number)</td></tr>'.
+				'<tr><td>o:ppl</td><td>or &nbsp; owner:ppl</td><td>(Initials)</td></tr>'.
+				'<tr><td>s:open</td><td>or &nbsp; status:Closed</td><td>(Status Value)</td></tr>'.
+				'<tr><td>i:5</td><td>or &nbsp; size:8</td><td>(Size)</td></tr>'.
+				'<tr><td>t:debt</td><td>or &nbsp; tag:hierachy</td><td>(Tag string)</td></tr>'.
+				'<tr><td>y:Bug</td><td>or &nbsp; type:Feature</td><td>(Card Type)</td></tr>'.
+				'<tr><td>r:Rel2</td><td>or &nbsp; release:Release 1</td><td>(Release Name)</td></tr>'.
+				'<tr><td colspan=3>or <b>Search string</b> e.g.'.
+				'<br>hierarchy or feather boa</td></tr>'.
+			'</table>'.
+			'<br>'.
+			'Do <b>not</b> put quotes "around values or phrases"'.
+			'eg release:Release 1 will work release:"Release 1" will not.'.
+			'</div>';
 		echo '</div>';
 	}
 	require_once('include/side_menu.php');

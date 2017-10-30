@@ -133,7 +133,7 @@ function NextbacklogID($thisproject){
 		if (!empty($_REQUEST['PID'])){
 			$project_Row = $DBConn->directsql('SELECT * FROM project WHERE ID = '.$_REQUEST['PID']);
 		}else{
-			$project_Row = $DBConn->directsql('SELECT As_A,  Desc_1, Col_2, Desc_2, Acceptance, Project_Size_ID, Vel_Iter FROM project WHERE ID = 1');
+			$project_Row = $DBConn->directsql('SELECT As_A,  Desc_1, Col_2, Desc_2, Acceptance, Enable_Tasks, Vel_Iter FROM project WHERE ID = 1');
 		}
 		$project_Row=$project_Row[0];
 		echo '<form method="post" action="?">';
@@ -194,7 +194,7 @@ function NextbacklogID($thisproject){
 		<tr>
 			<td>Enable Story tasks (on Scrum Board):</td>
 			<td>
-				<input <?=$project_Row['Enable_Tasks'] == 1 ? 'checked' : '';?> value="1" type="checkbox" name="Enable_Tasks"> (Not Implemented yet!)
+				<input <?=$project_Row['Enable_Tasks'] == 1 ? 'checked' : '';?> value="1" type="checkbox" name="Enable_Tasks">
 			</td>
 		</tr>
 		<tr>

@@ -1,8 +1,7 @@
-
 .micromenudiv-input
    {  
 	width:auto; 
-	padding: 5px 5px 5px 55px;      
+	padding: 5px 5px 5px 5px;      
 	border-spacing:5px;/*cellspacing:poor IE support for  this*/
 	}
 
@@ -15,7 +14,7 @@
     {
         float:left;/*fix for  buggy browsers*/
         display:table-column;
-	padding-left:50px;
+	padding-left:10px;
 	overflow: none;
      }
 .divCell1
@@ -43,6 +42,8 @@
 	background: #94C5EB;
 	height:90%;
 	position: absolute;
+}
+
 #tableupload {
 	list-style-type: none;
 	border: 1px solid #fff;
@@ -63,12 +64,10 @@
 	margin-left: -1.3em;
 }
 
-	margin-left: -1.3em;
-}
-
+	
 .commentsdialog {
- display: none; 
- margin:0px 20px;
+	display: none; 
+ 	margin:0px 20px;
 }
 
 .comment {
@@ -97,4 +96,3 @@ display: inline;
 }
 
 .deletecomment {float: right; margin-right:2em;}
-.commenth { height:80px;}

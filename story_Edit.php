@@ -491,7 +491,7 @@ function  Update_Project_Tags($PID,$Tags){
 	</form><br>
 
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
-	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
+	<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
 
 <script>
 	document.forms[1].Summary.focus();

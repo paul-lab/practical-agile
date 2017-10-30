@@ -32,22 +32,17 @@ echo '<li><a title="Practical Agile" href="http://www.practicalagile.co.uk"><img
 	echo '<li><a href="#" title="'.$_SESSION['Name'].'">&nbsp;'.$_SESSION['Name'].'&nbsp;</a><ul>';
 	echo '<li><a href="project_List.php" title="My Projects">My Projects</a>';
 	$sql = 'SELECT distinct ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID ';
-	if ($Usr['Admin_User'] != 1 && $isProjectAdmin==0){
-		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived<>1 ';
+	if ($Usr['Admin_User'] != 1 ){
+		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived is NULL';
 	}
 	$sql.=' order by Category, Name';
-	$project_Row = $DBConn->directsql($sql);
+
+	$project_Res=$DBConn->directsql($sql);
 	echo '<ul class="l2">';
-	if (count($project_Row) > 0)
-	{
-		$rowcnt=0;
-		do
-		{
-			echo '<li><a href="project_Summary.php?PID='.$project_Row[$rowcnt]['ID'].'">&nbsp;- '.$project_Row[$rowcnt]['Name'].'</a></li>';
-			$rowcnt+=1;
-		}
-		while ($rowcnt<count($project_Row));
+	foreach ($project_Res as $project_Row){
+	echo '<li><a href="project_Summary.php?PID='.$project_Row['ID'].'">&nbsp;- '.$project_Row['Name'].'</a></li>';
 	}
+
 	echo '</ul></li>';
 		echo '<li><a href="user_Edit.php?id='.$_SESSION['ID'].'" title="Edit My Details">Edit My Details</a></li>';
 		echo '<li><a href="_faq.txt" target="_blank" title="FAQ">FAQ</a></li>';
@@ -143,7 +138,7 @@ if (isset($_REQUEST['PID']))
 	$thisdate = date_format($thisdate , 'Y-m-d');
 	date_add($topdate , date_interval_create_from_date_string('3 months'));
 	$topdate = date_format($topdate , 'Y-m-d');
-	echo '<li><a href="#">&nbsp;Iterations&nbsp;</a><ul>';
+	echo '<li><a href="#">&nbsp;Iteration&nbsp;</a><ul>';
 		if (isset($_REQUEST['IID'])) {
 			echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">Export '.Get_Iteration_Name($_REQUEST['IID'],False).'</a></li>';
 		}

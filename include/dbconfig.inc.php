@@ -31,8 +31,8 @@ function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
            ##########
              ######
                ##
-	define("dbdriver", "mysql");
-#	define("dbdriver", "sqlite");
+#	define("dbdriver", "mysql");
+	define("dbdriver", "sqlite");
 
 class db
 {

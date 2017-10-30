@@ -33,6 +33,7 @@ input, select  { border: 1px solid Gray;}
 .h50 {height:50px;}
 .h75 {height:75px;}
 .h100 {height:100px;}
+.h180 {height:180px;}
 
 .sizediv { border-style: none; vertical-align:middle;}
 
@@ -116,5 +117,22 @@ input.btn:hover {
 	background: #ccc;
 }
 
-
-
+/* Help for Search */
+.hoverToShowInfo {
+	position: relative;
+}
+/* When clicking outer div, make inner div visible */
+.hoverToShowInfo:hover .info { display: block; }
+/* General settings for popup */
+.info {
+	position: absolute;
+	top: 25;
+	display: none;
+	z-index: 100;
+	background-color: white;
+	box-shadow: 3px 3px 2px #aaa;
+	border: 1px solid grey;
+	padding: 5px;
+	width: 320px;
+	height: 280px;
+}

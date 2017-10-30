@@ -42,14 +42,14 @@ $(function() {
 			'</b></tr>';
 	$sql = 'SELECT distinct ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID ';
 	if ($Usr['Admin_User'] != 1 && $isProjectAdmin==0){
-		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived<>1 ';
+		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived is NULL';
 	}
 	$sql.=' order by Category, Name';
 	$project_Res=$DBConn->directsql($sql);
 	$Toggle=0;
 
 	// if only have access to a single project, then go to that project.
-	if ( count($project_Res)==1) header("Location:project_Summary.php?PID=".$project_Row[0]['ID']);
+	if ( count($project_Res)==1) header("Location:project_Summary.php?PID=".$project_Res[0]['ID']);
 
 	foreach ($project_Res as $project_Row){
 		$Project['ID'] = $project_Row['ID'];

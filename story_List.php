@@ -46,7 +46,7 @@ $(function() {
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
-	<script type="text/javascript" src="scripts/micromenu-hasha7172a2fe877afe1c93d3a089dac060b.js"></script>
+	<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
 
 	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="jqplot/excanvas.js"></script><![endif]-->
 	<script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
@@ -187,7 +187,7 @@ echo buildstatuspop($_REQUEST['PID']);
 echo '</div>';
 
 //===========================
-	echo '<div class="hidden" id="phpnavicons" align="Left">'.'<a title="Add new story" href="story_Edit.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/storyadd-large.png"></a>&nbsp; &nbsp;';
+	echo '<div class="hidden" id="phpnavicons" align="Left">'.'<a title="Add new card" href="story_Edit.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'"><img src="images/storyadd-large.png"></a>&nbsp; &nbsp;';
 	if (isset($_REQUEST['PID'])&&isset($_REQUEST['IID']))
 	{
 		echo '&nbsp; &nbsp;<a  title="Project Epic tree" href="story_List.php?Type=tree&Root=0&PID='.$_REQUEST['PID'].'&IID='.$Project['Backlog_ID'].'"><img src="images/tree-large.png"></a>';
@@ -212,20 +212,36 @@ if ($_REQUEST['Type']=="search"){
 			$cond='story.ID='.substr($_REQUEST['searchstring'],1);
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,7))=='status:'){
 			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],7).'%"';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='s:'){
+			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],2).'%"';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,6))=='owner:'){
 			$cond='story.Owner_ID=(select ID from user where user.Initials="'.trim(substr($_REQUEST['searchstring'],6)).'")';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='o:'){
+			$cond='story.Owner_ID=(select ID from user where user.Initials="'.trim(substr($_REQUEST['searchstring'],2)).'")';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,8))=='release:'){
 			$cond='story.Release_ID=(select ID from release_details where release_details.Name="'.trim(substr($_REQUEST['searchstring'],8)).'")';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='r:'){
+			$cond='story.Release_ID=(select ID from release_details where release_details.Name="'.trim(substr($_REQUEST['searchstring'],2)).'")';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,4))=='tag:'){
 			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],4).'%"';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='t:'){
+			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],2).'%"';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='size:'){
 			if (substr($_REQUEST['searchstring'],5)=='?'){
 				$cond="story.Size='?'";
 			}else{
 				$cond='story.Size='.substr($_REQUEST['searchstring'],5).'';
 			}
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='i:'){
+			if (substr($_REQUEST['searchstring'],2)=='?'){
+				$cond="story.Size='?'";
+			}else{
+				$cond='story.Size='.substr($_REQUEST['searchstring'],2).'';
+			}
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='type:'){
 			$cond='story.Type="'.substr($_REQUEST['searchstring'],5).'"';
+		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='y:'){
+			$cond='story.Type="'.substr($_REQUEST['searchstring'],2).'"';
 		} else{
 			$cond=' story.Col_1 like "%'.$_REQUEST['searchstring'].'%" '.
 			' or story.Col_2 like "%'.$_REQUEST['searchstring'].'%" '.
@@ -475,15 +491,24 @@ if ($_REQUEST['Type']=='tree'){
 			}else{
 				echo '"';
 			}
+
 			echo 'id="'.$story_Row['AID'].'">'.
  				'<a href="story_Edit.php?AID='.$story_Row['AID'].'&PID='.$_REQUEST['PID'].'&IID='.$story_Row['Iteration_ID'].'" title="Edit Story">#'.$story_Row['ID'].'</a>'.
 				' - '.substr($story_Row['Summary'], 0, 120).
-				'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;'.
-				'<br>'.$story_Row['Type'].'&nbsp;'.
+				'<br>'.html_entity_decode ($story_Row['Col_1'],ENT_QUOTES).'&nbsp;';
+
+			echo '<br>'.$story_Row['Type'].'&nbsp;'.
 				'&nbsp;['.$story_Row['Size'].']&nbsp;'.
 				'&nbsp;'.Get_User($story_Row['Owner_ID'],1).'&nbsp;'.
 				'&nbsp;';
-				if($story_Row['Parent_Story_ID'] != 0) {
+			if( $Project["Enable_Tasks"]==1){
+				printMicromenu($story_Row['AID']);
+				echo '<div class="hidden" id="alltasks_'.$story_Row['AID'].'"></div>';
+				echo '<div class="hidden" id="commentspops_'.$story_Row['AID'].'"></div> ';
+				echo '<div class="hidden" id="allupload_'.$story_Row['AID'].'"></div> ';
+				echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
+			}
+			if($story_Row['Parent_Story_ID'] != 0) {
 				if (dbdriver=='mysql'){
 					$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
 				}else{
@@ -503,11 +528,11 @@ if ($_REQUEST['Type']=='tree'){
 						}
 					}
 				}
-		}
+			}
 			echo 	'</li>';
-	}
+		}
 		echo '</ul>';
-}
+	}
 	echo '</span>';
 ?>
 

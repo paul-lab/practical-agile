@@ -30,7 +30,7 @@ function GetTasks($ThisProject, $ThisStory)
 // The task list must be wrapped inside a div in the host document as follows.
 //	echo '<div class="taskdialog" id="alltasks_'.$ThisStory.'">';
 
-	echo	'<ul id="sortabletask'.$ThisStory.'">';
+	echo	'<ul style="padding-left:5px;" id="sortabletask'.$ThisStory.'">';
 
 	$task_sql = 'SELECT * FROM task where Story_AID='.$ThisStory.' order by `Rank`, `ID`';
 	$task_Res =$DBConn->directsql($task_sql);
@@ -54,17 +54,23 @@ function GetTasks($ThisProject, $ThisStory)
 		}
 #	}
 
-	echo '</ul>';
+#	echo '</ul>';
 		echo
+		'<li class="divRow">'.
 			'<div class="micromenudiv-input" id="newrow_'.$ThisStory.'">'.
-				'<img class="savenew" src="images/add-small.png"> '.
-				'<input id="ndesc_'.$ThisStory.'" title="Task Description" name = "Desc" value="" size="80">'.
+				'<img class="savenew divCell1" src="images/add-small.png"> '.
+				'<div class="divCell1">'.
+				'<input class="savenew divCell1" id="ndesc_'.$ThisStory.'" title="Task Description" name = "Desc" value="" size="80">'.
+				'</div>'.
+				'<div class="divCell1">'.
 				Show_Project_Users($ThisProject,"0","taskuser_".$ThisStory).
-				' <input id="nexph_'.$ThisStory.'"  title="Expected hours" name = "Expected_Hours" value="" size="2">'.
-				'<input id="nacth_'.$ThisStory.'"  title="Actual Hours" name = "Actual_Hours" value="" size="2">'.
+				'</div>'.
+				' <input class="divCell1" id="nexph_'.$ThisStory.'"  title="Expected hours" name = "Expected_Hours" value="" size="2">'.
+				' <input class="divCell1" id="nacth_'.$ThisStory.'"  title="Actual Hours" name = "Actual_Hours" value="" size="2">'.
 				' <input type="hidden" id="pid_'.$ThisStory.'" name = "pid" value="'.$_REQUEST['PID'].'"/>';
 		echo	'</div>';
-
+'</li>';
+echo '</ul>';
 //	echo '</div>';
 }
 
