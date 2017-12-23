@@ -6,6 +6,7 @@ Version 2.58
  * Added tasks to radiator board (Configure in <projectname> Edit Project)
  * css updates for tasks
  * Copy 'Enable_Tasks' on radiator board from template project for new projects
+ * Added Story estimation/voting available from the 'Iteration' dropdown menu
 
 Version 2.57
  * Fixed comments text in SQLite (db column name case issue)

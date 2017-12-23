@@ -87,6 +87,7 @@ $(function() {
 
 					// get current user projects
 					$sqlp = 'SELECT Name, ID,user_project.project_Admin as padmin, user_project.Readonly as preadonly  FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID where user_project.User_ID='.$user_Row[$rowcnt]['ID'];
+//					echo $sqlp;
 					$proj_Row =  $DBConn->directsql($sqlp);
 					if (count($proj_Row) > 0){
 						$pcnt=0;

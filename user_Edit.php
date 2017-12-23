@@ -65,11 +65,7 @@ function hashit(){
 				$data['Password'] = $_REQUEST['md5'];
 			}
 			if ($Usr['Admin_User'] == 1) {
-				if ($_REQUEST['Admin_User']==1) {
-					$data['Admin_User'] =1;
-				}else{
-					$data['Admin_User']=0;
-				}
+				$data['Admin_User'] =((isset($_REQUEST['Admin_User'])) ? 1 : 0);
 			}
 			if ($data['EMail'] =='admin'){
 				$data['Disabled_User']=0;
@@ -180,7 +176,7 @@ function hashit(){
 	// Fetch all projects and show which ones the user has access to
 		if ($Usr['Admin_User']==1 && !empty($_REQUEST['id'])){
 
-			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where p.Archived is NULL';
+			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where (p.Archived <> 1 or p.Archived is NULL)';
 			$proj_Row = $DBConn->directsql($psql);
 			echo '<tr><td/><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
 			if (count($proj_Row) > 0){

@@ -42,7 +42,7 @@ $(function() {
 			'</b></tr>';
 	$sql = 'SELECT distinct ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID ';
 	if ($Usr['Admin_User'] != 1 && $isProjectAdmin==0){
-		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived is NULL';
+		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived <> 1';
 	}
 	$sql.=' order by Category, Name';
 	$project_Res=$DBConn->directsql($sql);

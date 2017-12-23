@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS `project_estimate` (  `PID` int(11) NOT NULL,  `EMail` text NOT NULL, `Estimate` text NOT NULL ) ;
+UPDATE project set `Archived`=0 where `Archived` IS NULL;
+UPDATE dbver set CurrVer = 1.19 where `ID`=1;

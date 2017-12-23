@@ -33,7 +33,7 @@ echo '<li><a title="Practical Agile" href="http://www.practicalagile.co.uk"><img
 	echo '<li><a href="project_List.php" title="My Projects">My Projects</a>';
 	$sql = 'SELECT distinct ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID ';
 	if ($Usr['Admin_User'] != 1 ){
-		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived is NULL';
+		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived <> 1';
 	}
 	$sql.=' order by Category, Name';
 
@@ -143,13 +143,14 @@ if (isset($_REQUEST['PID']))
 			echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">Export '.Get_Iteration_Name($_REQUEST['IID'],False).'</a></li>';
 		}
 // Iteration stuff
-echo '<li></li>';
-	echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'"><b>Iteration Planning</b></a></li>';
-echo '<li></li>';
+//	echo '<li></li>';
+		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Iteration Planning</a></li>';
+		echo '<li><a href="story_Estimation.php?PID='.$_REQUEST['PID'].'">Story Estimation</a></li>';
+	echo '<li></li>';
 // fetch the backlog (no scrum board option)
 	if (isset($project_Row['Backlog_ID']))
 	{
-		$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories, ,( select Sum (Size) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID ='.$project_Row['Backlog_ID'];
+		$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories,( select Sum (Size) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID ='.$project_Row['Backlog_ID'];
 	}else{
 		$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories, ( select Sum(Size) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID =(select project.Backlog_ID from project where project.ID='.$_REQUEST['PID'].')';
 	}

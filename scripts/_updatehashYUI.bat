@@ -1,7 +1,7 @@
 @echo off
 
 :reset to unhashed filenames
-call_reverthash.bat
+call _reverthash.bat
 
 
 setlocal EnableExtensions

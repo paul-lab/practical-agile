@@ -82,7 +82,7 @@ function NextbacklogID($thisproject){
 			'Vel_Iter'	=> $_REQUEST['Vel_Iter']
 		);
 		if ($Usr['Admin_User']==1){
-			$data['Archived'] = $_REQUEST['Archived'];
+			$data['Archived'] = ((isset($_REQUEST['Archived'])) ? 1 : 0);
 		}
 		if (empty($_REQUEST['PID'])){
 			$button_name = 'Add';
