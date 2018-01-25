@@ -3,7 +3,7 @@
 
 .fancytree-title {width:98%;}
 
-.storybox-div { z-index: 900; display:block; position:relative; padding: 0px 2px 2px 2px; min-height:18px; border: 1px solid lightgrey; }
+.storybox-div { z-index: 100; display:block; position:relative; padding: 0px 2px 2px 2px; min-height:18px; border: 1px solid lightgrey; }
 .thisiteration {border:1px solid #0066FF;}
 .blocked  {background-color: #FDD; border:1px solid #FF0000;}
 .blockedthisiteration  {background-color: #FDD; border:1px solid #0066FF;}

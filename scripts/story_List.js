@@ -320,6 +320,7 @@ function showLines(n){
 			at: 'right',
 			of: $(this)
 		});
+		$('.iterationdialog').dialog('moveToTop');
         });
 
 	$('.iterationdialog .ui-button').click(function () {
@@ -352,6 +353,7 @@ function showLines(n){
 			at: 'right',
 			of: $(this)
 		});
+		$('.statusdialog').dialog('moveToTop');
         });
 
 	$('.statusdialog .ui-button').click(function () {

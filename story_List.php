@@ -35,7 +35,7 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash6e425f6d9c30a8356feb21b4ead6a72a.js"></script>
+	<script type="text/javascript" src="scripts/story_List.js"></script>
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
 	<script src="fancytree/jquery.fancytree.min.js" type="text/javascript"></script>
@@ -46,7 +46,7 @@ $(function() {
 	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.ColorPickerMenu.css" />
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
-	<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
+	<script type="text/javascript" src="scripts/micromenu.js"></script>
 
 	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="jqplot/excanvas.js"></script><![endif]-->
 	<script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
@@ -489,7 +489,7 @@ if ($_REQUEST['Type']=='tree'){
 			if ($story_Row['Blocked'] != 0){
 				echo ' blocked"';
 			}else{
-				echo '"';
+				echo '" ';
 			}
 
 			echo 'id="'.$story_Row['AID'].'">'.

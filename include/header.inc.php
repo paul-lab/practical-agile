@@ -35,9 +35,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 		<title>Practical Agile:</title>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
-		<script src="jquery/jquery.js"></script>
-		<script src="jquery/jquery-ui.js"></script>
- 		<link rel="stylesheet" href="jquery/jquery-ui.css" />
+
+<script src="jquery/jquery-1.12.4.min.js"></script>
+
+<script src="jquery/jquery-ui-1.12.min.js"></script>
+<link rel="stylesheet" href="jquery/jquery-ui-1.12.min.css" />
+
 		<script src="scripts/header-hash201af008be37c43617d23c6523c28878.js"></script>
 	</head>
 

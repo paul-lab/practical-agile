@@ -21,9 +21,10 @@
 	}
 
 ?>
-<script src="jquery/jquery.js"></script>
+<script src="jquery/jquery-1.12.4.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/story_Preview.css" />
-	<script type="text/javascript" src="scripts/story_Preview-hash14788f305b7f6142fe83667910ab8ac0.js"></script>
+	<script type="text/javascript" src="scripts/story_Preview.js"></script>
 
 <?php
 

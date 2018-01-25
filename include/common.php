@@ -254,9 +254,9 @@ function PrintStory ($story_Row){
 				$SSize= Get_Status_Points($story_Row['AID'],$astatus[$i],0);
 				if ($SSize!=0){
 					if ($statuscolour[$astatus[$i]]==''){
-						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#bfbfbf;">&nbsp;'.$SSize.'&nbsp</div>&nbsp';
+						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#bfbfbf;">&nbsp;'.$SSize.'&nbsp;</div>&nbsp;';
 					}else{
-						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#'.$statuscolour[$astatus[$i]].';">&nbsp;'.$SSize.'&nbsp</div>&nbsp';
+						echo '<div title="'.$SSize.' '.$astatus[$i].' points" style=" display: inline-block;background-color:#'.$statuscolour[$astatus[$i]].';">&nbsp;'.$SSize.'&nbsp;</div>&nbsp;';
 					}
 				}
 			}

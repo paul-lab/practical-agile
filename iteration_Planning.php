@@ -36,7 +36,7 @@ $(function() {
 
 
 	<link rel="stylesheet" type="text/css" href="css/story_List.css" />
-	<script type="text/javascript" src="scripts/story_List-hash6e425f6d9c30a8356feb21b4ead6a72a.js"></script>
+	<script type="text/javascript" src="scripts/story_List.js"></script>
 
 
 	<link href="fancytree/skin-win7/ui.fancytree.css" rel="stylesheet" type="text/css">
@@ -45,7 +45,7 @@ $(function() {
 
 	<link rel="stylesheet" type="text/css" href="css/overrides.css" />
 
-	<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
+	<script type="text/javascript" src="scripts/micromenu.js"></script>
 
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
     	<link rel="Stylesheet" type="text/css" href="jhtml/style/jHtmlArea.css" />

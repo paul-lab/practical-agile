@@ -22,7 +22,8 @@
 
 
 ?>
-<script src="jquery/jquery.js"></script>
+<script src="jquery/jquery-1.12.4.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
 	<link rel="stylesheet" type="text/css" href="css/story_Preview.css" />
 <?php

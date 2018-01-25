@@ -40,7 +40,7 @@ $(function() {
 	echo 	'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.
 			'<tr><b>'.
-				'<td>&nbsp</td>'.
+				'<td>&nbsp;</td>'.
 				'<td>Disabled</td>'.
 				'<td>Global<br>Admin</td>'.
 				'<td>EMail</td>'.

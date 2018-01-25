@@ -122,7 +122,7 @@ function hashit(){
 			}else{
 				$user_Row = $_REQUEST;
 			}
-			echo '<table align="center" cellpadding="6" cellspacing="0" border="0">'.'<form method="post" action="?">';
+			echo '<form method="post" action="?">'.'<table align="center" cellpadding="6" cellspacing="0" border="0">';
 
 		if ($Usr['Admin_User']==1)	{
 			echo '<tr><td>EMail/Username:</td>';
@@ -178,11 +178,11 @@ function hashit(){
 
 			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where (p.Archived <> 1 or p.Archived is NULL)';
 			$proj_Row = $DBConn->directsql($psql);
-			echo '<tr><td/><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
+			echo '<tr><td></td><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
 			if (count($proj_Row) > 0){
 				$pcnt = 0;
 				do	{
-					$chkbox = '<tr><TD>&nbsp</td><td align=left><input type="checkbox" name=proj[] ';
+					$chkbox = '<tr><TD>&nbsp;</td><td align=left><input type="checkbox" name=proj[] ';
 					# do not change this to an ==1 , it is the user ID
 					if($proj_Row[$pcnt]['Access'] <> 0) $chkbox .= ' checked ';
 					$chkbox .= ' value='.$proj_Row[$pcnt]['ID'].'>'.$proj_Row[$pcnt]['ID'].' - '.$proj_Row[$pcnt]['Name'].'</td>';
@@ -212,9 +212,8 @@ function hashit(){
 			<input class="btn" type="submit" onclick="hashit()"  name="saveUpdate" value="Update">
 		</td>
 	</tr>
-	</form>
-</table>
-
+	</table>
+</form>
 <?php
 		}
 	}else{

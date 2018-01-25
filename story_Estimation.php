@@ -24,7 +24,7 @@
 
 ?>
 
-	<script type="text/javascript" src="scripts/story_estimation-hash2484486448f3e59d39a04b37ea1faff3.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_estimation.js" type="text/javascript" charset="utf-8"></script>
 
 <?php
 

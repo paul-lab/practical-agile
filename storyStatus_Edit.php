@@ -23,6 +23,7 @@ echo '</a>->';
 echo 'Story Status';
 echo '</div>';
 ?>
+
 <script>
 $(function() {
 	document.title = 'Practical Agile: '+$("#phpbread").text().substring(13);
@@ -32,6 +33,9 @@ $(function() {
 	}
 });
 </script>
+
+<script type="text/javascript" src="jscolor/jscolor.min.js"></script>
+
 <?php
 	$showForm = true;
 	if (isset($_POST['saveUpdate'])){
@@ -89,7 +93,7 @@ $(function() {
 	<tr>
 		<td>RGB:</td>
 		<td>
-			<input type="text" name="RGB" value="<?=$storyStatus_Row['RGB'];?>">
+			<input type="text" class="jscolor" name="RGB" value="<?=$storyStatus_Row['RGB'];?>">
 		</td>
 	</tr>
 
