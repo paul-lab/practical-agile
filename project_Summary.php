@@ -37,7 +37,7 @@ $(function() {
 <script type="text/javascript" src="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
 
-<script type="text/javascript" src="scripts/micromenu.js"></script>
+<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
 
 <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css" />
 

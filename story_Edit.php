@@ -16,9 +16,9 @@
 	include 'include/header.inc.php';
 	Global $IterationLocked;
 ?>
-	<script type="text/javascript" src="scripts/story_edit.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/story_edit-hasha9c7e65e35b97225ecb8b5d288368aef.js" type="text/javascript" charset="utf-8"></script>
 
-	<script type="text/javascript" src="scripts/tag-it.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="scripts/tag-it-hashf66e5c5daffc1248e495628cd1881f21.js" type="text/javascript" charset="utf-8"></script>
 	<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
 
 	<script type="text/javascript" src="jhtml/scripts/jHtmlArea-0.8-min.js"></script>
@@ -491,7 +491,7 @@ function  Update_Project_Tags($PID,$Tags){
 	</form><br>
 
 	<link rel="stylesheet" type="text/css" href="css/micro_menu.css" />
-	<script type="text/javascript" src="scripts/micromenu.js"></script>
+	<script type="text/javascript" src="scripts/micromenu-hash0dc02c21be13adc33614481961b31b0c.js"></script>
 
 <script>
 	document.forms[1].Summary.focus();

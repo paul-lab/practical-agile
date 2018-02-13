@@ -43,7 +43,7 @@ $(function() {
 	}
 });
 </script>
-<script type="text/javascript" src="scripts/report_edit.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="scripts/report_edit-hash3024ec0ab941149347c7321fc832ddab.js" type="text/javascript" charset="utf-8"></script>
 <?php
 
 	$showForm = true;
