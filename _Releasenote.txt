@@ -4,7 +4,7 @@ Note: I do not normally use a Linux/Unix environment!
                        ----------------------------------------
 Version 2.59	
  * Update Jquery to v 1.12.4. (self contained, so dont worry if you normally use a different version)
- * Update JqueryUI to v 1.12
+ * Update JqueryUI to v 1.12 (self contained, so dont worry if you normally use a different version)
  * Some Minor Code tidy up
  * Made picking a colour for Story Status easier ( Available from the <Project> menu)
 

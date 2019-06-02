@@ -32,13 +32,13 @@
 		' FROM story WHERE story.AID='.$_GET['SAID'];
 		// Add the record
 		$result=$DBConn->directsql($ssql);
-		// Fecth new local ID
+		// Fetch new local ID
 		$sql = 'select ID, AID, Project_ID, Iteration_ID, Summary from story where AID='.$result;
 		$RecRow=$DBConn->directsql($sql);
 		$RecRow=$RecRow[0];
 		$story_Row['ID'] = $RecRow['ID'];
 
-		$ssql='UPDATE story set `Summary` ="'.'(Dup of #'.$RecRow['ID'].') - '.$RecRow['Summary'].'" where AID='.$RecRow['AID'];
+		$ssql='UPDATE story set `Summary` ="(Duplicate) - '.$RecRow['Summary'].'" where AID='.$result;
 		$DBConn->directsql($ssql);
 		Update_Iteration_Points($RecRow['Iteration_ID']);
 
