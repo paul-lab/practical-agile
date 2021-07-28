@@ -31,8 +31,7 @@ function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
            ##########
              ######
                ##
-#	define("dbdriver", "mysql");
-	define("dbdriver", "sqlite");
+	define("dbdriver", "mysql");
 
 class db
 {
@@ -53,16 +52,6 @@ class db
         "dbname" => "practicalagile"
     );
 
-## UPDATE SQLITE CONFIG HERE
-##
-############################
-           ##########
-             ######
-               ##
-# SQLITE
-    private $configl = array(
-		"sqlitedb" => "../../usr/local/sqlite/practicalagile.db"
-   );
 
 #
 # END OF DATABASE CONFIG
@@ -74,21 +63,12 @@ class db
 ###########################################################################################
 ###########################################################################################
     function db() {
-           switch(dbdriver) {
-                case "sqlite":
-                    $sqlitedb = $this->configl['sqlitedb'];
-                    break;
-                case "mysql":
-					$dbhost = $this->config['dbhost'];
-					$dbport = $this->config['dbport'];
-					$dbuser = $this->config['dbuser'];
-					$dbpass = $this->config['dbpass'];
-					$dbname = $this->config['dbname'];
-					break;
-                default:
-                    echo "Unsuportted DB Driver! Check the configuration.";
-                    exit(1);
-            }
+
+		$dbhost = $this->config['dbhost'];
+		$dbport = $this->config['dbport'];
+		$dbuser = $this->config['dbuser'];
+		$dbpass = $this->config['dbpass'];
+		$dbname = $this->config['dbname'];
 
         $options = array(
             PDO::ATTR_PERSISTENT => true,
@@ -96,23 +76,8 @@ class db
         );
 
         try {
-            switch(dbdriver) {
-                case "sqlite":
-                    $conn = "sqlite:{$sqlitedb}";
-                    break;
-                case "mysql":
-                    $conn = "mysql:host={$dbhost};port={$dbport};dbname={$dbname}";
-                    break;
-                default:
-                    echo "Unsuportted DB Driver! Check the configuration.";
-                    exit(1);
-            }
+			$conn = "mysql:host={$dbhost};port={$dbport};dbname={$dbname}";
             $this->db = new PDO($conn, $dbuser, $dbpass, $options);
-			if(dbdriver=='sqlite'){
-				$this->db->sqliteCreateFunction('sqliteMD5', 'sqliteMD5');
-				$this->db->sqliteCreateFunction('UNHEX', 'UNHEX');
-				$this->db->sqliteCreateFunction('CONCAT', 'CONCAT');
-			}
         } catch(PDOException $e) {
             echo $e->getMessage(); exit(1);
         }
@@ -208,18 +173,9 @@ class db
 	}
 
     private function filter($table, $data) {
-        $driver = dbdriver;
 
-        if($driver == 'sqlite') {
-            $sql = "PRAGMA table_info('" . $table . "');";
-            $key = "name";
-        } elseif($driver == 'mysql') {
-            $sql = "DESCRIBE " . $table . ";";
-            $key = "Field";
-        } else {
-            $sql = "SELECT column_name FROM information_schema.columns WHERE table_name = '" . $table . "';";
-            $key = "column_name";
-        }
+		sql = "DESCRIBE " . $table . ";";
+        $key = "Field";
 
         if(false !== ($list = $this->run($sql))) {
             $fields = array();
