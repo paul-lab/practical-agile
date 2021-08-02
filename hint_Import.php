@@ -20,16 +20,10 @@ if (isset($_POST['acceptImport'])) header('Location: project_List.php');
 
 if (isset($_POST['delete_existing']))
 {
-	if (dbdriver=='mysql'){
-		$sql = 'TRUNCATE TABLE hint';
-		$DBConn->directsql($sql);
-	}else{
-		$sql = 'delete from hint';
-		$DBConn->directsql($sql);
-		$sql2="delete from sqlite_sequence where name='hint'";
-		$DBConn->directsql($sql2);
-	}
-		auditit(0, 0,$_SESSION['Email'],'Deleted existing hints');
+
+	$sql = 'TRUNCATE TABLE hint';
+	$DBConn->directsql($sql);
+	auditit(0, 0,$_SESSION['Email'],'Deleted existing hints');
 }
 
 	if (isset($_POST['saveUpload']))

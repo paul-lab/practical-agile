@@ -15,7 +15,7 @@
 	require_once('include/dbconfig.inc.php');
 
  	// check version
-        $sql = 'Select * from dbver where ID=1';
+	$sql = 'Select * from dbver where ID=1';
 	$row=$DBConn->directsql($sql);
 	$row=$row[0];
 ?>
@@ -29,7 +29,7 @@
 <center>
 <h1>Practical Agile Scrum tool</h1>
 <p><h2><?php echo 'Application ver: '.$row['appver']; ?></h2>
-<p><h2><?php echo 'Database ver: '.$row['CurrVer'].' Using: '.dbdriver; ?></h2>
+<p><h2><?php echo 'Database ver: '.$row['CurrVer'] ?></h2>
 <p>
 <p><a href="help/help.html" title="Help (.html)">Help (.html)</a>
 <p><a href="help/help.pdf" title="Help (.pdf)">Help (.pdf)</a>

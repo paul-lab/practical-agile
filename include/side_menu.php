@@ -138,22 +138,17 @@ if (isset($_REQUEST['PID']))
 	$thisdate = date_format($thisdate , 'Y-m-d');
 	date_add($topdate , date_interval_create_from_date_string('3 months'));
 	$topdate = date_format($topdate , 'Y-m-d');
-	echo '<li><a href="#">&nbsp;Iteration&nbsp;</a><ul>';
+	echo '<li><a href="#">&nbsp;Sprint&nbsp;</a><ul>';
 		if (isset($_REQUEST['IID'])) {
 			echo '<li><a href="story_Export.php?PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">Export '.Get_Iteration_Name($_REQUEST['IID'],False).'</a></li>';
 		}
 // Iteration stuff
 //	echo '<li></li>';
-		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Iteration Planning</a></li>';
+		echo '<li><a href="iteration_Planning.php?PID='.$_REQUEST['PID'].'">Sprint Planning</a></li>';
 		echo '<li><a href="story_Estimation.php?PID='.$_REQUEST['PID'].'">Story Estimation</a></li>';
 	echo '<li></li>';
 // fetch the backlog (no scrum board option)
-	if (isset($project_Row['Backlog_ID']))
-	{
-		$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories,( select Sum (Size) from story where story.Iteration_ID='.$project_Row['Backlog_ID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID ='.$project_Row['Backlog_ID'];
-	}else{
-		$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories, ( select Sum(Size) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID =(select project.Backlog_ID from project where project.ID='.$_REQUEST['PID'].')';
-	}
+	$sql = 'SELECT ID, Name, ( select count(AID) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as NumStories, ( select Sum(Size) from story where story.Iteration_ID=(select project.Backlog_ID from project where project.ID="'.$_REQUEST['PID'].'") and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ) as SumPoints FROM iteration where iteration.ID =(select project.Backlog_ID from project where project.ID='.$_REQUEST['PID'].')';
 
 	$iteration_Row = $DBConn->directsql($sql);
 	if (count($iteration_Row) >0)
@@ -163,9 +158,9 @@ if (isset($_REQUEST['PID']))
 			'<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row[0]['ID'].'" title = "Product Backlog">'.
 			substr($iteration_Row[0]['Name'], 0, 14).'</a>';
 			echo '<div class="smaller">';
-			if ($iteration_Row[$rowcnt]['NumStories']>0)
+			if ($iteration_Row[0]['NumStories']>0)
 			{
-				echo '<a title = "Iteration Epic Tree" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row[0]['ID'].'&Type=tree&Root=iteration"><img src="images/tree-small.png"></a>';
+				echo '<a title = "Sprint Epic Tree" href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row[0]['ID'].'&Type=tree&Root=iteration"><img src="images/tree-small.png"></a>';
 				echo
 					'&nbsp;&nbsp;'.$iteration_Row[0]['SumPoints'].' pts.'.
 					'&nbsp;&nbsp;&nbsp;'.
@@ -175,7 +170,7 @@ if (isset($_REQUEST['PID']))
 			echo	'</div>';
 		echo '</li>';
 	}
-
+	echo '<li></li>';
 // fetch the iterations
 	$sql = 'SELECT ID, Name, Start_Date, End_Date, (select count(story.ID) from story where story.Iteration_ID = iteration.ID) as NumStories, (select sum(story.Size) from story where story.Iteration_ID = iteration.ID) as SumPoints FROM iteration where iteration.Project_ID ='.$_REQUEST['PID'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$_REQUEST['PID'].'")) order by iteration.End_Date desc LIMIT 10';
 	$iteration_Row = $DBConn->directsql($sql);

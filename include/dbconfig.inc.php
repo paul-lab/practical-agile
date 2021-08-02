@@ -12,14 +12,14 @@
 //	date_default_timezone_set('America/Detroit');
 
 # some functions we need to create specifically for sqlite
-function sqliteMD5($string) {return md5($string);}
-function UNHEX( $hexstring){return pack('H*', $hexstring);}
-function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
+#function sqliteMD5($string) {return md5($string);}
+#function UNHEX( $hexstring){return pack('H*', $hexstring);}
+#function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
 
 ###########################################################################################
 ###########################################################################################
 ##                                                                                       ##
-##  What database are you using MySQL or SQLite                                          ##
+##  What database are you using MySQL (or SQLite  removed)                                        ##
 ##                                                                                       ##
 ##  Comment out one of the 'define' lines below to select the correct database driver.   ##
 ##                                                                                       ##
@@ -174,7 +174,7 @@ class db
 
     private function filter($table, $data) {
 
-		sql = "DESCRIBE " . $table . ";";
+		$sql = "DESCRIBE " . $table . ";";
         $key = "Field";
 
         if(false !== ($list = $this->run($sql))) {

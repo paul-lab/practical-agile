@@ -42,15 +42,10 @@ $showForm = true;
 if (isset($_POST['ok'])) header('Location: project_List.php');
 
 if (isset($_POST['truncateit'])){
-	if (dbdriver=='mysql'){
-		$sql = 'TRUNCATE TABLE audit';
-		$DBConn->directsql($sql);
-	}else{
-		$sql = 'delete from audit';
-		$DBConn->directsql($sql);
-		$sql2="delete from sqlite_sequence where name='audit'";
-		$DBConn->directsql($sql2);
-	}
+
+	$sql = 'TRUNCATE TABLE audit';
+	$DBConn->directsql($sql);
+
 
 	auditit(0,0,$_SESSION['Email'],'Audit log truncated','All records deleted and index reset');
 	echo '<center><P><B>All Audit records Deleted.</B><P>';

@@ -78,12 +78,7 @@
 		echo '<div class="right">';
 		if($Row['Parent_Story_ID'] != 0) {
 // a list of parents
-		if (dbdriver=='mysql'){
 			$parentssql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS parent FROM (SELECT  @r := '.$Row['AID'].') vars, story h WHERE @r <> 0';
-		}else{
-			$parentssql='WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$Row['AID'].',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story JOIN xid ON story.aid=xid.aid where parent_story_id <>0 )SELECT aid as parent FROM xid where level <> 0 order by level desc ';
-		}
-
 			$parents_Res = $DBConn->directsql($parentssql);
 			foreach ($parents_Res as $parents_row){
 				if($parents_row['parent']!=NULL){

@@ -48,11 +48,8 @@ function login_user( $user , $password ){
 function check_user( $md5_sum ){
 	Global $DBConn;
 
-	if (dbdriver=='sqlite'){
-		$md='sqlite';
-	}else{
-		$md='';
-	}
+	$md='';
+
 	if (empty($_REQUEST['PID']) || $Usr['Admin']==1) {
 		$sql = "SELECT * FROM user WHERE Disabled_User = 0 AND ".$md."MD5(email) = '".$md5_sum."'";
 	} else{
@@ -295,13 +292,9 @@ function PrintStory ($story_Row){
 // If I am a child show all my parents
 	 		echo '<div class="parents-div"> | ';
 			if($story_Row['Parent_Story_ID'] != 0) {
-				if (dbdriver=='mysql'){
-					$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
-				}else{
-					$parentssql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$story_Row['AID'].',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story
-					JOIN xid ON story.aid=xid.aid where parent_story_id <>0 )
-					SELECT aid as parent FROM xid where level <> 0 order by level  ';
-				}
+
+				$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+
 				$parents_Res = $DBConn->directsql($parentssql);
 				foreach($parents_Res as $parents_row){
 			  		if($parents_row['parent']!=NULL){
@@ -692,11 +685,9 @@ function Get_User($current,$initials=0){
 
 function Get_Hint(){
 	Global $DBConn;
-	if (dbdriver=='mysql'){
-		$sql = 'SELECT * FROM `hint` WHERE ID = (SELECT FLOOR(1 + (RAND() * (MAX(ID) - 1))) FROM `hint` ) ORDER BY id LIMIT 1';
-	}else{
-		$sql = 'SELECT * FROM `hint` WHERE ID = (SELECT ( ABS(RANDOM() % MAX(ID))) FROM `hint` )';
-	}
+
+	$sql = 'SELECT * FROM `hint` WHERE ID = (SELECT FLOOR(1 + (RAND() * (MAX(ID) - 1))) FROM `hint` ) ORDER BY id LIMIT 1';
+
 	$result=$DBConn->directsql($sql);
 	return $result[0]['Hint_Text'];
 }
@@ -705,11 +696,8 @@ function Update_Parent_Points($thisstory){
 	Global $DBConn;
 	if ($thisstory+0 > 0){
 // a list of parents
-		if (dbdriver=='mysql'){
-			$sql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS _aid FROM (SELECT  @r := '.$thisstory.') vars, story h WHERE @r <> 0';
-		}else{
-			$sql='WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$thisstory.',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story JOIN xid ON story.aid=xid.aid where parent_story_id <>0 )SELECT aid as _aid FROM xid where level <> 0 order by level desc ';
-		}
+		$sql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS _aid FROM (SELECT  @r := '.$thisstory.') vars, story h WHERE @r <> 0';
+
 		$parent_res = $DBConn->directsql($sql);
 		foreach ($parent_res as $prow){
 			$psql = 'Update story set Status=NULL, Size = (select sum(Size) from (select * from story) as p where p.Parent_Story_ID='.$prow['_aid'].') where story.AID ='.$prow['_aid'];
@@ -761,11 +749,8 @@ function Update_Parent_Status($thisstory){
 function Top_Parent($StoryAID){
 	Global $DBConn;
 // find the topmost parent for a story
-	if (dbdriver=='mysql'){
-		$sql = 'SELECT  @r AS _id, (SELECT  @r := Parent_Story_ID FROM story WHERE AID = _id) AS parent, @l := @l + 1 AS level FROM (SELECT  @r :='.$StoryAID.', @l := 0) vars, story WHERE @r <> 0 order by level desc limit 1';
-	}else{
-		$sql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$StoryAID.',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story  JOIN xid ON story.aid=xid.aid where parent_story_id <>0) SELECT aid as _id FROM xid order by level desc  limit 1';
-	}
+
+	$sql = 'SELECT  @r AS _id, (SELECT  @r := Parent_Story_ID FROM story WHERE AID = _id) AS parent, @l := @l + 1 AS level FROM (SELECT  @r :='.$StoryAID.', @l := 0) vars, story WHERE @r <> 0 order by level desc limit 1';
 
 	$Row = $DBConn->directsql($sql);
 	if (count($Row)>0)	{
@@ -932,12 +917,8 @@ function print_summary($object, $WithVelocity=False){
 	$l2='';
 	$l3='';
 
-	$sql = 'select Points_Date, Status, Story_Count, sum(Points_Claimed) as Size, (select min(story_status.`Order`) from story_status where story_status.Project_ID='.$Project['ID'].' and story_status.Desc = points_log.Status) as ststatus from points_log where points_log.Object_ID='.$object.' and Points_Date < "2199-12-31" group by Points_Date ';
-	if(dbdriver=='sqlite'){
-		$sql .=', ststatus ORDER by Points_Date DESC, ststatus';
-	}else{
-	 $sql .=' DESC, ststatus';
-	}
+	$sql = 'select Points_Date, Status, Story_Count, sum(Points_Claimed) as Size, (select min(story_status.`Order`) from story_status where story_status.Project_ID='.$Project['ID'].' and story_status.Desc = points_log.Status) as ststatus from points_log where points_log.Object_ID='.$object.' and Points_Date < "2199-12-31" group by Points_Date DESC, ststatus';
+
 	$result=$DBConn->directsql($sql);
 	if ($result)	{
 		$last_Date=$result[0]['Points_Date'];

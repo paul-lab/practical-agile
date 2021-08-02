@@ -5,6 +5,7 @@ Note: I do not normally use a Linux/Unix environment!
 Version 2.60
  * Removed SQLite support, it was not worth the maintenance effort.
  * Some image changes.
+ * Updated the menu
 
 Version 2.59	
  * Update Jquery to v 1.12.4. (self contained, so dont worry if you normally use a different version)

@@ -509,13 +509,9 @@ if ($_REQUEST['Type']=='tree'){
 				echo '<div class="auditdialog hidden" id="allaudits_'.$story_Row['AID'].'"></div> ';
 			}
 			if($story_Row['Parent_Story_ID'] != 0) {
-				if (dbdriver=='mysql'){
-					$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
-				}else{
-					$parentssql = 'WITH RECURSIVE  xid(aid,level) AS ( VALUES('.$story_Row['AID'].',0) UNION ALL SELECT story.parent_story_id, xid.level+1 FROM story
-					JOIN xid ON story.aid=xid.aid where parent_story_id <>0 )
-					SELECT aid as parent FROM xid where level <> 0 order by level  ';
-				}
+
+				$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+
 				$parents_Res =  $DBConn->directsql($parentssql);
 				foreach($parents_Res as $parents_row){
 			  		if($parents_row['parent']!=NULL){
