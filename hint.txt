@@ -1,12 +1,12 @@
 Export all Stories from a Project using the <Project Name> "Export Stories" menu item.
-Import Stories into a Project using the from the "Import Stories" option on the <Project Name> menu.
-Export Stories for a single Iteration or the entire Project.
+Import Stories into a Project using the "Import Stories" option on the <Project Name> menu.
+Export Stories for a single Sprint or the entire Project.
 To move Cards between Projects, export and re-import them (Epic Links will need to be re-created)
-To export a single Iteration, select the Iteration, and then 'Export' Iteration from the 'Iterations' menu
-To bulk delete Stories, import a file with the Iteration set to the value "** Delete **".
+To export a single Sprint, select the <Sprint>, and then 'Export' Sprint from the 'Sprints' menu
+To bulk delete Stories, import a file with the Sprint set to the value "** Delete **". (including the spaces)
 Remember, You can only import Stories into the current Project.
-Update Stories by including a Story id in your import file.
-If you want to add a number of Cards on after the other, click the 'add Card' in the header, and then click it again before adding Cards
+Update existing Stories by including a Story ID in your import file.
+If you want to add a number of Cards one after the other, click the 'add Card' in the header, and then click it again before adding Cards
 Change a Story status by either clicking on the status or using the icon on the Story Quickmenu.
 A blocked Story/Card will have a red border on both the Story list and Epic tree view.
 Do not delete tasks once the work is Done, Mark as Done & keep them to retain a history of work
@@ -15,16 +15,16 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
-Use the iteration Planning page, available from the <Iterations> menu, to make your planning sessions easier
-Use the iteration Planning page to quickly move a number of Stories/Cards from one Iteration to another
+Use the iteration Planning page, available from the <Sprints> menu, to make your planning sessions easier
+Use the iteration Planning page to quickly move a number of Stories/Cards from one Sprint to another
 Create multiple interations, one for each team, with the same dates against a project. That way they can share the backlog without tripping over each other.
 Have your Site Admin. edit _faq.txt to answer you questions. (Don't overwrite it when Updating though!)
-When calculating predicted Iterations on the product/project backlog, a (worst/best) case view is given
-Project velocity is calculated on the 5 most recent COMPLETED Iterations.
-Practical Agile uses your historic Velocity and average Story size to predict best/worst future Iterations on the backlog (+4/3)
+When calculating predicted Sprints on the product/project backlog, a (worst/best) case view is given
+Project velocity is calculated on the 5 most recent COMPLETED Sprints.
+Practical Agile uses your historic Velocity and average Story size to predict best/worst future Sprints on the backlog (+4/3)
 If your project Tags are getting cluttered, get a Project Admin to Clear unused ones via the <Project> menu
 The project Summary will give you easy access to the most recent 200 changes (activity) for a project
-You will start to see a progress graph after at least a day has passed and you have some activity in an Iteration.
+You will start to see a progress graph after at least a day has passed and you have some activity in an Sprint.
 Current Project velocity is presented on the Project Summary page.
 You can change the Project size type at any time, current Cards retain their values until edited.
 To view progress against a Project select/export the Project progress report (Table of current status)
@@ -33,16 +33,16 @@ The alternating colours in the Backlog indicate future sprint boundaries.
 Get a sysadmin to create new reports that do exactly what you need.
 Use the Blocked work report to help you identify and manage Blocked items.
 Use the "My Tasks" report  to identify work you should be doing in the current Sprint.
-Report against actual and expected Task hours in an Iteration if you have captured them.
-Use the "My Current Stories" report  to identify Stories you own in this Iteration.
+Report against actual and expected Task hours in an Sprint if you have captured them.
+Use the "My Current Stories" report  to identify Stories you own in this Sprint.
 Use the reports to make your life easier.
 Use the Unsized Story report to help you identify and manage new Stories and stay on top of things.
 You can export the results of any report.
 Make sure all Stories are sized to improve predictions (use the Unsized stories report)
 A full project Audit can be exported from the 'Reports' Menu
 Keep track of where you are using the breadcrumbs on the top left of the screen.
-When presented with an Iteration list, the CURRENT Iteration is in BOLD
-When moving a Story out of an Iteration back into the Backlog, use the quick menu and it will retain its original rank.
+When presented with an Sprint list, the CURRENT Sprint is in BOLD
+When moving a Story out of an Sprint back into the Backlog, use the quick menu and it will retain its original rank.
 Use the help, that is what it is there for!
 Manually add a single Story to a Release to enable the enhanced  Release features for that Project
 A Release can contain Cards/Stories from more than one Project
@@ -60,25 +60,25 @@ Give your stakeholders read only access to your Projects, that way, they can see
 Change "Story Status" colours to suit you from the <Project Name> "Story Status" menu item.
 Click on a Story "tag" to find all Stories with the same tag.
 The Search  will find text within the Story, Tasks or Comments for a Story in the CURRENT project
-Use the 'Story List' and 'Scrum Board' icons to quickly switch between views for the current Iteration.
+Use the 'Story List' and 'Scrum Board' icons to quickly switch between views for the current Sprint.
 In any Story list, select an Epic ID against a Story to view the contents of that Epic Tree.
 Change or add new "Story Types" to suit your Project from the <Project Name> "Story Type" menu.
-Create new Iterations from the <Project Name> "Iterations & History" menu item.
+Create new Sprints from the <Project Name> "Sprints & History" menu item.
 You can see Historic Velocity on Project Summary.
-The average velocity for the 5 most recently completed Iterations is presented use as Project Velocity
+The average velocity for the 5 most recently completed Sprints is presented use as Project Velocity
 You can only delete Comments you have made, and then only if there is no reply to them
 Use Comments against the Backlog to record key Project information or decisions.
 Toggle a 1,2 and 3 line Story view to make best use of you screen & what it is you are doing.
 Move a Story into an Epic by dragging and dropping in the Epic Tree.(Use the vertical bar on the left as a handle)
-View progress against Epics by using either the "Project Tree", "Iteration Tree" or Epic report.
-When viewing an Interation Epic Tree, Cards/Stories in the current Iteration have a Blue border
-Remember that the Backlog or Iteration Epic view is a subset of the Project Epic view.
-Use the Iteration Epic tree to see how Stories in the Iteration relate to Epic pieces of work.
+View progress against Epics by using either the "Project Tree", "Sprint Tree" or Epic report.
+When viewing an Interation Epic Tree, Cards/Stories in the current Sprint have a Blue border
+Remember that the Backlog or Sprint Epic view is a subset of the Project Epic view.
+Use the Sprint Epic tree to see how Stories in the Sprint relate to Epic pieces of work.
 Story Order in the Epics Tree and the Backlog are independent, this allows you to independently visualise & prioritise work.
 Move a Story into an Epic by selecting the Epic from the dropdown or entering the parent Story number when editing a Story.
 Use Epics to group product themes or feature sets (You can order these independently from the Backlog)
 The backlog only contains work that can be addressed by the team and does NOT include Epics. (Use the Project or Epic Tree)
-When viewing an Iteration Tree for the Backlog, it will NOT contain Epics that have ALL their work 'Done'. Use the Project tree.
+When viewing an Sprint Tree for the Backlog, it will NOT contain Epics that have ALL their work 'Done'. Use the Project tree.
 View progress against an Epic by viewing it in a Epic tree (select the tree icon from any Story/Story list view)
 The Points completed for each Story status are shown at each root entry in the Epic tree.
 In any Story list hover over an Epic ID & Size to see its summary.
@@ -97,27 +97,27 @@ Remember that you need to save a Story after updating the Tags!
 Remember that a story with a 0 size, is NOT unsized.
 An unsized card has a size of ? (You should have as few of these as possible in your backlog.)
 Any link can be opened in a new tab, but take care not to get lost and edit the same item twice.
-Review historic velocity and loading by selecting 'Iterations (and History) from the <Project> menu
+Review historic velocity and loading by selecting 'Sprints (and History) from the <Project> menu
 Use "Print Preview" to create a single Story Card in a format suitable for printing and using on a radiator board.
-See how you Iteration fits into the big picture by using the tree view on the "Iterations" menu.
-In any Story list, select the Iteration against a Story to go to that Iteration.
+See how you Sprint fits into the big picture by using the tree view on the "Sprints" menu.
+In any Story list, select the Sprint against a Story to go to that Sprint.
 Add Comments or Tasks from any Story list or while editing a Story .
-Move a Story into a different Iteration using the Quick menu in any Story list.
-view an Iteration/Sprint progress by selecting it from the 'Iteration' Menu.
+Move a Story into a different Sprint using the Quick menu in any Story list.
+view an Sprint/Sprint progress by selecting it from the 'Sprint' Menu.
 Email us if there is a feature you believe is absolutely nescessary and would make this tool more useful.
 Drag and drop Tasks to put them in an order that makes sense (Use the 'edit' and 'delete' images as a handle).
 click the <Project Name> breadcrumb, or 'Project Summary' on the <Project Name> menu to view a summary of the Project progress
 Use the #storynum, tag:<tagtext>, owner:<initials>, status:<Status>, Size:<Size> & Type:<Type> notation to easily find Stories.
-Print physical Cards, by exporting the Iteration and using the included printCards.xls spreadsheet.
+Print physical Cards, by exporting the Sprint and using the included printCards.xls spreadsheet.
 Print cards by usig the 'Print card' feature against a story or iteration.
 You can format text within your Stories and Comments.
-Give your Iterations an objective to make them more meaningful to you and the team.
+Give your Sprints an objective to make them more meaningful to you and the team.
 Change or edit the "Story Status" values to suit your Project from the <Project Name> "Story Status" menu item.
-Locking an Iteration prevents Users from adding or removing Stories to or from that Iteration.
+Locking an Sprint prevents Users from adding or removing Stories to or from that Sprint.
 Enable the "Acceptance Criteria :" input field for Stories using Edit Project on the <Project Name> Menu.
 If an iteration is locked, any stories in it can not be deleted.(the can be edited, or tasks & comments changed)
 Hearing what you think of Practical Agile is very useful, so please e-mail us via the <Your Name> About menu item
-Click the "-" in an Iteration list to hide the graph and Iteration summary.
+Click the "-" in an Sprint list to hide the graph and Sprint summary.
 Todo' and 'Done' story status are mandatory and can not be edited/deleted.
 When reviewing a Card with the 'Truth'/PO select print preview and Click summary to include Tasks and Comments.
 Dragging and dropping a Card on the scrum board it will automatically change the Status.
@@ -128,11 +128,11 @@ Select a Card, hold the left button down and use 'page-up/down' or the up/down k
 Update the "Template Project" Project to set the default Size, Status & Story Types for new Projects.
 Click on the blue 'Minus' to hide the points summary and graph for a more compact view.
 Only items in the 'Backlog' count towards product work and taken into account in predictions.
-View your Iteration either on a Radiator Board, as a list or in a Tree (Blue borders).
+View your Sprint either on a Radiator Board, as a list or in a Tree (Blue borders).
 Use the breadcrumbs on the top left of the screen to quickly & Easily navigate to key screens.
 Add Comments against Stories to record decisions or other relevant detail.
-When presenting future Iterations in the Backlog, already planned Iterations are excluded from work to be completed.
-Drag a Story up or down in an Iteration or the backlog to set its rank.
+When presenting future Sprints in the Backlog, already planned Sprints are excluded from work to be completed.
+Drag a Story up or down in an Sprint or the backlog to set its rank.
 To edit a Story, double click on it, or, click on either the Story number (eg #28) or using the icon on the Story Quickmenu.
 Tasks are tri-state and have a Todo  Doing and Done state. Click the checkbox to update.
 Add new Stories by having an empty Story ID in the import file.
@@ -145,29 +145,29 @@ Assign Categories to Projects to group them on the 'My Projects' page.
 Include expected and actual hours against Tasks if you feel the need.
 If a User does not have access to a Project, they won't even see it listed.
 View more or less detail for any Story by clicking the icon in the Quick menu.
-Use Comments against an Iteration to keep a log of your standups and retrospectives.
+Use Comments against an Sprint to keep a log of your standups and retrospectives.
 Click the Story summary in a "Print Preview" to see all Tasks and Comments against a Story.
 Delete a Story using the Quick menu in any Story list or while editing it
-Review your historical performance using the  <Project Name> "Iterations & History" menu item.
+Review your historical performance using the  <Project Name> "Sprints & History" menu item.
 Change the name of the main input field using Edit Project on the <Project Name> Menu.
-When importing Stories, If the Iteration does not exist, the Story is put in the "Backlog".
-In the tree view for an Iteration current Stories have a blue border.d
-Add new Story will add a Story to the Iteration currently displayed in the screen
-The Current iteration is in BOLD on the 'Iterations' Menu
+When importing Stories, If the Sprint does not exist, the Story is put in the "Backlog".
+In the tree view for an Sprint current Stories have a blue border.d
+Add new Story will add a Story to the Sprint currently displayed in the screen
+The Current iteration is in BOLD on the 'Sprints' Menu
 Enable another input field for Stories and call it what you want, using Edit Project on the <Project Name> Menu.
-Project/Iteration burn is only updated when there is a change. No update will appear if there is no movement.
+Project/Sprint burn is only updated when there is a change. No update will appear if there is no movement.
 Stories are prioritised by dragging them up and down the Backlog using the Status handle.
 Archive Projects to keep them available to Administrators but remove them from general view.
 Import your own hints via the Org. Config Menu and have them appear here.
-If you want to track Technical debt for a Project, but keep it out of the product backlog, create an Iteration without any dates and Store it there
+If you want to track Technical debt for a Project, but keep it out of the product backlog, create an Sprint without any dates and Store it there
 Projects can have their own 'Size' scales (Numeric only) or copy the default from the "Template Project".
-Print Story Cards by selecting the icon to the right of the Iteration on the "Iterations" menu.
+Print Story Cards by selecting the icon to the right of the Sprint on the "Sprints" menu.
 Edit the file '/include/validfiletypes.php' to constrain or extend the file types that can be uploaded
 Rename the 'So That' field for a Story using 'Edit Project' from the <Project>  dropdown menu
 Changes against a Story are available for each story.
 Recent history for a Project is presented on the Project summary
 Pasting directly from MS-Word into a html edit box WILL make a mess, go via notepad
-Use the {Esc} key to quickly get rid of a Status or Iteration Pop-up
+Use the {Esc} key to quickly get rid of a Status or Sprint Pop-up
 Each Project can have it's own set of Status values or copy the defaults from the "Template project"
 View the the Product Backlog  to see a graph showing Product Burn-down
 Remember that if you do not have rights to a Project, you will not see it in a Release (Even if is is part of that release)
@@ -178,13 +178,13 @@ Print the hint.txt file to get a quick overview of things to try or look for.
 There is no need to save a Story after updating Tasks or Comments
 Remember that the graph presented as a Project Summary is NOT the same as the Backlog graph.
 To see how much work is left to do, look at the backlog graph, or the todo portion of the Project Summary
-Use the Iteration Planning tool to easily move cards between ANY two iterations (incl. the Backlog)
+Use the Sprint Planning tool to easily move cards between ANY two iterations (incl. the Backlog)
 If an iteration is not available for selection, it has probably been 'Locked' speak to a Project admin to unlock it.
-You can only move Stories in and out of Iterations and releases if they are not locked.
-If you can't access the Iteration Planning Screen, you are a read only user.
+You can only move Stories in and out of Sprints and releases if they are not locked.
+If you can't access the Sprint Planning Screen, you are a read only user.
 Dont forget to click the '+' when adding comments to an iteration or Story card.
 Dont forget to click the '+' when adding tasks or uploading files to a Story card.
 Remember to click '+' when adding Tasks,Comments or uploading files.
 To Print story cards 4 to a page use landscape orientation, use portrait for 8 cards to a page.
 Specify the number of past iterations to use to calculate velocity on the project admin page (Default 3)
-Fin unsized work in a project by using the search 'size:?'
+Find unsized work in a project by using the search 'size:?'
