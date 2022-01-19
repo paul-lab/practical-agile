@@ -188,3 +188,4 @@ Remember to click '+' when adding Tasks,Comments or uploading files.
 To Print story cards 4 to a page use landscape orientation, use portrait for 8 cards to a page.
 Specify the number of past iterations to use to calculate velocity on the project admin page (Default 3)
 Find unsized work in a project by using the search 'size:?'
+The bottom of the 'Done' area on the Sprint Graphs is the burndown 

@@ -2,8 +2,15 @@ Note: I do not normally use a Linux/Unix environment!
       If you pick up problems it may have to do with the 'case' of a file, table or column name, 
       please let me know and I will fix things.
                        ----------------------------------------
+
+Todo:
+ * Remove orphaned uploaded files
+ * Change default admin password to practicalagile
+ * Change graphs to include all dates
+                       ----------------------------------------
+
 Version 2.60
- * Removed SQLite support, it was not worth the maintenance effort.
+ * Removed SQLite support, it was not worth the maintenance effort and MySQL works well enough even on a Raspberry Pi
  * Some image changes.
  * Updated the menu
 

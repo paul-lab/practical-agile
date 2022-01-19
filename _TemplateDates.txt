@@ -1,0 +1,144 @@
+/* find a reasonable start date so that the current sprint ends next Tuesday */;
+SELECT 
+@start := DATE_SUB(DATE(NOW()) - INTERVAL WEEKDAY(NOW()) + 5 DAY, INTERVAL 6 WEEK) start, 
+@end := DATE_ADD(@start, INTERVAL 13 DAY) end;
+
+/* fix the backlog dates */;
+UPDATE `iteration` SET 
+Start_Date = '1000-01-01 00:00:00',
+End_Date =  '2999-12-31 00:00:00'
+WHERE ID = 1
+
+/* set up the stories */;
+UPDATE `story` SET 
+Created_Date = DATE_ADD( @start, INTERVAL ROUND((RAND() * 28)+1) day);
+
+/* set up the sprints */;
+UPDATE `iteration` SET 
+Start_Date = DATE_ADD( @start, INTERVAL iteration.ID*2-2 WEEK),
+End_Date =  DATE_ADD( @end, INTERVAL iteration.ID*2-2 WEEK)
+WHERE ID < 6 AND ID > 1
+
+/* set up the points log with correct dates  */;
+DELETE from `points_log`;
+
+/* Iteration 1   */;
+SET @start = (SELECT Start_Date FROM `iteration` WHERE ID = 2);
+SET @end = (SELECT End_Date FROM `iteration` WHERE ID = 2);
+SET @ptsobj = (SELECT Points_Object_ID FROM `iteration` WHERE ID = 2);
+SET @cards = (SELECT COUNT(*) FROM `iteration` WHERE ID = 2);
+
+
+/* id Project_ID	Points_Date	Object_ID	Status	Story_Count	Points_Claimed */;
+DELETE FROM `points_log` WHERE Object_ID = @ptsobj;
+INSERT INTO `points_log` VALUES 
+('101','1',@start,@ptsobj,'Todo','3','7.0'),
+('102','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Todo','1','3.0'),
+('103','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Doing','2','4.0'),
+('104','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Todo','1','3.0'),
+('105','1',DATE_ADD(@start, INTERVAL 5 DAY),@ptsobj,'Doing','2','4.0'),
+('106','1',DATE_ADD(@start, INTERVAL 5 DAY),@ptsobj,'OK to Review','1','3.0'),
+('107','1',DATE_ADD(@start, INTERVAL 9 DAY),@ptsobj,'Done','2','4.0'),
+('108','1',DATE_ADD(@start, INTERVAL 9 DAY),@ptsobj,'Doing','1','3.0'),
+('109','1',@end,@ptsobj,'Done','3','7.0')
+
+/* Iteration 2   */;
+SET @start = (SELECT Start_Date FROM `iteration` WHERE ID = 3);
+SET @end = (SELECT End_Date FROM `iteration` WHERE ID = 3);
+SET @ptsobj = (SELECT Points_Object_ID FROM `iteration` WHERE ID = 3);
+SET @cards = (SELECT COUNT(*) FROM `iteration` WHERE ID = 3);
+SET @pts = (SELECT SUM(Size) FROM `story` WHERE Iteration_ID = 3);
+
+/* id Project_ID	Points_Date	Object_ID	Status	Story_Count	Points_Claimed */;
+DELETE FROM `points_log` WHERE Object_ID = @ptsobj;
+INSERT INTO `points_log` VALUES 
+('201','1',@start,@ptsobj,'Todo',@cards,@pts),
+('202','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Todo','1','3.0'),
+('203','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Doing','2','6.0'),
+('204','1',DATE_ADD(@start, INTERVAL 6 DAY),@ptsobj,'Todo','1','3.0'),
+('205','1',DATE_ADD(@start, INTERVAL 6 DAY),@ptsobj,'Doing','2','3.0'),
+('206','1',DATE_ADD(@start, INTERVAL 6 DAY),@ptsobj,'OK to Review','1','3.0'),
+('207','1',DATE_ADD(@start, INTERVAL 11 DAY),@ptsobj,'Done','2','6.0'),
+('208','1',DATE_ADD(@start, INTERVAL 11 DAY),@ptsobj,'Doing','1','3.0'),
+('209','1',@end,@ptsobj,'Done',@cards,@pts);
+
+
+/* Iteration 3   */;
+SET @start = (SELECT Start_Date FROM `iteration` WHERE ID = 4);
+SET @end = (SELECT End_Date FROM `iteration` WHERE ID = 4);
+SET @ptsobj = (SELECT Points_Object_ID FROM `iteration` WHERE ID = 4);
+SET @cards = (SELECT COUNT(*) FROM `iteration` WHERE ID = 4);
+SET @pts = (SELECT SUM(Size) FROM `story` WHERE Iteration_ID = 4);
+
+/* id Project_ID	Points_Date	Object_ID	Status	Story_Count	Points_Claimed */;
+DELETE FROM `points_log` WHERE Object_ID = @ptsobj;
+INSERT INTO `points_log` VALUES 
+('301','1',@start,@ptsobj,'Todo',@cards,@pts),
+('302','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Todo','1','1.0'),
+('303','1',DATE_ADD(@start, INTERVAL 1 DAY),@ptsobj,'Doing','2','10.0'),
+('305','1',DATE_ADD(@start, INTERVAL 6 DAY),@ptsobj,'Doing','1','5.0'),
+('306','1',DATE_ADD(@start, INTERVAL 6 DAY),@ptsobj,'OK to Review','2','6.0'),
+('307','1',DATE_ADD(@start, INTERVAL 11 DAY),@ptsobj,'Done','2','5.0'),
+('308','1',DATE_ADD(@start, INTERVAL 11 DAY),@ptsobj,'Doing','1','6.0'),
+('309','1',@end,@ptsobj,'Done',@cards,@pts);
+
+
+/* Project */;
+SET @start =( DATE_ADD((SELECT Start_Date FROM `iteration` WHERE ID = 2), INTERVAL -2 WEEK));
+SET @end = (SELECT End_Date FROM `iteration` WHERE ID = 4);
+SET @ptsobj = 1;
+SET @cards = (SELECT COUNT(*) FROM `story` WHERE Project_ID = 1);
+SET @pts = (SELECT SUM(Size) FROM `story` WHERE Project_ID = 1);
+
+/* All Stories */;
+INSERT INTO `points_log` (Project_ID,Points_Date,Object_ID,Status,Story_Count,Points_Claimed)
+SELECT  "1", Created_Date, @ptsobj, "Todo",COUNT(*), (SELECT SUM(Size) FROM `story` WHERE AID IN(
+2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24) AND Created_Date <= p.Created_Date) FROM `story` p where AID IN(
+2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24) 
+GROUP BY Created_Date;
+
+/* All work */;
+INSERT INTO `points_log` (Project_ID,Points_Date,Object_ID,Status,Story_Count,Points_Claimed)
+SELECT Project_ID,Points_Date,@ptsobj,Status,SUM(Story_Count),SUM(Points_Claimed)
+from points_log
+WHERE Project_ID = 1 AND Status <> "Todo"
+GROUP BY Points_Date,Status;
+
+/* Add Missing Todo work */;
+INSERT INTO `points_log`  (Project_ID,Points_Date,Object_ID,Status,Story_Count,Points_Claimed)
+SELECT Project_ID,Points_Date,1,"Todo",0,0
+from points_log p
+WHERE Project_ID = 1  AND (SELECT COUNT(*) FROM `points_log` WHERE Project_ID = 1 AND Object_ID = 1 AND Points_Date = p.Points_Date and Status = "Todo") = 0;
+
+
+
+/* Update todo Stories */;
+UPDATE `points_log` SET 
+Story_Count = Story_Count-SELECT  SUM(Story_Count) FROM points_log p WHERE Project_ID = 1 AND Object_ID = 1 and Status <> "Todo",
+Points_Claimed =  Points_Claimed - SELECT SUM(Points_Claimed), SUM(Story_Count)FROM points_log p WHERE Project_ID = 1 AND Object_ID = 1 and Status <> "Todo"
+WHERE Points_Date = p.Points_Date
+
+
+
+
+
+
+SET @start =( DATE_ADD((SELECT Start_Date FROM `iteration` WHERE ID = 2), INTERVAL -2 WEEK));
+
+SET @end = (SELECT End_Date FROM `iteration` WHERE ID = 2);
+SET @ptsobj = 1;
+SET @cards = (SELECT COUNT(*) FROM `story` WHERE Project_ID = 1);
+SET @pts = (SELECT SUM(Size) FROM `story` WHERE Project_ID = 1); 
+
+INSERT INTO `points_log` (Project_ID,Points_Date,Object_ID,Status,Story_Count,Points_Claimed)
+SELECT Project_ID,Created_Date,@ptsobj,"Todo",SUM(Project_ID),SUM(Size)
+from story
+WHERE Project_ID = 1 AND Created_Date < @end
+GROUP BY Created_Date,Status
+
+
+
+
+select * from `story` where Project_ID = 1
+and (select count )
+group by Created_Date
