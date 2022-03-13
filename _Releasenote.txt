@@ -7,12 +7,30 @@ Todo:
  * Remove orphaned uploaded files
  * Change default admin password to practicalagile
  * Change graphs to include all dates
+ * refresh Graph and summary on each points change
+ # fix the lables on forms Add/Update
+Add a'Done' but not in release report
                        ----------------------------------------
-
+Known Bugs#
+# Story D&D status update broken on radiator board
+# (Done) Error saving story after adding a comment while editing a story 
+# (Done) Quickfilter adding to relese  broken
+# (Done) Project Graph
+# (Done) function GetTree ($tree_Res,$flag='') & function GetTreeRoot ($sql,$flag='')
+  
 Version 2.60
- * Removed SQLite support, it was not worth the maintenance effort and MySQL works well enough even on a Raspberry Pi
- * Some image changes.
- * Updated the menu
+ * Removed SQLite support, it was not worth the maintenance effort and MySQL works well enough even on a Raspberry Pi 2
+ * update Uniserver to work oob on Win 11 client (no XP or 2003). Note there is a folder structure change for the WAMP products
+ * Updated php to 7.4.16 (Min 5.2), Mysql to 8.0.23 (Min 5.5) and Apache to 2.4.46 (Min 2.4)
+ * Update phpMiniAdmin (1.9.170730) 
+ * A host of changes to support the PHP update from 5.4
+ * Some image & other UI changes.
+ * Updated the main menu
+ * Display all potential status values in project & sprint summary tables
+ * fixed bug in Velocity calculation and Predicted iteration
+ * Simplified and tidied some code 
+ * Prevent adding duplicate Users (this would prevent the uer from logging in)
+ 
 
 Version 2.59	
  * Update Jquery to v 1.12.4. (self contained, so dont worry if you normally use a different version)

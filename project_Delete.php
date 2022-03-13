@@ -35,7 +35,7 @@ $(function() {
 
 	$showForm = true;
 	if ($_REQUEST['delete']){
-			// delete points object, tasks,comments object, stories,iteration story-status
+			// delete points object, tasks,comments object, stories,Sprints story-status
 			$DBConn->directsql('DELETE FROM points_log WHERE Project_ID = '.($_REQUEST['PID']+ 0));
 			$DBConn->directsql('DELETE FROM comment WHERE Comment_Object_ID = '.($_REQUEST['PID']+ 0));
 			$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type, upload.AID FROM upload left Join story s on upload.AID = s.AID where s.Project_ID=".($_REQUEST['PID']+ 0);
@@ -43,7 +43,7 @@ $(function() {
 			// remove uploaded files
 			foreach($aqry as $aresult)	{
 				if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type'])){
-						auditit($_REQUEST['PID'],$aresult['Type'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
+						auditit($_REQUEST['PID'],$aresult['Type'],$_SESSION['Email'],'Deleted uploaded file ',$aresult['HName'],$aresult['Desc']);
 				}
 			}
 			// remove upload entry
@@ -78,7 +78,7 @@ $(function() {
 			'<li>comments</li>'.
 			'<li>object</li>'.
 			'<li> stories</li>'.
-			'<li>iteration</li>'.
+			'<li>Sprints</li>'.
 			'<li>story-status</li>'.
 			'<li>story type and</li>'.
 			'<li>tags</li>'.

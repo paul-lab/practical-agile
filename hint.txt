@@ -15,8 +15,8 @@ You can only delete Users that are not Story or Task owners. Otherwise disable t
 Global Admin' Users can create new Story Size Type and Values via the Org. Config menu. (available to all Projects),
 Use the tooltips to help when adding a new Project, Task, Story or anything else for that matter
 Use the Backlog to see when you might be able to address the work. (the numbers in brackets behind the Size)
-Use the iteration Planning page, available from the <Sprints> menu, to make your planning sessions easier
-Use the iteration Planning page to quickly move a number of Stories/Cards from one Sprint to another
+Use the SprintPlanning page, available from the <Sprints> menu, to make your planning sessions easier
+Use the SprintPlanning page to quickly move a number of Stories/Cards from one Sprint to another
 Create multiple interations, one for each team, with the same dates against a project. That way they can share the backlog without tripping over each other.
 Have your Site Admin. edit _faq.txt to answer you questions. (Don't overwrite it when Updating though!)
 When calculating predicted Sprints on the product/project backlog, a (worst/best) case view is given
@@ -44,16 +44,16 @@ Keep track of where you are using the breadcrumbs on the top left of the screen.
 When presented with an Sprint list, the CURRENT Sprint is in BOLD
 When moving a Story out of an Sprint back into the Backlog, use the quick menu and it will retain its original rank.
 Use the help, that is what it is there for!
-Manually add a single Story to a Release to enable the enhanced  Release features for that Project
+Manually add a single Story to a Release via the stoery Edit page to enable the enhanced  Release features for that Project
 A Release can contain Cards/Stories from more than one Project
 View progress against a Release by selecting it from either the Organisation or Project menu.
 You can change your own password (and some other details) from <Your&Name> menu
-Assign Users to Projects by editing them after you have added them.
+Assign Users to Projects by editing them after you have added them (If ypu cand add users when editing a story, this is probably it).
 Clicking the User list Icon opens a list of Users in a new tab (useful when searching for Story owners)
 Global Admin' Users can create new Projects via the Org. Config menu,
 Global Admin' Users can add new Users via the Org. Config menu.
 Even if a User is a  Global Admin, it is still worth making them a Project Admin in case the global right is later revoked.
-Disabled Users can not log on, but their history in Stories and Tasks remains available.
+Disabled Users can not log in or be deleted, but their history in Stories and Tasks remains available.
 Change your password via the "Edit my details" on the <your name> menu item,
 Global Admin' Users allow Users access to Projects and enable Project admin rights
 Give your stakeholders read only access to your Projects, that way, they can see what is happening without being able to 'break' things
@@ -115,7 +115,7 @@ Give your Sprints an objective to make them more meaningful to you and the team.
 Change or edit the "Story Status" values to suit your Project from the <Project Name> "Story Status" menu item.
 Locking an Sprint prevents Users from adding or removing Stories to or from that Sprint.
 Enable the "Acceptance Criteria :" input field for Stories using Edit Project on the <Project Name> Menu.
-If an iteration is locked, any stories in it can not be deleted.(the can be edited, or tasks & comments changed)
+If an Sprintis locked, any stories in it can not be deleted.(the can be edited, or tasks & comments changed)
 Hearing what you think of Practical Agile is very useful, so please e-mail us via the <Your Name> About menu item
 Click the "-" in an Sprint list to hide the graph and Sprint summary.
 Todo' and 'Done' story status are mandatory and can not be edited/deleted.
@@ -153,7 +153,7 @@ Change the name of the main input field using Edit Project on the <Project Name>
 When importing Stories, If the Sprint does not exist, the Story is put in the "Backlog".
 In the tree view for an Sprint current Stories have a blue border.d
 Add new Story will add a Story to the Sprint currently displayed in the screen
-The Current iteration is in BOLD on the 'Sprints' Menu
+The Current Sprintis in BOLD on the 'Sprints' Menu
 Enable another input field for Stories and call it what you want, using Edit Project on the <Project Name> Menu.
 Project/Sprint burn is only updated when there is a change. No update will appear if there is no movement.
 Stories are prioritised by dragging them up and down the Backlog using the Status handle.
@@ -179,10 +179,10 @@ There is no need to save a Story after updating Tasks or Comments
 Remember that the graph presented as a Project Summary is NOT the same as the Backlog graph.
 To see how much work is left to do, look at the backlog graph, or the todo portion of the Project Summary
 Use the Sprint Planning tool to easily move cards between ANY two iterations (incl. the Backlog)
-If an iteration is not available for selection, it has probably been 'Locked' speak to a Project admin to unlock it.
-You can only move Stories in and out of Sprints and releases if they are not locked.
+If an Sprintis not available for selection, it has probably been 'Locked' speak to a Project admin to unlock it.
+You can only move Stories in and out of Sprints and Releases if they are not locked.
 If you can't access the Sprint Planning Screen, you are a read only user.
-Dont forget to click the '+' when adding comments to an iteration or Story card.
+Dont forget to click the '+' when adding comments to an Sprintor Story card.
 Dont forget to click the '+' when adding tasks or uploading files to a Story card.
 Remember to click '+' when adding Tasks,Comments or uploading files.
 To Print story cards 4 to a page use landscape orientation, use portrait for 8 cards to a page.

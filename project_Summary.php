@@ -61,7 +61,7 @@ function print_Size_Type_Dropdown($current)
 			$project_Row = $_REQUEST;
 		}
 		echo '<table align="center" width=90%><tr><td align="center">';
-		print_summary($project_Row['Points_Object_ID'],True); // with velocity
+		print_summary($project_Row['ID'],True,True); // with velocity
 		echo '</td></tr><tr><td align="center">';
 		print_Graphx($project_Row['Points_Object_ID'], False); // Not Small
 		echo '</td></tr></table>';
@@ -140,21 +140,23 @@ function print_Size_Type_Dropdown($current)
 			<td  class="larger" ><b>
 <?php
 			$thisdate =  Date("Y-m-d");
-// get the current iteration
-			$sql = 'SELECT * FROM iteration where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
+// higlight  the current Sprint
+			$sql = 'SELECT * FROM iteration where Project_ID='.$_REQUEST['PID'].' and ID <> '.$project_Row['Backlog_ID'].' and Start_Date<="'.$thisdate.'" and End_Date>="'.$thisdate.'"';
 			$iteration_Row = $DBConn->directsql($sql);
 			if ($iteration_Row){
 				$iteration_Row = $iteration_Row[0];
-				echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Iteration" >'.
+				echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Sprint" >'.
 				substr($iteration_Row['Name'], 0, 14).'</a> &nbsp; ('.$iteration_Row['Start_Date'].'->'.$iteration_Row['End_Date'].')</b> &nbsp;';
-				print_summary($iteration_Row['Points_Object_ID'], False);
+				print_summary($iteration_Row['ID'], False);
 			}else{
 				echo '&nbsp;';
 			}
 			echo '</td>';
-			echo '<td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b></td></tr>';
+			echo '<td>&nbsp;</td><td class="larger" ><b><a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$project_Row['Backlog_ID'].'" title = "Backlog" >Backlog</a></b>';
+			print_summary($project_Row['Backlog_ID'], False);
+			echo '</td></tr>';
 			$left=1;
-			$sql = 'SELECT * FROM iteration  where iteration.Project_ID='.$_REQUEST['PID'].' and iteration.Name <> "Backlog"  order by iteration.End_Date DESC';
+			$sql = 'SELECT * FROM iteration  where Project_ID='.$_REQUEST['PID'].' and ID <> '.$project_Row['Backlog_ID'].'  and ID <> '.$iteration_Row['ID'].' order by iteration.End_Date DESC';
 			$iteration_Row = $DBConn->directsql($sql);
 			if ($iteration_Row)	{
 				echo '<tr>';
@@ -167,7 +169,7 @@ function print_Size_Type_Dropdown($current)
 					if ($iteration_Row[$rowcnt]['Locked']==1)	{
 						echo '<br><b>Locked</b>';
 					}
-					print_summary($iteration_Row[$rowcnt]['Points_Object_ID'], False);
+					print_summary($iteration_Row[$rowcnt]['ID'], False);
 					echo '</td>';
 					if($left % 2==1){
 						echo '</tr><tr>';

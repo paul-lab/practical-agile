@@ -50,10 +50,10 @@ function Print_Users(){
 	$usr_Row =  $DBConn->directsql($sqlp);
 	foreach ($usr_Row as $result){
 		echo '<tr>';
-		echo '<td><img class="hidden hideit" id="t'.$result[EMail].'" src="images/tick-small.png"></td>';
-		echo '<td>'.$result[EMail];
-		echo ' &nbsp; '.$result[Friendly_Name];
-		echo '<td class="larger clearit" id="s'.$result[EMail].'">&nbsp;</td>';
+		echo '<td><img class="hidden hideit" id="t'.$result['EMail'].'" src="images/tick-small.png"></td>';
+		echo '<td>'.$result['EMail'];
+		echo ' &nbsp; '.$result['Friendly_Name'];
+		echo '<td class="larger clearit" id="s'.$result['EMail'].'">&nbsp;</td>';
 		echo '</td></tr>';
 	}
 }

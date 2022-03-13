@@ -45,6 +45,7 @@ $(document).ready(function(){
 <?php
 	$showForm = true;
 	if (isset($_POST['saveUpdate'])){
+
 		$data=array(
 			'Project_ID' 	=> $_REQUEST['PID'],
 			'Locked' 		=> ((isset($_REQUEST['Locked'])) ? 1 : 0),
@@ -56,7 +57,7 @@ $(document).ready(function(){
 		if (empty($_REQUEST['IID'])){
 			$button_name = 'Add';
 			$data['Points_Object_ID'] = NextPointsObject($_REQUEST['PID']);
-			$data['Comment_Object_ID'] = NextIterationCommentObject();
+			$data['Comment_Object_ID'] = NextIterationCommentObject();	
 			$result=$DBConn->create('iteration',$data);
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Iteration Added ','',$_REQUEST['IID'.'-'.$_REQUEST['Name']]);
 		}else{

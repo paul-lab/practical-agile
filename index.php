@@ -15,7 +15,7 @@
 	require_once('include/common.php');
 	require_once('include/dbconfig.inc.php');
 
-$APP_VER='2.59';
+$APP_VER='2.6.0';
 
     /*if user wants to login*/
     if(isset($_POST['username'])){
@@ -69,6 +69,7 @@ $APP_VER='2.59';
 <head>
 <?php
 	echo 'DBver: '.$row[0]['CurrVer'];
+	echo '&nbsp; &nbsp;App ver. '.$APP_VER;
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <script src="md5/md5.min.js"></script>
@@ -90,7 +91,7 @@ function hashit(){
 
 <div class="header noPrint">
 	<a href="http://www.practicalagile.co.uk"><img src="images/logo-large.png"></a>
-	<a class="hint" href="help/help.html" target="_blank" title="Help"><b>Help</b><br>App ver.<?php echo $APP_VER;?> &nbsp; </a>
+	<a class="hint" href="help/help.html" target="_blank" title="Help"><b>Help</b> &nbsp; </a>
 </div>
 
 <center>

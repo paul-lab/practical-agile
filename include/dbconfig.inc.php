@@ -11,15 +11,9 @@
 	date_default_timezone_set('Europe/London');
 //	date_default_timezone_set('America/Detroit');
 
-# some functions we need to create specifically for sqlite
-#function sqliteMD5($string) {return md5($string);}
-#function UNHEX( $hexstring){return pack('H*', $hexstring);}
-#function CONCAT(...$arg){$ret='';foreach ($arg as $val){$ret.=$val;}}
-
 ###########################################################################################
 ###########################################################################################
 ##                                                                                       ##
-##  What database are you using MySQL (or SQLite  removed)                                        ##
 ##                                                                                       ##
 ##  Comment out one of the 'define' lines below to select the correct database driver.   ##
 ##                                                                                       ##
@@ -62,24 +56,27 @@ class db
 ##                                                                                       ##
 ###########################################################################################
 ###########################################################################################
-    function db() {
+    function __construct() {
 
 		$dbhost = $this->config['dbhost'];
 		$dbport = $this->config['dbport'];
 		$dbuser = $this->config['dbuser'];
 		$dbpass = $this->config['dbpass'];
 		$dbname = $this->config['dbname'];
-
+		# for this session allow 0000-00-00 Dates
         $options = array(
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::MYSQL_ATTR_INIT_COMMAND => "SET SESSION sql_mode = ''"
         );
+
 
         try {
 			$conn = "mysql:host={$dbhost};port={$dbport};dbname={$dbname}";
             $this->db = new PDO($conn, $dbuser, $dbpass, $options);
         } catch(PDOException $e) {
-            echo $e->getMessage(); exit(1);
+            echo $e->getMessage(); 
+			error_log($e);
+			exit(1);
         }
     }
 
@@ -89,19 +86,24 @@ class db
         try {
             $result = $this->db->prepare($sql);
             $result->execute($bind);
+
             return $result;
         } catch (PDOException $e) {
 			$this->error =  $e->getMessage();
+			error_log ("result " .$e);
 			exit(1);
         }
     }
 
     function create($table, $data) {
+
         $fields = $this->filter($table, $data);
-        $sql = "INSERT INTO " . $table . " (`" . implode($fields, "`, `") . "`) VALUES (:" . implode($fields, ", :") . ");";
+       $sql = "INSERT INTO " . $table . " (`" . implode( "`, `",$fields) . "`) VALUES (:" . implode( ", :", $fields) . ");";
         $bind = array();
+
         foreach($fields as $field) $bind[":$field"] = $data[$field];
         $result = $this->run($sql, $bind);
+
         return $this->db->lastInsertId();
     }
 
@@ -130,7 +132,6 @@ class db
             $sql .= "`". $fields[$f] . "` = :update_" . $fields[$f];
         }
         $sql .= " WHERE " . $where . ";";
-
         foreach($fields as $field) $bind[":update_$field"] = $data[$field];
         $result = $this->run($sql, $bind);
         return $result->rowCount();

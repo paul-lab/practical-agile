@@ -1,5 +1,6 @@
 @echo off
 rem place in www\pa\scripts\
+rem removes hashed files
 
 setlocal EnableExtensions
 setlocal EnableDelayedExpansion

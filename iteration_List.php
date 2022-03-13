@@ -48,13 +48,13 @@ $(function() {
 
 	echo
 		'<div align="center">';
-		if ($isProjectAdmin ) echo '<br><a class="btnlink" href="iteration_Edit.php?PID='.$_REQUEST['PID'].'">add a new iteration</a>';
+		if ($isProjectAdmin ) echo '<br><a class="btnlink" href="iteration_Edit.php?PID='.$_REQUEST['PID'].'">add a new Sprint</a>';
 	echo	'</div>'.
 		'<table align="center" cellpadding="6" cellspacing="0">'.
 			'<tr>'.
 				'<td>&nbsp;</td>'.
-				'<td>Name</td>'.
-				'<td>Objective</td>'.
+				'<td><B>Name</td>'.
+				'<td>Objective</B></td>'.
 				'<td>&nbsp;</td>'.
 				'<td>&nbsp;</td>'.
 			'</tr>';
@@ -85,8 +85,6 @@ $(function() {
 					{
 						echo '<br><center>'.$iteration_Row[$rowcnt]['Start_Date'].
 						'<br>to<br> '.$iteration_Row[$rowcnt]['End_Date'];
-					}else{
-						echo '<div class="evenlarger"><center><b>Velocity<br>'.$Project['Velocity'].'</b></center></div>';
 					}
 			if ($iteration_Row[$rowcnt]['Locked']==1)	{
 				echo '<p><b>Locked</b>';
@@ -95,7 +93,11 @@ $(function() {
 					'<td>'.substr($iteration_Row[$rowcnt]['Objective'], 0, 64).'</td>'.
 					'<td>'.
 					'<table><tr><td>';
-					print_summary($iteration_Row[$rowcnt]['Points_Object_ID'], False); // without velocity
+					if ($iteration_Row[$rowcnt]['ID']!=$Project['Backlog_ID']){
+						print_summary($iteration_Row[$rowcnt]['ID'], False); // without velocity
+					}else{
+						print_summary($iteration_Row[$rowcnt]['ID'], True); // without velocity
+					}
 					echo '</td><td>&nbsp;';
  					print_Graphx($iteration_Row[$rowcnt]['Points_Object_ID'], True); // Not Small
 					echo '</td></tr></table></td>'.

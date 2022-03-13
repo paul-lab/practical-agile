@@ -34,7 +34,7 @@ $(function() {
 				'<td><b>Category</td>'.
 				'<td><b>Project Name</td>'.
 				'<td><b>Velocity</td>'.
-				'<td><b>Current<br>Iteration</td>'.
+				'<td><b>Current<br>Sprint</td>'.
 				'<td><b>Size</td>'.
 				'<td><b>Backlog</td>'.
 				'<td><b>Archived</td>'.
@@ -63,11 +63,11 @@ $(function() {
 		$thisdate =  Date("Y-m-d");
 		$sql = 'SELECT distinct ID, Name FROM iteration where iteration.Project_ID='.$project_Row['ID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
 		$iteration_Row =$DBConn->directsql($sql);
-		echo '<a href="story_List.php?PID='.$project_Row['ID'].'&IID='.$iteration_Row[0]['ID'].'" title = "Current Iteration" >'.
+		echo '<a href="story_List.php?PID='.$project_Row['ID'].'&IID='.$iteration_Row[0]['ID'].'" title = "Current Sprint" >'.
 			substr($iteration_Row['Name'], 0, 14).'</a>';
 		echo '</td>';
 		echo '<td>';
-		print_summary($project_Row['Points_Object_ID']);
+		print_summary($project_Row['ID']);
 		echo '</td>';
 		echo '<td><a href="story_List.php?PID='.$project_Row['ID'].'&IID='.$project_Row['Backlog_ID'].'">Backlog</a></td><td>';
 		if ($project_Row['Archived']==1){

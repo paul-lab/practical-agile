@@ -87,7 +87,7 @@ $(document).ready(function(){
 
 	if ($showForm){
 		if (!empty($_REQUEST['id'])){
-			$releaseDetails_Row = fetchusingID('*',$_REQUEST['id'],release_details);
+			$releaseDetails_Row = fetchusingID('*',$_REQUEST['id'],'release_details');
 		}else{
 			$releaseDetails_Row = $_REQUEST;
 		}

@@ -43,7 +43,11 @@ function hashit(){
 </script>
 <?php
 	$showForm = true;
-
+	if (empty($_REQUEST['id']))	{
+			$button_name = '  Add  ';
+	}else{
+		$button_name = ' Update ';
+	}
 	if (isset($_POST['saveUpdate'])){
 		$data=array(
 			'Initials' 		=> trim($_REQUEST['Initials'], "\t\n\r\0" ),
@@ -51,16 +55,19 @@ function hashit(){
 			'Friendly_Name' => $_REQUEST['Friendly_Name'],
 			'EMail' 		=> strtolower(trim($_REQUEST['EMail'], "\t\n\r\0" ))
 		);
-		if (empty($_REQUEST['id']))	{
-			$button_name = 'Add';
+			
+		if (empty($_REQUEST['id']))	{			
 			$data['Password'] = md5(trim($_REQUEST['Password'], "\t\n\r\0" ));
+			echo 'Error adding user. (Probably duplicate Name/EMail)<p>';	
 			$result=$DBConn->create('user',$data);
 			auditit(0,0,$_SESSION['Email'],'Added User',$_REQUEST['EMail'].' - '.$_REQUEST['Friendly_Name']);
+			if (!$DBConn->error){
+				$error = 'The form failed to process correctly.'.'<br>'.$DBConn->error;
+			}
 		}else{
-			$button_name = ' Save';
 			if (strlen($_REQUEST['Password'])>0) {
 				$data['Password'] = md5(trim($_REQUEST['Password'], "\t\n\r\0" ));
-					auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Password','','');
+				auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Update Password','','');
 			}else{
 				$data['Password'] = $_REQUEST['md5'];
 			}
@@ -112,7 +119,6 @@ function hashit(){
 
 	if (!empty($error))
 		echo '<div class="error">'.$error.'</div>';
-
 	if ($showForm)	{
 		if ($Usr['Admin_User'] == 1 || $_REQUEST['id'] == $_SESSION['ID']){
 			if (!empty($_REQUEST['id'])){
@@ -126,11 +132,17 @@ function hashit(){
 
 		if ($Usr['Admin_User']==1)	{
 			echo '<tr><td>EMail/Username:</td>';
-			echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'"></td></tr>';
+
+			echo '<td><input type="text" name="EMail" value="'.$user_Row['EMail'].'">';
+
 		}else{
 			echo '<tr><td>EMail/Username:</td>';
-			echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'].'</td></tr>';
-	}
+			echo '<td><input type="hidden" name="EMail" value="'.$user_Row['EMail'].'">'.$user_Row['EMail'];
+		}
+		if (empty($_REQUEST['id'])){
+			echo (" Your Browser may pre-populate USER & PWD, simply overwrite.");
+		}
+		echo '</td></tr>';
 
 ?>
 <tr><td>Password:</td>
@@ -175,7 +187,6 @@ function hashit(){
 <?php
 	// Fetch all projects and show which ones the user has access to
 		if ($Usr['Admin_User']==1 && !empty($_REQUEST['id'])){
-
 			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where (p.Archived <> 1 or p.Archived is NULL)';
 			$proj_Row = $DBConn->directsql($psql);
 			echo '<tr><td></td><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
@@ -209,7 +220,8 @@ function hashit(){
 		<td colspan="2">
 			<input type="hidden" name="id" value="<?=$_REQUEST['id'];?>">
 			<input type="hidden" name="md5" value="<?=$user_Row['Password'];?>">
-			<input class="btn" type="submit" onclick="hashit()"  name="saveUpdate" value="Update">
+			<input type="hidden" name="err" value="<?=$error;?>">
+			<input class="btn" type="submit" onclick="hashit()"  name="saveUpdate" value="<?= $button_name ?>">
 		</td>
 	</tr>
 	</table>
@@ -219,7 +231,6 @@ function hashit(){
 	}else{
 		if ($Usr['Admin_User'] == 1){header("Location:user_List.php");}else{header("Location:project_List.php");}
 	}
-
 	include 'include/footer.inc.php';
 
 ?>

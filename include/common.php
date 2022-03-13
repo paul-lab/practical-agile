@@ -150,14 +150,14 @@ function PrintStory ($story_Row){
 	if ($Project['Backlog_ID']==$story_Row['Iteration_ID'])	{
 	// update predictions
 	// use average card size or current velocity is ave > velocity for unsized cards.
-		if ($story_Row[Size]=="?")	{
+		if ($story_Row['Size']=="?")	{
 			if ($Project['Velocity'] > $Project['Average_Size']){
 				 $Add_This = $Project['Average_Size'];
 			}else{
 				 $Add_This = $Project['Velocity'];
 			}
 		}else{
-			$Add_This = $story_Row[Size];
+			$Add_This = $story_Row['Size'];
 		}
 
 		// add the next story even if it overflows (Best Case)
@@ -388,7 +388,7 @@ function buildpopup($iteration_Res,$thisdate ){
 	Global $LockedIteration;
 	$IterationList='';
 
-	if(iteration_Res)	{
+	if($iteration_Res)	{
 		foreach($iteration_Res as $iteration_Row){
 			if ($iteration_Row['Locked']==0){
 				$IterationList.='<button id="'.$iteration_Row['ID'].'"';
@@ -419,7 +419,7 @@ function buildstatuspop($proj){
 		$sql = 'SELECT story_status.RGB, story_status.Desc, story_status.Policy FROM story_status where story_status.Project_ID='.$proj.' and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
 		$status_Res = $DBConn->directsql($sql);
 		$statusList='';
-		if (status_Res){
+		if ($status_Res){
 			foreach($status_Res as $status_Row)	{
 				$statuscolour[$status_Row['Desc']] = $status_Row['RGB'];
 				$statusList.='&nbsp;&nbsp;<button title="'.$status_Row['Policy'].'" id="'.$status_Row['Desc'];
@@ -696,7 +696,7 @@ function Update_Parent_Points($thisstory){
 	Global $DBConn;
 	if ($thisstory+0 > 0){
 // a list of parents
-		$sql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS _aid FROM (SELECT  @r := '.$thisstory.') vars, story h WHERE @r <> 0';
+		$sql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS _aid FROM (SELECT  @r := '.$thisstory.') vars, story h';
 
 		$parent_res = $DBConn->directsql($sql);
 		foreach ($parent_res as $prow){
@@ -750,8 +750,8 @@ function Top_Parent($StoryAID){
 	Global $DBConn;
 // find the topmost parent for a story
 
-	$sql = 'SELECT  @r AS _id, (SELECT  @r := Parent_Story_ID FROM story WHERE AID = _id) AS parent, @l := @l + 1 AS level FROM (SELECT  @r :='.$StoryAID.', @l := 0) vars, story WHERE @r <> 0 order by level desc limit 1';
-
+	$sql = 'SELECT  @r AS _id, (SELECT  @r := Parent_Story_ID FROM story WHERE AID = _id) AS parent, @l := @l + 1 AS level FROM (SELECT  @r :='.$StoryAID.', @l := 0) vars, story';
+echo $sql.'<p>';
 	$Row = $DBConn->directsql($sql);
 	if (count($Row)>0)	{
 		return $Row[0]['_id'];
@@ -772,7 +772,7 @@ function Num_Children($storyAID){
 
 function Get_Status_Points($thisstory,$thisstatus,$sumx){
 	Global $DBConn;
-	$sum+=sumx;
+	$sum+=$sumx;
 
 	$sql='SELECT story.AID, story.Size, story.Status from story where story.Parent_Story_ID='.$thisstory;
 	$res = $DBConn->directsql($sql);
@@ -811,7 +811,7 @@ function Update_Iteration_Points($thisiteration){
 	$result=$DBConn->directsql($sql);
 
 //get the points for each status for the iteration
-	$sql='select Project_ID, count(ID) as Story_Count, story.`Status`, sum(story.Size) as Size from story where story.Iteration_ID='.$thisiteration.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by story.`Status`';
+	$sql='select Project_ID, count(ID) as Story_Count, story.`Status`, sum(story.Size) as Size from story where story.Iteration_ID='.$thisiteration.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by Project_ID, story.`Status`';
 	$status_Res = $DBConn->directsql($sql);
 	$iSize=0;
 // and update the points log
@@ -843,7 +843,7 @@ function Update_Project_Points($thisproject){
 
 	$qry='delete from points_log where points_log.Object_ID ='.$piid.' and (Points_Date="'.$today.' 00:00:00" or Points_Date="0000-00-00 00:00:00")';
 	$result=$DBConn->directsql($qry);
-	$sql = 'select Status, Project_ID, sum(Size) as Sizes, count(AID) as Story_Count from story where story.Project_ID ='.$thisproject.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by Status';
+	$sql = 'select Status, Project_ID, sum(Size) as Sizes, count(AID) as Story_Count from story where story.Project_ID ='.$thisproject.' and Status IS NOT NULL and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) group by Project_ID, Status';
 	$Status_Res = $DBConn->directsql($sql);
 	if ($Status_Res){
 		foreach ($Status_Res as $Status_Row)	{

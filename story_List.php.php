@@ -285,7 +285,7 @@ if ($_REQUEST['Type']=="search"){
 if (empty($_REQUEST['Type'])){
 // a Standard story list for the iteraton or backlog.
 	echo '<table align="center" width=90%><tr><td align="center">';
-	print_summary($Iteration['Points_Object_ID'],True); // with velocity
+	print_summary($Iteration['ID'],True); // with velocity
 	echo '</td></tr><tr><td align="center">';
 
 	// if not the backlog include iteration start and end dates for graph
@@ -342,7 +342,7 @@ if ($_REQUEST['Type']=='tree'){
 //Iteration Tree
 	if ($_REQUEST['Root']=='iteration') {
 		echo '<table align="center" width=90%><tr><td align="center">';
-		print_summary($Iteration['Points_Object_ID'],True); // with velocity
+		print_summary($Iteration['ID'],True); // with velocity
 		echo '</td></tr><tr><td align="center">';
 
 		if ($Iteration['ID']== $Project['Backlog_ID']){
@@ -393,11 +393,11 @@ if ($_REQUEST['Type']=='tree'){
 			$instr='';
 		// stories in release
 			$sqlp = 'SELECT AID FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Project_ID='.$Rowp['relproj'];
+			
 			$Res =$DBConn->directsql($sqlp);
 			foreach($Res as $Row){
 				$instr.=Top_Parent($Row['AID']).',';
 			}
-
 			// print project stats for release
 			$ptsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Project_Id ='.$Rowp['relproj'].' and story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
 			print_releasesummary($Rowp['relproj'],$ptsql);
@@ -445,8 +445,8 @@ if ($_REQUEST['Type']=='tree'){
 
 			$sql = 'SELECT * FROM story where project_ID='.$Rowp['relproj'].' and AID IN('.$instr.') order by story.project_ID, story.Epic_Rank';
 			$tree_Res = $DBConn->directsql($sql);
-			echo '&nbsp; &nbsp;<a href="#" class="btnCollapseAll" id="'.$Rowp['relproj'].'">Collapse</a>/';
-			echo '<a href="#" class="btnExpandAll" id="'.$Rowp['relproj'].'">Expand</a>';
+			echo '&nbsp; &nbsp;<b><a href="#" class="btnCollapseAll" id="'.$Rowp['relproj'].'">Collapse All</a> / ';
+			echo '<a href="#" class="btnExpandAll" id="'.$Rowp['relproj'].'">Expand All</a></b>';
 			echo '<div class="tree" id="tree'.$Rowp['relproj'].'"><ul><li class="larger">'.Get_Project_Name($Rowp['relproj']).'<ul>';
 				GetTree ($tree_Res,'nodnd');
 				echo '</li></ul></ul>';

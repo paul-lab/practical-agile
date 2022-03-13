@@ -98,7 +98,7 @@ $(function() {
 // a Standard story list for the iteraton or backlog.
 	echo '<div class="left-box">';
 	echo '&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
-	echo '</div><br>';
+	echo '</div>';
 	echo '<div class="right-box evenlarger">';
 	echo 'Current Velocity: '.$Project['Velocity'].'&nbsp;';
 	echo '</div>';
@@ -111,12 +111,12 @@ $(function() {
 
 	echo '<br><table width=100% border=1><tr><td width=48%>';
 	echo '<form id="SetIteration" method="post" action="?">';
-	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['LEFTIID'], "LIID");
+	echo 'Select Sprint: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['LEFTIID'], "LIID");
 	echo '<div id="leftsize" class="evenlarger right-box"></div>';
 	echo '</td><td width=48%>';
 
-	echo 'Select Iteration: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['RIGHTIID'], "RIID");
-	echo '	<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
+	echo 'Select Sprint: '.iterations_Dropdown($_REQUEST['PID'], $_REQUEST['RIGHTIID'], "RIID");
+	echo '<input type="hidden" name="PID" value="'.$_REQUEST['PID'].'">';
 
 	echo '<div id="rightsize" class="evenlarger right-box"></div>';
 	echo '</form>';
