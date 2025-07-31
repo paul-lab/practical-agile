@@ -17,7 +17,7 @@
 	$showForm = true;
 	if ($_REQUEST['delete'])	{
 		auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Deleted report',$_REQUEST['ID'],$_REQUEST['desc']);
-		$DBConn->directsql('DELETE FROM queries WHERE ID = '.($_REQUEST['ID']));
+		$DBConn->directsql('DELETE FROM queries WHERE ID = ?', $_REQUEST['ID']);
 		$showForm = false;
 		$deleted = true;
 	}	else if ($_REQUEST['nodelete'])	{

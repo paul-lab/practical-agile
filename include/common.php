@@ -99,21 +99,6 @@ function readonly($thisproject){
 }
 //##################################################################
 
-function Start_Timer()
-{
-	return(microtime(true));
-}
-
-function End_Timer($time_start){
-	$time_end = microtime(true);
-	return ($time_end - $time_start);
-}
-
-function logit($recstr){
-	$recstr.="\n";
-	file_put_contents('debug.log', $recstr, FILE_APPEND);
-}
-
 function auditit($pid='', $aid=0, $user='', $action='', $from='', $to=''){
 	Global $DBConn;
 	$sql = "insert into audit (`PID`, `AID`, `User`, `action`,`From`, `To`) VALUES (?,?,?,?,?,?)";
@@ -556,53 +541,50 @@ function GetComments($row, $ThisID, $Thiskey){
 	echo "</li>";
 } //GetComments
 
-function Get_Iteration_Name($thisiteration,$withdate=True){
+function Get_Name($id, $table, $withdate = false){
 	Global $DBConn;
 
-	if(!empty($thisiteration))	{
-		GLOBAL $Iteration;
+	if(empty($id)) return '';
 
-		$sql='SELECT * FROM iteration where iteration.ID = ?';
-		$Iteration=$DBConn->directsql($sql, $thisiteration);
-		if(count($Iteration)==0){
-			return '';
-		}
-		$Iteration=$Iteration[0];
-		if ($Iteration['Locked']==1)		{
+	$sql = "SELECT * FROM $table where ID = ?";
+	$result = $DBConn->directsql($sql, $id);
+
+	if(count($result) == 0) return '';
+
+	$result = $result[0];
+
+	if($table == 'iteration'){
+		GLOBAL $Iteration;
+		$Iteration = $result;
+		if ($result['Locked']==1)		{
 			$prefix='Locked: ';
 		}else{
 			$prefix='';
 		}
-		if ($withdate==True and $Iteration['Name']<>'Backlog' ) {
-			return $prefix.$Iteration['Name'].' ('.$Iteration['Start_Date'].' -> '.$Iteration['End_Date'].')';
+		if ($withdate==True and $result['Name']<>'Backlog' ) {
+			return $prefix.$result['Name'].' ('.$result['Start_Date'].' -> '.$result['End_Date'].')';
 		}else{
-			return $Iteration['Name'];
+			return $result['Name'];
 		}
-	}
-} // Get_Iteration_Name
-
-function Get_Project_Name($thisproject){
-	Global $DBConn;
-
-	if(!empty($thisproject)){
+	} else if ($table == 'project'){
 		GLOBAL $Project;
-		// leave this at a select *
-		$sql='SELECT * FROM project where project.ID = ?';
-		$Res = $DBConn->directsql($sql, $thisproject);
-		$Project = $Res[0];
-		return $Project['Name'];
+		$Project = $result;
+		return $result['Name'];
+	} else if ($table == 'release_details'){
+		return $result['Name'];
 	}
 }
 
-function Get_Release_Name($thisrelease){
-	Global $DBConn;
+function Get_Iteration_Name($thisiteration,$withdate=True){
+	return Get_Name($thisiteration, 'iteration', $withdate);
+}
 
-	if(!empty($thisrelease)){
-		$sql='SELECT Name FROM release_details where ID = ?';
-		$Release = $DBConn->directsql($sql, $thisrelease);
-		return $Release[0]['Name'];
-	}
-	return '';
+function Get_Project_Name($thisproject){
+	return Get_Name($thisproject, 'project');
+}
+
+function Get_Release_Name($thisrelease){
+	return Get_Name($thisrelease, 'release_details');
 }
 
 function Get_Project_Backlog($thisproject){
@@ -684,15 +666,6 @@ function Get_User($current,$initials=0){
 			return $result[0]['Initials'];
 		}
 	}
-}
-
-function Get_Hint(){
-	Global $DBConn;
-
-	$sql = 'SELECT * FROM `hint` WHERE ID = (SELECT FLOOR(1 + (RAND() * (MAX(ID) - 1))) FROM `hint` ) ORDER BY id LIMIT 1';
-
-	$result=$DBConn->directsql($sql);
-	return $result[0]['Hint_Text'];
 }
 
 function Update_Parent_Points($thisstory){

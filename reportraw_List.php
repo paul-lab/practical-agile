@@ -48,8 +48,8 @@ $(function() {
 
 // Make a simple SELECT query
 
-	$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
-	$QRow = $DBConn->directsql($qsql);
+	$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID= ?';
+	$QRow = $DBConn->directsql($qsql, $_REQUEST['QID']);
 	$QRow = $QRow[0];
 	$cond=" ".$QRow['QSQL'];
 	$cond= str_replace('{User}', $_SESSION['ID'], $cond);

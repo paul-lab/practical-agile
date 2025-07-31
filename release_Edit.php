@@ -65,8 +65,8 @@ $(document).ready(function(){
 			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Created release',$_REQUEST['id'],$_REQUEST['Name'].' ('.$_REQUEST['Start'].' to '.$_REQUEST['End']);
 		}else{
 			$button_name = 'Save';
-			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
-			$result=$DBConn->update('release_details',$data,$whereClause);
+			$whereClause = 'ID = ?';
+			$result=$DBConn->update('release_details',$data,$whereClause, $_REQUEST['id']);
 			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Updated release',$_REQUEST['id'],$_REQUEST['Name'].' ('.$_REQUEST['Start'].' to '.$_REQUEST['End']);
 		}
 		unset($data);

@@ -22,8 +22,8 @@
 	}
 
 	$comt=fetchusingID('Comment_Text',$_GET['id'],'comment');
-	$sql= 'DELETE FROM comment WHERE ID='.$_GET['id'];
-	$cnt=$DBConn->directsql($sql);
+	$sql= 'DELETE FROM comment WHERE ID= ?';
+	$cnt=$DBConn->directsql($sql, $_GET['id']);
 	echo $cnt;
 
 	if ($cnt > 0)

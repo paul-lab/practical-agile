@@ -47,8 +47,8 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 				unset($user_Res);
 
 // fetch all the iterations
-				$sql = 'SELECT * FROM iteration where iteration.Project_ID='.$_REQUEST['PID'];
-				$iter_Res = $DBConn->directsql($sql);
+				$sql = 'SELECT * FROM iteration where iteration.Project_ID= ?';
+				$iter_Res = $DBConn->directsql($sql, $_REQUEST['PID']);
 				foreach ($iter_Res as $iter_Row){
 					$iter_id[$iter_Row['Name']] = $iter_Row['ID'];
 				}
@@ -98,8 +98,8 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 							if ($data[0] + 0 == 0){
 								$datao['Parent_Story_ID']="0";	// ignore for a new record
 							}else{
-								$psql = 'select s from (select AID s from story where ID='.$data[3].' and Project_ID='.$_REQUEST['PID'].') as s2 )';
-								$pres = $DBConn->directsql($psql);
+								$psql = 'select s from (select AID s from story where ID= ? and Project_ID= ?) as s2 )';
+								$pres = $DBConn->directsql($psql, array($data[3], $_REQUEST['PID']));
 								if (count($pres==1)){
 									$datia['Parent_Story_ID']=$pres[0]['s2'];
 								}
@@ -108,14 +108,15 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 							$data['Parent_Story_ID']="0";
 						}
 
-						$whereClause = 'Project_ID="'.$_REQUEST['PID'].'" and ID = '.($data[0] + 0);
+						$whereClause = 'Project_ID= ? and ID = ?';
+						$bind = array($_REQUEST['PID'], $data[0] + 0);
 
 						// no existing story ID in import file so it must be an insert
 						if ($data[0] + 0 == 0 )  {
 							$sql_method = 'CREATE';
 							$datao['Created_By_ID'] = $_SESSION['ID'];
-							$tsql='select (IFNULL(MAX(ID), 0)+1) as SID from story  where Project_ID='.$_REQUEST['PID'];
-							$tresult=$DBConn->directsql($tsql);;
+							$tsql='select (IFNULL(MAX(ID), 0)+1) as SID from story  where Project_ID= ?';
+							$tresult=$DBConn->directsql($tsql, $_REQUEST['PID']);;
 							$datao['ID']	= $tresult[0]['SID'];
 						}else{
 							$sql_method = 'UPDATE';
@@ -127,11 +128,11 @@ if (isset($_POST['acceptImport'])) header('Location: project_Summary.php?PID='.$
 						}
 
 						if ($sql_method == 'UPDATE'){
-							$result=$DBConn->update('story',$datao,$whereClause);
+							$result=$DBConn->update('story',$datao,$whereClause, $bind);
 						}elseif($sql_method == 'CREATE'){
 							$result=$DBConn->create('story',$datao);
 						}elseif($sql_method == 'DELETE'){
-							$result=$DBConn->delete('story',$whereClause);
+							$result=$DBConn->delete('story',$whereClause, $bind);
 						}else{
 							$result=0;
 						}

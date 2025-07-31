@@ -31,8 +31,8 @@
 
 function print_Story_Size_Radio($type){
 	Global $DBConn;
-	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID='.$_REQUEST['PID'].') order by size.`Order`';
-	$queried = $DBConn->directsql($sql);
+	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID= ?) order by size.`Order`';
+	$queried = $DBConn->directsql($sql, $_REQUEST['PID']);
 	$menu = '<div id="sizeselect">';
 		foreach ($queried as $result) {
 			$menu .= '<input id="sizediv" type="radio" name="Size" value="' . $result['Value'].'"';
@@ -46,8 +46,8 @@ function print_Story_Size_Radio($type){
 function Print_Users(){
 // get current valid project users
 	Global $DBConn;
-	$sqlp = 'SELECT * FROM User LEFT JOIN user_project ON user.ID  = user_project.User_ID  WHERE user_project.Project_ID='.$_REQUEST['PID'].' and Disabled_User !=1';
-	$usr_Row =  $DBConn->directsql($sqlp);
+	$sqlp = 'SELECT * FROM User LEFT JOIN user_project ON user.ID  = user_project.User_ID  WHERE user_project.Project_ID= ? and Disabled_User !=1';
+	$usr_Row =  $DBConn->directsql($sqlp, $_REQUEST['PID']);
 	foreach ($usr_Row as $result){
 		echo '<tr>';
 		echo '<td><img class="hidden hideit" id="t'.$result['EMail'].'" src="images/tick-small.png"></td>';

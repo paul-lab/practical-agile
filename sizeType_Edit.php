@@ -40,8 +40,8 @@ $(function() {
 			$result=$DBConn->create('size_type',$data);
 		}else{
 			$button_name = 'Save';
-			$whereClause = 'ID='.($_REQUEST['id'] + 0);
-			$result=$DBConn->update('size_type',$data,$whereClause);
+			$whereClause = 'ID= ?';
+			$result=$DBConn->update('size_type',$data,$whereClause, $_REQUEST['id']);
 		}
 		if ($result!=0){
 			$showForm = false;
@@ -58,7 +58,7 @@ $(function() {
 
 	if ($showForm)	{
 		if (!empty($_REQUEST['id'])){
-			$sizeType_Row = $DBConn->directsql('SELECT * FROM size_type WHERE ID = '.$_REQUEST['id']);
+			$sizeType_Row = $DBConn->directsql('SELECT * FROM size_type WHERE ID = ?', $_REQUEST['id']);
 			$sizeType_Row=$sizeType_Row[0];
 		}else{
 			$sizeType_Row = $_REQUEST;

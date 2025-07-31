@@ -55,16 +55,17 @@ function cleanData(&$str) {
 
 	//add numchildren if we are exporting the project
 	if (!empty($_GET['etype'])) {
-		$sql.=', (select count(c.ID) from story as c where c.Project_ID='.$_GET['PID'].' and c.Parent_Story_ID = story.AID ) as Num_Children';
+		$sql.=', (select count(c.ID) from story as c where c.Project_ID= ? and c.Parent_Story_ID = story.AID ) as Num_Children';
 		$audittext=' Project '.Get_Project_Name($_GET['PID']);
 	}else{
 		$audittext=' Iteration '.Get_Iteration_Name($_GET['IID']);
 	}
-		$sql.=' FROM story where story.Project_ID='.$_GET['PID'];
+		$sql.=' FROM story where story.Project_ID= ?';
+		$bind = array($_GET['PID'], $_GET['PID']);
 	if (!empty($_GET['QID'])){
 
-		$qsql = 'SELECT QSQL, Qorder, queries.Desc as qdesc FROM queries where ID='.$_REQUEST['QID'];
-		$QRow = $DBConn->directsql($qsql);
+		$qsql = 'SELECT QSQL, Qorder, queries.Desc as qdesc FROM queries where ID= ?';
+		$QRow = $DBConn->directsql($qsql, $_REQUEST['QID']);
 		$QRow = $QRow[0];
 		$audittext=' Query '.$_GET['QID'].' '.$QRow['qdesc'] ;
 		$cond=" ".$QRow['QSQL'];
@@ -76,9 +77,11 @@ function cleanData(&$str) {
 	}
 
 	// make sure that we dont get parent  stories when this is an iteration export (only really applies for the backlog.)
-	if (empty($_GET['etype'])) { $sql.=' and story.Iteration_ID='.$_GET['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) '; }
+	if (empty($_GET['etype'])) { $sql.=' and story.Iteration_ID= ? and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) ';
+		$bind[] = $_GET['IID'];
+	}
 	if (empty($_GET['QID'])){ $sql.= ' ORDER BY Iteration_Rank';}
-	$result = $DBConn->directsql($sql) or die('Query failed!');
+	$result = $DBConn->directsql($sql, $bind) or die('Query failed!');
 
 	foreach ($result as $row)		{
 		if(!$flag) {

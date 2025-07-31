@@ -32,11 +32,11 @@ function GetAudit($ThisType, $ThisID)
 
 	echo	'<ul id="sortableaudit'.$ThisID.'">';
 
-	$audit_sql = 'SELECT * FROM audit where audit.'.$ThisType.'='.$ThisID.' order by ID Desc';
+	$audit_sql = 'SELECT * FROM audit where audit.'.$ThisType.'= ? order by ID Desc';
 	if ($ThisType=='PID'){
 		$audit_sql.=' limit 200';
 	}
-	$audit_Row = $DBConn->directsql($audit_sql);
+	$audit_Row = $DBConn->directsql($audit_sql, $ThisID);
 	if (count($audit_Row) > 0)	{
 	$rowcnt=0;
 		do	{

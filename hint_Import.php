@@ -33,8 +33,8 @@ if (isset($_POST['delete_existing']))
 		$handle = fopen($_FILES["file"]["tmp_name"], "r");
 		if ($handle){
 			while (($data = fgets($handle)) !== false)	{
-				$sql = 'INSERT INTO hint (Hint_Text) values("'.htmlentities( $data,ENT_QUOTES).'")';
-				$cnt= $DBConn->directsql($sql);
+				$sql = 'INSERT INTO hint (Hint_Text) values(?)';
+				$cnt= $DBConn->directsql($sql, htmlentities( $data,ENT_QUOTES));
 				if($cnt >0){
 					echo '<br> Imported :'. $data;
 				}else{

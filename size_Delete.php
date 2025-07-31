@@ -17,7 +17,7 @@
 	$showForm = true;
 	if ($_REQUEST['delete'])
 	{
-		$DBConn->directsql('DELETE FROM size WHERE ID = '.($_REQUEST['id'] + 0));
+		$DBConn->directsql('DELETE FROM size WHERE ID = ?', $_REQUEST['id']);
 		$showForm = false;
 		$deleted = true;
 	}

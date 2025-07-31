@@ -53,8 +53,8 @@ if (isset($_POST['truncateit'])){
 }
 
 if (isset($_POST['beforedate'])){
-	$sql = "DELETE FROM audit where audit.When<'".$_REQUEST['Start_Date']."'";
-	$DBConn->directsql($sql);
+	$sql = "DELETE FROM audit where audit.When< ?";
+	$DBConn->directsql($sql, $_REQUEST['Start_Date']);
 	auditit(0,0,$_SESSION['Email'],'Audit log truncated','All records before '.$_REQUEST['Start_Date'].' deleted');
 	echo '<center><P><B>All records before '.$_REQUEST['Start_Date'].' deleted</B><P>';
 	$showForm = false;

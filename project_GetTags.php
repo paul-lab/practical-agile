@@ -18,8 +18,8 @@
 	if(!$user_details){
 		exit();
 	}
-	$sql= 'SELECT `Desc` from tags where tags.Project_ID='.$_GET['PID'];
-	$tag_Row = $DBConn->directsql($sql);
+	$sql= 'SELECT `Desc` from tags where tags.Project_ID= ?';
+	$tag_Row = $DBConn->directsql($sql, $_GET['PID']);
 	if (count($tag_Row) > 0)
 	{
 		echo $tag_Row[0]['Desc'];

@@ -30,8 +30,8 @@
 
 	Get_Project_Name($_REQUEST['PID']);
 
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$Res =  $DBConn->directsql($sql);
+	$sql = 'SELECT * FROM story where story.Project_ID= ? and story.Iteration_ID= ? and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+	$Res =  $DBConn->directsql($sql, array($_REQUEST['PID'], $_REQUEST['IID']));
 	$Toggle=0;
 	foreach ($Res as $Row){
 		$Toggle = ($Toggle + 1) % 2;
@@ -78,12 +78,12 @@
 		echo '<div class="right">';
 		if($Row['Parent_Story_ID'] != 0) {
 // a list of parents
-			$parentssql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS parent FROM (SELECT  @r := '.$Row['AID'].') vars, story h WHERE @r <> 0';
-			$parents_Res = $DBConn->directsql($parentssql);
+			$parentssql='SELECT @r AS _aid, ( SELECT @r := Parent_Story_ID FROM story WHERE AID = _aid ) AS parent FROM (SELECT  @r := ?) vars, story h WHERE @r <> 0';
+			$parents_Res = $DBConn->directsql($parentssql, $Row['AID']);
 			foreach ($parents_Res as $parents_row){
 				if($parents_row['parent']!=NULL){
-					$parentsql='select ID, AID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
-					$parent_Row =  $DBConn->directsql($parentsql);
+					$parentsql='select ID, AID, Summary, Size from story where AID= ? and AID<>0';
+					$parent_Row =  $DBConn->directsql($parentsql, $parents_row['parent']);
 					if (count($parent_Row) ==1){
 						echo ' #'.$parent_Row[0]['ID'].' ('.$parent_Row[0]['Size'].' pts)</a>&nbsp;&nbsp;';
 					}

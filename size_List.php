@@ -33,8 +33,8 @@ $(function() {
 function print_Size_Type($current)
 {
 	Global $DBConn;
-   	$sql='select * from size_type where ID='.$current;
-	$result = $DBConn->directsql($sql);
+	$sql='select * from size_type where ID= ?';
+	$result = $DBConn->directsql($sql, $current);
 	return $result[0]['Desc'];
 }
 
