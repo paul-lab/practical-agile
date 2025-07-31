@@ -36,13 +36,13 @@ function print_Story_Size_Type_Dropdown($current)
 	Global $DBConn;
 
 	$current=$current+0;
-	$sql = 'select * from size_type where size_type.ID='.$current;
-	$result=$DBConn->directsql($sql);
+	$sql = 'select * from size_type where size_type.ID= ?';
+	$result=$DBConn->directsql($sql, $current);
 
 	$menu = '<select name="Type">';
 	$menu .= '<option value="' . $current . '">' . $result[0]['Desc'] . '</option>';
-	$sql = 'select * from size_type where size_type.ID<>'.$current;
-	$Row=$DBConn->directsql($sql);
+	$sql = 'select * from size_type where size_type.ID<> ?';
+	$Row=$DBConn->directsql($sql, $current);
 	foreach ($Row as $result) {
 		$menu .= '<option value="' . $result['ID'] . '">' . $result['Desc'] .'</option>';
 	}
@@ -66,8 +66,8 @@ function print_Story_Size_Type_Dropdown($current)
 		else
 		{
 			$button_name = 'Save';
-			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
-			$result=$DBConn->update('size',$data,$whereClause);
+			$whereClause = 'ID = ?';
+			$result=$DBConn->update('size',$data,$whereClause, $_REQUEST['id']);
 		}
 		 if ($result>0)
 		{
@@ -88,7 +88,7 @@ function print_Story_Size_Type_Dropdown($current)
 	{
 		if (!empty($_REQUEST['id']))
 		{
-			$size_Row = $DBConn->directsql( 'SELECT * FROM size WHERE ID = '.$_REQUEST['id']);
+			$size_Row = $DBConn->directsql( 'SELECT * FROM size WHERE ID = ?', $_REQUEST['id']);
 			$size_Row = $size_Row[0];
 		}
 		else

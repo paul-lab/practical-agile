@@ -62,8 +62,8 @@ $(document).ready(function(){
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Iteration Added ','',$_REQUEST['IID'.'-'.$_REQUEST['Name']]);
 		}else{
 			$button_name = 'Save';
-			$whereClause = 'ID = '.($_REQUEST['IID'] + 0);
-			$result=$DBConn->update('iteration',$data,$whereClause);
+			$whereClause = 'ID = ?';
+			$result=$DBConn->update('iteration',$data,$whereClause, $_REQUEST['IID']);
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Iteration updated ','',$_REQUEST['IID'.'-'.$_REQUEST['Name']]);
 		}
 		if($DBConn->error){
@@ -79,7 +79,7 @@ $(document).ready(function(){
 
 	if ($showForm)	{
 		if (!empty($_REQUEST['IID'])){
-			$iteration_Row=$DBConn->directsql('SELECT * FROM iteration WHERE ID = '.$_REQUEST['IID']);
+			$iteration_Row=$DBConn->directsql('SELECT * FROM iteration WHERE ID = ?', $_REQUEST['IID']);
 			$iteration_Row = $iteration_Row[0];
 		}else{
 			$iteration_Row = $_REQUEST;

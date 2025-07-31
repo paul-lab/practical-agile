@@ -25,28 +25,28 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 	$showForm = true;
 	if ($_REQUEST['delete']){
 		if (readonly($_REQUEST['PID']) ==0 ){
-			$asql='SELECT * from story where AID='.$_REQUEST['id'];
-			$aresult = $DBConn->directsql($asql);
+			$asql='SELECT * from story where AID= ?';
+			$aresult = $DBConn->directsql($asql, $_REQUEST['id']);
 			// for each field auditit
 			foreach ($aresult as $key => $value){
 				if ($aresult[$key]){auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted '.$key,$aresult[$key]);}
 			}
 
-			if ($DBConn->directsql('DELETE FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID'])==1)	{
-				$asql='delete from task where Story_AID='.$_REQUEST['id'];
-				$DBConn->directsql($asql);
-				$asql='delete from comment where Story_AID='.$_REQUEST['id'];
-				$DBConn->directsql($asql);
+			if ($DBConn->directsql('DELETE FROM story WHERE AID= ? AND Project_ID= ?', array($_REQUEST['id'], $_REQUEST['PID']))==1)	{
+				$asql='delete from task where Story_AID= ?';
+				$DBConn->directsql($asql, $_REQUEST['id']);
+				$asql='delete from comment where Story_AID= ?';
+				$DBConn->directsql($asql, $_REQUEST['id']);
 
-				$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type FROM upload WHERE upload.AID=".$_REQUEST['id'];
-				$aqry=$DBConn->directsql($asql);
+				$asql= "select upload.Name, upload.Desc, HEX(Name) as HName, upload.Type FROM upload WHERE upload.AID= ?";
+				$aqry=$DBConn->directsql($asql, $_REQUEST['id']);
 				foreach ($aqry as $aresult) {
 					if (unlink('upload/'.$aresult['HName'].'.'.$aresult['Type'])){
 						auditit($_REQUEST['PID'],$_REQUEST['id'],$_SESSION['Email'],'Deleted uploaded file ',$aresult[HName],$aresult[Desc]);
 					}
 				}
-				$asql= "DELETE FROM upload WHERE upload.AID=".$_REQUEST['id'];
-				$aqry=$DBConn->directsql($asql);
+				$asql= "DELETE FROM upload WHERE upload.AID= ?";
+				$aqry=$DBConn->directsql($asql, $_REQUEST['id']);
 				$showForm = false;
 				$deleted = true;
 				Update_Iteration_Points($_REQUEST['IID']);
@@ -58,7 +58,7 @@ echo Get_Iteration_Name($_REQUEST['IID']);
 	}
 
 	if ($showForm)	{
-		$Row=$DBConn->directsql('SELECT ID, Summary, Size FROM story WHERE AID='.$_REQUEST['id']. ' AND Project_ID='.$_REQUEST['PID']);
+		$Row=$DBConn->directsql('SELECT ID, Summary, Size FROM story WHERE AID= ? AND Project_ID= ?', array($_REQUEST['id'], $_REQUEST['PID']));
 		$Row=$Row[0];
 		echo '<form method="post" action="?">'.
 			'<p><b>#'.$Row['ID'].' - '.$Row['Summary'].' ('.$Row['Size'].' pts.)</b><p>'.

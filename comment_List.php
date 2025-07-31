@@ -28,17 +28,17 @@ function CommentsBlock($ThisID, $Thiskey)
 	Global $DBConn;
 
 	if ($Thiskey=='s')	{
-		$q = "SELECT * FROM comment WHERE Story_AID = ".$ThisID." and Parent_ID=0 ORDER by ID";
+		$q = "SELECT * FROM comment WHERE Story_AID = ? and Parent_ID=0 ORDER by ID";
 	}
 	if ($Thiskey=='i')	{
-		$q = "SELECT * FROM comment WHERE Comment_Object_ID = ".$ThisID." and Comment_Object_ID <> 0 and Parent_ID=0 ORDER by ID";
+		$q = "SELECT * FROM comment WHERE Comment_Object_ID = ? and Comment_Object_ID <> 0 and Parent_ID=0 ORDER by ID";
 	}
 
 // comments must be wrapped in a div like this
 //	echo '<div class="commentsdialog" id="commentspop'.$Thiskey.'_'.$ThisID.'"><ul id=commentlist'.$Thiskey.'_'.$ThisID.'> ';
 	echo '<ul id=commentlist'.$Thiskey.'_'.$ThisID.'> ';
 
-	$r = $DBConn->directsql($q);
+	$r = $DBConn->directsql($q, $ThisID);
 	foreach ($r as $row){
 		getComments($row, $ThisID,$Thiskey);
 	}

@@ -41,11 +41,13 @@ $(function() {
 				'<td>&nbsp;</td>'.
 			'</b></tr>';
 	$sql = 'SELECT distinct ID, Category, Name, Velocity, Backlog_ID, Points_Object_ID, Archived FROM project LEFT JOIN user_project ON project.ID = user_project.Project_ID ';
+	$bind = array();
 	if ($Usr['Admin_User'] != 1 && $isProjectAdmin==0){
-		$sql .=' where user_project.User_ID='.$_SESSION['ID'].' and project.Archived <> 1';
+		$sql .=' where user_project.User_ID= ? and project.Archived <> 1';
+		$bind[] = $_SESSION['ID'];
 	}
 	$sql.=' order by Category, Name';
-	$project_Res=$DBConn->directsql($sql);
+	$project_Res=$DBConn->directsql($sql, $bind);
 	$Toggle=0;
 
 	// if only have access to a single project, then go to that project.
@@ -61,8 +63,8 @@ $(function() {
 			'<td>'.$project_Row['Velocity'].'</td>'.
 			'<td>';
 		$thisdate =  Date("Y-m-d");
-		$sql = 'SELECT distinct ID, Name FROM iteration where iteration.Project_ID='.$project_Row['ID'].' and iteration.Name <> "Backlog" and iteration.Start_Date<="'.$thisdate.'" and iteration.End_Date>="'.$thisdate.'"';
-		$iteration_Row =$DBConn->directsql($sql);
+		$sql = 'SELECT distinct ID, Name FROM iteration where iteration.Project_ID= ? and iteration.Name <> "Backlog" and iteration.Start_Date<= ? and iteration.End_Date>= ?';
+		$iteration_Row =$DBConn->directsql($sql, array($project_Row['ID'], $thisdate, $thisdate));
 		echo '<a href="story_List.php?PID='.$project_Row['ID'].'&IID='.$iteration_Row[0]['ID'].'" title = "Current Sprint" >'.
 			substr($iteration_Row['Name'], 0, 14).'</a>';
 		echo '</td>';

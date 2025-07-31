@@ -59,8 +59,8 @@ $(function() {
 		echo '</td>';
 		echo	'<td><a title="View and Edit release contents." href="story_List.php?RID='.$releaseDetails_Row['ID'].'&Type=tree&Root=release"><img src="images/eye-edit.png"></a>'.'</td>';
 				// count the # of stories in this release
-				$tsql = 'SELECT count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$releaseDetails_Row['ID'];
-				$trow =$DBConn->directsql($tsql);
+				$tsql = 'SELECT count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID= ?';
+				$trow =$DBConn->directsql($tsql, $releaseDetails_Row['ID']);
 				if ($trow[0]['relcount'] == 0){
 					echo	'<td><a title="Delete release" href="releaseDetails_Delete.php?id='.$releaseDetails_Row['ID'].'"><img src="images/delete.png"></a>'.'</td>';
 				}else{

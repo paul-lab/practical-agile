@@ -47,15 +47,15 @@ function print_Size_Type_Dropdown($current)
 {
 	Global $DBConn;
 
-	$sql = 'select * from size_type where ID='.$current;
-	$result = $DBConn->directsql($sql);
+	$sql = 'select * from size_type where ID= ?';
+	$result = $DBConn->directsql($sql, $current);
 	return $result[0]['Desc'];
 }
 	$showForm = true;
 
 	if ($showForm)	{
 		if (!empty($_REQUEST['PID']))	{
-			$project_Res = $DBConn->directsql('SELECT * FROM project WHERE ID = '.$_REQUEST['PID']);
+			$project_Res = $DBConn->directsql('SELECT * FROM project WHERE ID = ?', $_REQUEST['PID']);
 			$project_Row = $project_Res[0];
 		}else{
 			$project_Row = $_REQUEST;
@@ -141,8 +141,8 @@ function print_Size_Type_Dropdown($current)
 <?php
 			$thisdate =  Date("Y-m-d");
 // higlight  the current Sprint
-			$sql = 'SELECT * FROM iteration where Project_ID='.$_REQUEST['PID'].' and ID <> '.$project_Row['Backlog_ID'].' and Start_Date<="'.$thisdate.'" and End_Date>="'.$thisdate.'"';
-			$iteration_Row = $DBConn->directsql($sql);
+			$sql = 'SELECT * FROM iteration where Project_ID= ? and ID <> ? and Start_Date<= ? and End_Date>= ?';
+			$iteration_Row = $DBConn->directsql($sql, array($_REQUEST['PID'], $project_Row['Backlog_ID'], $thisdate, $thisdate));
 			if ($iteration_Row){
 				$iteration_Row = $iteration_Row[0];
 				echo '<a href="story_List.php?PID='.$_REQUEST['PID'].'&IID='.$iteration_Row['ID'].'" title = "Current Sprint" >'.
@@ -156,8 +156,8 @@ function print_Size_Type_Dropdown($current)
 			print_summary($project_Row['Backlog_ID'], False);
 			echo '</td></tr>';
 			$left=1;
-			$sql = 'SELECT * FROM iteration  where Project_ID='.$_REQUEST['PID'].' and ID <> '.$project_Row['Backlog_ID'].'  and ID <> '.$iteration_Row['ID'].' order by iteration.End_Date DESC';
-			$iteration_Row = $DBConn->directsql($sql);
+			$sql = 'SELECT * FROM iteration  where Project_ID= ? and ID <> ? and ID <> ? order by iteration.End_Date DESC';
+			$iteration_Row = $DBConn->directsql($sql, array($_REQUEST['PID'], $project_Row['Backlog_ID'], $iteration_Row['ID']));
 			if ($iteration_Row)	{
 				echo '<tr>';
 				$rowcnt=0;

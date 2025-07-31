@@ -35,8 +35,8 @@
 	$dummy = buildstatuspop($_GET['PID']);
 	$sumpts=0;
 
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_GET['PID'].' and story.Iteration_ID='.$_GET['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$story_Res = $DBConn->directsql($sql);
+	$sql = 'SELECT * FROM story where story.Project_ID= ? and story.Iteration_ID= ? and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+	$story_Res = $DBConn->directsql($sql, array($_GET['PID'], $_GET['IID']));
 	echo '<ul id="sortable-'.$_GET['LorR'].'" class="connectedSortable mh15">';
 	if($story_Res){
 		foreach ($story_Res as $story_Row)	{

@@ -58,8 +58,8 @@ $(function() {
 				'<td>&nbsp;</td>'.
 				'<td>&nbsp;</td>'.
 			'</tr>';
-	$sql = 'select *, (select count(*) from story where Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID = iteration.id) as nums FROM iteration where iteration.Project_ID='.$_REQUEST['PID'].' order by iteration.End_Date desc';
-	$iteration_Row = $DBConn->directsql($sql);
+	$sql = 'select *, (select count(*) from story where Project_ID= ? and story.Iteration_ID = iteration.id) as nums FROM iteration where iteration.Project_ID= ? order by iteration.End_Date desc';
+	$iteration_Row = $DBConn->directsql($sql, array($_REQUEST['PID'], $_REQUEST['PID']));
 	$Toggle=1;
 	if (count($iteration_Row) > 0 )	{
 		$rowcnt=0;

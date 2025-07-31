@@ -20,9 +20,9 @@
 		exit();
 	}
 
-	$sql= 'UPDATE project_estimate SET Estimate="'.$_GET['EST'].'" WHERE PID='.$_GET['PID'].' and EMail="'.$_GET['WHO'].'"';
-	$DBConn->directsql($sql);
-	$sql= 'UPDATE project_estimate SET Estimate=0 WHERE PID='.$_GET['PID'].' and EMail="c3284d0f94606de1fd2af172aba15bf3"';
-	$DBConn->directsql($sql);
+	$sql= 'UPDATE project_estimate SET Estimate= ? WHERE PID= ? and EMail= ?';
+	$DBConn->directsql($sql, array($_GET['EST'], $_GET['PID'], $_GET['WHO']));
+	$sql= 'UPDATE project_estimate SET Estimate=0 WHERE PID= ? and EMail="c3284d0f94606de1fd2af172aba15bf3"';
+	$DBConn->directsql($sql, $_GET['PID']);
 
 ?>

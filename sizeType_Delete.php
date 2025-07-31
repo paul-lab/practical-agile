@@ -16,8 +16,8 @@
 
 	$showForm = true;
 	if ($_REQUEST['delete'])	{
-		$DBConn->directsql('Delete FROM size WHERE `Type`='.$_REQUEST['id']);
-		$DBConn->directsql('DELETE FROM size_type WHERE ID='.$_REQUEST['id']);
+		$DBConn->directsql('Delete FROM size WHERE `Type`= ?', $_REQUEST['id']);
+		$DBConn->directsql('DELETE FROM size_type WHERE ID= ?', $_REQUEST['id']);
 		$showForm = false;
 		$deleted = true;
 	}	else if ($_REQUEST['nodelete'])	{

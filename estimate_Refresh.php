@@ -20,8 +20,8 @@
 		exit();
 	}
 	$rets='{"c3284d0f94606de1fd2af172aba15bf3":"1"}';
-	$sql= 'select * from project_estimate WHERE PID='.$_GET['PID'];
-	$usr_Row = $DBConn->directsql($sql);
+	$sql= 'select * from project_estimate WHERE PID= ?';
+	$usr_Row = $DBConn->directsql($sql, $_GET['PID']);
 	if (count($usr_Row) > 0){
 		$rets='{';
 		foreach ($usr_Row as $result){

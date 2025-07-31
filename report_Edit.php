@@ -64,8 +64,8 @@ $(function() {
 		}else{
 			$sql_method = 'UPDATE';
 			$button_name = 'Save';
-			$whereClause = 'ID = '.($_REQUEST['ID'] + 0);
-			$result=$DBConn->update('queries',$data,$whereClause);
+			$whereClause = 'ID = ?';
+			$result=$DBConn->update('queries',$data,$whereClause, $_REQUEST['ID']);
 			auditit(0,$_REQUEST['AID'],$_SESSION['Email'],'Updated report',$_REQUEST['ID'],$_REQUEST['Desc'],$_REQUEST['QSQL']);
 		}
 
@@ -85,7 +85,7 @@ $(function() {
 
 	if ($showForm)	{
 		if (!empty($_REQUEST['ID'])){
-			$Qry_Row = $DBConn->directsql( 'SELECT * FROM queries WHERE ID = '.$_REQUEST['ID']);
+			$Qry_Row = $DBConn->directsql( 'SELECT * FROM queries WHERE ID = ?', $_REQUEST['ID']);
 			$Qry_Row = $Qry_Row[0];
 		}else{
 			$Qry_Row = $_REQUEST;

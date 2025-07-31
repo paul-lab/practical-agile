@@ -76,30 +76,34 @@ $(function() {
 		// Project
 		if ($_REQUEST['PARID']=='P')
 		{
-			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID=0 ';
+			$sql= 'UPDATE story SET Release_ID= ? WHERE story.Project_ID= ? AND story.Release_ID=0 ';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added entire Project',Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// all Done Work
 		}elseif ($_REQUEST['PARID']=='D')
 		{
-			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Status="Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID= ? WHERE story.Status="Done" AND story.Release_ID=0 and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Not Done work
 		}elseif ($_REQUEST['PARID']=='N')
 		{
-			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID= ? WHERE story.Status<>"Done" AND story.Release_ID=0 and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added all NOT DONE work','for Project: '.Get_Project_Name($_REQUEST['PID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Iteration
 		}elseif ($_REQUEST['PARID']=='I')
 		{
-			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID=0 and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID= ? WHERE story.Iteration_ID= ? AND story.Release_ID=0 and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['IID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Iteration',Get_Iteration_Name($_REQUEST['IID']).' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		// Epic Contents
 		}elseif ($_REQUEST['PARID']=='E')
 		{
-			$sql= 'UPDATE story SET Release_ID='.$_REQUEST['RID'].' WHERE story.Parent_Story_ID='.$_REQUEST['IID'].' AND story.Release_ID=0 ';
+			$sql= 'UPDATE story SET Release_ID= ? WHERE story.Parent_Story_ID= ? AND story.Release_ID=0 ';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['IID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Added Epic',$_REQUEST['IID'].' to Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
-		$DBConn->directsql($sql);
 	}
 	if (isset($_POST['DeleteFromRelease']))
 	{
@@ -107,26 +111,30 @@ $(function() {
 		$_REQUEST['PARID']=substr($_REQUEST['PARID'],0,1);
 		if ($_REQUEST['PARID']=='P')
 		{ //project
-			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Project_ID='.$_REQUEST['PID'].' AND story.Release_ID='.$_REQUEST['RID'];
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Project_ID= ? AND story.Release_ID= ?';
+			$DBConn->directsql($sql, array($_REQUEST['PID'], $_REQUEST['RID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed entire Project',Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='D')
 		{ //done
-			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status="Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status="Done" AND story.Release_ID= ? and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all Done work','for Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='N')
 		{ //not done
-			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Status<>"Done" AND story.Release_ID= ? and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed all NOT DONE work',' in Project: '.Get_Project_Name($_REQUEST['PID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='I')
 		{ //iteration
-			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Iteration_ID="'.$_REQUEST['IID'].'" AND story.Release_ID='.$_REQUEST['RID'].' and story.Project_id='.$_REQUEST['PID'];
+			$sql= 'UPDATE story SET Release_ID=0 WHERE story.Iteration_ID= ? AND story.Release_ID= ? and story.Project_id= ?';
+			$DBConn->directsql($sql, array($_REQUEST['IID'], $_REQUEST['RID'], $_REQUEST['PID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Iteration',Get_Iteration_Name($_REQUEST['IID']).' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}elseif ($_REQUEST['PARID']=='E')
 		{ //epic
-			$sql= 'UPDATE story SET Release_ID=0 WHERE (story.Parent_Story_ID='.$_REQUEST['IID'].' AND story.Release_ID='.$_REQUEST['RID'].') or story.AID='.$_REQUEST['IID'];
+			$sql= 'UPDATE story SET Release_ID=0 WHERE (story.Parent_Story_ID= ? AND story.Release_ID= ?) or story.AID= ?';
+			$DBConn->directsql($sql, array($_REQUEST['IID'], $_REQUEST['RID'], $_REQUEST['IID']));
 			auditit($_REQUEST['PID'],0,$_SESSION['Email'],'Removed Epic',$_REQUEST['IID'].' from Release: '.Get_Release_Name($_REQUEST['RID']));
 		}
-		$DBConn->directsql($sql);
 	}
 
 function GetTreeRoot ($sql,$flag='')
@@ -153,8 +161,8 @@ function GetTree ($tree_Res,$flag=''){
 					PrintStory ($tree_Row);
 				echo '</div>';
 				// if i have children, then go and fetch them
-				$sql='SELECT * FROM story WHERE story.Parent_Story_ID='.$tree_Row['AID'].' order by story.Epic_Rank';
-				$Child_Res = $DBConn->directsql($sql);
+				$sql='SELECT * FROM story WHERE story.Parent_Story_ID= ? order by story.Epic_Rank';
+				$Child_Res = $DBConn->directsql($sql, $tree_Row['AID']);
 				if (count($Child_Res) > 0)	{
 					echo '<ul>';
 					GetTree($Child_Res,$flag);
@@ -203,59 +211,74 @@ if ($_REQUEST['Type']=="search"){
 
 	echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
 	$cond="";
-	$sel = "SELECT * FROM story where story.Project_ID=".$_REQUEST['PID']." and (";
-	$psel = "SELECT sum(Size) as points FROM story where story.Project_ID=".$_REQUEST['PID']." and (";
+	$sel = "SELECT * FROM story where story.Project_ID= ? and (";
+	$psel = "SELECT sum(Size) as points FROM story where story.Project_ID= ? and (";
+	$bind = array($_REQUEST['PID']);
 
 	// an Empty QID this is a search, otherwise a qry has been passed in
 	if (empty($_REQUEST['QID'])){
 		if (substr($_REQUEST['searchstring'],0,1)=='#') {
-			$cond='story.ID='.substr($_REQUEST['searchstring'],1);
+			$cond='story.ID= ?';
+			$bind[] = substr($_REQUEST['searchstring'],1);
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,7))=='status:'){
-			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],7).'%"';
+			$cond='story.Status like ?';
+			$bind[] = '%'.substr($_REQUEST['searchstring'],7).'%';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='s:'){
-			$cond='story.Status like "%'.substr($_REQUEST['searchstring'],2).'%"';
+			$cond='story.Status like ?';
+			$bind[] = '%'.substr($_REQUEST['searchstring'],2).'%';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,6))=='owner:'){
-			$cond='story.Owner_ID=(select ID from user where user.Initials="'.trim(substr($_REQUEST['searchstring'],6)).'")';
+			$cond='story.Owner_ID=(select ID from user where user.Initials= ?)';
+			$bind[] = trim(substr($_REQUEST['searchstring'],6));
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='o:'){
-			$cond='story.Owner_ID=(select ID from user where user.Initials="'.trim(substr($_REQUEST['searchstring'],2)).'")';
+			$cond='story.Owner_ID=(select ID from user where user.Initials= ?)';
+			$bind[] = trim(substr($_REQUEST['searchstring'],2));
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,8))=='release:'){
-			$cond='story.Release_ID=(select ID from release_details where release_details.Name="'.trim(substr($_REQUEST['searchstring'],8)).'")';
+			$cond='story.Release_ID=(select ID from release_details where release_details.Name= ?)';
+			$bind[] = trim(substr($_REQUEST['searchstring'],8));
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='r:'){
-			$cond='story.Release_ID=(select ID from release_details where release_details.Name="'.trim(substr($_REQUEST['searchstring'],2)).'")';
+			$cond='story.Release_ID=(select ID from release_details where release_details.Name= ?)';
+			$bind[] = trim(substr($_REQUEST['searchstring'],2));
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,4))=='tag:'){
-			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],4).'%"';
+			$cond='story.Tags like ?';
+			$bind[] = '%'.substr($_REQUEST['searchstring'],4).'%';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='t:'){
-			$cond='story.Tags like "%'.substr($_REQUEST['searchstring'],2).'%"';
+			$cond='story.Tags like ?';
+			$bind[] = '%'.substr($_REQUEST['searchstring'],2).'%';
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='size:'){
 			if (substr($_REQUEST['searchstring'],5)=='?'){
 				$cond="story.Size='?'";
 			}else{
-				$cond='story.Size='.substr($_REQUEST['searchstring'],5).'';
+				$cond='story.Size= ?';
+				$bind[] = substr($_REQUEST['searchstring'],5);
 			}
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='i:'){
 			if (substr($_REQUEST['searchstring'],2)=='?'){
 				$cond="story.Size='?'";
 			}else{
-				$cond='story.Size='.substr($_REQUEST['searchstring'],2).'';
+				$cond='story.Size= ?';
+				$bind[] = substr($_REQUEST['searchstring'],2);
 			}
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,5))=='type:'){
-			$cond='story.Type="'.substr($_REQUEST['searchstring'],5).'"';
+			$cond='story.Type= ?';
+			$bind[] = substr($_REQUEST['searchstring'],5);
 		} elseif (strtolower(substr($_REQUEST['searchstring'],0,2))=='y:'){
-			$cond='story.Type="'.substr($_REQUEST['searchstring'],2).'"';
+			$cond='story.Type= ?';
+			$bind[] = substr($_REQUEST['searchstring'],2);
 		} else{
-			$cond=' story.Col_1 like "%'.$_REQUEST['searchstring'].'%" '.
-			' or story.Col_2 like "%'.$_REQUEST['searchstring'].'%" '.
-			' or story.Acceptance like "%'.$_REQUEST['searchstring'].'%" '.
-			' or story.Summary like "%'.$_REQUEST['searchstring'].'%" '.
-			' or (0<(select count(ID) from comment where comment.Story_AID = story.AID and Comment_Text like"%'.$_REQUEST['searchstring'].'%")) '.
-			' or (0<(select count(ID) from task where task.Story_AID = story.AID and task.Desc like"%'.$_REQUEST['searchstring'].'%")) ';
+			$cond=' story.Col_1 like ? or story.Col_2 like ? or story.Acceptance like ? or story.Summary like ? or (0<(select count(ID) from comment where comment.Story_AID = story.AID and Comment_Text like ?)) or (0<(select count(ID) from task where task.Story_AID = story.AID and task.Desc like ?)) ';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
+			$bind[] = '%'.$_REQUEST['searchstring'].'%';
 		}
 		$sql ="{$sel}{$cond})";
 		$psql ="{$psel}{$cond})";
 		echo '<br>Search "'.$_REQUEST['searchstring'].'"';
 	}else{
-		$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID='.$_REQUEST['QID'];
-		$QRow = $DBConn->directsql($qsql);
+		$qsql = 'SELECT QSQL, Qorder, queries.Desc FROM queries where ID= ?';
+		$QRow = $DBConn->directsql($qsql, $_REQUEST['QID']);
 		$QRow = $QRow[0];
 		$cond=" ".$QRow['QSQL'];
 		$cond= str_replace('{User}', $_SESSION['ID'], $cond);
@@ -267,9 +290,9 @@ if ($_REQUEST['Type']=="search"){
 		echo '<br>"'.$QRow['Desc'].'"';
 	}
 
-	$pts=$DBConn->directsql($psql);
+	$pts=$DBConn->directsql($psql, $bind);
 	$pts=$pts[0];
-	$story_Res = $DBConn->directsql($sql);
+	$story_Res = $DBConn->directsql($sql, $bind);
 	if (count($story_Res) > 0)	{
 		echo ' returns <b>'.count($story_Res).'</b> Stories and <b>'.$pts['points'].'</b> points';
 		echo '<ul id="sortable">';
@@ -304,8 +327,8 @@ if (empty($_REQUEST['Type'])){
 
 	echo '<div class="inline right-box">';
 	echo '<div class="inline" id="comment_count_i_'.$Iteration['Comment_Object_ID'].'">';
-	$tsql = 'SELECT count(*) as count FROM comment where comment.Comment_Object_ID='.$Iteration['Comment_Object_ID'].' and Comment_Object_ID<>0';
-	$t_row=$DBConn->directsql($tsql);
+	$tsql = 'SELECT count(*) as count FROM comment where comment.Comment_Object_ID= ? and Comment_Object_ID<>0';
+	$t_row=$DBConn->directsql($tsql, $Iteration['Comment_Object_ID']);
 	$t_row =$t_row [0];
 	if ($t_row['count'] >0){
 		echo ' ('.$t_row['count'].')';
@@ -323,8 +346,8 @@ if (empty($_REQUEST['Type'])){
 	$OIterationcount=1;
 
 	echo '<ul id="sortable">';
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.$_REQUEST['IID'].' and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
-	$story_Res = $DBConn->directsql($sql);
+	$sql = 'SELECT * FROM story where story.Project_ID= ? and story.Iteration_ID= ? and 0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by story.Iteration_Rank';
+	$story_Res = $DBConn->directsql($sql, array($_REQUEST['PID'], $_REQUEST['IID']));
 	if (count($story_Res)>0 ){
 		foreach ($story_Res as $story_Row){
 			echo	'<li class="storybox" id=story_'.$story_Row['AID'].'>';
@@ -337,7 +360,8 @@ if (empty($_REQUEST['Type'])){
 
 if ($_REQUEST['Type']=='tree'){
 
-	$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and ID='.$_REQUEST['Root'].' order by story.Epic_Rank';
+	$sql = 'SELECT * FROM story where story.Project_ID= ? and ID= ? order by story.Epic_Rank';
+	$bind = array($_REQUEST['PID'], $_REQUEST['Root']);
 
 //Iteration Tree
 	if ($_REQUEST['Root']=='iteration') {
@@ -352,13 +376,14 @@ if ($_REQUEST['Type']=='tree'){
 		}
 
 		echo '</td></tr></table>';
-		$sqlp = 'SELECT AID FROM story where story.Iteration_ID='.$_REQUEST['IID'];
-		$Res = $DBConn->directsql($sqlp);
+		$sqlp = 'SELECT AID FROM story where story.Iteration_ID= ?';
+		$Res = $DBConn->directsql($sqlp, $_REQUEST['IID']);
 		foreach($Res as $Row){
 			$instr.=Top_Parent($Row['AID']).',';
 		}
 		$instr = rtrim($instr, ",");
-		$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and AID IN('.$instr.') order by story.Epic_Rank';
+		$sql = 'SELECT * FROM story where story.Project_ID= ? and AID IN('.$instr.') order by story.Epic_Rank';
+		$bind = array($_REQUEST['PID']);
 		GetTreeRoot ($sql,'nodnd');
 
 	}elseif ($_REQUEST['Root']=='release')
@@ -374,33 +399,35 @@ if ($_REQUEST['Type']=='tree'){
 		}
 
 		// release statistics stories & points)
-		$tsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
-		print_releasesummary("",$tsql);
+		$tsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Release_ID= ? and story.Status IS NOT NULL group by story.Status';
+		print_releasesummary("",$tsql, $_REQUEST['RID']);
 
 		echo '<br>&nbsp;&nbsp;<img id="1line" src="images/1line.png" title="One line story display"> <img id="2line" src="images/2line.png" title="Two line story display"> <img id="3line" src="images/3line.png" title="Three line story display">';
 
 		//only show projects that this user is a project admin forprojects
 		if ($Usr['Admin_User']==1)
 		{
-			$tsql = 'SELECT distinct(Project_ID) as relproj  FROM story where story.Release_ID='.$_REQUEST['RID'];
+			$tsql = 'SELECT distinct(Project_ID) as relproj  FROM story where story.Release_ID= ?';
+			$bind = array($_REQUEST['RID']);
 		}else{
-			$tsql = 'SELECT distinct(story.Project_ID) as relproj FROM story left join user_project on story.Project_ID = user_project.Project_ID  where story.Release_ID='.$_REQUEST['RID'].' and user_project.User_ID='.$_SESSION['ID'].' and user_project.Project_Admin=1';
+			$tsql = 'SELECT distinct(story.Project_ID) as relproj FROM story left join user_project on story.Project_ID = user_project.Project_ID  where story.Release_ID= ? and user_project.User_ID= ? and user_project.Project_Admin=1';
+			$bind = array($_REQUEST['RID'], $_SESSION['ID']);
 		}
 
-		$Resp = $DBConn->directsql($tsql);
+		$Resp = $DBConn->directsql($tsql, $bind);
 		foreach($Resp as $Rowp)	{
 			$dummy = buildstatuspop($Rowp['relproj']);
 			$instr='';
 		// stories in release
-			$sqlp = 'SELECT AID FROM story where story.Release_ID='.$_REQUEST['RID'].' and story.Project_ID='.$Rowp['relproj'];
+			$sqlp = 'SELECT AID FROM story where story.Release_ID= ? and story.Project_ID= ?';
 			
-			$Res =$DBConn->directsql($sqlp);
+			$Res =$DBConn->directsql($sqlp, array($_REQUEST['RID'], $Rowp['relproj']));
 			foreach($Res as $Row){
 				$instr.=Top_Parent($Row['AID']).',';
 			}
 			// print project stats for release
-			$ptsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Project_Id ='.$Rowp['relproj'].' and story.Release_ID='.$_REQUEST['RID'].' and story.Status IS NOT NULL group by story.Status';
-			print_releasesummary($Rowp['relproj'],$ptsql);
+			$ptsql = 'SELECT Status, count(*) as relcount, sum(Size) as relsize FROM story where story.Project_Id = ? and story.Release_ID= ? and story.Status IS NOT NULL group by story.Status';
+			print_releasesummary($Rowp['relproj'],$ptsql, array($Rowp['relproj'], $_REQUEST['RID']));
 
 			if ($RelRow['Locked']==0)
 			{
@@ -415,8 +442,8 @@ if ($_REQUEST['Type']=='tree'){
 				$menu .= '<option value="N"> ** All work NOT "Done" **</option>';
 				$menu .= '<option value="0"></option>';
 // Epics
-				$sql = 'select AID, ID, Summary from story where Project_ID='.$Rowp['relproj'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
-				$queried = $DBConn->directsql($sql);
+				$sql = 'select AID, ID, Summary from story where Project_ID= ? and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
+				$queried = $DBConn->directsql($sql, $Rowp['relproj']);
 				foreach($queried as $result) {
 					$menu .= '<option value="E' . $result['AID'] . '">Epic ' .$result['ID'].' - '. $result['Summary'] .'</option>';
 				}
@@ -425,8 +452,8 @@ if ($_REQUEST['Type']=='tree'){
 				$topdate = date_create(Date("Y-m-d"));
 				date_add($topdate , date_interval_create_from_date_string('3 months'));
 				$topdate = date_format($topdate , 'Y-m-d');
-				$sql = 'SELECT ID, Name, Start_Date, End_Date FROM iteration where iteration.Project_ID ='.$Rowp['relproj'].' and ( Start_Date<="'.$topdate.'" and iteration.ID<>(select Backlog_ID from project where ID="'.$Rowp['relproj'].'")) order by iteration.End_Date desc LIMIT 10';
-				$iter_Res = $DBConn->directsql($sql);
+				$sql = 'SELECT ID, Name, Start_Date, End_Date FROM iteration where iteration.Project_ID = ? and ( Start_Date<= ? and iteration.ID<>(select Backlog_ID from project where ID= ?)) order by iteration.End_Date desc LIMIT 10';
+				$iter_Res = $DBConn->directsql($sql, array($Rowp['relproj'], $topdate, $Rowp['relproj']));
 				foreach ($iter_Res as $iter_Row){
 					$menu .= '<option value="I'.$iter_Row['ID'].'">'.$iter_Row['Name'].'</option>';
 				}
@@ -443,8 +470,8 @@ if ($_REQUEST['Type']=='tree'){
 			// print the tree
 			$instr = rtrim($instr, ",");
 
-			$sql = 'SELECT * FROM story where project_ID='.$Rowp['relproj'].' and AID IN('.$instr.') order by story.project_ID, story.Epic_Rank';
-			$tree_Res = $DBConn->directsql($sql);
+			$sql = 'SELECT * FROM story where project_ID= ? and AID IN('.$instr.') order by story.project_ID, story.Epic_Rank';
+			$tree_Res = $DBConn->directsql($sql, $Rowp['relproj']);
 			echo '&nbsp; &nbsp;<b><a href="#" class="btnCollapseAll" id="'.$Rowp['relproj'].'">Collapse All</a> / ';
 			echo '<a href="#" class="btnExpandAll" id="'.$Rowp['relproj'].'">Expand All</a></b>';
 			echo '<div class="tree" id="tree'.$Rowp['relproj'].'"><ul><li class="larger">'.Get_Project_Name($Rowp['relproj']).'<ul>';
@@ -461,7 +488,8 @@ if ($_REQUEST['Type']=='tree'){
 		echo '</td></tr><tr><td align="center">';
 		print_Graphx($Project['Points_Object_ID'], False); // Not Small
 		echo '</td></tr></table>';
-		$sql = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and Parent_Story_ID=0 order by story.Epic_Rank';
+		$sql = 'SELECT * FROM story where story.Project_ID= ? and Parent_Story_ID=0 order by story.Epic_Rank';
+		$bind = array($_REQUEST['PID']);
 		GetTreeRoot ($sql);
 	}else{
 
@@ -474,16 +502,14 @@ if ($_REQUEST['Type']=='tree'){
 		$colcount==0;
 		echo '<br>';
 		echo '<span id="'.$_REQUEST['PID'].'">';
-		$sql = 'SELECT * FROM story_status where story_status.Project_ID='.$_REQUEST['PID'].' and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
-		$status_Res = $DBConn->directsql($sql);
+		$sql = 'SELECT * FROM story_status where story_status.Project_ID= ? and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
+		$status_Res = $DBConn->directsql($sql, $_REQUEST['PID']);
 		foreach($status_Res as $status_Row ){
 		$colcount=$colcount+1;
 		echo '<ul name= "'.$_REQUEST['IID'].'" id="status'.$status_Row['Order'].'" class="connectedSortable">';
 		echo '<li class="scrumtitle" style="background: #'.$status_Row['RGB'].';">'.$status_Row['Desc'].'</li>';
-		$sqls = 'SELECT * FROM story where story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID='.
-		$_REQUEST['IID'].' and  0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID)'.
-		' and story.Status="'.$status_Row['Desc'].'" order by story.Iteration_Rank';
-		$story_Res = $DBConn->directsql($sqls);
+		$sqls = 'SELECT * FROM story where story.Project_ID= ? and story.Iteration_ID= ? and  0=(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) and story.Status= ? order by story.Iteration_Rank';
+		$story_Res = $DBConn->directsql($sqls, array($_REQUEST['PID'], $_REQUEST['IID'], $status_Row['Desc']));
 		foreach ($story_Res as $story_Row){
 			echo '<li class="scrumdetail';
 			if ($story_Row['Blocked'] != 0){
@@ -510,13 +536,13 @@ if ($_REQUEST['Type']=='tree'){
 			}
 			if($story_Row['Parent_Story_ID'] != 0) {
 
-				$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id :='.$story_Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+				$parentssql = 'SELECT @id := (SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0) AS parent FROM (SELECT @id := ?) vars STRAIGHT_JOIN story  WHERE @id is not NULL';
 
-				$parents_Res =  $DBConn->directsql($parentssql);
+				$parents_Res =  $DBConn->directsql($parentssql, $story_Row['AID']);
 				foreach($parents_Res as $parents_row){
 			  		if($parents_row['parent']!=NULL){
-						$parentsql='select ID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
-						$parent_Row = $DBConn->directsql($parentsql);
+						$parentsql='select ID, Summary, Size from story where AID= ? and AID<>0';
+						$parent_Row = $DBConn->directsql($parentsql, $parents_row['parent']);
 						if (count($parent_Row) == 1)	{
 							echo '<a  title="'.$parent_Row[0]['Summary'].'"';
 								echo ' href="story_List.php?Type=tree&Root='.$parent_Row[0]['ID'].'&PID='.$_REQUEST['PID'].'&IID='.$_REQUEST['IID'].'">';

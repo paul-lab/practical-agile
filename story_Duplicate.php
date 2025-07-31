@@ -28,18 +28,18 @@
 		' SELECT Project_ID, Release_ID, Iteration_ID, Parent_Story_ID, Created_Date'.
 		', Status, Epic_Rank, Iteration_Rank, Size, Blocked'.
 		', Summary, Col_1, As_A, Col_2, Acceptance, Tags, Type, '.
-		'"'.$_SESSION['ID'].'", (SELECT max(local.ID)+1 from story as local where Project_ID=story.Project_ID)'.
-		' FROM story WHERE story.AID='.$_GET['SAID'];
+		'?, (SELECT max(local.ID)+1 from story as local where Project_ID=story.Project_ID)'.
+		' FROM story WHERE story.AID= ?';
 		// Add the record
-		$result=$DBConn->directsql($ssql);
+		$result=$DBConn->directsql($ssql, array($_SESSION['ID'], $_GET['SAID']));
 		// Fetch new local ID
-		$sql = 'select ID, AID, Project_ID, Iteration_ID, Summary from story where AID='.$result;
-		$RecRow=$DBConn->directsql($sql);
+		$sql = 'select ID, AID, Project_ID, Iteration_ID, Summary from story where AID= ?';
+		$RecRow=$DBConn->directsql($sql, $result);
 		$RecRow=$RecRow[0];
 		$story_Row['ID'] = $RecRow['ID'];
 
-		$ssql='UPDATE story set `Summary` ="(Duplicate) - '.$RecRow['Summary'].'" where AID='.$result;
-		$DBConn->directsql($ssql);
+		$ssql='UPDATE story set `Summary` = ? where AID= ?';
+		$DBConn->directsql($ssql, array("(Duplicate) - ".$RecRow['Summary'], $result));
 		Update_Iteration_Points($RecRow['Iteration_ID']);
 
 
@@ -47,9 +47,9 @@
 // and now dupcate the tasks
 	if ($_GET['TASKS']=='True')	{
 		$sql = 'INSERT INTO task (Story_AID, User_ID, Rank, task.Desc, Done, Expected_Hours, Actual_Hours, Task_Date)'.
-		' SELECT '.$RecRow['AID'].', 0, Rank, `Desc`, 0, Expected_Hours, 0, Task_Date'.
-		' FROM task WHERE task.Story_AID='.$_GET['SAID'];
-		$DBConn->directsql($sql);
+		' SELECT ?, 0, Rank, `Desc`, 0, Expected_Hours, 0, Task_Date'.
+		' FROM task WHERE task.Story_AID= ?';
+		$DBConn->directsql($sql, array($RecRow['AID'], $_GET['SAID']));
 	}
 
 	auditit($RecRow['Project_ID'],$RecRow['AID'],$_SESSION['Email'],'Duplicated Story from',$_GET['SAID'], $_GET['SAID'].'-'.$RecRow['Summary'],'Story #'.$RecRow['ID']);

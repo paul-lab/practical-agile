@@ -31,8 +31,8 @@
 function ViewTasks($thisproject, $ThisStory){
 	Global $DBConn;
 
-	$task_sql = 'SELECT * FROM task where task.Story_AID='.$ThisStory.' order by task.Rank';
-	$task_Res =  $DBConn->directsql($task_sql);
+	$task_sql = 'SELECT * FROM task where task.Story_AID= ? order by task.Rank';
+	$task_Res =  $DBConn->directsql($task_sql, $ThisStory);
 	foreach($task_Res as $task_Row){
 		echo '<div class="taskRow">'.
 				'<div class="taskCell"><input class="done" id="done_'.$task_Row['ID'].'" '.( $task_Row['Done'] == 1 ? 'checked' : '').' value="1" disabled="disabled" type="checkbox" name="Done"></div>'.
@@ -48,8 +48,8 @@ function CommentsBlock($ThisStory){
 	Global $DBConn;
 
 	echo '<div class="commentsdialog" id="commentspop_'.$ThisStory.'"><ul id=commentlist_'.$ThisStory.'> ';
-	$q = "SELECT * FROM comment WHERE Story_AID = ".$ThisStory." and Parent_ID=0 order by ID";
-	$r =  $DBConn->directsql($q);
+	$q = "SELECT * FROM comment WHERE Story_AID = ? and Parent_ID=0 order by ID";
+	$r =  $DBConn->directsql($q, $ThisStory);
 	foreach ($r as $row){
 		PreviewGetComments($row);
 	}
@@ -66,8 +66,8 @@ function PreviewGetComments($row){
 	echo "<div class='aut'>By: ".$row['User_Name'].' @ '. $row['Comment_Date']."</div>";
 
 	/* The following sql checks whether there's any reply for the comment */
-	$q = "SELECT * FROM comment WHERE Parent_ID = ".$row['ID'];
-	$r = $DBConn->directsql($q);
+	$q = "SELECT * FROM comment WHERE Parent_ID = ?";
+	$r = $DBConn->directsql($q, $row['ID']);
 	if (count($r) > 0){
 		echo '<ul id="commentreply_'.$row['ID'].'">';
 		foreach ($r as $row){
@@ -120,12 +120,12 @@ function PreviewGetComments($row){
 			'</div>'.
 			'<div class="right">';
 			if($Row['Parent_Story_ID'] != 0) {
-				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id :='.$Row['AID'].') vars STRAIGHT_JOIN story  WHERE @id is not NULL';
-				$parents_Res = $DBConn->directsql($parentssql);
+				$parentssql='SELECT @id :=(SELECT Parent_Story_ID FROM story WHERE AID = @id and Parent_Story_ID <> 0 ) AS parent FROM (SELECT @id := ?) vars STRAIGHT_JOIN story  WHERE @id is not NULL';
+				$parents_Res = $DBConn->directsql($parentssql, $Row['AID']);
 				foreach ($parents_Res as $parents_Row){
 					if($parents_row['parent']!=NULL){
-						$parentsql='select ID, AID, Summary, Size from story where AID='.$parents_row['parent'].' and AID<>0';
-						$parent_row = $DBConn->directsql( $parentsql);
+						$parentsql='select ID, AID, Summary, Size from story where AID= ? and AID<>0';
+						$parent_row = $DBConn->directsql( $parentsql, $parents_row['parent']);
 						if (count($parent_row) > 0){
 							echo ' #'.$parent_row[0]['ID'].' ('.$parent_row[0]['Size'].' pts)</a>&nbsp;&nbsp;';
 						}
