@@ -20,6 +20,15 @@
 #
 class db
 {
+## UPDATE MYSQL  CONFIG HERE
+## mysqli performs a whole lot better if you use an IP address rather than a name
+## If you are using the full install it is probably easier to leave things as they are
+##
+###########################
+           ##########
+             ######
+               ##
+# MYSQL
     private $config = array(
 		"dbhost" => "127.0.0.1",
 		"dbport" => "3311",
@@ -27,8 +36,17 @@ class db
         "dbpass" => "root",
         "dbname" => "practicalagile"
     );
+
+
 #
 # END OF DATABASE CONFIG
+###########################################################################################
+###########################################################################################
+##                                                                                       ##
+##                    Do not change anything below here.                                 ##
+##                                                                                       ##
+###########################################################################################
+###########################################################################################
     function __construct() {
 
 		$dbhost = $this->config['dbhost'];
