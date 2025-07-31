@@ -15,47 +15,11 @@
 ###########################################################################################
 ##                                                                                       ##
 ##                                                                                       ##
-##  Comment out one of the 'define' lines below to select the correct database driver.   ##
-##                                                                                       ##
-##  Also update the $config or $configl array at the top of 'class db'   below           ##
-##                                                                                       ##
-###########################################################################################
-###########################################################################################
-###########################
-           ##########
-             ######
-               ##
-	define("dbdriver", "mysql");
-
-class db
-{
-## UPDATE MYSQL  CONFIG HERE
-## mysqli performs a whole lot better if you use an IP address rather than a name
-## If you are using the full install it is probably easier to leave things as they are
-##
-###########################
-           ##########
-             ######
-               ##
-# MYSQL
-    private $config = array(
-		"dbhost" => "127.0.0.1",
-		"dbport" => "3311",
-        "dbuser" => "root",
-        "dbpass" => "root",
-        "dbname" => "practicalagile"
-    );
-
-
+#
+#This is where you set up your database connection.
+#
 #
 # END OF DATABASE CONFIG
-###########################################################################################
-###########################################################################################
-##                                                                                       ##
-##                    Do not change anything below here.                                 ##
-##                                                                                       ##
-###########################################################################################
-###########################################################################################
     function __construct() {
 
 		$dbhost = $this->config['dbhost'];
@@ -137,31 +101,30 @@ class db
         return $result->rowCount();
     }
 
-    function delete($table, $where, $bind="") {
-        $sql = "DELETE FROM " . $table . " WHERE " . $where . ";";
+    function delete($table, $where, $bind=array()) {
+        $sql = "DELETE FROM " . $table . " WHERE " . $where;
         $result = $this->run($sql, $bind);
         return $result->rowCount();
     }
 
-    function directsql($sql, $bind="") {
-		$sql .= ";";
-		$this->sql = trim($sql);
-		$this->bind = $this->cleanup($bind);
-		$this->error = "";
-		try {
-			$pdostmt = $this->db->prepare($this->sql);
-			if($pdostmt->execute($this->bind) !== false) {
-				if(preg_match("/^(" . implode("|", array("select", "describe", "WITH RECURSIVE", "pragma")) . ") /i", $this->sql))
-					return $pdostmt->fetchAll(PDO::FETCH_ASSOC);
-				elseif(preg_match("/^(" . implode("|", array("delete", "update")) . ") /i", $this->sql))
-					return $pdostmt->rowCount();
-				elseif(preg_match("/^(" . implode("|", array("insert")) . ") /i", $this->sql))
-					return $this->db->lastInsertId();
-			}
-		} catch (PDOException $e) {
-			$this->error = $e->getMessage();
-			return false;
-		}
+    function directsql($sql, $bind=array()) {
+        $this->sql = trim($sql);
+        $this->bind = $this->cleanup($bind);
+        $this->error = "";
+
+        try {
+            $result = $this->run($this->sql, $this->bind);
+            if(preg_match("/^(" . implode("|", array("select", "describe", "WITH RECURSIVE", "pragma")) . ") /i", $this->sql)) {
+                return $result->fetchAll(PDO::FETCH_ASSOC);
+            } elseif(preg_match("/^(" . implode("|", array("delete", "update")) . ") /i", $this->sql)) {
+                return $result->rowCount();
+            } elseif(preg_match("/^(" . implode("|", array("insert")) . ") /i", $this->sql)) {
+                return $this->db->lastInsertId();
+            }
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+            return false;
+        }
     }
 	private function cleanup($bind) {
 		if(!is_array($bind)) {
@@ -174,13 +137,13 @@ class db
 	}
 
     private function filter($table, $data) {
-
-		$sql = "DESCRIBE " . $table . ";";
+        $fields = array();
+        //filter for mysql
+        $sql = "DESCRIBE " . $table . ";";
         $key = "Field";
-
         if(false !== ($list = $this->run($sql))) {
-            $fields = array();
-            foreach($list as $record)  $fields[] = $record[$key];
+            foreach($list as $record)
+                $fields[] = $record[$key];
             return array_values(array_intersect($fields, array_keys($data)));
         }
         return array();

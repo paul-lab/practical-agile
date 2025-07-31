@@ -77,15 +77,16 @@ function hashit(){
 			if ($data['EMail'] =='admin'){
 				$data['Disabled_User']=0;
 			}
-			$whereClause = 'ID = '.($_REQUEST['id'] + 0);
-			$result=$DBConn->update('user',$data,$whereClause);
+			$whereClause = 'ID = :id';
+			$bind[':id'] = $_REQUEST['id'];
+			$result=$DBConn->update('user',$data,$whereClause, $bind);
 		}
 // updated the user, now do their access
 		if (!$DBConn->error){
 			$showForm = false;
 			if ($Usr['Admin_User']==1){
-				$sql='DELETE from user_project where User_ID ='.$_REQUEST['id'];
-				$up=$DBConn->directsql($sql);
+				$sql='DELETE from user_project where User_ID = ?';
+				$up=$DBConn->directsql($sql, $_REQUEST['id']);
 				if ($_REQUEST['proj']){
 					foreach($_REQUEST['proj'] as $proj) {
 						$data=array(
@@ -122,8 +123,8 @@ function hashit(){
 	if ($showForm)	{
 		if ($Usr['Admin_User'] == 1 || $_REQUEST['id'] == $_SESSION['ID']){
 			if (!empty($_REQUEST['id'])){
-				$sql = 'SELECT * FROM user WHERE ID = '.$_REQUEST['id'];
-				$user_Row  = $DBConn->directsql($sql);
+				$sql = 'SELECT * FROM user WHERE ID = ?';
+				$user_Row  = $DBConn->directsql($sql, $_REQUEST['id']);
 				$user_Row = $user_Row[0];
 			}else{
 				$user_Row = $_REQUEST;
@@ -187,8 +188,8 @@ function hashit(){
 <?php
 	// Fetch all projects and show which ones the user has access to
 		if ($Usr['Admin_User']==1 && !empty($_REQUEST['id'])){
-			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID='.$_REQUEST['id'].' where (p.Archived <> 1 or p.Archived is NULL)';
-			$proj_Row = $DBConn->directsql($psql);
+			$psql='SELECT p.ID ID, p.Name Name, up.User_ID Access, up.Readonly, up.Project_Admin Admin from project p left join user_project up on up.Project_ID = p.ID and up.User_ID= ? where (p.Archived <> 1 or p.Archived is NULL)';
+			$proj_Row = $DBConn->directsql($psql, $_REQUEST['id']);
 			echo '<tr><td></td><td>Can Access</td><td>Proj.Admin</td><td>Read Only</TD></tr>';
 			if (count($proj_Row) > 0){
 				$pcnt = 0;

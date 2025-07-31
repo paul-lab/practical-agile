@@ -80,8 +80,8 @@ function print_Story_Type_Dropdown($current)
 {
 	Global $DBConn;
 	if (empty($current)) $current = 'Feature';
-	$sql = 'select story_type.Desc from story_type where story_type.Project_ID='.$_REQUEST['PID'].' AND story_type.Desc <> "'.$current.'" order by story_type.`Order`';
-	$queried = $DBConn->directsql($sql);
+	$sql = 'select story_type.Desc from story_type where story_type.Project_ID= ? AND story_type.Desc <> ? order by story_type.`Order`';
+	$queried = $DBConn->directsql($sql, array($_REQUEST['PID'], $current));
 	$menu = '<select name="Type">';
 	$menu .= '<option value="' . $current . '">' . $current . '</option>';
 		foreach ($queried as $result) {
@@ -95,8 +95,8 @@ function print_Story_Status_Dropdown($current)
 {
 	Global $DBConn;
 	if (empty($current)) $current = 'Todo';
-	$sql = 'select story_status.Desc from story_status where story_status.Project_ID='.$_REQUEST['PID'].' AND story_status.Desc <> "'.$current.'" and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
-	$queried = $DBConn->directsql($sql);
+	$sql = 'select story_status.Desc from story_status where story_status.Project_ID= ? AND story_status.Desc <> ? and LENGTH(story_status.Desc)>0 order by story_status.`Order`';
+	$queried = $DBConn->directsql($sql, array($_REQUEST['PID'], $current));
 	$menu = '<select name="Status">';
 	$menu .= '<option value="' . $current . '">' . $current . '</option>';
 		foreach ($queried as $result) {
@@ -113,8 +113,8 @@ function print_Release_Dropdown($current){
 	if ($current==0){
 		$name = '';
 	}else{
-		$sql = 'select * from release_details where ID='.$current;
-		$result = $DBConn->directsql($sql);
+		$sql = 'select * from release_details where ID= ?';
+		$result = $DBConn->directsql($sql, $current);
 		$name= $result[0]['Name'].' ('.$result[0]['Start'].'>'.$result[0]['End'].')';
 	}
 
@@ -136,8 +136,8 @@ function print_Story_Size_Radio($current,$type){
 	Global $DBConn;
 
 	if ($current=='') $current='?';
-	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID='.$_REQUEST['PID'].') order by size.`Order`';
-	$queried = $DBConn->directsql($sql);
+	$sql = 'select * from size where size.Type=(select Project_Size_ID from project as p where p.ID= ?) order by size.`Order`';
+	$queried = $DBConn->directsql($sql, $_REQUEST['PID']);
 	$menu = '<div id="sizediv">';
 	foreach ($queried as $result) {
 		$menu .= '<input class="sizediv" type="radio" name="Size" value="' . $result['Value'].'"';
@@ -159,8 +159,8 @@ function print_Possible_Parent($Project, $current=0){
 		$menu .= '<option value="0"></option>';
 	}else{
 // Fetch Current Parent.
-		$sql = 'SELECT AID, ID, Summary FROM story where story.AID ='.$current;
-		$result = $DBConn->directsql($sql);
+		$sql = 'SELECT AID, ID, Summary FROM story where story.AID = ?';
+		$result = $DBConn->directsql($sql, $current);
 		$result = $result[0];
 		$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
 		$menu .= '<option value="0"></option>';
@@ -169,8 +169,8 @@ function print_Possible_Parent($Project, $current=0){
 		$stree .='<img src="images/tree.png"></a>';
 	}
 
-	$sql = 'select AID, ID, Summary from story where Project_ID='.$_REQUEST['PID'].' and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
-	$queried =  $DBConn->directsql($sql);
+	$sql = 'select AID, ID, Summary from story where Project_ID= ? and 0<(select count(Parent_Story_ID) from story as p where p.Parent_Story_ID = story.AID) order by ID';
+	$queried =  $DBConn->directsql($sql, $_REQUEST['PID']);
 	foreach ($queried as $result) {
 		$menu .= '<option value="' . $result['AID'] . '">' .$result['ID'].' - '. $result['Summary'] .'</option>';
 	}
@@ -183,8 +183,8 @@ function Get_manual_Parent($current=0){
 	Global $DBConn;
 	$current+=0;
 	// Fetch Current Parent.
-	$sql = 'SELECT AID, ID FROM story where story.ID ='.$current.' and story.Project_ID='.$_REQUEST['PID'].' and story.Iteration_ID=(select Backlog_ID from project where project.ID='.$_REQUEST['PID'].') and (story.Status="Todo" or story.Status IS NULL)';
-	$result =  $DBConn->directsql($sql);
+	$sql = 'SELECT AID, ID FROM story where story.ID = ? and story.Project_ID= ? and story.Iteration_ID=(select Backlog_ID from project where project.ID= ?) and (story.Status="Todo" or story.Status IS NULL)';
+	$result =  $DBConn->directsql($sql, array($current, $_REQUEST['PID'], $_REQUEST['PID']));
 	if(count($result)==1){
 		return $result[0]['AID'];
 	}
@@ -194,16 +194,17 @@ function Get_manual_Parent($current=0){
 
 function  Update_Project_Tags($PID,$Tags){
 	Global $DBConn;
-	$sql= 'SELECT tags.`Desc` from tags where tags.Project_ID='.$PID;
-	$tag_Row =$DBConn->directsql($sql);
+	$sql= 'SELECT tags.`Desc` from tags where tags.Project_ID= ?';
+	$tag_Row =$DBConn->directsql($sql, $PID);
 	if (count($tag_Row) == 1){
 		$newTags = implode(",",array_unique(explode(",", $tag_Row[0]['Desc'].",".$Tags)));
-		$sql='UPDATE tags SET `Desc`="'.$newTags.'" where tags.Project_ID='.$PID;
+		$sql='UPDATE tags SET `Desc`= ? where tags.Project_ID= ?';
+		$DBConn->directsql($sql, array($newTags, $PID));
 	}else{
 		$newTags = $Tags;
-		$sql='INSERT INTO tags ( Project_ID, `Desc`) VALUES('.$PID.',"'.$newTags.'")';
+		$sql='INSERT INTO tags ( Project_ID, `Desc`) VALUES(?,?)';
+		$DBConn->directsql($sql, array($PID, $newTags));
 	}
- 		$DBConn->directsql($sql);
 }
 
 
@@ -241,22 +242,22 @@ function  Update_Project_Tags($PID,$Tags){
 
 		if (empty($_REQUEST['AID'])){
 
-			$temp					= $DBConn->directsql('select IFNULL(MAX(ID), 0)+1 as tmpn from story where Project_ID='.$_REQUEST['PID']);
+			$temp					= $DBConn->directsql('select IFNULL(MAX(ID), 0)+1 as tmpn from story where Project_ID= ?', $_REQUEST['PID']);
 			$data['ID']				= $temp[0]['tmpn'];
 			$data['Project_ID'] 	= $_REQUEST['PID'];
-			$temp					= $DBConn->directsql('select IFNULL(MAX(Epic_Rank), 0)+100 as tmpn from story where Project_ID='.$_REQUEST['PID']);
+			$temp					= $DBConn->directsql('select IFNULL(MAX(Epic_Rank), 0)+100 as tmpn from story where Project_ID= ?', $_REQUEST['PID']);
 			$data['Epic_Rank']		= $temp[0]['tmpn'];
 			$data['Created_By_ID'] 	= $_SESSION['ID'];
 			$data['Size'] 			= $_REQUEST['Size'];
 
 
 			if ($_REQUEST['torb']=='b'){
-				$sql='select IFNULL(MAX(Iteration_Rank), 0)+100 as tmpn from story  where Iteration_ID='.$_REQUEST['IID'];
-				$temp	= $DBConn->directsql($sql);
+				$sql='select IFNULL(MAX(Iteration_Rank), 0)+100 as tmpn from story  where Iteration_ID= ?';
+				$temp	= $DBConn->directsql($sql, $_REQUEST['IID']);
 				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}else{
-				$sql='select IFNULL(MIN(Iteration_Rank), 0)-1 as tmpn from story  where Iteration_ID='.$_REQUEST['IID'];
-				$temp	= $DBConn->directsql($sql);
+				$sql='select IFNULL(MIN(Iteration_Rank), 0)-1 as tmpn from story  where Iteration_ID= ?';
+				$temp	= $DBConn->directsql($sql, $_REQUEST['IID']);
 				$data['Iteration_Rank']	= $temp[0]['tmpn'];
 			}
 			$result=$DBConn->create('story',$data);
@@ -265,9 +266,9 @@ function  Update_Project_Tags($PID,$Tags){
 			if (Num_Children($_REQUEST['AID'] + 0)==0)	{
 				$data['Size'] = $_REQUEST['Size'];
 			}
-			$whereClause = ' AID = '.($_REQUEST['AID'] + 0);
+			$whereClause = ' AID = ?';
 			$aaction='Update story ';
-			$result=$DBConn->update('story',$data,$whereClause);
+			$result=$DBConn->update('story',$data,$whereClause, $_REQUEST['AID']);
 			if ($result>0){
 				$orow= fetchusingID('*',$_REQUEST['AID'],'story');
 				foreach ($orow as $key => $value){
