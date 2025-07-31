@@ -42,23 +42,24 @@ $APP_VER='2.6.0';
 		// check database and app version and update database if needed
 		$row =  $DBConn->read('dbver', 'ID=1');
 		if (count($row) > 0) {
-		$Ufile='_UpdateFrom-'.$row[0]['CurrVer'].'.txt';
-		if (file_exists($Ufile)){
-			$lines = file($Ufile);
-			if (is_array($lines)){
-				foreach ($lines as $line_num => $line){
+			$Ufile='_UpdateFrom-'.$row[0]['CurrVer'].'.txt';
+			if (file_exists($Ufile)){
+				$lines = file($Ufile);
+				if (is_array($lines)){
+					foreach ($lines as $line_num => $line){
 						$sql = $line;
-						$row=$DBConn->directsql($sql);
+						$DBConn->directsql($sql);
+					}
 				}
+				header("Location:index.php?dbu=true");
 			}
-			header("Location:index.php?dbu=true");
-		}
-		if($APP_VER!=$row[0]['appver']){
-			$DBConn->update('dbver', array('appver' => $APP_VER ), 'ID = 1');}
+			if($APP_VER!=$row[0]['appver']){
+				$DBConn->update('dbver', array('appver' => $APP_VER ), 'ID = 1');
+			}
 		}else{
 	        // no dbver table so we must be very very old
 			$sql = "CREATE TABLE `dbver` (  `ID` integer, `CurrVer` text);";
-			$row=$DBConn->directsql($sql );
+			$DBConn->directsql($sql);
 			$DBConn->create('dbver ', array('ID' => '1', 'CurrVer' => '1.0'));
 			header("Location:index.php");
 		}
