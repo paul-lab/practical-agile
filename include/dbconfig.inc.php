@@ -18,6 +18,15 @@
 #
 #This is where you set up your database connection.
 #
+class db
+{
+    private $config = array(
+		"dbhost" => "127.0.0.1",
+		"dbport" => "3311",
+        "dbuser" => "root",
+        "dbpass" => "root",
+        "dbname" => "practicalagile"
+    );
 #
 # END OF DATABASE CONFIG
     function __construct() {
